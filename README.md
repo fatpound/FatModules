@@ -1,2 +1,3 @@
 # FatModules
-C++20 Modules-supported implementations of some of my Algorithms from https://github.com/fatpound/fatpounds-Delight
+Please read my main repo first
+Should be compiled with MSVC using /std:c++20 or /std:c++latest
