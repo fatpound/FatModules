@@ -1,21 +1,14 @@
-// module;
+module;
 
 export module FatBST;
 
-#if (_MSVC_LANG > 202002L)
-export import std;
+#if _MSVC_LANG > 202002L
+import std;
+#elif _MSVC_LANG == 202002L
+import std.core;
 #else
-#if (_MSVC_LANG == 202002L)
-#ifdef NDEBUG
-export import std.core;
-#else
-import <iostream>;
-export import <concepts>;
-#endif // NDEBUG
-#else
-#error C++20 or greater version required
-#endif // (_MSVC_LANG == 202002L)
-#endif // (_MSVC_LANG > 202002L)
+#error MSVC /std:c++20 or newer option required
+#endif // _MSVC_LANG > 202002L
 
 export namespace fatpound::tree
 {
@@ -24,7 +17,7 @@ export namespace fatpound::tree
     {
     public:
         BST() = default;
-        BST(const BST<T>& src)
+        BST(const BST& src)
         {
             if (src.root_ != nullptr)
             {
@@ -32,7 +25,7 @@ export namespace fatpound::tree
                 node_count_ = src.node_count_;
             }
         }
-        BST(BST<T>&& src) noexcept
+        BST(BST&& src) noexcept
         {
             if (src.root_ != nullptr)
             {
@@ -43,7 +36,7 @@ export namespace fatpound::tree
                 src.node_count_ = 0ull;
             }
         }
-        BST<T>& operator = (const BST<T>& src)
+        BST& operator = (const BST& src)
         {
             if (this != std::addressof(src) && src.root_ != nullptr)
             {
@@ -61,7 +54,7 @@ export namespace fatpound::tree
 
             return *this;
         }
-        BST<T>& operator = (BST<T>&& src) noexcept
+        BST& operator = (BST&& src) noexcept
         {
             if (this != std::addressof(src) && src.root_ != nullptr)
             {
