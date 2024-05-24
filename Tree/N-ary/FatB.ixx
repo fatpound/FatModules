@@ -1,24 +1,14 @@
-// module;
+module;
 
 export module FatB;
 
-#if (_MSVC_LANG > 202002L)
+#if _MSVC_LANG > 202002L
 import std;
-#else
-#if (_MSVC_LANG == 202002L)
-#ifdef NDEBUG
+#elif _MSVC_LANG == 202002L
 import std.core;
 #else
-import <iostream>;
-import <vector>;
-import <queue>;
-import <concepts>;
-import <ranges>;
-#endif // NDEBUG
-#else
-#error C++20 or greater version required
-#endif // (_MSVC_LANG == 202002L)
-#endif // (_MSVC_LANG > 202002L)
+#error MSVC /std:c++20 or newer option required
+#endif // _MSVC_LANG > 202002L
 
 namespace rn = std::ranges;
 
@@ -29,10 +19,10 @@ export namespace fatpound::tree
     {
     public:
         B() = default;
-        B(const B<T, C>& src) = delete;
-        B(B<T, C>&& src) = delete;
-        B<T, C>& operator = (const B<T, C>& src) = delete;
-        B<T, C>& operator = (B<T, C>&& src) = delete;
+        B(const B& src) = delete;
+        B(B&& src) = delete;
+        B& operator = (const B& src) = delete;
+        B& operator = (B&& src) = delete;
         ~B() noexcept
         {
             if (root_ == nullptr)
@@ -127,7 +117,7 @@ export namespace fatpound::tree
 
 
     private:
-        struct Node_
+        struct Node_ final
         {
             std::vector<std::pair<T, Node_*>*> items;
 
