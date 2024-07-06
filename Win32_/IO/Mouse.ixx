@@ -2,41 +2,20 @@ module;
 
 #include "../FatWin32_Namespaces.hpp"
 
-export module Mouse;
+export module FatPound.Win32.IO.Mouse;
 
-#if _MSVC_LANG > 202002L
 import std;
-#elif _MSVC_LANG == 202002L
-import std.core;
-#else
-#error MSVC /std:c++20 or newer option required
-#endif // _MSVC_LANG > 202002L
 
 namespace fatpound::win32
 {
-    namespace d2d
-    {
-        class Window;
-    }
-
-    namespace d3d11
-    {
-        class Window;
-    }
-
-    namespace dx11
-    {
-        class Window;
-    }
+    class Window;
 }
 
 export namespace fatpound::win32::io
 {
     class Mouse final
     {
-        friend class NAMESPACE_D2D::Window;
-        friend class NAMESPACE_D3D11::Window;
-        friend class NAMESPACE_DX11::Window;
+        friend NAMESPACE_WIN32::Window;
 
     public:
         Mouse() = default;
@@ -44,7 +23,7 @@ export namespace fatpound::win32::io
         Mouse& operator = (const Mouse& src) = delete;
         Mouse(Mouse&& src) = delete;
         Mouse& operator = (Mouse&& src) = delete;
-        ~Mouse() = default;
+        ~Mouse() noexcept = default;
 
 
     public:

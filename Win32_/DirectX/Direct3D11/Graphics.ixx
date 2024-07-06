@@ -8,16 +8,9 @@ module;
 
 #include <wrl.h>
 
-export module D3D11Graphics;
+export module FatPound.Win32.D3D11.Graphics;
 
-#if _MSVC_LANG > 202002L
 import std;
-#elif _MSVC_LANG == 202002L
-import std.core;
-import std.memory;
-#else
-#error MSVC /std:c++20 or newer option required
-#endif // _MSVC_LANG > 202002L
 
 namespace fatpound::win32::d3d11::pipeline
 {
@@ -28,17 +21,26 @@ export namespace fatpound::win32::d3d11
 {
     class Graphics final
     {
-        friend class pipeline::Bindable;
+        friend pipeline::Bindable;
 
     public:
-        Graphics(HWND hWnd, std::size_t width, std::size_t height);
+        struct SizeInfo final
+        {
+            int width;
+            int height;
+        };
+
+
+    public:
+        Graphics(HWND hWnd, const SizeInfo& dimensions);
 
         Graphics() = delete;
         Graphics(const Graphics& src) = delete;
         Graphics& operator = (const Graphics& src) = delete;
+
         Graphics(Graphics&& src) = delete;
         Graphics& operator = (Graphics&& src) = delete;
-        ~Graphics() = default;
+        ~Graphics() noexcept = default;
 
 
     public:

@@ -8,26 +8,24 @@ module;
 
 #include <wrl.h>
 
-#include <cassert>
-
 #define RASTERIZATION_ENABLED
 
-#define MSAA_QUALITY 1u
+#define MSAA_QUALITY 8u
 
 #pragma comment(lib, "d3d11")
 #pragma comment(lib, "D3DCompiler")
 
-module D3D11Graphics;
+module FatPound.Win32.D3D11.Graphics;
 
-namespace wrl = Microsoft::WRL;
 namespace dx = DirectX;
+namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d3d11
 {
-    Graphics::Graphics(HWND hWnd, std::size_t width, std::size_t height)
+    Graphics::Graphics(HWND hWnd, const SizeInfo& dimensions)
         :
-        width_(width),
-        height_(height)
+        width_(dimensions.width),
+        height_(dimensions.height)
     {
         DXGI_SWAP_CHAIN_DESC scd = {};
         scd.BufferDesc.Width = 0u;

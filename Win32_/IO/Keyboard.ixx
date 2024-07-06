@@ -2,49 +2,29 @@ module;
 
 #include "../FatWin32_Namespaces.hpp"
 
-export module Keyboard;
+export module FatPound.Win32.IO.Keyboard;
 
-#if _MSVC_LANG > 202002L
 import std;
-#elif _MSVC_LANG == 202002L
-import std.core;
-#else
-#error MSVC /std:c++20 or newer option required
-#endif // _MSVC_LANG > 202002L
 
 namespace fatpound::win32
 {
-    namespace d2d
-    {
-        class Window;
-    }
-
-    namespace d3d11
-    {
-        class Window;
-    }
-
-    namespace dx11
-    {
-        class Window;
-    }
+    class Window;
 }
 
 export namespace fatpound::win32::io
 {
     class Keyboard final
     {
-        friend class NAMESPACE_D2D::Window;
-        friend class NAMESPACE_D3D11::Window;
-        friend class NAMESPACE_DX11::Window;
+        friend NAMESPACE_WIN32::Window;
 
     public:
         Keyboard() = default;
         Keyboard(const Keyboard& src) = delete;
         Keyboard& operator = (const Keyboard& src) = delete;
+
         Keyboard(Keyboard&& src) = delete;
         Keyboard& operator = (Keyboard&& src) = delete;
-        ~Keyboard() = default;
+        ~Keyboard() noexcept = default;
 
 
     public:

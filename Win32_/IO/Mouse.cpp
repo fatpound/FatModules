@@ -2,7 +2,7 @@ module;
 
 #include "../FatWin32_.hpp"
 
-module Mouse;
+module FatPound.Win32.IO.Mouse;
 
 namespace fatpound::win32::io
 {
@@ -210,7 +210,7 @@ namespace fatpound::win32::io
         type_(Type::Invalid),
         x_(0),
         y_(0),
-        left_is_pressed_(false),
+         left_is_pressed_(false),
         right_is_pressed_(false),
         wheel_is_pressed_(false)
     {
@@ -221,7 +221,7 @@ namespace fatpound::win32::io
         type_(type),
         x_(parent.x_),
         y_(parent.y_),
-        left_is_pressed_(parent.left_is_pressed_),
+         left_is_pressed_(parent.left_is_pressed_),
         right_is_pressed_(parent.right_is_pressed_),
         wheel_is_pressed_(parent.wheel_is_pressed_)
     {
