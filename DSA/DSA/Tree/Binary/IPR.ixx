@@ -1,22 +1,17 @@
 module;
 
-export module IPR;
+export module FatPound.DSA.Tree.Binary.IPR;
 
-import AVL;
+import FatPound.DSA.Tree.Binary.AVL;
 
-#if _MSVC_LANG > 202002L
 import std;
-#elif _MSVC_LANG == 202002L
-import std.core;
-#else
-#error MSVC /std:c++20 or newer option required
-#endif // _MSVC_LANG > 202002L
 
-export namespace fatpound::tree::binary
+export namespace fatpound::dsa::tree::binary
 {
     template <std::totally_ordered T>
     class IPR final : public AVL<T>
     {
+        using typename BST<T>::SizeType;
         using typename BST<T>::Node_;
 
         using AVL<T>::Balance_;
@@ -24,18 +19,18 @@ export namespace fatpound::tree::binary
     public:
         virtual void Insert(const T& new_item) override final
         {
-            Node_* new_node = AVL<T>::Insert_(nullptr, this->root_, new_item);
+            [[maybe_unused]] Node_* new_node = AVL<T>::Insert_(nullptr, this->root_, new_item);
 
             if (this->root_ == nullptr) [[unlikely]]
-            {
-                this->root_ = new_node;
-            }
+                {
+                    this->root_ = new_node;
+                }
             else [[likely]]
-            {
-                Balance_();
-            }
+                {
+                    Balance_();
+                }
 
-            this->node_count_++;
+                ++this->node_count_;
         }
 
 
@@ -43,22 +38,21 @@ export namespace fatpound::tree::binary
 
 
     private:
-        virtual void Balance_(const Node_* const latest) override final
+        virtual void Balance_(Node_* const latest) override final
         {
             if (latest == nullptr)
             {
                 return;
             }
 
-            Node_* last = const_cast<Node_*>(latest); // Y
+            Node_* last = latest; // Y
 
             while (last->parent != nullptr) // Going up
             {
-                int na;
-                int nb;
-                int nc;
+                decltype(SizeType{}) na, nb, nc;
 
-                bool a_location; // false => left, true => right
+                // false => left, true => right
+                bool a_location;
 
                 if (last->parent->item < last->item)
                 {

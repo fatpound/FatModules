@@ -3,13 +3,7 @@ module;
 
 export module Win32_MessageMap;
 
-#if _MSVC_LANG > 202002L
 import std;
-#elif _MSVC_LANG == 202002L
-import std.core;
-#else
-#error MSVC /std:c++20 or newer option required
-#endif // _MSVC_LANG > 202002L
 
 export namespace fatpound::win32
 {

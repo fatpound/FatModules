@@ -1,18 +1,12 @@
 module;
 
-export module B_Plus;
+export module FatPound.DSA.Tree.N_ary.B_Plus;
 
-#if _MSVC_LANG > 202002L
 import std;
-#elif _MSVC_LANG == 202002L
-import std.core;
-#else
-#error MSVC /std:c++20 or newer option required
-#endif // _MSVC_LANG > 202002L
 
 namespace rn = std::ranges;
 
-export namespace fatpound::tree::n_ary
+export namespace fatpound::dsa::tree::n_ary
 {
     template <std::totally_ordered T, std::size_t I, std::size_t S>
     class B_Plus final
@@ -23,40 +17,12 @@ export namespace fatpound::tree::n_ary
         B_Plus() = default;
         B_Plus(const B_Plus& src) = delete;
         B_Plus& operator = (const B_Plus& src) = delete;
+
         B_Plus(B_Plus&& src) = delete;
         B_Plus& operator = (B_Plus&& src) = delete;
         ~B_Plus() noexcept
         {
-            if (root_ == nullptr)
-            {
-                return;
-            }
-
-            std::queue<Node_*> Q;
-            Q.push(root_);
-
-            while (Q.size() > 0u)
-            {
-                Node_* u = Q.front();
-                Q.pop();
-
-                if (u->lesser != nullptr)
-                {
-                    Q.push(u->lesser);
-                }
-
-                for (std::size_t i = 0u; i < u->items.size(); ++i)
-                {
-                    if (u->items[i]->second != nullptr)
-                    {
-                        Q.push(u->items[i]->second);
-                    }
-
-                    delete u->items[i];
-                }
-
-                delete u;
-            }
+            DeleteTree_();
 
             root_ = nullptr;
         }
@@ -411,6 +377,39 @@ export namespace fatpound::tree::n_ary
             }
 
             std::cout << '\t';
+        }
+        void DeleteTree_()
+        {
+            if (root_ == nullptr)
+            {
+                return;
+            }
+
+            std::queue<Node_*> Q;
+            Q.push(root_);
+
+            while (Q.size() > 0u)
+            {
+                Node_* u = Q.front();
+                Q.pop();
+
+                if (u->lesser != nullptr)
+                {
+                    Q.push(u->lesser);
+                }
+
+                for (std::size_t i = 0u; i < u->items.size(); ++i)
+                {
+                    if (u->items[i]->second != nullptr)
+                    {
+                        Q.push(u->items[i]->second);
+                    }
+
+                    delete u->items[i];
+                }
+
+                delete u;
+            }
         }
 
 

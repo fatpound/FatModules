@@ -1,21 +1,17 @@
 module;
 
-export module BST;
+export module FatPound.DSA.Tree.Binary.BST;
 
-#if _MSVC_LANG > 202002L
 import std;
-#elif _MSVC_LANG == 202002L
-import std.core;
-#else
-#error MSVC /std:c++20 or newer option required
-#endif // _MSVC_LANG > 202002L
 
-export namespace fatpound::tree::binary
+export namespace fatpound::dsa::tree::binary
 {
     template <std::totally_ordered T>
     class BST
     {
+    public:
         using SizeType = std::size_t;
+
 
     public:
         BST() = default;
@@ -45,6 +41,7 @@ export namespace fatpound::tree::binary
 
             return *this;
         }
+
         BST(BST&& src) noexcept
         {
             if (src.root_ != nullptr)
@@ -77,7 +74,7 @@ export namespace fatpound::tree::binary
 
             return *this;
         }
-        ~BST() noexcept
+        virtual ~BST() noexcept
         {
             DeleteTree_(root_);
 
@@ -139,9 +136,9 @@ export namespace fatpound::tree::binary
         }
         virtual void ListLevelorder()       const final
         {
-            const std::int64_t height = GetDepth_(root_, 0);
+            const auto height = GetDepth_(root_, 0);
 
-            for (std::int64_t i = 1; i <= height; i++)
+            for (SizeType i = 1u; i <= height; ++i)
             {
                 std::cout << "Level " << i << " : ";
 
@@ -182,16 +179,16 @@ export namespace fatpound::tree::binary
     protected:
         struct Node_ final
         {
-            Node_* left = nullptr;
-            Node_* right = nullptr;
+            Node_* left   = nullptr;
+            Node_* right  = nullptr;
             Node_* parent = nullptr;
 
             T item;
 
             Node_(T new_item, Node_* new_parent)
                 :
-                item(new_item),
-                parent(new_parent)
+                parent(new_parent),
+                item(new_item)
             {
 
             }
@@ -226,7 +223,7 @@ export namespace fatpound::tree::binary
 
             Node_* new_node = new Node_(node->item, node->parent);
 
-            new_node->left = Clone_(node->left);
+            new_node->left  = Clone_(node->left);
             new_node->right = Clone_(node->right);
 
             return new_node;
@@ -256,6 +253,8 @@ export namespace fatpound::tree::binary
             {
                 return right_address;
             }
+
+            return nullptr;
         }
         virtual Node_* Delete_(Node_* node) final
         {
@@ -373,27 +372,27 @@ export namespace fatpound::tree::binary
             return prnt;
         }
 
-        virtual SizeType GetDepth_(Node_* node, SizeType depth) const final
+        virtual SizeType GetDepth_      (Node_* node, SizeType depth) const final
         {
             if (node == nullptr)
             {
                 return depth;
             }
 
-            const auto  left_val = GetDepth_(node->left, depth + 1);
+            const auto  left_val = GetDepth_(node->left,  depth + 1);
             const auto right_val = GetDepth_(node->right, depth + 1);
 
             return std::max(left_val, right_val);
         }
-        virtual SizeType GetDepthLeft_(Node_* node, SizeType depth) const final
+        virtual SizeType GetDepthLeft_  (Node_* node, SizeType depth) const final
         {
             return node ? GetDepthLeft_(node->left, depth + 1) : depth;
         }
-        virtual SizeType GetDepthRight_(Node_* node, SizeType depth) const final
+        virtual SizeType GetDepthRight_ (Node_* node, SizeType depth) const final
         {
             return node ? GetDepthLeft_(node->right, depth + 1) : depth;
         }
-        virtual SizeType GetNodeCount_(Node_* node) const final
+        virtual SizeType GetNodeCount_  (Node_* node) const final
         {
             if (node == nullptr)
             {
@@ -405,7 +404,7 @@ export namespace fatpound::tree::binary
 
             return 1 + left_val + right_val;
         }
-
+        
         virtual void Mirror_(Node_* node) final
         {
             if (node != nullptr)
@@ -417,7 +416,7 @@ export namespace fatpound::tree::binary
             }
         }
 
-        virtual void ListPreorder_(const Node_* node) const final
+        virtual void ListPreorder_         (const Node_* node) const final
         {
             if (node != nullptr)
             {
@@ -426,7 +425,7 @@ export namespace fatpound::tree::binary
                 ListPreorder_(node->right);
             }
         }
-        virtual void ListPreorderReverse_(const Node_* node) const final
+        virtual void ListPreorderReverse_  (const Node_* node) const final
         {
             if (node != nullptr)
             {
@@ -435,7 +434,7 @@ export namespace fatpound::tree::binary
                 ListPreorderReverse_(node->left);
             }
         }
-        virtual void ListInorder_(const Node_* node) const final
+        virtual void ListInorder_          (const Node_* node) const final
         {
             if (node != nullptr)
             {
@@ -444,7 +443,7 @@ export namespace fatpound::tree::binary
                 ListInorder_(node->right);
             }
         }
-        virtual void ListInorderReverse_(const Node_* node) const final
+        virtual void ListInorderReverse_   (const Node_* node) const final
         {
             if (node != nullptr)
             {
@@ -453,7 +452,7 @@ export namespace fatpound::tree::binary
                 ListInorderReverse_(node->left);
             }
         }
-        virtual void ListPostorder_(const Node_* node) const final
+        virtual void ListPostorder_        (const Node_* node) const final
         {
             if (node != nullptr)
             {
@@ -462,7 +461,7 @@ export namespace fatpound::tree::binary
                 std::cout << node->item << ' ';
             }
         }
-        virtual void ListPostorderReverse_(const Node_* node) const final
+        virtual void ListPostorderReverse_ (const Node_* node) const final
         {
             if (node != nullptr)
             {
@@ -471,7 +470,7 @@ export namespace fatpound::tree::binary
                 std::cout << node->item << ' ';
             }
         }
-        virtual void ListLeaves_(const Node_* node) const final
+        virtual void ListLeaves_           (const Node_* node) const final
         {
             if (node != nullptr)
             {
@@ -485,7 +484,7 @@ export namespace fatpound::tree::binary
                 ListLeaves_(root_->right);
             }
         }
-        virtual void ListLeavesReverse_(const Node_* node) const final
+        virtual void ListLeavesReverse_    (const Node_* node) const final
         {
             if (node != nullptr)
             {
@@ -499,7 +498,7 @@ export namespace fatpound::tree::binary
                 ListLeavesReverse_(root_->left);
             }
         }
-        virtual void ListLevelorder_(const Node_* node, SizeType level) const final
+        virtual void ListLevelorder_       (const Node_* node, SizeType level) const final
         {
             if (node != nullptr)
             {
@@ -509,7 +508,7 @@ export namespace fatpound::tree::binary
                 }
                 else if (level > 1)
                 {
-                    ListLevelorder_(node->left, level - 1);
+                    ListLevelorder_(node->left,  level - 1);
                     ListLevelorder_(node->right, level - 1);
                 }
             }

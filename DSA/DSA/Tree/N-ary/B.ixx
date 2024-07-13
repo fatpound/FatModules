@@ -1,18 +1,12 @@
 module;
 
-export module B;
+export module FatPound.DSA.Tree.N_ary.B;
 
-#if _MSVC_LANG > 202002L
 import std;
-#elif _MSVC_LANG == 202002L
-import std.core;
-#else
-#error MSVC /std:c++20 or newer option required
-#endif // _MSVC_LANG > 202002L
 
 namespace rn = std::ranges;
 
-export namespace fatpound::tree::n_ary
+export namespace fatpound::dsa::tree::n_ary
 {
     template <std::totally_ordered T, std::size_t C>
     class B final
@@ -21,40 +15,12 @@ export namespace fatpound::tree::n_ary
         B() = default;
         B(const B& src) = delete;
         B& operator = (const B& src) = delete;
+
         B(B&& src) = delete;
         B& operator = (B&& src) = delete;
         ~B() noexcept
         {
-            if (root_ == nullptr)
-            {
-                return;
-            }
-
-            std::queue<Node_*> Q;
-            Q.push(root_);
-
-            while (Q.size() > 0u)
-            {
-                Node_* u = Q.front();
-                Q.pop();
-
-                if (u->lesser != nullptr)
-                {
-                    Q.push(u->lesser);
-                }
-
-                for (std::size_t i = 0u; i < u->items.size(); ++i)
-                {
-                    if (u->items[i]->second != nullptr)
-                    {
-                        Q.push(u->items[i]->second);
-                    }
-
-                    delete u->items[i];
-                }
-
-                delete u;
-            }
+            DeleteTree_();
 
             root_ = nullptr;
         }
@@ -145,7 +111,7 @@ export namespace fatpound::tree::n_ary
 
 
     private:
-        void Insert_(Node_* node, std::pair<T, Node_*>* pair, bool add_first_time)
+        void Insert_(Node_* node, std::pair<T, Node_*>* pair, const bool add_first_time)
         {
             if (node == nullptr)
             {
@@ -277,6 +243,39 @@ export namespace fatpound::tree::n_ary
 
             new_node->lesser = temp_vec[center]->second;
             temp_vec[center]->second = new_node;
+        }
+        void DeleteTree_()
+        {
+            if (root_ == nullptr)
+            {
+                return;
+            }
+
+            std::queue<Node_*> Q;
+            Q.push(root_);
+
+            while (Q.size() > 0u)
+            {
+                Node_* u = Q.front();
+                Q.pop();
+
+                if (u->lesser != nullptr)
+                {
+                    Q.push(u->lesser);
+                }
+
+                for (std::size_t i = 0u; i < u->items.size(); ++i)
+                {
+                    if (u->items[i]->second != nullptr)
+                    {
+                        Q.push(u->items[i]->second);
+                    }
+
+                    delete u->items[i];
+                }
+
+                delete u;
+            }
         }
 
 

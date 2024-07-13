@@ -1,18 +1,12 @@
 module;
 
-export module AVL;
+export module FatPound.DSA.Tree.Binary.AVL;
 
-import BST;
+import FatPound.DSA.Tree.Binary.BST;
 
-#if _MSVC_LANG > 202002L
 import std;
-#elif _MSVC_LANG == 202002L
-import std.core;
-#else
-#error MSVC /std:c++20 or newer option required
-#endif // _MSVC_LANG > 202002L
 
-export namespace fatpound::tree::binary
+export namespace fatpound::dsa::tree::binary
 {
     template <std::totally_ordered T>
     class AVL : public BST<T>
@@ -25,15 +19,15 @@ export namespace fatpound::tree::binary
             [[maybe_unused]] Node_* new_node = Insert_(nullptr, this->root_, new_item);
 
             if (this->root_ == nullptr) [[unlikely]]
-            {
-                this->root_ = new_node;
-            }
+                {
+                    this->root_ = new_node;
+                }
             else [[likely]]
-            {
-                Balance_();
-            }
+                {
+                    Balance_();
+                }
 
-            this->node_count_++;
+                ++this->node_count_;
         }
         virtual void Delete(const T& old_item) override
         {
@@ -53,7 +47,6 @@ export namespace fatpound::tree::binary
                 Balance_(BST<T>::Delete_(node));
             }
         }
-
 
     protected:
         virtual Node_* Insert_(Node_* __restrict parent, Node_* __restrict node, const T& new_item) override final
@@ -81,21 +74,21 @@ export namespace fatpound::tree::binary
         {
             this->Balance_(this->last_added_);
         }
-        virtual void Balance_(const Node_* const latest)
+        virtual void Balance_(Node_* const latest)
         {
             if (latest == nullptr)
             {
                 return;
             }
 
-            Node_* last = const_cast<Node_*>(latest); // Y
+            Node_* last = latest; // Y
 
             while (last->parent != nullptr) // Going up
             {
-                const int  left_val = BST<T>::GetDepth_(last->parent->left, 0);
-                const int right_val = BST<T>::GetDepth_(last->parent->right, 0);
+                const auto  left_val = BST<T>::GetDepth_(last->parent->left, 0);
+                const auto right_val = BST<T>::GetDepth_(last->parent->right, 0);
 
-                const int balanceFactor = right_val - left_val;
+                const auto balanceFactor = static_cast<std::int64_t>(right_val - left_val);
 
                 /*
                 std::cout << "parent  : " << last->parent->item << '\n';

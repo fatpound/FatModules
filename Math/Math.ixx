@@ -2,6 +2,8 @@ module;
 
 export module FatPound.Math;
 
+export import :Primes;
+
 import std;
 
 export namespace fatpound::math
@@ -37,90 +39,6 @@ export namespace fatpound::math
     inline bool IsPowerOf2(const T n)
     {
         return !(n & (~-n));
-    }
-
-    template <std::signed_integral T>
-    bool IsPrime(const T& n)
-    {
-        if (n < static_cast<T>(4))
-        {
-            return n > 1;
-        }
-
-        if (n % 2 == 0 || n % 3 == 0)
-        {
-            return false;
-        }
-
-        const T m = n + 1;
-
-        for (T i = 5; Square(i) < m; i += 6)
-        {
-            if ((n % i == 0) || (n % (i + 2) == 0))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-    template <std::signed_integral T>
-    T NextPrime(T n)
-    {
-        if (n % 2 == 0)
-        {
-            ++n;
-        }
-
-        while (!IsPrime<T>(n))
-        {
-            n += 2;
-        }
-
-        return n;
-    }
-    template <std::signed_integral T>
-    T PrevPrime(T n)
-    {
-        if (n % 2 == 0)
-        {
-            --n;
-        }
-
-        while (!IsPrime<T>(n))
-        {
-            n -= 2;
-        }
-
-        return n;
-    }
-    template <std::signed_integral T>
-    T NthPrime(T n)
-    {
-        assert(n > 0);
-
-        if (n == 1)
-        {
-            return 2;
-        }
-
-        T i = 3;
-        T counter = 1;
-
-        while (true)
-        {
-            if (IsPrime(i))
-            {
-                if (++counter == n)
-                {
-                    break;
-                }
-            }
-
-            i += 2;
-        }
-
-        return i;
     }
 
     template <std::floating_point T>
