@@ -11,11 +11,11 @@ namespace fatpound::file
         if (std::filesystem::is_regular_file(filename))
         {
             const auto& it = std::find(filename.rbegin(), filename.rend(), '.');
-            std::size_t dot_index = 0u;
+            std::int64_t dot_index = 0;
 
             if (it != filename.rend())
             {
-                dot_index = it - filename.rbegin() + 1u;
+                dot_index = it - filename.rbegin() + 1;
             }
 
             return {
