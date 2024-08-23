@@ -2,7 +2,7 @@ module;
 
 export module FatPound.Automata.TLT;
 
-export import FatPound.Automata.CFG;
+import FatPound.Automata.CFG;
 
 import std;
 
