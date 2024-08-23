@@ -2,6 +2,7 @@ module;
 
 export module FatPound;
 
+export import FatPound.Automata;
 export import FatPound.DSA;
 export import FatPound.File;
 export import FatPound.Math;

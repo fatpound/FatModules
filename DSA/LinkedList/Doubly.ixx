@@ -1,42 +1,42 @@
 module;
 
-export module FatPound.DSA.LinkedList.DoublyLL;
+export module FatPound.DSA.LinkedList.Doubly;
 
 import std;
 
 export namespace fatpound::dsa::linkedlist
 {
     template <std::totally_ordered T>
-    class DoublyLL
+    class Doubly
     {
     public:
-        DoublyLL() = default;
-        DoublyLL(const DoublyLL& src) = delete;
-        DoublyLL& operator = (const DoublyLL& src) = delete;
+        Doubly() = default;
+        Doubly(const Doubly& src) = delete;
+        Doubly& operator = (const Doubly& src) = delete;
 
-        DoublyLL(DoublyLL&& src) noexcept
+        Doubly(Doubly&& src) noexcept
             :
-            list_(std::exchange(src.list_, nullptr)),
-            end_(std::exchange(src.end_, nullptr)),
-            item_count_(std::exchange(src.item_count_, 0u))
+            m_list_(std::exchange(src.m_list_, nullptr)),
+            m_end_(std::exchange(src.m_end_, nullptr)),
+            m_item_count_(std::exchange(src.m_item_count_, 0u))
         {
 
         }
-        DoublyLL& operator = (DoublyLL&& src) noexcept
+        Doubly& operator = (Doubly&& src) noexcept
         {
-            if (this != std::addressof(src) && typeid(src) == typeid(*this) && src.list_ != nullptr)
+            if ((this not_eq std::addressof(src)) and (typeid(src) == typeid(*this)) and (src.m_list_ not_eq nullptr))
             {
                 Delete_();
 
-                list_ = std::exchange(src.list_, nullptr);
-                end_ = std::exchange(src.end_, nullptr);
+                m_list_ = std::exchange(src.m_list_, nullptr);
+                m_end_  = std::exchange(src.m_end_,  nullptr);
 
-                item_count_ = std::exchange(src.item_count_, 0u);
+                m_item_count_ = std::exchange(src.m_item_count_, 0u);
             }
 
             return *this;
         }
-        virtual ~DoublyLL() noexcept
+        virtual ~Doubly() noexcept
         {
             Delete_();
         }
@@ -45,52 +45,51 @@ export namespace fatpound::dsa::linkedlist
     public:
         virtual bool Contains(const T& item) const final
         {
-            return Find_(item) != nullptr;
+            return Find_(item) not_eq nullptr;
         }
 
         virtual void Add(const T& new_item)
         {
             Node_* new_part = new Node_(new_item);
 
-            ++item_count_;
+            ++m_item_count_;
 
-            if (list_ == nullptr)
+            if (m_list_ == nullptr)
             {
-                list_ = new_part;
-                end_ = new_part;
+                m_list_ = new_part;
+                m_end_  = new_part;
 
                 return;
             }
 
-            end_->next = new_part;
-            new_part->prev = end_;
-
-            end_ = new_part;
+            m_end_->next = new_part;
+            new_part->prev = m_end_;
+            m_end_ = new_part;
         }
         virtual void AddOrdered(const T& new_item)
         {
             Node_* new_part = new Node_(new_item);
 
-            ++item_count_;
+            ++m_item_count_;
 
-            if (list_ == nullptr)
+            if (m_list_ == nullptr)
             {
-                list_ = new_part;
+                m_list_ = new_part;
                 return;
             }
 
-            if (new_item < list_->item)
+            if (new_item < m_list_->item)
             {
-                new_part->next = list_;
-                list_->prev = new_part;
-                list_ = new_part;
+                new_part->next = m_list_;
+                m_list_->prev = new_part;
+                m_list_ = new_part;
 
                 return;
             }
 
-            Node_* temp = list_;
+            Node_* temp = m_list_;
 
-            while (temp->next != nullptr)
+            while (temp->next not_eq nullptr)
             {
                 if (temp->item <= new_item && new_item <= temp->next->item)
                 {
@@ -110,17 +109,17 @@ export namespace fatpound::dsa::linkedlist
         }
         virtual void Reverse()
         {
-            if (list_ == nullptr)
+            if (m_list_ == nullptr)
             {
                 return;
             }
 
-            if (this->item_count_ < 2u)
+            if (this->m_item_count_ < 2u)
             {
                 return;
             }
 
-            Node_* temp = list_;
+            Node_* temp = m_list_;
 
             while (temp->next != nullptr)
             {
@@ -129,20 +128,22 @@ export namespace fatpound::dsa::linkedlist
             }
 
             std::swap(temp->prev, temp->next);
-            list_ = temp;
+
+            m_list_ = temp;
         }
         virtual void Print() const
         {
-            if (list_ == nullptr)
+            if (m_list_ == nullptr)
             {
-                throw std::runtime_error("Tried to Print an empty DoublyLL!");
+                throw std::runtime_error("Tried to Print an empty Doubly!");
             }
 
-            Node_* temp = list_;
+            Node_* temp = m_list_;
 
             do
             {
                 std::cout << temp->prev << '\t' << temp << '\t' << temp->item << '\t' << temp->next << '\n';
+
                 temp = temp->next;
             }
             while (temp != nullptr);
@@ -154,39 +155,39 @@ export namespace fatpound::dsa::linkedlist
     protected:
         struct Node_ final
         {
-            Node_* prev = nullptr;
-            Node_* next = nullptr;
-
-            T item;
-
             Node_(T new_item)
                 :
                 item{ new_item }
             {
 
             }
+
+            Node_* prev = nullptr;
+            Node_* next = nullptr;
+
+            T item;
         };
 
 
     protected:
         virtual Node_* Find_(const T& item) const final
         {
-            if (item_count_ == 0u)
+            if (m_item_count_ == 0u)
             {
                 return nullptr;
             }
 
-            if (item_count_ == 1u)
+            if (m_item_count_ == 1u)
             {
-                return list_->item == item
-                    ? list_
+                return m_list_->item == item
+                    ? m_list_
                     : nullptr
                     ;
             }
 
-            Node_* temp = list_;
+            Node_* temp = m_list_;
 
-            for (std::size_t i = 0u; i < item_count_; ++i)
+            for (std::size_t i = 0u; i < m_item_count_; ++i)
             {
                 if (temp->item == item)
                 {
@@ -201,35 +202,36 @@ export namespace fatpound::dsa::linkedlist
 
         virtual void Delete_()
         {
-            if (list_ == nullptr)
+            if (m_list_ == nullptr)
             {
                 return;
             }
 
-            Node_* ex = list_;
+            Node_* ex = m_list_;
             Node_* temp;
 
             do
             {
                 temp = ex->next;
+
                 delete ex;
 
                 ex = temp;
             }
-            while (ex != nullptr);
+            while (ex not_eq nullptr);
 
-            list_ = nullptr;
-            end_  = nullptr;
+            m_list_ = nullptr;
+            m_end_  = nullptr;
 
-            item_count_ = 0u;
+            m_item_count_ = 0u;
         }
 
 
     protected:
-        Node_* list_ = nullptr;
-        Node_* end_  = nullptr;
+        Node_* m_list_ = nullptr;
+        Node_* m_end_  = nullptr;
 
-        std::size_t item_count_ = 0u;
+        std::size_t m_item_count_ = 0u;
 
 
     private:
