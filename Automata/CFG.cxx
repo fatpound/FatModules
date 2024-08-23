@@ -8,9 +8,9 @@ using std::vector, std::string, std::pair;
 
 namespace fatpound::automata
 {
-    CFG::CFG(const string& filename)
+    CFG::CFG(const string& inputFilename)
     {
-        std::ifstream inputFile(filename);
+        std::ifstream inputFile(inputFilename);
 
         if (not inputFile.is_open())
         {

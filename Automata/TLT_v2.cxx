@@ -21,6 +21,12 @@ namespace fatpound::automata
 
         m_results_ = GenerateResults_("", 0u, 0u);
     }
+    TLT_v2::TLT_v2(const string& inputFilename)
+        :
+        TLT_v2(CFG{ inputFilename })
+    {
+
+    }
     TLT_v2::~TLT_v2() noexcept
     {
         Clear_();

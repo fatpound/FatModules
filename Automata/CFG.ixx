@@ -22,7 +22,7 @@ export namespace fatpound::automata
         // a b  c   d e
         // S --> aa | bX | aXX, X --> ab | b
         //
-        explicit CFG(const string& filename);
+        explicit CFG(const string& inputFilename);
         
         explicit CFG() = delete;
         explicit CFG(const CFG& src) = delete;

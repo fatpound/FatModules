@@ -29,6 +29,12 @@ namespace fatpound::automata
 
         CreateTree_(m_tree_);
     }
+    TLT::TLT(const string& inputFilename)
+        :
+        TLT(CFG{ inputFilename })
+    {
+
+    }
     TLT::~TLT() noexcept
     {
         Clear_();

@@ -2,7 +2,7 @@ module;
 
 export module FatPound.Automata.TLT_v2;
 
-import FatPound.Automata.CFG;
+export import FatPound.Automata.CFG;
 
 import std;
 
@@ -14,6 +14,7 @@ export namespace fatpound::automata
     {
     public:
         explicit TLT_v2(const CFG& cfgs);
+        explicit TLT_v2(const string& inputFilename);
 
         explicit TLT_v2() = delete;
         explicit TLT_v2(const TLT_v2& src) = delete;
