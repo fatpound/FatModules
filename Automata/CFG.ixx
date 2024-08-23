@@ -33,9 +33,6 @@ export namespace fatpound::automata
         ~CFG() noexcept = default;
 
 
-    public:
-
-
     protected:
 
 
