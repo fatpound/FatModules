@@ -50,26 +50,26 @@ namespace fatpound::win32::d2d
         }
     }
 
-    void Graphics::BeginFrame()
+    void Graphics::BeginFrame() noexcept
     {
         pRenderTarget_->BeginDraw();
     }
-    void Graphics::EndFrame()
+    void Graphics::EndFrame() noexcept
     {
         pRenderTarget_->EndDraw();
     }
 
-    void Graphics::DrawLine(const D2D1_POINT_2F& p0, const D2D1_POINT_2F& p1)
+    void Graphics::DrawLine(const D2D1_POINT_2F p0, const D2D1_POINT_2F p1) noexcept
     {
         pRenderTarget_->DrawLine(p0, p1, pBrush_.Get());
     }
-    void Graphics::DrawLine(const D2D1_POINT_2F& p0, const D2D1_POINT_2F& p1, const D2D1_COLOR_F& color)
+    void Graphics::DrawLine(const D2D1_POINT_2F p0, const D2D1_POINT_2F p1, const D2D1_COLOR_F color) noexcept
     {
         pRenderTarget_->CreateSolidColorBrush(color, &pBrush_);
 
         pRenderTarget_->DrawLine(p0, p1, pBrush_.Get());
     }
-    void Graphics::DrawClosedPolyLine(const std::vector<dx::XMFLOAT2>& vertices, const D2D1_COLOR_F& color)
+    void Graphics::DrawClosedPolyLine(const std::vector<dx::XMFLOAT2>& vertices, const D2D1_COLOR_F color) noexcept
     {
         pRenderTarget_->CreateSolidColorBrush(color, &pBrush_);
 
@@ -84,7 +84,7 @@ namespace fatpound::win32::d2d
             );
         }
     }
-    void Graphics::DrawClosedPolyLine(const std::vector<dx::XMFLOAT2>& vertices, const D2D1_COLOR_F& color, dx::XMMATRIX transform)
+    void Graphics::DrawClosedPolyLine(const std::vector<dx::XMFLOAT2>& vertices, const D2D1_COLOR_F color, dx::XMMATRIX transform) noexcept
     {
         pRenderTarget_->CreateSolidColorBrush(color, &pBrush_);
 
@@ -105,7 +105,7 @@ namespace fatpound::win32::d2d
         }
     }
 
-    void Graphics::ClearScreen_(float r, float g, float b)
+    void Graphics::ClearScreen_(float r, float g, float b) noexcept
     {
         pRenderTarget_->Clear(D2D1::ColorF(r, g, b));
     }

@@ -31,14 +31,14 @@ export namespace fatpound::win32::d2d
 
 
     public:
-        void BeginFrame();
-        void EndFrame();
+        void BeginFrame() noexcept;
+        void EndFrame() noexcept;
 
-        void DrawLine(const D2D1_POINT_2F& p0, const D2D1_POINT_2F& p1);
-        void DrawLine(const D2D1_POINT_2F& p0, const D2D1_POINT_2F& p1, const D2D1_COLOR_F& color);
+        void DrawLine(const D2D1_POINT_2F p0, const D2D1_POINT_2F p1) noexcept;
+        void DrawLine(const D2D1_POINT_2F p0, const D2D1_POINT_2F p1, const D2D1_COLOR_F color) noexcept;
 
-        void DrawClosedPolyLine(const std::vector<DirectX::XMFLOAT2>& vertices, const D2D1_COLOR_F& color);
-        void DrawClosedPolyLine(const std::vector<DirectX::XMFLOAT2>& vertices, const D2D1_COLOR_F& color, DirectX::XMMATRIX transform);
+        void DrawClosedPolyLine(const std::vector<DirectX::XMFLOAT2>& vertices, const D2D1_COLOR_F color) noexcept;
+        void DrawClosedPolyLine(const std::vector<DirectX::XMFLOAT2>& vertices, const D2D1_COLOR_F color, DirectX::XMMATRIX transform) noexcept;
 
 
     public:
@@ -50,7 +50,7 @@ export namespace fatpound::win32::d2d
 
 
     private:
-        void ClearScreen_(float r, float g, float b);
+        void ClearScreen_(float r, float g, float b) noexcept;
         
         
     private:
