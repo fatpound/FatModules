@@ -4,6 +4,8 @@ module;
 
 export module FatPound.Math;
 
+import :RectF;
+
 import std;
 
 export namespace fatpound::math
