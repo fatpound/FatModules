@@ -9,7 +9,7 @@
 #define STRICT
 
 #ifndef FATPOUND_FULL_WIN_TARGETED
-#define WIN32_LEAN_AND_MEAN // for 16-bit Windows libraries
+#define WIN32_LEAN_AND_MEAN // for 16-bit Windows libraries, rarely used
 #define NOGDICAPMASKS
 // #define NOSYSMETRICS
 #define NOMENUS
