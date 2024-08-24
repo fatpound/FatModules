@@ -13,6 +13,18 @@ namespace fatpound::math
         return dx::XMVectorSubtract(pos1_vec, pos2_vec);
     }
 
+    float GetDistanceBetweenXMF2(const::DirectX::XMFLOAT2& pos1, const::DirectX::XMFLOAT2& pos2)
+    {
+        const auto& pos1Vec = DirectX::XMLoadFloat2(&pos1);
+        const auto& pos2Vec = DirectX::XMLoadFloat2(&pos2);
+
+        const auto& differenceVec = DirectX::XMVectorSubtract(pos1Vec, pos2Vec);
+
+        return DirectX::XMVectorGetX(
+            DirectX::XMVector2Length(differenceVec)
+        );
+    }
+
     float GetDistanceBetweenXMF3(const ::dx::XMFLOAT3& pos1, const ::dx::XMFLOAT3& pos2) noexcept
     {
         const auto& pos1Vec = ::dx::XMLoadFloat3(&pos1);
