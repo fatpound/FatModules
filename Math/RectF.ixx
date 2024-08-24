@@ -15,14 +15,14 @@ export namespace fatpound::math
     class RectF final
     {
     public:
-        RectF(float left, float top, float right, float bottom) noexcept;
-        RectF(const ::DirectX::XMFLOAT2& topLeft, float width, float height) noexcept;
-        RectF(const D2D1_POINT_2F topLeft, float width, float height) noexcept;
-        RectF(const D2D1_POINT_2F topLeft, const D2D1_POINT_2F bottomRight) noexcept;
+        explicit RectF(float left, float top, float right, float bottom) noexcept;
+        explicit RectF(const ::DirectX::XMFLOAT2& topLeft, float width, float height) noexcept;
+        explicit RectF(const D2D1_POINT_2F topLeft, float width, float height) noexcept;
+        explicit RectF(const D2D1_POINT_2F topLeft, const D2D1_POINT_2F bottomRight) noexcept;
 
-        RectF() = delete;
-        RectF(const RectF& src) = default;
-        RectF(RectF&& src) = default;
+        explicit RectF() = delete;
+        explicit RectF(const RectF& src) = default;
+        explicit RectF(RectF&& src) = default;
 
         RectF& operator = (const RectF& src) = default;
         RectF& operator = (RectF&& src) = default;
