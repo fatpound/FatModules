@@ -227,7 +227,7 @@ export namespace fatpound::win32::d3d11
                 float v;
             };
 
-            inline static constexpr std::vector<Vertex> vertices =
+            inline static const std::vector<Vertex> vertices =
             {
                 Vertex{ -1.0f,  1.0f,  0.5f,  0.0f,  0.0f },
                 Vertex{  1.0f,  1.0f,  0.5f,  1.0f,  0.0f },
