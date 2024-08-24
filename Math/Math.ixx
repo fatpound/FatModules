@@ -4,7 +4,7 @@ module;
 
 export module FatPound.Math;
 
-import :RectF;
+export import :RectF;
 
 import std;
 
