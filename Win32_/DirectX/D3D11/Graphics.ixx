@@ -267,11 +267,11 @@ export namespace fatpound::win32::d3d11
         }
         void InitFrameworkBinds_(auto& binds) requires(Framework)
         {
-            auto pvs = std::make_unique<NAMESPACE_PIPELINE_ELEMENT::VertexShader>(GetDevice(), L"VSFrameBuffer.cso");
+            auto pvs = std::make_unique<NAMESPACE_PIPELINE_ELEMENT::VertexShader>(GetDevice(), L"..\\FatModules\\VSFrameBuffer.cso");
             auto pvsbc = pvs->GetBytecode();
 
             binds.push_back(std::move(pvs));
-            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::PixelShader>(GetDevice(), L"PSFrameBuffer.cso"));
+            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::PixelShader>(GetDevice(), L"..\\FatModules\\PSFrameBuffer.cso"));
             binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::VertexBuffer>(GetDevice(), FullScreenQuad_::vertices));
             binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
 
