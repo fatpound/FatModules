@@ -39,6 +39,14 @@
     <ClCompile Include="DSA\LinkedList\LinkedList.ixx" />
     <ClCompile Include="DSA\LinkedList\Singly.ixx" />
     <ClCompile Include="DSA\LinkedList\SinglyCircular.ixx" />
+    <ClCompile Include="DSA\Tree\Binary\AVL.ixx" />
+    <ClCompile Include="DSA\Tree\Binary\Binary.ixx" />
+    <ClCompile Include="DSA\Tree\Binary\BST.ixx" />
+    <ClCompile Include="DSA\Tree\Binary\IPR.ixx" />
+    <ClCompile Include="DSA\Tree\N-ary\B.ixx" />
+    <ClCompile Include="DSA\Tree\N-ary\B_Plus.ixx" />
+    <ClCompile Include="DSA\Tree\N-ary\N_ary.ixx" />
+    <ClCompile Include="DSA\Tree\Tree.ixx" />
     <ClCompile Include="FatPound.ixx" />
     <ClCompile Include="Math\Math.cxx" />
     <ClCompile Include="Math\Math.ixx" />

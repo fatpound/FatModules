@@ -301,6 +301,30 @@
     <ClCompile Include="FatPound.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DSA\Tree\Binary\AVL.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DSA\Tree\Binary\Binary.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DSA\Tree\Binary\BST.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DSA\Tree\Binary\IPR.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DSA\Tree\N-ary\B.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DSA\Tree\N-ary\B_Plus.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DSA\Tree\N-ary\N_ary.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DSA\Tree\Tree.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32_\FatWin32_.hpp">
