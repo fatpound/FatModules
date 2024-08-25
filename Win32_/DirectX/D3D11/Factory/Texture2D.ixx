@@ -30,11 +30,6 @@ export namespace fatpound::win32::d3d11::factory
 
 
     public:
-        auto operator <=> (const Texture2D& rhs) const = delete;
-        bool operator ==  (const Texture2D& rhs) const = delete;
-
-
-    public:
         template <UINT MSAA_Quality, bool ForShaderResource = false>
         static constexpr auto CreateDESC(const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions) noexcept -> D3D11_TEXTURE2D_DESC
         {

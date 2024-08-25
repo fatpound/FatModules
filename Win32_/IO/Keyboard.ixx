@@ -40,10 +40,6 @@ export namespace fatpound::win32::io
             ~Event() = default;
 
         public:
-            auto operator <=> (const Event& rhs) const = delete;
-            bool operator ==  (const Event& rhs) const = delete;
-
-        public:
             unsigned char GetCode() const noexcept;
 
             bool IsPress() const noexcept;
@@ -67,11 +63,6 @@ export namespace fatpound::win32::io
         Keyboard& operator = (const Keyboard& src) = delete;
         Keyboard& operator = (Keyboard&& src) = delete;
         ~Keyboard() noexcept = default;
-
-
-    public:
-        auto operator <=> (const Keyboard& rhs) const = delete;
-        bool operator ==  (const Keyboard& rhs) const = delete;
 
 
     public:

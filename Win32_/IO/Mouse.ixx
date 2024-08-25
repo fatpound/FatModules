@@ -57,10 +57,6 @@ export namespace fatpound::win32::io
             ~Event() = default;
 
         public:
-            auto operator <=> (const Event& rhs) const = delete;
-            bool operator ==  (const Event& rhs) const = delete;
-
-        public:
             auto GetPos() const noexcept -> std::pair<int, int>;
 
             Type GetType() const noexcept;
@@ -95,11 +91,6 @@ export namespace fatpound::win32::io
         Mouse& operator = (const Mouse& src) = delete;
         Mouse& operator = (Mouse&& src) = delete;
         ~Mouse() noexcept = default;
-
-
-    public:
-        auto operator <=> (const Mouse& rhs) const = delete;
-        bool operator ==  (const Mouse& rhs) const = delete;
 
 
     public:

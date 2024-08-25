@@ -30,11 +30,6 @@ export namespace fatpound::win32::d3d11::pipeline::resource
 
 
     public:
-        auto operator <=> (const PixelCBuffer& rhs) const = delete;
-        bool operator ==  (const PixelCBuffer& rhs) const = delete;
-
-
-    public:
         virtual void Bind(ID3D11DeviceContext* pImmediateContext) override final
         {
             pImmediateContext->PSSetConstantBuffers(0u, 1u, this->m_pConstantBuffer_.GetAddressOf());

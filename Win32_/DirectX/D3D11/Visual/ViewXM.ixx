@@ -34,11 +34,6 @@ export namespace fatpound::win32::d3d11::visual
         }
 
 
-    public:
-        auto operator <=> (const ViewXM& rhs) const = delete;
-        bool operator ==  (const ViewXM& rhs) const = delete;
-
-
     protected:
 
 

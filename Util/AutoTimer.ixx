@@ -19,11 +19,6 @@ export namespace fatpound::util
 
 
     public:
-        auto operator <=> (const AutoTimer& rhs) const = delete;
-        bool operator ==  (const AutoTimer& rhs) const = delete;
-
-
-    public:
         float Mark() noexcept;
         float Peek() const noexcept;
 

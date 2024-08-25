@@ -26,11 +26,6 @@ export namespace fatpound::util
 
 
 	public:
-		auto operator <=> (const CameraController& rhs) const = delete;
-		bool operator ==  (const CameraController& rhs) const = delete;
-
-
-	public:
 		void Update() noexcept;
 
 

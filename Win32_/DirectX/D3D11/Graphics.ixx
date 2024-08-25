@@ -91,11 +91,6 @@ export namespace fatpound::win32::d3d11
 
 
     public:
-        auto operator <=> (const Graphics& rhs) const = delete;
-        bool operator ==  (const Graphics& rhs) const = delete;
-
-
-    public:
         auto GetViewXM() noexcept -> visual::ViewXM&
         {
             return m_viewXM_;

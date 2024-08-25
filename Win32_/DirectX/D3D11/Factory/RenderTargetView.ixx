@@ -23,11 +23,6 @@ export namespace fatpound::win32::d3d11::factory
 
 
     public:
-        auto operator <=> (const RenderTargetView& rhs) const = delete;
-        bool operator ==  (const RenderTargetView& rhs) const = delete;
-
-
-    public:
         static void Create(GraphicsResourcePack& gfxResPack);
 
 

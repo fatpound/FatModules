@@ -30,11 +30,6 @@ export namespace fatpound::win32::d3d11::pipeline::system
 
 
 	public:
-		auto operator <=> (const Viewport& rhs) const = delete;
-		bool operator ==  (const Viewport& rhs) const = delete;
-
-
-	public:
 		static void SetDefault(const GraphicsResourcePack& gfxResPack, const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions);
 
 

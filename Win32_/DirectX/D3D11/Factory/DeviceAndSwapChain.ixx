@@ -30,11 +30,6 @@ export namespace fatpound::win32::d3d11::factory
 
 
     public:
-        auto operator <=> (const DeviceAndSwapChain& rhs) const = delete;
-        bool operator ==  (const DeviceAndSwapChain& rhs) const = delete;
-
-
-    public:
         template <UINT MSAA_Quality>
         static auto CreateDESC(const HWND hWnd, const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions) noexcept -> DXGI_SWAP_CHAIN_DESC
         {

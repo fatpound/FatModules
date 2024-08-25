@@ -33,11 +33,6 @@ export namespace fatpound::win32
 
 
     public:
-        auto operator <=> (const Window& rhs) const = delete;
-        bool operator ==  (const Window& rhs) const = delete;
-
-
-    public:
         static auto ProcessMessages() noexcept -> std::optional<WPARAM>;
 
 

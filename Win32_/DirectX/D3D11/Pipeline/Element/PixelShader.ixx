@@ -29,11 +29,6 @@ export namespace fatpound::win32::d3d11::pipeline::element
 
 
     public:
-        auto operator <=> (const PixelShader& rhs) const = delete;
-        bool operator ==  (const PixelShader& rhs) const = delete;
-
-
-    public:
         virtual void Bind(ID3D11DeviceContext* pImmediateContext) override final;
 
 
