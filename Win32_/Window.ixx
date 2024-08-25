@@ -75,10 +75,6 @@ export namespace fatpound::win32
 
             static auto GetName() noexcept -> str_t;
 
-        public:
-            auto operator <=> (const WndClass_& rhs) const = delete;
-            bool operator ==  (const WndClass_& rhs) const = delete;
-
         protected:
 
         private:
