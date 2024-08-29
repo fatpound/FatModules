@@ -98,12 +98,12 @@ export namespace fatpound::win32
 
 
     private:
-        static auto CALLBACK HandleMsgSetup_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept -> LRESULT;
-        static auto CALLBACK HandleMsgThunk_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept -> LRESULT;
+        static auto CALLBACK HandleMsgSetup_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT;
+        static auto CALLBACK HandleMsgThunk_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT;
 
 
     private:
-        auto HandleMsg_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept -> LRESULT;
+        auto HandleMsg_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT;
 
 
     private:

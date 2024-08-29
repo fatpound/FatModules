@@ -27,7 +27,7 @@ namespace fatpound::automata
     {
 
     }
-    TLT_v2::~TLT_v2() noexcept
+    TLT_v2::~TLT_v2() noexcept(false)
     {
         Clear_();
     }
@@ -37,7 +37,7 @@ namespace fatpound::automata
         return m_results_;
     }
 
-    void TLT_v2::PrintWords() const noexcept
+    void TLT_v2::PrintWords() const
     {
         for (const auto& item : m_results_)
         {
@@ -133,7 +133,7 @@ namespace fatpound::automata
         return true;
     }
 
-    void TLT_v2::Clear_() noexcept
+    void TLT_v2::Clear_()
     {
         std::deque<Node_*> nodes;
 

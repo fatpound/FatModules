@@ -22,13 +22,13 @@ export namespace fatpound::automata
 
         TLT& operator = (const TLT& src) = delete;
         TLT& operator = (TLT&& src) = delete;
-        ~TLT() noexcept;
+        ~TLT() noexcept(false);
 
 
     public:
         auto GetWords() const noexcept -> vector<string>;
 
-        void PrintWords() const noexcept;
+        void PrintWords() const;
 
 
     protected:
@@ -53,7 +53,7 @@ export namespace fatpound::automata
         void CreateTree_(Node_* node);
         void CreateInnerTree_(Node_* node);
 
-        void Clear_() noexcept;
+        void Clear_();
 
 
     private:

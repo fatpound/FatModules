@@ -35,7 +35,7 @@ namespace fatpound::automata
     {
 
     }
-    TLT::~TLT() noexcept
+    TLT::~TLT() noexcept(false)
     {
         Clear_();
     }
@@ -45,7 +45,7 @@ namespace fatpound::automata
         return m_results_;
     }
 
-    void TLT::PrintWords() const noexcept
+    void TLT::PrintWords() const
     {
         vector<string> finals;
         vector<string> repeaters;
@@ -169,7 +169,7 @@ namespace fatpound::automata
         }
     }
 
-    void TLT::Clear_() noexcept
+    void TLT::Clear_()
     {
         if (m_tree_ == nullptr) [[unlikely]]
         {

@@ -123,7 +123,7 @@ export namespace fatpound::win32::d3d11
             GetViewXM().SetProjectionXM(projection);
         }
 
-        void BeginFrame() noexcept
+        void BeginFrame()
         {
             ClearBuffer_(0.0f, 0.0f, 0.0f);
         }

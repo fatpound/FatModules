@@ -132,7 +132,7 @@ namespace fatpound::win32
         ::PostQuitMessage(0);
     }
 
-    auto CALLBACK Window::HandleMsgSetup_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept -> LRESULT
+    auto CALLBACK Window::HandleMsgSetup_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT
     {
         if (msg == WM_NCCREATE)
         {
@@ -147,14 +147,14 @@ namespace fatpound::win32
 
         return ::DefWindowProc(hWnd, msg, wParam, lParam);
     }
-    auto CALLBACK Window::HandleMsgThunk_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept -> LRESULT
+    auto CALLBACK Window::HandleMsgThunk_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT
     {
         Window* const pWnd = reinterpret_cast<Window*>(::GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
         return pWnd->HandleMsg_(hWnd, msg, wParam, lParam);
     }
 
-    auto Window::HandleMsg_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept -> LRESULT
+    auto Window::HandleMsg_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT
     {
         switch (msg)
         {

@@ -22,13 +22,13 @@ export namespace fatpound::automata
 
         TLT_v2& operator = (const TLT_v2& src) = delete;
         TLT_v2& operator = (TLT_v2&& src) = delete;
-        ~TLT_v2() noexcept;
+        ~TLT_v2() noexcept(false);
 
 
     public:
         auto GetWords() const noexcept -> vector<pair<string, bool>>;
 
-        void PrintWords() const noexcept;
+        void PrintWords() const;
 
 
     protected:
@@ -51,7 +51,7 @@ export namespace fatpound::automata
 
         bool IsTerminal_(const string& str) const;
 
-        void Clear_() noexcept;
+        void Clear_();
 
 
     private:
