@@ -11,18 +11,7 @@ import std;
 export namespace fatpound::math
 {
     template <typename T>
-    concept Number = std::integral<T> || std::floating_point<T>;
-
-    template <Number N>
-    inline consteval auto ConstevalSqrt(N num, N current, N prev) -> N
-    {
-        return current == prev ? current : ConstevalSqrt<N>(num, 0.5f * (current + num / current), current);
-    }
-    template <Number N>
-    inline consteval auto ConstevalSqrt(N num) -> N
-    {
-        return (num >= 0.0f && num < std::numeric_limits<float>::infinity()) ? ConstevalSqrt<N>(num, num, 0.0f) : std::numeric_limits<float>::quiet_NaN();
-    }
+    concept Number = std::integral<T> or std::floating_point<T>;
 
     auto GetDifferenceVector(const ::DirectX::XMVECTOR pos1_vec, const ::DirectX::XMVECTOR pos2_vec) noexcept -> ::DirectX::XMVECTOR;
 
