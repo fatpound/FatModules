@@ -52,15 +52,6 @@ namespace fatpound::util
                 camera_.SetR(camera_.GetR() + s_zoomIncrement_ * 5.0f);
                 break;
 
-            case NAMESPACE_IO::Mouse::Event::Type::RPress:       [[fallthrough]];
-            case NAMESPACE_IO::Mouse::Event::Type::RRelease:     [[fallthrough]];
-            case NAMESPACE_IO::Mouse::Event::Type::WheelPress:   [[fallthrough]];
-            case NAMESPACE_IO::Mouse::Event::Type::WheelRelease: [[fallthrough]];
-            case NAMESPACE_IO::Mouse::Event::Type::Enter:        [[fallthrough]];
-            case NAMESPACE_IO::Mouse::Event::Type::Move:         [[fallthrough]];
-            case NAMESPACE_IO::Mouse::Event::Type::Leave:        [[fallthrough]];
-            case NAMESPACE_IO::Mouse::Event::Type::Invalid:      [[fallthrough]];
-
             default:
                 break;
             }
