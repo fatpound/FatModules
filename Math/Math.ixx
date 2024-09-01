@@ -19,7 +19,7 @@ export namespace fatpound::math
     float GetDistanceBetweenXMF3(const ::DirectX::XMFLOAT3& pos1, const ::DirectX::XMFLOAT3& pos2) noexcept;
 
     template <typename T>
-    inline auto Square(const T& x)
+    inline auto Square(const T& x) noexcept
     {
         return x * x;
     }
