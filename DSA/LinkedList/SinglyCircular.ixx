@@ -209,7 +209,7 @@ export namespace fatpound::dsa::linkedlist
 
                 ex = temp;
             }
-            while (ex != start);
+            while (ex not_eq start);
 
             this->m_list_ = nullptr;
             this->m_end_  = nullptr;

@@ -24,7 +24,7 @@ export namespace fatpound::dsa::linkedlist
         }
         Singly& operator = (Singly&& src) noexcept
         {
-            if (this != std::addressof(src) && typeid(src) == typeid(*this) && src.m_list_ != nullptr)
+            if ((this not_eq std::addressof(src)) and (typeid(src) == typeid(*this)) and (src.m_list_ not_eq nullptr))
             {
                 Delete_();
 
@@ -89,7 +89,7 @@ export namespace fatpound::dsa::linkedlist
 
             Node_* temp = m_list_;
 
-            while (temp->next != nullptr)
+            while (temp->next not_eq nullptr)
             {
                 if ((temp->item <= new_item) and (new_item <= temp->next->item))
                 {
@@ -168,7 +168,7 @@ export namespace fatpound::dsa::linkedlist
 
                 temp = temp->next;
             }
-            while (temp != nullptr);
+            while (temp not_eq nullptr);
 
             std::cout << '\n';
         }

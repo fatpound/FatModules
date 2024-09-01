@@ -139,7 +139,7 @@ namespace fatpound::automata
 
         for (auto& tree : m_trees_)
         {
-            if (tree != nullptr)
+            if (tree not_eq nullptr)
             {
                 nodes.push_back(tree);
             }

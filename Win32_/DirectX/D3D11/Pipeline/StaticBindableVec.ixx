@@ -37,7 +37,7 @@ export namespace fatpound::win32::d3d11::pipeline
 
         static void AddStaticBind_(std::unique_ptr<Bindable> bind) noexcept(IN_RELEASE)
         {
-            assert("*Must* use AddStaticIndexBuffer to bind index buffer" && typeid(*bind) != typeid(element::IndexBuffer));
+            assert("*Must* use AddStaticIndexBuffer to bind index buffer" && typeid(*bind) not_eq typeid(element::IndexBuffer));
 
             m_static_binds_.push_back(std::move(bind));
         }

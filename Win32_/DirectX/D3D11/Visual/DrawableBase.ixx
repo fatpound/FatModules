@@ -43,7 +43,7 @@ export namespace fatpound::win32::d3d11::visual
             {
                 const auto ptr = dynamic_cast<NAMESPACE_PIPELINE_ELEMENT::IndexBuffer*>(b.get());
 
-                if (ptr != nullptr)
+                if (ptr not_eq nullptr)
                 {
                     pCIndexBuffer_ = ptr;
 
@@ -51,7 +51,7 @@ export namespace fatpound::win32::d3d11::visual
                 }
             }
 
-            assert("Failed to find index buffer in static binds" && pCIndexBuffer_ != nullptr);
+            assert("Failed to find index buffer in static binds" && pCIndexBuffer_ not_eq nullptr);
         }
 
 

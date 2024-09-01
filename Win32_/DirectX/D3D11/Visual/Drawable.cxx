@@ -29,7 +29,7 @@ namespace fatpound::win32::d3d11::visual
 
     void Drawable::AddBind_(std::unique_ptr<NAMESPACE_PIPELINE::Bindable> bind) noexcept(IN_RELEASE)
     {
-        assert((typeid(*bind) != typeid(NAMESPACE_PIPELINE_ELEMENT::IndexBuffer)) && "*Must* use AddIndexBuffer_() method to bind it!");
+        assert((typeid(*bind) not_eq typeid(NAMESPACE_PIPELINE_ELEMENT::IndexBuffer)) && "*Must* use AddIndexBuffer_() method to bind it!");
 
         m_binds_.push_back(std::move(bind));
     }

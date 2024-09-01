@@ -10,7 +10,7 @@ module FatPound.Win32.D3D11.Pipeline.System:Sampler;
 
 namespace fatpound::win32::d3d11::pipeline::system
 {
-	void Sampler::SetDefault(GraphicsResourcePack& gfxResPack)
+	void Sampler::SetDefault(const GraphicsResourcePack& gfxResPack)
 	{
         ::Microsoft::WRL::ComPtr<ID3D11SamplerState> pSamplerState_ = nullptr;
 

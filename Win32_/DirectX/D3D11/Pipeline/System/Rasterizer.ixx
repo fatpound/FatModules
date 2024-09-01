@@ -27,7 +27,7 @@ export namespace fatpound::win32::d3d11::pipeline::system
 
 
 	public:
-		static void SetDefault(GraphicsResourcePack& gfxResPack);
+		static void SetDefault(const GraphicsResourcePack& gfxResPack);
 
 
 	protected:

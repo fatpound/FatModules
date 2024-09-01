@@ -121,7 +121,7 @@ export namespace fatpound::dsa::linkedlist
 
             Node_* temp = m_list_;
 
-            while (temp->next != nullptr)
+            while (temp->next not_eq nullptr)
             {
                 std::swap(temp->prev, temp->next);
                 temp = temp->prev;
@@ -146,7 +146,7 @@ export namespace fatpound::dsa::linkedlist
 
                 temp = temp->next;
             }
-            while (temp != nullptr);
+            while (temp not_eq nullptr);
 
             std::cout << '\n';
         }

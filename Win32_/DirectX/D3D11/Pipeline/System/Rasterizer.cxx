@@ -14,7 +14,7 @@ namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d3d11::pipeline::system
 {
-    void Rasterizer::SetDefault(GraphicsResourcePack& gfxResPack)
+    void Rasterizer::SetDefault(const GraphicsResourcePack& gfxResPack)
     {
         ::wrl::ComPtr<ID3D11RasterizerState> pRasterizerState = nullptr;
 

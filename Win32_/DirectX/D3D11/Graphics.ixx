@@ -77,13 +77,13 @@ export namespace fatpound::win32::d3d11
         ~Graphics() noexcept = default;
         ~Graphics() noexcept(false) requires(Framework)
         {
-            if (m_res_pack_.m_pSysBuffer != nullptr) [[likely]]
+            if (m_res_pack_.m_pSysBuffer not_eq nullptr) [[likely]]
             {
                 _aligned_free(m_res_pack_.m_pSysBuffer);
                 m_res_pack_.m_pSysBuffer = nullptr;
             }
 
-            if (m_res_pack_.m_pImmediateContext != nullptr) [[likely]]
+            if (m_res_pack_.m_pImmediateContext not_eq nullptr) [[likely]]
             {
                 m_res_pack_.m_pImmediateContext->ClearState();
             }

@@ -238,7 +238,7 @@ namespace fatpound::win32::io
 
     bool Mouse::Event::IsValid() const noexcept
     {
-        return type_ != Type::Invalid;
+        return type_ not_eq Type::Invalid;
     }
     bool Mouse::Event::LeftIsPressed() const noexcept
     {

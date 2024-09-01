@@ -113,7 +113,7 @@ namespace fatpound::win32
     }
     bool Window::IsMinimized() const noexcept
     {
-        return ::IsIconic(m_hWnd_) != 0;
+        return ::IsIconic(m_hWnd_) not_eq 0;
     }
 
     void Window::SetTitle(const std::wstring& title)
