@@ -57,26 +57,26 @@ export namespace fatpound
 
 
         public:
-            bool operator == (const Color src) const
+            bool operator == (const Color src) const noexcept
             {
                 return dword == src.dword;
             }
 
 
         public:
-            void SetAlpha(unsigned char x)
+            void SetAlpha(unsigned char x) noexcept
             {
                 dword = (dword & 0x00'FF'FF'FFu) | (std::uint32_t(x) << 24);
             }
-            void SetR(unsigned char r)
+            void SetR(unsigned char r) noexcept
             {
                 dword = (dword & 0xFF'00'FF'FFu) | (std::uint32_t(r) << 16);
             }
-            void SetG(unsigned char g)
+            void SetG(unsigned char g) noexcept
             {
                 dword = (dword & 0xFF'FF'00'FFu) | (std::uint32_t(g) << 8);
             }
-            void SetB(unsigned char b)
+            void SetB(unsigned char b) noexcept
             {
                 dword = (dword & 0xFF'FF'FF'00u) | std::uint32_t(b);
             }
