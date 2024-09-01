@@ -19,7 +19,6 @@
     <None Include="FatRules.ruleset" />
     <None Include="FatSettings.props" />
     <None Include="FatSettings_Debug.props" />
-    <None Include="FatSettings_Library.props" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Automata\Automata.ixx">

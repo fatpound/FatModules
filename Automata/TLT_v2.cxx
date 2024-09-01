@@ -68,7 +68,7 @@ namespace fatpound::automata
 
                     const auto insertedindex = newTempStrings.size() - 1;
 
-                    const auto it = std::find_if(m_trees_.cbegin() + index, m_trees_.cend(), [&](const auto& tree) -> bool { return ch == tree->item_[0]; });
+                    const auto it = std::find_if(m_trees_.cbegin() + static_cast<std::ptrdiff_t>(index), m_trees_.cend(), [&](const auto& tree) -> bool { return ch == tree->item_[0]; });
 
                     if (it == m_trees_.cend())
                     {
@@ -99,7 +99,7 @@ namespace fatpound::automata
                                 newTempStrings.emplace_back(pair);
                             }
 
-                            newTempStrings.erase(newTempStrings.begin() + insertedindex);
+                            newTempStrings.erase(newTempStrings.begin() + static_cast<std::ptrdiff_t>(insertedindex));
                         }
                         else
                         {

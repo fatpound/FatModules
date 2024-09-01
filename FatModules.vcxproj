@@ -22,7 +22,6 @@
     <None Include="FatRules.ruleset" />
     <None Include="FatSettings.props" />
     <None Include="FatSettings_Debug.props" />
-    <None Include="FatSettings_Library.props" />
     <None Include="FatSettings_Release.props" />
   </ItemGroup>
   <ItemGroup>
@@ -202,25 +201,21 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="FatSettings.props" />
-    <Import Project="FatSettings_Library.props" />
     <Import Project="FatSettings_Debug.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="FatSettings.props" />
-    <Import Project="FatSettings_Library.props" />
     <Import Project="FatSettings_Release.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="FatSettings.props" />
-    <Import Project="FatSettings_Library.props" />
     <Import Project="FatSettings_Debug.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="FatSettings.props" />
-    <Import Project="FatSettings_Library.props" />
     <Import Project="FatSettings_Release.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />

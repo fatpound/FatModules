@@ -12,7 +12,7 @@ module FatPound.Win32.D3D11.Visual.Drawable;
 
 namespace fatpound::win32::d3d11::visual
 {
-    void Drawable::Draw(ID3D11DeviceContext* const pImmediateContext) const noexcept(IN_RELEASE)
+    void Drawable::Draw(ID3D11DeviceContext* const pImmediateContext) const
     {
         for (auto& bindable : m_binds_)
         {

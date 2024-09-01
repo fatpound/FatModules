@@ -117,10 +117,10 @@ namespace fatpound::automata
 
             const auto& cfg_it = std::ranges::find_if(m_cfgrammar_, [&](const auto& pair) { return pair.first[0] == ch; });
 
-            string leftstr(node->item.cbegin(), node->item.cbegin() + i);
-            string rightstr(node->item.cbegin() + i + 1, node->item.cend());
+            string leftstr(node->item.cbegin(), node->item.cbegin() + static_cast<std::ptrdiff_t>(i));
+            string rightstr(node->item.cbegin() + static_cast<std::ptrdiff_t>(i + 1u), node->item.cend());
 
-            const std::size_t index = cfg_it - m_cfgrammar_.cbegin();
+            const std::size_t index = static_cast<std::size_t>(cfg_it - m_cfgrammar_.cbegin());
 
             node->leaves.reserve(node->leaves.size() + cfg_it->second.size());
 

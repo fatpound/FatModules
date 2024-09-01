@@ -31,7 +31,7 @@ export namespace fatpound::win32::d3d11::visual
 
         virtual void Update(const float delta_time) noexcept = 0;
 
-        virtual void Draw(ID3D11DeviceContext* const pImmediateContext) const noexcept(IN_RELEASE) final;
+        virtual void Draw(ID3D11DeviceContext* const pImmediateContext) const final;
 
         
     protected:

@@ -140,7 +140,11 @@ namespace fatpound::win32
             Window* const pWnd = static_cast<Window*>(pCreate->lpCreateParams);
 
             ::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
+
+#pragma warning (push)
+#pragma warning (disable : 5039)
             ::SetWindowLongPtr(hWnd, GWLP_WNDPROC,  reinterpret_cast<LONG_PTR>(&Window::HandleMsgThunk_));
+#pragma warning (pop)
 
             return pWnd->HandleMsg_(hWnd, msg, wParam, lParam);
         }

@@ -40,7 +40,7 @@ namespace fatpound::win32::d2d
 
         hr = pFactory->CreateHwndRenderTarget(
             D2D1::RenderTargetProperties(),
-            D2D1::HwndRenderTargetProperties(hWnd, D2D1::SizeU(rect.right, rect.bottom)),
+            D2D1::HwndRenderTargetProperties(hWnd, D2D1::SizeU(static_cast<UINT32>(rect.right), static_cast<UINT32>(rect.bottom))),
             &pRenderTarget_
         );
 

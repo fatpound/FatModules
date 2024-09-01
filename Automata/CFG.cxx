@@ -52,7 +52,7 @@ namespace fatpound::automata
 
         std::ranges::sort(alphabet);
 
-        auto it = std::ranges::unique(alphabet);
+        const auto it = std::ranges::unique(alphabet);
 
         alphabet.erase(it.begin(), it.end());
     }
@@ -72,7 +72,7 @@ namespace fatpound::automata
 
             if (index not_eq string::npos)
             {
-                string word(str.cbegin(), str.cbegin() + index);
+                string word(str.cbegin(), str.cbegin() + static_cast<std::ptrdiff_t>(index));
 
                 str.erase(0, index + std::strlen(s_language_content_seperator_));
 
