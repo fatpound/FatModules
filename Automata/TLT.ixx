@@ -14,19 +14,20 @@ export namespace fatpound::automata
     {
     public:
         explicit TLT(const CFG& cfgs);
-        explicit TLT(const string& inputFilename);
+        explicit TLT(const std::string& inputFilename);
 
         explicit TLT() = delete;
         explicit TLT(const TLT& src) = delete;
         explicit TLT(TLT&& src) = delete;
 
-        TLT& operator = (const TLT& src) = delete;
-        TLT& operator = (TLT&& src) = delete;
+        auto operator = (const TLT& src) -> TLT& = delete;
+        auto operator = (TLT&& src)      -> TLT& = delete;
         ~TLT() noexcept(false);
 
 
     public:
-        auto GetWords() const noexcept -> vector<string>;
+        [[nodiscard]]
+        auto GetWords() const noexcept -> std::vector<std::string>;
 
         void PrintWords() const;
 
@@ -35,18 +36,18 @@ export namespace fatpound::automata
 
 
     private:
-        struct Node_ final
+        struct alignas(64) Node_ final
         {
-            Node_(const string& item);
+            explicit Node_(const std::string& item);
 
-            vector<Node_*> leaves;
+            std::vector<Node_*> leaves;
 
-            string item;
+            std::string item;
         };
 
 
     private:
-        static bool IsTerminal_(const string& word) noexcept;
+        static auto IsTerminal_(const std::string& word) noexcept -> bool;
 
 
     private:
@@ -57,11 +58,11 @@ export namespace fatpound::automata
 
 
     private:
-        const vector<pair<string, vector<string>>>& m_cfgrammar_;
+        const std::vector<std::pair<std::string, std::vector<std::string>>>& m_cfgrammar_;
 
-        vector<string> m_results_;
+        std::vector<std::string> m_results_;
 
-        vector<std::size_t> m_recursers_;
+        std::vector<std::size_t> m_recursers_;
 
         Node_* m_tree_ = nullptr;
 

@@ -13,20 +13,18 @@ export namespace fatpound::dsa::linkedlist
     {
         using typename Doubly<T>::Node_;
 
-        using Doubly<T>::Doubly;
-
     public:
-        DoublyCircular() = default;
-        DoublyCircular(const DoublyCircular& src) = delete;
-        DoublyCircular& operator = (const DoublyCircular& src) = delete;
-
+        explicit DoublyCircular() = default;
+        explicit DoublyCircular(const DoublyCircular& src) = delete;
         DoublyCircular(DoublyCircular&& src) noexcept
             :
-            Doubly(std::move(src))
+            Doubly<T>(std::move(src))
         {
 
         }
-        DoublyCircular& operator = (DoublyCircular&& src) noexcept
+
+        auto operator = (const DoublyCircular& src) -> DoublyCircular& = delete;
+        auto operator = (DoublyCircular&& src) noexcept -> DoublyCircular&
         {
             if ((this not_eq std::addressof(src)) and (typeid(src) == typeid(*this)) and (src.m_list_ not_eq nullptr))
             {
@@ -49,7 +47,7 @@ export namespace fatpound::dsa::linkedlist
     public:
         virtual void Add(const T& new_item) override final
         {
-            Node_* new_part = new Node_(new_item);
+            auto* const new_part = new Node_(new_item);
 
             ++this->m_item_count_;
 
@@ -73,7 +71,7 @@ export namespace fatpound::dsa::linkedlist
         }
         virtual void AddOrdered(const T& new_item) override final
         {
-            Node_* new_part = new Node_(new_item);
+            auto* const new_part = new Node_(new_item);
 
             ++this->m_item_count_;
 
@@ -179,19 +177,19 @@ export namespace fatpound::dsa::linkedlist
             }
 
             Node_* start = this->m_list_;
-            Node_* ex = this->m_list_;
+            Node_* exes = this->m_list_;
 
-            Node_* temp;
+            Node_* temp{};
 
             do
             {
-                temp = ex->next;
+                temp = exes->next;
 
-                delete ex;
+                delete exes;
 
-                ex = temp;
+                exes = temp;
             }
-            while (ex not_eq start);
+            while (exes not_eq start);
 
             this->m_list_ = nullptr;
             this->m_end_  = nullptr;

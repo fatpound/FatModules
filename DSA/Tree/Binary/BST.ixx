@@ -14,7 +14,7 @@ export namespace fatpound::dsa::tree::binary
 
 
     public:
-        BST() = default;
+        explicit BST() = default;
         BST(const BST& src) noexcept
         {
             if (src.m_root_ not_eq nullptr)
@@ -32,7 +32,7 @@ export namespace fatpound::dsa::tree::binary
             }
         }
 
-        BST& operator = (const BST& src) noexcept
+        auto operator = (const BST& src) noexcept -> BST&
         {
             if ((this not_eq std::addressof(src)) and (src.m_root_ not_eq nullptr))
             {
@@ -47,7 +47,7 @@ export namespace fatpound::dsa::tree::binary
 
             return *this;
         }
-        BST& operator = (BST&& src) noexcept
+        auto operator = (BST&& src) noexcept -> BST&
         {
             if ((this not_eq std::addressof(src)) and (src.m_root_ not_eq nullptr))
             {
@@ -69,12 +69,13 @@ export namespace fatpound::dsa::tree::binary
 
 
     public:
+        [[nodiscard]]
         virtual auto GetTotalNodeCount() const -> SizeType final
         {
             return m_node_count_;
         }
 
-        virtual bool Contains(const T item) const final
+        virtual auto Contains(const T item) const -> bool final
         {
             return Find_(m_root_, item) not_eq nullptr;
         }
@@ -190,7 +191,7 @@ export namespace fatpound::dsa::tree::binary
 
 
     protected:
-        virtual Node_* Insert_(Node_* __restrict parent, Node_* __restrict node, const T& new_item)
+        virtual auto Insert_(Node_* __restrict parent, Node_* __restrict node, const T& new_item) -> Node_*
         {
             if (node == nullptr)
             {
@@ -208,21 +209,21 @@ export namespace fatpound::dsa::tree::binary
 
             return node;
         }
-        virtual Node_* Clone_(Node_* node) const final
+        virtual auto Clone_(Node_* node) const -> Node_* final
         {
             if (node == nullptr)
             {
                 return nullptr;
             }
 
-            Node_* new_node = new Node_(node->item, node->parent);
+            auto* const new_node = new Node_(node->item, node->parent);
 
             new_node->left  = Clone_(node->left);
             new_node->right = Clone_(node->right);
 
             return new_node;
         }
-        virtual Node_* Find_(Node_* node, const T& item) const final
+        virtual auto Find_(Node_* node, const T& item) const -> Node_* final
         {
             if (node == nullptr)
             {
@@ -250,7 +251,7 @@ export namespace fatpound::dsa::tree::binary
 
             return nullptr;
         }
-        virtual Node_* Delete_(Node_* node) final
+        virtual auto Delete_(Node_* node) -> Node_* final
         {
             if (node == nullptr)
             {
@@ -319,7 +320,7 @@ export namespace fatpound::dsa::tree::binary
             return latest;
         }
 
-        virtual Node_* GetMin_(Node_* node) final
+        virtual auto GetMin_(Node_* node) -> Node_* final
         {
             if (node == nullptr)
             {
@@ -333,7 +334,7 @@ export namespace fatpound::dsa::tree::binary
 
             return node;
         }
-        virtual Node_* GetMax_(Node_* node) final
+        virtual auto GetMax_(Node_* node) -> Node_* final
         {
             if (node == nullptr)
             {
@@ -347,7 +348,7 @@ export namespace fatpound::dsa::tree::binary
 
             return node;
         }
-        virtual Node_* GetInorderSuccessor_(Node_* node) final
+        virtual auto GetInorderSuccessor_(Node_* node) -> Node_* final
         {
             if (node->right not_eq nullptr)
             {
@@ -366,7 +367,7 @@ export namespace fatpound::dsa::tree::binary
             return prnt;
         }
 
-        virtual SizeType GetDepth_      (Node_* node, SizeType depth) const final
+        virtual auto GetDepth_      (Node_* node, SizeType depth) const -> SizeType final
         {
             if (node == nullptr)
             {
@@ -378,21 +379,21 @@ export namespace fatpound::dsa::tree::binary
 
             return std::max(left_val, right_val);
         }
-        virtual SizeType GetDepthLeft_  (Node_* node, SizeType depth) const final
+        virtual auto GetDepthLeft_  (Node_* node, SizeType depth) const -> SizeType final
         {
             return node
                 ? GetDepthLeft_(node->left, depth + 1)
                 : depth
                 ;
         }
-        virtual SizeType GetDepthRight_ (Node_* node, SizeType depth) const final
+        virtual auto GetDepthRight_ (Node_* node, SizeType depth) const -> SizeType final
         {
             return node
                 ? GetDepthLeft_(node->right, depth + 1)
                 : depth
                 ;
         }
-        virtual SizeType GetNodeCount_  (Node_* node) const final
+        virtual auto GetNodeCount_  (Node_* node) const -> SizeType final
         {
             if (node == nullptr)
             {

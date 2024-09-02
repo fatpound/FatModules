@@ -13,20 +13,18 @@ export namespace fatpound::dsa::linkedlist
     {
         using typename Singly<T>::Node_;
 
-        using Singly<T>::Singly;
-
     public:
-        SinglyCircular() = default;
-        SinglyCircular(const SinglyCircular& src) = delete;
-        SinglyCircular& operator = (const SinglyCircular& src) = delete;
-
+        explicit SinglyCircular() = default;
+        explicit SinglyCircular(const SinglyCircular& src) = delete;
         SinglyCircular(SinglyCircular&& src) noexcept
             :
-            Singly(std::move(src))
+            Singly<T>(std::move(src))
         {
 
         }
-        SinglyCircular& operator = (SinglyCircular&& src) noexcept
+
+        auto operator = (const SinglyCircular& src) -> SinglyCircular& = delete;
+        auto operator = (SinglyCircular&& src) noexcept -> SinglyCircular&
         {
             if ((this not_eq std::addressof(src)) and (typeid(src) == typeid(*this)) and (src.m_list_ not_eq nullptr))
             {
@@ -49,7 +47,7 @@ export namespace fatpound::dsa::linkedlist
     public:
         virtual void Add(const T& new_item) override final
         {
-            Node_* new_part = new Node_(new_item);
+            auto* const new_part = new Node_(new_item);
 
             ++this->m_item_count_;
 
@@ -68,7 +66,7 @@ export namespace fatpound::dsa::linkedlist
         }
         virtual void AddOrdered(const T& new_item) override final
         {
-            Node_* new_part = new Node_(new_item);
+            auto* const new_part = new Node_(new_item);
 
             ++this->m_item_count_;
 
@@ -123,31 +121,31 @@ export namespace fatpound::dsa::linkedlist
 
             Node_* start_backup = this->m_list_;
 
-            Node_* t;
-            Node_* a = nullptr;
-            Node_* x;
+            Node_* temp1{};
+            Node_* temp2{};
+            Node_* temp3{};
 
             Node_* temp = this->m_list_;
             Node_* start = temp;
 
             while (true)
             {
-                t = temp->next;
-                temp->next = a;
-                a = t;
-                x = temp;
+                temp1 = temp->next;
+                temp->next = temp2;
+                temp2 = temp1;
+                temp3 = temp;
 
-                if (t->next not_eq nullptr)
+                if (temp1->next not_eq nullptr)
                 {
-                    temp = t->next;
-                    t->next = x;
+                    temp = temp1->next;
+                    temp1->next = temp3;
                 }
 
                 if (temp == start)
                 {
-                    start->next = t;
+                    start->next = temp1;
 
-                    this->m_list_ = t;
+                    this->m_list_ = temp1;
 
                     return;
                 }
@@ -156,7 +154,7 @@ export namespace fatpound::dsa::linkedlist
                 {
                     start->next = temp;
 
-                    temp->next = t;
+                    temp->next = temp1;
                     this->m_list_ = temp;
 
                     return;
@@ -198,18 +196,18 @@ export namespace fatpound::dsa::linkedlist
             }
 
             Node_* start = this->m_list_;
-            Node_* ex = this->m_list_;
-            Node_* temp;
+            Node_* exes = this->m_list_;
+            Node_* temp{};
 
             do
             {
-                temp = ex->next;
+                temp = exes->next;
 
-                delete ex;
+                delete exes;
 
-                ex = temp;
+                exes = temp;
             }
-            while (ex not_eq start);
+            while (exes not_eq start);
 
             this->m_list_ = nullptr;
             this->m_end_  = nullptr;

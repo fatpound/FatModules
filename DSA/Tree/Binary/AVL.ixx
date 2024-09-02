@@ -54,7 +54,7 @@ export namespace fatpound::dsa::tree::binary
 
 
     protected:
-        virtual Node_* Insert_(Node_* __restrict parent, Node_* __restrict node, const T& new_item) override final
+        virtual auto Insert_(Node_* __restrict parent, Node_* __restrict node, const T& new_item) -> Node_* override final
         {
             if (node == nullptr)
             {
@@ -130,6 +130,7 @@ export namespace fatpound::dsa::tree::binary
                 last = last->parent;
             }
         }
+        // NOLINTBEGIN(readability-identifier-length)
         virtual void RotateLeft_(Node_* X, Node_* Y) final
         {
             Node_* parent_of_parent = X->parent;
@@ -194,6 +195,7 @@ export namespace fatpound::dsa::tree::binary
                 }
             }
         }
+        // NOLINTEND(readability-identifier-length)
 
 
     protected:

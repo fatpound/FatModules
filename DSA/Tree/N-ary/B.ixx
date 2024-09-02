@@ -10,12 +10,12 @@ export namespace fatpound::dsa::tree::n_ary
     class B final
     {
     public:
-        B() = default;
-        B(const B& src) = delete;
-        B& operator = (const B& src) = delete;
+        explicit B() = default;
+        explicit B(const B& src) = delete;
+        explicit B(B&& src) = delete;
 
-        B(B&& src) = delete;
-        B& operator = (B&& src) = delete;
+        auto operator = (const B& src) -> B& = delete;
+        auto operator = (B&& src)      -> B& = delete;
         ~B() noexcept
         {
             Clear_();
@@ -45,27 +45,27 @@ export namespace fatpound::dsa::tree::n_ary
                 return;
             }
 
-            std::queue<Node_*> Q;
+            std::queue<Node_*> queue;
 
-            Q.push(m_root_);
+            queue.push(m_root_);
 
-            while (Q.size() > 0u)
+            while (queue.size() > 0u)
             {
-                Node_* u = Q.front();
-                Q.pop();
+                Node_* node = queue.front();
+                queue.pop();
 
-                if (u->lesser not_eq nullptr)
+                if (node->lesser not_eq nullptr)
                 {
-                    Q.push(u->lesser);
+                    queue.push(node->lesser);
                 }
 
-                for (std::size_t i = 0u; i < u->items.size(); ++i)
+                for (std::size_t i = 0u; i < node->items.size(); ++i)
                 {
-                    std::cout << u->items[i]->first << ' ';
+                    std::cout << node->items[i]->first << ' ';
 
-                    if (u->items[i]->second not_eq nullptr)
+                    if (node->items[i]->second not_eq nullptr)
                     {
-                        Q.push(u->items[i]->second);
+                        queue.push(node->items[i]->second);
                     }
                 }
 
@@ -82,20 +82,7 @@ export namespace fatpound::dsa::tree::n_ary
     private:
         struct Node_ final
         {
-            std::vector<std::pair<T, Node_*>*> items;
-
-            Node_* lesser = nullptr;
-            Node_* parent = nullptr;
-
-            Node_() = default;
-
-            Node_(Node_* new_lesser)
-                :
-                lesser(new_lesser)
-            {
-
-            }
-            Node_(std::pair<T, Node_*>* new_item, Node_* new_parent = nullptr)
+            explicit Node_(std::pair<T, Node_*>* new_item, Node_* new_parent = nullptr)
                 :
                 parent(new_parent)
             {
@@ -104,6 +91,17 @@ export namespace fatpound::dsa::tree::n_ary
                     items.push_back(new_item);
                 }
             }
+            explicit Node_(Node_* new_lesser)
+                :
+                lesser(new_lesser)
+            {
+
+            }
+
+            std::vector<std::pair<T, Node_*>*> items;
+
+            Node_* lesser = nullptr;
+            Node_* parent = nullptr;
         };
 
 
@@ -128,7 +126,7 @@ export namespace fatpound::dsa::tree::n_ary
                     {
                         if ((pair->first > node->items[i]->first) and (node->items[i]->second not_eq nullptr))
                         {
-                            if (flag == false)
+                            if (not flag)
                             {
                                 flag = true;
                             }
@@ -182,7 +180,7 @@ export namespace fatpound::dsa::tree::n_ary
 
                 if (node->items.size() > 1u)
                 {
-                    std::ranges::sort(node->items, [](const auto& p1, const auto& p2) -> bool { return p1->first < p2->first; });
+                    std::ranges::sort(node->items, [](const auto& pair1, const auto& pair2) -> bool { return pair1->first < pair2->first; });
                 }
             }
         }
@@ -197,7 +195,7 @@ export namespace fatpound::dsa::tree::n_ary
                 temp_vec.push_back(node->items[i]);
             }
 
-            std::ranges::sort(temp_vec, [](const auto& p1, const auto& p2) -> bool { return p1->first < p2->first; });
+            std::ranges::sort(temp_vec, [](const auto& pair1, const auto& pair2) -> bool { return pair1->first < pair2->first; });
 
             std::size_t center = (C * 2u + 1u) / 2u;
 
@@ -231,7 +229,7 @@ export namespace fatpound::dsa::tree::n_ary
 
             Insert_(node->parent, temp_vec[center], false);
 
-            Node_* new_node = new Node_();
+            auto* const new_node = new Node_;
             new_node->parent = node->parent;
 
             for (std::size_t i = 0u; i < temp_vec_more.size(); ++i)
@@ -250,31 +248,31 @@ export namespace fatpound::dsa::tree::n_ary
                 return;
             }
 
-            std::queue<Node_*> Q;
+            std::queue<Node_*> queue;
 
-            Q.push(m_root_);
+            queue.push(m_root_);
 
-            while (Q.size() > 0u)
+            while (queue.size() > 0u)
             {
-                Node_* u = Q.front();
-                Q.pop();
+                Node_* node = queue.front();
+                queue.pop();
 
-                if (u->lesser not_eq nullptr)
+                if (node->lesser not_eq nullptr)
                 {
-                    Q.push(u->lesser);
+                    queue.push(node->lesser);
                 }
 
-                for (std::size_t i = 0u; i < u->items.size(); ++i)
+                for (std::size_t i = 0u; i < node->items.size(); ++i)
                 {
-                    if (u->items[i]->second not_eq nullptr)
+                    if (node->items[i]->second not_eq nullptr)
                     {
-                        Q.push(u->items[i]->second);
+                        queue.push(node->items[i]->second);
                     }
 
-                    delete u->items[i];
+                    delete node->items[i];
                 }
 
-                delete u;
+                delete node;
             }
 
             m_root_ = nullptr;

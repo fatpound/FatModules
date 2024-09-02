@@ -13,14 +13,16 @@ export namespace fatpound::util
         explicit AutoTimer(const AutoTimer& src) = delete;
         explicit AutoTimer(AutoTimer&& src) = delete;
 
-        AutoTimer& operator = (const AutoTimer& src) = delete;
-        AutoTimer& operator = (AutoTimer&& src) = delete;
+        auto operator = (const AutoTimer& src) -> AutoTimer& = delete;
+        auto operator = (AutoTimer&& src)      -> AutoTimer& = delete;
         ~AutoTimer() noexcept = default;
 
 
     public:
-        float Mark() noexcept;
-        float Peek() const noexcept;
+        auto Mark()       noexcept -> float;
+        
+        [[nodiscard]]
+        auto Peek() const noexcept -> float;
 
 
     protected:

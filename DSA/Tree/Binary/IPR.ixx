@@ -41,23 +41,23 @@ export namespace fatpound::dsa::tree::binary
 
 
     private:
+        // NOLINTBEGIN(readability-identifier-length)
         virtual void Balance_(Node_* const latest) override final
         {
             if (latest == nullptr)
             {
                 return;
             }
-
             Node_* last = latest; // Y
 
             while (last->parent not_eq nullptr) // Going up
             {
-                decltype(SizeType{}) na;
-                decltype(SizeType{}) nb;
-                decltype(SizeType{}) nc;
+                decltype(SizeType{}) na{};
+                decltype(SizeType{}) nb{};
+                decltype(SizeType{}) nc{};
 
                 // false => left, true => right
-                bool a_location;
+                bool a_location{};
 
                 if (last->parent->item < last->item)
                 {
@@ -116,5 +116,6 @@ export namespace fatpound::dsa::tree::binary
                 last = last->parent;
             }
         }
+        // NOLINTEND(readability-identifier-length)
     };
 }

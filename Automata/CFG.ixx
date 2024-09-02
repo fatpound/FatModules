@@ -10,6 +10,8 @@ export namespace fatpound::automata
 {
     class CFG final
     {
+        using GrammarType = std::vector<std::pair<std::string, std::vector<std::string>>>;
+
     public:
         // The input file should be in the following format:
         //
@@ -22,46 +24,36 @@ export namespace fatpound::automata
         // a b  c   d e
         // S --> aa | bX | aXX, X --> ab | b
         //
-        explicit CFG(const string& inputFilename);
-        
+        explicit CFG(const std::string& inputFilename);
+
         explicit CFG() = delete;
         explicit CFG(const CFG& src) = delete;
         explicit CFG(CFG&& src) = delete;
 
-        CFG& operator = (const CFG& src) = delete;
-        CFG& operator = (CFG&& src) = delete;
+        auto operator = (const CFG& src) -> CFG& = delete;
+        auto operator = (CFG&& src)      -> CFG& = delete;
         ~CFG() noexcept = default;
+
+
+    public:
+        [[nodiscard]]
+        auto GetGrammar() const noexcept -> GrammarType;
 
 
     protected:
 
 
     private:
-        void ReadFirstLine_(std::ifstream& inputFile, vector<char>& alphabet);
-        void ReadSecondLine_(std::ifstream& inputFile, vector<char>& alphabet);
+        void ReadFirstLine_(std::ifstream& inputFile, std::vector<char>& alphabet);
+        void ReadSecondLine_(std::ifstream& inputFile, std::vector<char>& alphabet);
 
 
     private:
-        vector<pair<string, vector<string>>> m_grammar_;
+        GrammarType m_grammar_;
 
         static constexpr auto s_language_seperator_         = ',';
         static constexpr auto s_language_word_seperator_    = '|';
         static constexpr auto s_language_content_seperator_ = "-->";
-
-
-    /*            */
-    //  fatpound* //
-    /*            */
-
-
-    public:
-        auto GetGrammar() const noexcept -> decltype(m_grammar_);
-
-
-    protected:
-
-
-    private:
     };
 }
 
