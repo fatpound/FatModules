@@ -78,12 +78,6 @@
     <ClCompile Include="Util\Camera.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\CameraController.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Util\CameraController.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Util\Color.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>

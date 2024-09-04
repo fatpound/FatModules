@@ -12,12 +12,12 @@ namespace fatpound::util
 {
     // Camera
 
-    Camera::Camera(const float min_depth, const float max_depth) noexcept
+    Camera::Camera(const float min_depth, const float max_depth, NAMESPACE_IO::Mouse& mouse, const NAMESPACE_IO::Keyboard& keyboard) noexcept
         :
         min_depth_(min_depth),
         max_depth_(max_depth)
     {
-
+        m_pController_ = std::make_unique<Controller_>(*this, mouse, keyboard);
     }
 
     auto Camera::GetMatrix() const noexcept -> ::dx::XMMATRIX
@@ -67,14 +67,89 @@ namespace fatpound::util
         z_ = z;
     }
 
+    void Camera::Update() noexcept
+    {
+        m_pController_->Update();
+    }
     void Camera::Reset() noexcept
     {
-        static constexpr auto zero = 0.0f;
+        static constexpr auto axis_reset_val = 0.0f;
 
         r_ = 0.1f;
 
-        x_ = zero;
-        y_ = zero;
-        z_ = zero;
+        x_ = axis_reset_val;
+        y_ = axis_reset_val;
+        z_ = axis_reset_val;
+    }
+
+
+    // Camera::Controller_
+
+    Camera::Controller_::Controller_(Camera& camera, NAMESPACE_IO::Mouse& mouse, const NAMESPACE_IO::Keyboard& keyboard) noexcept
+        :
+        camera_(camera),
+        mouse_(mouse),
+        keyboard_(keyboard)
+    {
+
+    }
+
+    void Camera::Controller_::Update() noexcept
+    {
+        if (keyboard_.KeyIsPressed('R'))
+        {
+            camera_.Reset();
+        }
+
+        while (not mouse_.EventBufferIsEmpty())
+        {
+            const auto& mouse_event = mouse_.ReadFromBuffer();
+
+            switch (mouse_event.GetType())
+            {
+            case NAMESPACE_IO::Mouse::Event::Type::LPress:
+            {
+                engaged_ = true;
+
+                const auto& pos = mouse_event.GetPos();
+
+                last_position_ = ::DirectX::XMFLOAT2{ static_cast<float>(pos.first), static_cast<float>(pos.second) };
+            }
+            break;
+
+            case NAMESPACE_IO::Mouse::Event::Type::LRelease:
+                engaged_ = false;
+                break;
+
+            case NAMESPACE_IO::Mouse::Event::Type::WheelUp:
+                camera_.SetR(camera_.GetR() - s_zoomIncrement_ * 5.0f);
+                break;
+
+            case NAMESPACE_IO::Mouse::Event::Type::WheelDown:
+                camera_.SetR(camera_.GetR() + s_zoomIncrement_ * 5.0f);
+                break;
+
+            default:
+                break;
+            }
+        }
+
+        if (engaged_)
+        {
+            const auto& pos = mouse_.GetPos();
+
+            const auto& lastPositionVec = ::dx::XMLoadFloat2(&last_position_);
+            const auto& currentPosition = ::dx::XMFLOAT2{ static_cast<float>(pos.first), static_cast<float>(pos.second) };
+
+            const auto& currentPositionVec = ::dx::XMLoadFloat2(&currentPosition);
+            auto deltaPositionVec = ::dx::XMVectorSubtract(currentPositionVec, lastPositionVec);
+
+            deltaPositionVec = ::dx::XMVectorSetX(deltaPositionVec, -::dx::XMVectorGetX(deltaPositionVec));
+
+            camera_.SetX(camera_.GetX() + -::dx::XMVectorGetX(deltaPositionVec) * s_zoomIncrement_);
+            camera_.SetY(camera_.GetY() + -::dx::XMVectorGetY(deltaPositionVec) * s_zoomIncrement_);
+
+            last_position_ = currentPosition;
+        }
     }
 }

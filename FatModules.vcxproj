@@ -55,8 +55,6 @@
     <ClCompile Include="Util\AutoTimer.ixx" />
     <ClCompile Include="Util\Camera.cxx" />
     <ClCompile Include="Util\Camera.ixx" />
-    <ClCompile Include="Util\CameraController.cxx" />
-    <ClCompile Include="Util\CameraController.ixx" />
     <ClCompile Include="Util\Color.ixx" />
     <ClCompile Include="Util\ScreenSizeInfo.ixx" />
     <ClCompile Include="Util\Util.ixx" />
