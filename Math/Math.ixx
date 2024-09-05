@@ -16,17 +16,24 @@ export namespace fatpound::math
     template <typename T>
     concept Multiplicable = requires(T var1, T var2)
     {
-        { var1 * var2 } noexcept -> std::same_as<T>;
+        { var1 * var2 } -> std::same_as<T>;
     };
+
+    template <typename T>
+    concept Multiplicable_Noexcept = Multiplicable<T> and
+    requires(T var1, T var2)
+    {
+        { var1 * var2 } noexcept;
+    };
+
+    template <Multiplicable T>
+    inline constexpr auto Square(const T& var) noexcept(Multiplicable_Noexcept<T>)
+    {
+        return var * var;
+    }
 
     auto GetDifferenceVector(const ::DirectX::XMVECTOR pos1_vec, const ::DirectX::XMVECTOR pos2_vec) noexcept -> ::DirectX::XMVECTOR;
 
     float GetDistanceBetweenXMF2(const ::DirectX::XMFLOAT2& pos1, const ::DirectX::XMFLOAT2& pos2) noexcept;
     float GetDistanceBetweenXMF3(const ::DirectX::XMFLOAT3& pos1, const ::DirectX::XMFLOAT3& pos2) noexcept;
-
-    template <Multiplicable T>
-    inline auto Square(const T& var) noexcept
-    {
-        return var * var;
-    }
 }
