@@ -55,7 +55,7 @@ export namespace fatpound::win32::d3d11
         {
             InitCommon_(hWnd);
 
-            pipeline::system::ShaderResource::SetDefault<s_max_msaaCount_>(m_res_pack_, m_dimensions_);
+            pipeline::system::ShaderResource::SetDefault(m_res_pack_, m_dimensions_, m_msaaCount_, m_msaaQuality_);
             pipeline::system::Sampler::SetDefault(m_res_pack_);
 
             m_res_pack_.m_pSysBuffer = static_cast<Color*>(_aligned_malloc(sizeof(Color) * m_dimensions_.m_width * m_dimensions_.m_height, 16u));
@@ -181,7 +181,7 @@ export namespace fatpound::win32::d3d11
             }
         }
 
-        void PutPixel(int x, int y, Color color) noexcept requires(Framework)
+        void PutPixel(const int x, const int y, const Color color) noexcept requires(Framework)
         {
             assert(x >= 0);
             assert(x < static_cast<int>(m_dimensions_.m_width));
@@ -270,7 +270,7 @@ export namespace fatpound::win32::d3d11
             
             ToggleAltEnterMode_();
 
-            pipeline::system::RenderTarget::SetDefault<s_max_msaaCount_, Framework>(m_res_pack_, m_dimensions_);
+            pipeline::system::RenderTarget::SetDefault<Framework>(m_res_pack_, m_dimensions_, m_msaaCount_, m_msaaQuality_);
             pipeline::system::Viewport::SetDefault(m_res_pack_, m_dimensions_);
         }
         void InitFramework_() requires(Framework)
@@ -281,9 +281,9 @@ export namespace fatpound::win32::d3d11
 
             const auto pImmediateContext = GetImmediateContext();
 
-            for (auto& sbind : binds)
+            for (auto& bindable : binds)
             {
-                sbind->Bind(pImmediateContext);
+                bindable->Bind(pImmediateContext);
             }
         }
         void InitFrameworkBinds_(auto& binds) requires(Framework)

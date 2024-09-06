@@ -31,19 +31,19 @@ export namespace fatpound::win32::d3d11::pipeline::system
 
 
 	public:
-		template <UINT MSAA_Quality, bool ForFramework = false>
-		static void SetDefault(GraphicsResourcePack& gfxResPack, const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions)
+		template <bool ForFramework = false>
+		static void SetDefault(GraphicsResourcePack& gfxResPack, const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions, const UINT msaaCount, const UINT msaaQuality)
 		{
 			factory::RenderTargetView::Create(gfxResPack);
 
 			::Microsoft::WRL::ComPtr<ID3D11Texture2D> pTexture2D = nullptr;
 
-			const auto& descTex2D = factory::Texture2D::CreateDESC<MSAA_Quality>(gfxDimensions);
+			const auto& descTex2D = factory::Texture2D::CreateDESC(gfxDimensions, msaaCount, msaaQuality);
 			factory::Texture2D::Create(gfxResPack, pTexture2D, descTex2D);
 
 			if constexpr (not ForFramework)
 			{
-				const auto& descDSV = factory::DepthStencilView::CreateDESC<MSAA_Quality>();
+				const auto& descDSV = factory::DepthStencilView::CreateDESC(msaaCount);
 				factory::DepthStencilView::Create(gfxResPack, pTexture2D, descDSV);
 			}
 

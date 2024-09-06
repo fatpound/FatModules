@@ -30,15 +30,15 @@ export namespace fatpound::win32::d3d11::pipeline::system
 
 
 	public:
-		template <UINT MSAA_Quality, bool ForFramework = true>
-		static void SetDefault(GraphicsResourcePack& gfxResPack, const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions)
+		template <bool ForFramework = true>
+		static void SetDefault(GraphicsResourcePack& gfxResPack, const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions, const UINT msaaCount, const UINT msaaQuality)
 		{
-			const auto& t2dDesc = factory::Texture2D::CreateDESC<MSAA_Quality, ForFramework>(gfxDimensions);
+			const auto& t2dDesc = factory::Texture2D::CreateDESC<ForFramework>(gfxDimensions, msaaCount, msaaQuality);
 			factory::Texture2D::Create(gfxResPack, t2dDesc);
 
 			::Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> pSysBufferTextureView_ = nullptr;
 
-			const auto& srvDesc = factory::ShaderResourceView::CreateDESC<MSAA_Quality>(t2dDesc.Format);
+			const auto& srvDesc = factory::ShaderResourceView::CreateDESC(t2dDesc.Format, msaaCount);
 			factory::ShaderResourceView::Create(gfxResPack, pSysBufferTextureView_, srvDesc);
 
 			gfxResPack.m_pImmediateContext->PSSetShaderResources(0u, 1u, pSysBufferTextureView_.GetAddressOf());

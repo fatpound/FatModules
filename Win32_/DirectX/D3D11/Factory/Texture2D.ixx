@@ -30,16 +30,21 @@ export namespace fatpound::win32::d3d11::factory
 
 
     public:
-        template <UINT MSAA_Quality, bool ForShaderResource = false>
-        static constexpr auto CreateDESC(const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions) noexcept -> D3D11_TEXTURE2D_DESC
+        template <bool ForShaderResource = false>
+        static constexpr auto CreateDESC(
+                const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions,
+                const UINT msaaCount,
+                const UINT msaaQuality
+            )
+            noexcept -> D3D11_TEXTURE2D_DESC
         {
             D3D11_TEXTURE2D_DESC desc = {};
             desc.Width = gfxDimensions.m_width;
             desc.Height = gfxDimensions.m_height;
             desc.MipLevels = 1u;
             desc.ArraySize = 1u;
-            desc.SampleDesc.Count = MSAA_Quality;
-            desc.SampleDesc.Quality = 0u;
+            desc.SampleDesc.Count = msaaCount;
+            desc.SampleDesc.Quality = msaaQuality - 1u;
 
             if constexpr (ForShaderResource)
             {

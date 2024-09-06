@@ -27,13 +27,12 @@ export namespace fatpound::win32::d3d11::factory
 
 
     public:
-        template <UINT MSAA_Quality>
-        static constexpr auto CreateDESC() noexcept -> D3D11_DEPTH_STENCIL_VIEW_DESC
+        static constexpr auto CreateDESC(const UINT msaaCount) noexcept -> D3D11_DEPTH_STENCIL_VIEW_DESC
         {
             D3D11_DEPTH_STENCIL_VIEW_DESC desc = {};
             desc.Format = DXGI_FORMAT_D32_FLOAT;
 
-            if constexpr (MSAA_Quality == 1u)
+            if (msaaCount == 1u)
             {
                 desc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
                 desc.Texture2D.MipSlice = 0u;
