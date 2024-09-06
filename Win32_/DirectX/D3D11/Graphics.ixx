@@ -55,7 +55,7 @@ export namespace fatpound::win32::d3d11
         {
             InitCommon_(hWnd);
 
-            pipeline::system::ShaderResource::SetDefault<s_msaaQuality_>(m_res_pack_, m_dimensions_);
+            pipeline::system::ShaderResource::SetDefault<s_max_msaaCount_>(m_res_pack_, m_dimensions_);
             pipeline::system::Sampler::SetDefault(m_res_pack_);
 
             m_res_pack_.m_pSysBuffer = static_cast<Color*>(_aligned_malloc(sizeof(Color) * m_dimensions_.m_width * m_dimensions_.m_height, 16u));
@@ -235,16 +235,42 @@ export namespace fatpound::win32::d3d11
 
 
     private:
+        void InitMSAA_Settings_()
+        {
+            constexpr std::array<UINT, 4> msaa_counts{ 32u, 16u, 8u, 4u };
+
+            for (auto i = 0u; i < msaa_counts.size(); ++i)
+            {
+                m_res_pack_.m_pDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, msaa_counts[i], &m_msaaQuality_);
+
+                if (m_msaaQuality_ > 0)
+                {
+                    m_msaaCount_ = msaa_counts[i];
+
+                    break;
+                }
+            }
+
+            if (m_msaaQuality_ <= 0)
+            {
+                throw std::runtime_error{ "MSAA Quality is NOT valid!" };
+            }
+        }
+
         void InitCommon_(const HWND hWnd)
         {
             {
-                const auto& scdesc = factory::DeviceAndSwapChain::CreateDESC<s_msaaQuality_>(hWnd, m_dimensions_);
-                factory::DeviceAndSwapChain::Create(m_res_pack_, scdesc);
-            }
+                factory::Device::Create(m_res_pack_);
 
+                InitMSAA_Settings_();
+
+                auto&& scdesc = factory::SwapChain::CreateDESC(hWnd, m_dimensions_, m_msaaCount_, m_msaaQuality_);
+                factory::SwapChain::Create(m_res_pack_, scdesc);
+            }
+            
             ToggleAltEnterMode_();
 
-            pipeline::system::RenderTarget::SetDefault<s_msaaQuality_, Framework>(m_res_pack_, m_dimensions_);
+            pipeline::system::RenderTarget::SetDefault<s_max_msaaCount_, Framework>(m_res_pack_, m_dimensions_);
             pipeline::system::Viewport::SetDefault(m_res_pack_, m_dimensions_);
         }
         void InitFramework_() requires(Framework)
@@ -285,19 +311,16 @@ export namespace fatpound::win32::d3d11
 
         void ToggleAltEnterMode_()
         {
-            ::wrl::ComPtr<IDXGIDevice> pDXGIDevice = nullptr;
-            m_res_pack_.m_pDevice->QueryInterface(__uuidof(IDXGIDevice), &pDXGIDevice);
+            ::wrl::ComPtr<IDXGIFactory> pDXGIFactory = nullptr;
 
-            ::wrl::ComPtr<IDXGIAdapter> pDXGIAdapter = nullptr;
-            pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), &pDXGIAdapter);
+            {
+                ::wrl::ComPtr<IDXGIDevice> pDXGIDevice = nullptr;
+                m_res_pack_.m_pDevice->QueryInterface(__uuidof(IDXGIDevice), &pDXGIDevice);
 
-            ::wrl::ComPtr<IDXGIFactory> pIDXGIFactory = nullptr;
-            pDXGIAdapter->GetParent(__uuidof(IDXGIFactory), &pIDXGIFactory);
-
-            DXGI_SWAP_CHAIN_DESC desc = {};
-            m_res_pack_.m_pSwapChain->GetDesc(&desc);
-
-            const auto& hWnd = desc.OutputWindow;
+                ::wrl::ComPtr<IDXGIAdapter> pDXGIAdapter = nullptr;
+                pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), &pDXGIAdapter);
+                pDXGIAdapter->GetParent(__uuidof(IDXGIFactory), &pDXGIFactory);
+            }
 
             static UINT flag = 0u;
 
@@ -312,7 +335,12 @@ export namespace fatpound::win32::d3d11
                 flag or_eq magic_value;
             }
 
-            pIDXGIFactory->MakeWindowAssociation(hWnd, flag);
+            DXGI_SWAP_CHAIN_DESC desc = {};
+            m_res_pack_.m_pSwapChain->GetDesc(&desc);
+
+            const auto& hWnd = desc.OutputWindow;
+
+            pDXGIFactory->MakeWindowAssociation(hWnd, flag);
         }
 
         void ClearBuffer_(const float red, const float green, const float blue)
@@ -331,7 +359,10 @@ export namespace fatpound::win32::d3d11
 
         const ScreenSizeInfo m_dimensions_;
 
-        static constexpr auto s_msaaQuality_ = std::conditional_t<Framework, std::integral_constant<UINT, 1u>, std::integral_constant<UINT, 8u>>::value;
+        UINT m_msaaCount_;
+        UINT m_msaaQuality_;
+
+        static constexpr auto s_max_msaaCount_ = std::conditional_t<Framework, std::integral_constant<UINT, 1u>, std::integral_constant<UINT, 16u>>::value;
 
         static constexpr auto s_rasterizationEnabled_ = std::conditional_t<Framework, std::false_type, std::true_type>::value;
     };

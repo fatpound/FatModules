@@ -4,15 +4,11 @@ module;
 
 #include <d3d11.h>
 
-#include <wrl.h>
-
-module FatPound.Win32.D3D11.Factory:DeviceAndSwapChain;
-
-namespace wrl = Microsoft::WRL;
+module FatPound.Win32.D3D11.Factory:Device;
 
 namespace fatpound::win32::d3d11::factory
 {
-    void DeviceAndSwapChain::Create(GraphicsResourcePack& gfxResPack, const DXGI_SWAP_CHAIN_DESC& desc)
+    void Device::Create(GraphicsResourcePack& gfxResPack)
     {
         static constinit UINT swapCreateFlags;
 
@@ -27,7 +23,7 @@ namespace fatpound::win32::d3d11::factory
 
         D3D_FEATURE_LEVEL featureLevel{};
 
-        const auto hr = D3D11CreateDeviceAndSwapChain(
+        const auto& hr = D3D11CreateDevice(
             nullptr,
             D3D_DRIVER_TYPE_HARDWARE,
             nullptr,
@@ -35,8 +31,6 @@ namespace fatpound::win32::d3d11::factory
             nullptr,
             0u,
             D3D11_SDK_VERSION,
-            &desc,
-            &gfxResPack.m_pSwapChain,
             &gfxResPack.m_pDevice,
             &featureLevel,
             &gfxResPack.m_pImmediateContext
@@ -44,7 +38,7 @@ namespace fatpound::win32::d3d11::factory
 
         if (FAILED(hr)) [[unlikely]]
         {
-            throw std::runtime_error("Could NOT create the Device and SwapChain!");
+            throw std::runtime_error("Could NOT create Direct3D Device!");
         }
 
         if (featureLevel not_eq D3D_FEATURE_LEVEL_11_0)
