@@ -36,7 +36,7 @@ export namespace fatpound::win32::d3d11::factory
             DXGI_SWAP_CHAIN_DESC desc = {};
             desc.BufferDesc.Width = gfxDimensions.m_width;
             desc.BufferDesc.Height = gfxDimensions.m_height;
-            desc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+            desc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
             desc.BufferDesc.RefreshRate.Numerator = 0u;
             desc.BufferDesc.RefreshRate.Denominator = 0u;
             desc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;

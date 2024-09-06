@@ -20,7 +20,8 @@ export namespace fatpound::math
     };
 
     template <typename T>
-    concept Multiplicable_Noexcept = Multiplicable<T> and
+    concept Multiplicable_Noexcept = Multiplicable<T>
+    and
     requires(T var1, T var2)
     {
         { var1 * var2 } noexcept;

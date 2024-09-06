@@ -25,6 +25,8 @@ namespace fatpound::win32::d3d11::factory
             swapCreateFlags = D3D11_CREATE_DEVICE_DEBUG;
         }
 
+        D3D_FEATURE_LEVEL featureLevel{};
+
         const auto hr = D3D11CreateDeviceAndSwapChain(
             nullptr,
             D3D_DRIVER_TYPE_HARDWARE,
@@ -36,13 +38,18 @@ namespace fatpound::win32::d3d11::factory
             &desc,
             &gfxResPack.m_pSwapChain,
             &gfxResPack.m_pDevice,
-            nullptr,
+            &featureLevel,
             &gfxResPack.m_pImmediateContext
         );
 
         if (FAILED(hr)) [[unlikely]]
         {
             throw std::runtime_error("Could NOT create the Device and SwapChain!");
+        }
+
+        if (featureLevel not_eq D3D_FEATURE_LEVEL_11_0)
+        {
+            throw std::runtime_error("Direct3D Feature Level 11 is unsupported!");
         }
     }
 }
