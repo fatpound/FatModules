@@ -24,7 +24,7 @@ namespace fatpound::win32::d3d11::pipeline::system
             ID3D11DeviceContext* const pImmediateContext
         )
     {
-        ::wrl::ComPtr<ID3D11RasterizerState> pRasterizerState = nullptr;
+        ::wrl::ComPtr<ID3D11RasterizerState> pRasterizerState{};
 
         const auto& descRS = factory::RasterizerState::CreateDESC();
         factory::RasterizerState::Create(pDevice, descRS, pRasterizerState);

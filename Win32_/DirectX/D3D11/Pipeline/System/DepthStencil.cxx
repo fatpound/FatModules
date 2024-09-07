@@ -24,7 +24,7 @@ namespace fatpound::win32::d3d11::pipeline::system
 			ID3D11DeviceContext* const pImmediateContext
 		)
 	{
-		::wrl::ComPtr<ID3D11DepthStencilState> pDSState = nullptr;
+		::wrl::ComPtr<ID3D11DepthStencilState> pDSState{};
 
 		const auto& descDSS = factory::DepthStencilState::CreateDESC();
 		factory::DepthStencilState::Create(pDevice, descDSS, pDSState);

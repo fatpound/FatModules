@@ -26,7 +26,7 @@ namespace fatpound::win32::d2d
     {
         HRESULT hr;
         
-        wrl::ComPtr<ID2D1Factory> pFactory = nullptr;
+        wrl::ComPtr<ID2D1Factory> pFactory{};
 
         hr = D2D1CreateFactory<ID2D1Factory>(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pFactory);
 

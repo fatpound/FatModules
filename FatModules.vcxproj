@@ -123,6 +123,9 @@
     <ClCompile Include="Win32_\DirectX\D3D11\Visual\ViewXM.ixx" />
     <ClCompile Include="Win32_\DirectX\D3D11\Visual\Visual.ixx" />
     <ClCompile Include="Win32_\DirectX\DirectX.ixx" />
+    <ClCompile Include="Win32_\DirectX\DXGI\DXGI.ixx" />
+    <ClCompile Include="Win32_\DirectX\DXGI\Util\Util.cxx" />
+    <ClCompile Include="Win32_\DirectX\DXGI\Util\Util.ixx" />
     <ClCompile Include="Win32_\IO\IO.ixx" />
     <ClCompile Include="Win32_\IO\Keyboard.cxx" />
     <ClCompile Include="Win32_\IO\Keyboard.ixx" />

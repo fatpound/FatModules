@@ -19,6 +19,8 @@ import FatPound.Win32.D3D11.Pipeline;
 import FatPound.Win32.D3D11.Visual;
 import FatPound.Win32.D3D11.Factory;
 
+import FatPound.Win32.DXGI;
+
 import FatPound.Math;
 import FatPound.Util;
 
@@ -311,17 +313,6 @@ export namespace fatpound::win32::d3d11
 
         void ToggleAltEnterMode_()
         {
-            ::wrl::ComPtr<IDXGIFactory> pDXGIFactory = nullptr;
-            
-            {
-                ::wrl::ComPtr<IDXGIDevice> pDXGIDevice = nullptr;
-                m_res_pack_.m_pDevice->QueryInterface(__uuidof(IDXGIDevice), &pDXGIDevice);
-
-                ::wrl::ComPtr<IDXGIAdapter> pDXGIAdapter = nullptr;
-                pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), &pDXGIAdapter);
-                pDXGIAdapter->GetParent(__uuidof(IDXGIFactory), &pDXGIFactory);
-            }
-
             static UINT flag = 0u;
 
             static constexpr auto magic_value = static_cast<UINT>(DXGI_MWA_NO_ALT_ENTER);
@@ -340,7 +331,7 @@ export namespace fatpound::win32::d3d11
 
             const auto& hWnd = desc.OutputWindow;
 
-            pDXGIFactory->MakeWindowAssociation(hWnd, flag);
+            NAMESPACE_DXGI::util::GetFactory(GetDevice())->MakeWindowAssociation(hWnd, flag);
         }
 
         void ClearBuffer_(const float red, const float green, const float blue)
@@ -353,14 +344,14 @@ export namespace fatpound::win32::d3d11
 
 
     private:
-        GraphicsResourcePack m_res_pack_;
+        GraphicsResourcePack m_res_pack_{};
 
-        visual::ViewXM m_viewXM_;
+        visual::ViewXM m_viewXM_{};
 
-        const ScreenSizeInfo m_dimensions_;
+        const ScreenSizeInfo m_dimensions_{};
 
-        UINT m_msaa_count_;
-        UINT m_msaa_quality_;
+        UINT m_msaa_count_{};
+        UINT m_msaa_quality_{};
 
         static constexpr auto s_rasterizationEnabled_ = std::conditional_t<Framework, std::false_type, std::true_type>::value;
     };

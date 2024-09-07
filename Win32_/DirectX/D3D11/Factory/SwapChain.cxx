@@ -24,16 +24,7 @@ namespace fatpound::win32::d3d11::factory
             ::wrl::ComPtr<IDXGISwapChain>& pSwapChain
         )
     {
-        ::wrl::ComPtr<IDXGIDevice> pDXGIDevice = nullptr;
-        pDevice->QueryInterface(__uuidof(IDXGIDevice), &pDXGIDevice);
-
-        ::wrl::ComPtr<IDXGIAdapter> pDXGIAdapter = nullptr;
-        pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), &pDXGIAdapter);
-
-        ::wrl::ComPtr<IDXGIFactory> pDXGIFactory = nullptr;
-        pDXGIAdapter->GetParent(__uuidof(IDXGIFactory), &pDXGIFactory);
-
-        const auto& hr = pDXGIFactory->CreateSwapChain(
+        const auto& hr = NAMESPACE_DXGI::util::GetFactory(pDevice)->CreateSwapChain(
             pDevice,
             &desc,
             pSwapChain.GetAddressOf()

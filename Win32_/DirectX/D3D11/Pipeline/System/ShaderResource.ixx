@@ -58,7 +58,7 @@ export namespace fatpound::win32::d3d11::pipeline::system
 			const auto& t2dDesc = factory::Texture2D::CreateDESC<ForFramework>(gfxDimensions, msaaCount, msaaQuality);
 			factory::Texture2D::Create(pDevice, t2dDesc, pSysBufferTexture);
 
-			::wrl::ComPtr<ID3D11ShaderResourceView> pSysBufferTextureView_ = nullptr;
+			::wrl::ComPtr<ID3D11ShaderResourceView> pSysBufferTextureView_{};
 
 			const auto& srvDesc = factory::ShaderResourceView::CreateDESC<ForFramework>(t2dDesc.Format, msaaCount);
 			factory::ShaderResourceView::Create(pDevice, pSysBufferTexture.Get(), srvDesc, pSysBufferTextureView_);

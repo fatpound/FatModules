@@ -66,7 +66,7 @@ export namespace fatpound::win32::d3d11::pipeline::system
 		{
 			factory::RenderTargetView::Create(pSwapChain, pDevice, pRenderTargetView);
 			
-			::wrl::ComPtr<ID3D11Texture2D> pTexture2D = nullptr;
+			::wrl::ComPtr<ID3D11Texture2D> pTexture2D{};
 
 			const auto& descTex2D = factory::Texture2D::CreateDESC(gfxDimensions, msaaCount, msaaQuality);
 			factory::Texture2D::Create(pDevice, descTex2D, pTexture2D);

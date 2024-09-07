@@ -22,7 +22,7 @@ namespace fatpound::win32::d3d11::pipeline::system
             ID3D11DeviceContext* const pImmediateContext
         )
     {
-        ::wrl::ComPtr<ID3D11SamplerState> pSamplerState_ = nullptr;
+        ::wrl::ComPtr<ID3D11SamplerState> pSamplerState_{};
 
         const auto& sampDesc = factory::SamplerState::CreateDESC();
 

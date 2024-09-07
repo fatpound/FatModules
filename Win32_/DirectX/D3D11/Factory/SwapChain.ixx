@@ -11,6 +11,8 @@ export module FatPound.Win32.D3D11.Factory:SwapChain;
 
 import FatPound.Win32.D3D11.Graphics.ResourcePack;
 
+import FatPound.Win32.DXGI;
+
 import FatPound.Util;
 
 import std;

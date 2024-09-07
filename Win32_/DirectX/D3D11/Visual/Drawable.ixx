@@ -44,7 +44,7 @@ export namespace fatpound::win32::d3d11::visual
 
 
     protected:
-        const NAMESPACE_PIPELINE_ELEMENT::IndexBuffer* pCIndexBuffer_ = nullptr;
+        const NAMESPACE_PIPELINE_ELEMENT::IndexBuffer* pCIndexBuffer_{};
 
 
     private:

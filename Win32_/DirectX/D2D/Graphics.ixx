@@ -54,7 +54,7 @@ export namespace fatpound::win32::d2d
         
         
     private:
-        Microsoft::WRL::ComPtr<ID2D1HwndRenderTarget> pRenderTarget_   = nullptr;
-        Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>  pBrush_          = nullptr;
+        Microsoft::WRL::ComPtr<ID2D1HwndRenderTarget> pRenderTarget_{};
+        Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>  pBrush_{};
     };
 }

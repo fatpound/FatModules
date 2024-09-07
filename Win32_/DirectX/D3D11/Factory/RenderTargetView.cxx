@@ -27,7 +27,7 @@ namespace fatpound::win32::d3d11::factory
             ::wrl::ComPtr<ID3D11RenderTargetView>& pRenderTargetView
         )
     {
-        ::wrl::ComPtr<ID3D11Texture2D> pBackBufferTexture = nullptr;
+        ::wrl::ComPtr<ID3D11Texture2D> pBackBufferTexture{};
 
         HRESULT hr;
 

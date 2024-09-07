@@ -38,7 +38,7 @@ export namespace fatpound::win32::d3d11::visual
 
 
     private:
-        ::DirectX::XMMATRIX m_camera_;
-        ::DirectX::XMMATRIX m_projection_;
+        ::DirectX::XMMATRIX m_camera_{};
+        ::DirectX::XMMATRIX m_projection_{};
     };
 }

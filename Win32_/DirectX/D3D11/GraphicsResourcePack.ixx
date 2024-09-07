@@ -17,16 +17,16 @@ export namespace fatpound::win32::d3d11
 {
     struct GraphicsResourcePack final
     {
-        ::Microsoft::WRL::ComPtr<IDXGISwapChain>         m_pSwapChain        = nullptr;
-        ::Microsoft::WRL::ComPtr<ID3D11Device>           m_pDevice           = nullptr;
-        ::Microsoft::WRL::ComPtr<ID3D11DeviceContext>    m_pImmediateContext = nullptr;
-        ::Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_pRTV              = nullptr;
-        ::Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_pDSV              = nullptr;
+        ::Microsoft::WRL::ComPtr<IDXGISwapChain>         m_pSwapChain{};
+        ::Microsoft::WRL::ComPtr<ID3D11Device>           m_pDevice{};
+        ::Microsoft::WRL::ComPtr<ID3D11DeviceContext>    m_pImmediateContext{};
+        ::Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_pRTV{};
+        ::Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_pDSV{};
 
-        ::Microsoft::WRL::ComPtr<ID3D11Texture2D> m_pSysBufferTexture = nullptr;
+        ::Microsoft::WRL::ComPtr<ID3D11Texture2D> m_pSysBufferTexture{};
 
-        D3D11_MAPPED_SUBRESOURCE m_mappedSysBufferTexture = {};
+        D3D11_MAPPED_SUBRESOURCE m_mappedSysBufferTexture{};
 
-        NAMESPACE_UTIL::Color* m_pSysBuffer = nullptr;
+        NAMESPACE_UTIL::Color* m_pSysBuffer{};
     };
 }
