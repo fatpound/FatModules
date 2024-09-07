@@ -48,6 +48,10 @@ export namespace fatpound::win32::d3d11::pipeline::system
 			);
 		}
 
+
+#pragma warning (push)
+#pragma warning (disable : 26460 26417)
+
 		template <bool ForFramework = false>
 		static void SetDefault(
 				IDXGISwapChain* const pSwapChain,
@@ -75,6 +79,8 @@ export namespace fatpound::win32::d3d11::pipeline::system
 
 			pImmediateContext->OMSetRenderTargets(1u, pRenderTargetView.GetAddressOf(), pDSV.Get());
 		}
+
+#pragma warning (pop)
 
 
 	protected:
