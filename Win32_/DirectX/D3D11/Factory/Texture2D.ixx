@@ -43,11 +43,11 @@ export namespace fatpound::win32::d3d11::factory
             desc.Height = gfxDimensions.m_height;
             desc.MipLevels = 1u;
             desc.ArraySize = 1u;
-            desc.SampleDesc.Count = msaaCount;
-            desc.SampleDesc.Quality = msaaQuality - 1u;
 
             if constexpr (ForShaderResource)
             {
+                desc.SampleDesc.Count = 1;
+                desc.SampleDesc.Quality = 0;
                 desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
                 desc.Usage = D3D11_USAGE_DYNAMIC;
                 desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
@@ -55,6 +55,8 @@ export namespace fatpound::win32::d3d11::factory
             }
             else
             {
+                desc.SampleDesc.Count = msaaCount;
+                desc.SampleDesc.Quality = msaaQuality - 1u;
                 desc.Format = DXGI_FORMAT_D32_FLOAT;
                 desc.Usage = D3D11_USAGE_DEFAULT;
                 desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
