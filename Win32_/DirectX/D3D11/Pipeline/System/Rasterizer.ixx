@@ -21,8 +21,8 @@ export namespace fatpound::win32::d3d11::pipeline::system
 		explicit Rasterizer(const Rasterizer& src) = delete;
 		explicit Rasterizer(Rasterizer&& src) = delete;
 
-		Rasterizer& operator = (const Rasterizer& src) = delete;
-		Rasterizer& operator = (Rasterizer&& src) = delete;
+		auto operator = (const Rasterizer& src) -> Rasterizer& = delete;
+		auto operator = (Rasterizer&& src)      -> Rasterizer& = delete;
 		~Rasterizer() noexcept = delete;
 
 

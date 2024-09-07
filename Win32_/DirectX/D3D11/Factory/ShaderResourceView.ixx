@@ -21,8 +21,8 @@ export namespace fatpound::win32::d3d11::factory
         explicit ShaderResourceView(const ShaderResourceView& src) = delete;
         explicit ShaderResourceView(ShaderResourceView&& src) = delete;
 
-        ShaderResourceView& operator = (const ShaderResourceView& src) = delete;
-        ShaderResourceView& operator = (ShaderResourceView&& src) = delete;
+        auto operator = (const ShaderResourceView& src) -> ShaderResourceView& = delete;
+        auto operator = (ShaderResourceView&& src)      -> ShaderResourceView& = delete;
         ~ShaderResourceView() noexcept = delete;
 
 

@@ -32,19 +32,20 @@ namespace fatpound::win32::io
         return 0;
     }
 
-    bool Keyboard::KeyIsPressed(unsigned char keycode) const noexcept
+    auto Keyboard::KeyIsPressed(unsigned char keycode) const noexcept -> bool
     {
         return m_key_states_[keycode];
     }
-    bool Keyboard::KeyBufferIsEmpty() const noexcept
+
+    auto Keyboard::KeyBufferIsEmpty()    const noexcept -> bool
     {
         return m_event_buffer_.empty();
     }
-    bool Keyboard::CharBufferIsEmpty() const noexcept
+    auto Keyboard::CharBufferIsEmpty()   const noexcept -> bool
     {
         return m_char_buffer_.empty();
     }
-    bool Keyboard::AutoRepeatIsEnabled() const noexcept
+    auto Keyboard::AutoRepeatIsEnabled() const noexcept -> bool
     {
         return m_auto_repeat_enabled_;
     }
@@ -102,7 +103,7 @@ namespace fatpound::win32::io
 
     // Event
 
-    Keyboard::Event::Event(Type type, unsigned char code) noexcept
+    Keyboard::Event::Event(const Type type, const unsigned char code) noexcept
         :
         m_type_(type),
         m_code_(code)
@@ -110,20 +111,20 @@ namespace fatpound::win32::io
 
     }
 
-    unsigned char Keyboard::Event::GetCode() const noexcept
+    auto Keyboard::Event::GetCode() const noexcept -> unsigned char
     {
         return m_code_;
     }
 
-    bool Keyboard::Event::IsPress() const noexcept
+    auto Keyboard::Event::IsPress()   const noexcept -> bool
     {
         return m_type_ == Type::Press;
     }
-    bool Keyboard::Event::IsRelease() const noexcept
+    auto Keyboard::Event::IsRelease() const noexcept -> bool
     {
         return m_type_ == Type::Release;
     }
-    bool Keyboard::Event::IsInvalid() const noexcept
+    auto Keyboard::Event::IsInvalid() const noexcept -> bool
     {
         return m_type_ == Type::Invalid;
     }

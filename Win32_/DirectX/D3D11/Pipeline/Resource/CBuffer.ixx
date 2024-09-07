@@ -31,7 +31,12 @@ export namespace fatpound::win32::d3d11::pipeline::resource
             D3D11_SUBRESOURCE_DATA csd = {};
             csd.pSysMem = &consts;
 
-            pDevice->CreateBuffer(&cbd, &csd, &m_pConstantBuffer_);
+            const auto& hr = pDevice->CreateBuffer(&cbd, &csd, &m_pConstantBuffer_);
+
+            if (FAILED(hr))
+            {
+                throw std::runtime_error{ "Could NOT Create Direct3D Buffer in function: " __FUNCSIG__};
+            }
         }
         explicit CBuffer(ID3D11Device* pDevice)
         {
@@ -43,15 +48,20 @@ export namespace fatpound::win32::d3d11::pipeline::resource
             cbd.ByteWidth = sizeof(T);
             cbd.StructureByteStride = 0u;
 
-            pDevice->CreateBuffer(&cbd, nullptr, &m_pConstantBuffer_);
+            const auto& hr = pDevice->CreateBuffer(&cbd, nullptr, &m_pConstantBuffer_);
+
+            if (FAILED(hr))
+            {
+                throw std::runtime_error{ "Could NOT Create Direct3D Buffer in function: " __FUNCSIG__ };
+            }
         }
 
         explicit CBuffer() = delete;
         explicit CBuffer(const CBuffer& src) = delete;
         explicit CBuffer(CBuffer&& src) = delete;
 
-        CBuffer& operator = (const CBuffer& src) = delete;
-        CBuffer& operator = (CBuffer&& src) = delete;
+        auto operator = (const CBuffer& src) -> CBuffer& = delete;
+        auto operator = (CBuffer&& src)      -> CBuffer& = delete;
         virtual ~CBuffer() noexcept = default;
 
 

@@ -24,8 +24,8 @@ export namespace fatpound::win32::d3d11::factory
         explicit Texture2D(const Texture2D& src) = delete;
         explicit Texture2D(Texture2D&& src) = delete;
 
-        Texture2D& operator = (const Texture2D& src) = delete;
-        Texture2D& operator = (Texture2D&& src) = delete;
+        auto operator = (const Texture2D& src) -> Texture2D& = delete;
+        auto operator = (Texture2D&& src)      -> Texture2D& = delete;
         ~Texture2D() noexcept = delete;
 
 

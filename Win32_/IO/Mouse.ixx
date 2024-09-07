@@ -46,40 +46,40 @@ export namespace fatpound::win32::io
             };
 
         public:
-            explicit Event(Type type, const Mouse& parent) noexcept;
+            explicit Event(const Type type, const Mouse& parent) noexcept;
 
             explicit Event() = default;
             Event(const Event& src) = default;
             Event(Event&& src) = default;
 
-            Event& operator = (const Event& src) = default;
-            Event& operator = (Event&& src) = default;
+            auto operator = (const Event& src) -> Event& = default;
+            auto operator = (Event&& src)      -> Event& = default;
             ~Event() = default;
 
         public:
             auto GetPos() const noexcept -> std::pair<int, int>;
 
-            Type GetType() const noexcept;
+            auto GetType() const noexcept -> Type;
 
-            int GetPosX() const noexcept;
-            int GetPosY() const noexcept;
+            auto GetPosX() const noexcept -> int;
+            auto GetPosY() const noexcept -> int;
 
-            bool IsValid() const noexcept;
-            bool LeftIsPressed() const noexcept;
-            bool RightIsPressed() const noexcept;
-            bool WheelIsPressed() const noexcept;
+            auto IsValid()        const noexcept -> bool;
+            auto LeftIsPressed()  const noexcept -> bool;
+            auto RightIsPressed() const noexcept -> bool;
+            auto WheelIsPressed() const noexcept -> bool;
 
         protected:
 
         private:
-            Type type_ = Type::Invalid;
+            Type type_{ Type::Invalid };
 
             int x_{};
             int y_{};
 
-            bool  left_is_pressed_{false};
-            bool right_is_pressed_{false};
-            bool wheel_is_pressed_{false};
+            bool left_is_pressed_{};
+            bool right_is_pressed_{};
+            bool wheel_is_pressed_{};
         };
 
 
@@ -88,8 +88,8 @@ export namespace fatpound::win32::io
         explicit Mouse(const Mouse& src) = delete;
         explicit Mouse(Mouse&& src) = delete;
 
-        Mouse& operator = (const Mouse& src) = delete;
-        Mouse& operator = (Mouse&& src) = delete;
+        auto operator = (const Mouse& src) -> Mouse& = delete;
+        auto operator = (Mouse&& src)      -> Mouse& = delete;
         ~Mouse() noexcept = default;
 
 
@@ -98,17 +98,17 @@ export namespace fatpound::win32::io
 
         auto ReadRawDelta() noexcept -> std::optional<RawDelta>;
 
-        Event ReadFromBuffer() noexcept;
+        auto ReadFromBuffer() noexcept -> Event;
 
-        int GetPosX() const noexcept;
-        int GetPosY() const noexcept;
+        auto GetPosX() const noexcept -> int;
+        auto GetPosY() const noexcept -> int;
 
-        bool EventBufferIsEmpty() const noexcept;
-        bool IsInWindow() const noexcept;
+        auto EventBufferIsEmpty() const noexcept -> bool;
 
-        bool  LeftIsPressed() const noexcept;
-        bool RightIsPressed() const noexcept;
-        bool WheelIsPressed() const noexcept;
+        auto IsInWindow()     const noexcept -> bool;
+        auto LeftIsPressed()  const noexcept -> bool;
+        auto RightIsPressed() const noexcept -> bool;
+        auto WheelIsPressed() const noexcept -> bool;
 
         void FlushBuffer() noexcept;
 
@@ -147,7 +147,7 @@ export namespace fatpound::win32::io
 
         bool m_is_in_window_ = false;
 
-        bool  m_left_is_pressed_ = false;
+        bool m_left_is_pressed_  = false;
         bool m_right_is_pressed_ = false;
         bool m_wheel_is_pressed_ = false;
 

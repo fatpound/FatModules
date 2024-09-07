@@ -24,8 +24,8 @@ export namespace fatpound::win32::d3d11::pipeline::system
 		explicit ShaderResource(const ShaderResource& src) = delete;
 		explicit ShaderResource(ShaderResource&& src) = delete;
 
-		ShaderResource& operator = (const ShaderResource& src) = delete;
-		ShaderResource& operator = (ShaderResource&& src) = delete;
+		auto operator = (const ShaderResource& src) -> ShaderResource& = delete;
+		auto operator = (ShaderResource&& src)      -> ShaderResource& = delete;
 		~ShaderResource() noexcept = delete;
 
 

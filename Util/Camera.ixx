@@ -21,18 +21,18 @@ export namespace fatpound::util
         explicit Camera(const Camera& src) = delete;
         explicit Camera(Camera&& src) = delete;
 
-        Camera& operator = (const Camera& src) = delete;
-        Camera& operator = (Camera&& src) = delete;
+        auto operator = (const Camera& src) -> Camera& = delete;
+        auto operator = (Camera&& src)      -> Camera& = delete;
         ~Camera() noexcept = default;
 
 
     public:
         auto GetMatrix() const noexcept -> ::DirectX::XMMATRIX;
 
-        float GetR() const noexcept;
-        float GetX() const noexcept;
-        float GetY() const noexcept;
-        float GetZ() const noexcept;
+        auto GetR() const noexcept -> float;
+        auto GetX() const noexcept -> float;
+        auto GetY() const noexcept -> float;
+        auto GetZ() const noexcept -> float;
 
         void SetR(float r) noexcept;
         void SetX(float x) noexcept;

@@ -33,19 +33,19 @@ namespace fatpound::util
         return look;
     }
 
-    float Camera::GetR() const noexcept
+    auto Camera::GetR() const noexcept -> float
     {
         return r_;
     }
-    float Camera::GetX() const noexcept
+    auto Camera::GetX() const noexcept -> float
     {
         return x_;
     }
-    float Camera::GetY() const noexcept
+    auto Camera::GetY() const noexcept -> float
     {
         return y_;
     }
-    float Camera::GetZ() const noexcept
+    auto Camera::GetZ() const noexcept -> float
     {
         return z_;
     }

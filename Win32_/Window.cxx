@@ -107,11 +107,11 @@ namespace fatpound::win32
         return m_hWnd_;
     }
 
-    bool Window::IsActive() const noexcept
+    auto Window::IsActive()    const noexcept -> bool
     {
         return ::GetActiveWindow() == m_hWnd_;
     }
-    bool Window::IsMinimized() const noexcept
+    auto Window::IsMinimized() const noexcept -> bool
     {
         return ::IsIconic(m_hWnd_) not_eq 0;
     }
@@ -123,7 +123,7 @@ namespace fatpound::win32
             throw std::runtime_error("Could NOT set the Window Text!");
         }
     }
-    void Window::ShowMessageBox(const std::wstring& message, const std::wstring& title, UINT error_flags) noexcept
+    void Window::ShowMessageBox(const std::wstring& message, const std::wstring& title, const UINT error_flags) noexcept
     {
         ::MessageBox(m_hWnd_, message.c_str(), title.c_str(), error_flags);
     }
@@ -291,7 +291,7 @@ namespace fatpound::win32
 
         ::RegisterClassEx(&wc);
     }
-    Window::WndClass_::~WndClass_()
+    Window::WndClass_::~WndClass_() noexcept
     {
         ::UnregisterClass(s_wndClassName_, WndClass_::GetInstance());
     }

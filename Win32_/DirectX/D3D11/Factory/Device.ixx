@@ -19,8 +19,8 @@ export namespace fatpound::win32::d3d11::factory
         explicit Device(const Device& src) = delete;
         explicit Device(Device&& src) = delete;
 
-        Device& operator = (const Device& src) = delete;
-        Device& operator = (Device&& src) = delete;
+        auto operator = (const Device& src) -> Device& = delete;
+        auto operator = (Device&& src)      -> Device& = delete;
         ~Device() noexcept = delete;
 
 

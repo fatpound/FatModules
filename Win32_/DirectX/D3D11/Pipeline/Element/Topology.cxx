@@ -8,7 +8,7 @@ module FatPound.Win32.D3D11.Pipeline.Element:Topology;
 
 namespace fatpound::win32::d3d11::pipeline::element
 {
-    Topology::Topology(D3D11_PRIMITIVE_TOPOLOGY type) noexcept
+    Topology::Topology(const D3D11_PRIMITIVE_TOPOLOGY type) noexcept
         :
         m_type_(type)
     {

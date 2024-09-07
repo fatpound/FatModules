@@ -21,8 +21,8 @@ export namespace fatpound::win32::d3d11::factory
         explicit SamplerState(const SamplerState& src) = delete;
         explicit SamplerState(SamplerState&& src) = delete;
 
-        SamplerState& operator = (const SamplerState& src) = delete;
-        SamplerState& operator = (SamplerState&& src) = delete;
+        auto operator = (const SamplerState& src) -> SamplerState& = delete;
+        auto operator = (SamplerState&& src)      -> SamplerState& = delete;
         ~SamplerState() noexcept = delete;
 
 

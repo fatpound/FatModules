@@ -19,14 +19,14 @@ export namespace fatpound::win32::d2d
     class Graphics final
     {
     public:
-        Graphics(HWND hWnd, const NAMESPACE_UTIL::ScreenSizeInfo& dimensions);
+        explicit Graphics(HWND hWnd, const NAMESPACE_UTIL::ScreenSizeInfo& dimensions);
 
-        Graphics() = delete;
-        Graphics(const Graphics& src) = delete;
-        Graphics(Graphics&& src) = delete;
+        explicit Graphics() = delete;
+        explicit Graphics(const Graphics& src) = delete;
+        explicit Graphics(Graphics&& src) = delete;
 
-        Graphics& operator = (const Graphics& src) = delete;
-        Graphics& operator = (Graphics&& src) = delete;
+        auto operator = (const Graphics& src) -> Graphics& = delete;
+        auto operator = (Graphics&& src)      -> Graphics& = delete;
         ~Graphics() noexcept = default;
 
 

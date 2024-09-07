@@ -27,8 +27,8 @@ export namespace fatpound::win32
         explicit Window(const Window& src) = delete;
         explicit Window(Window&& src) = delete;
 
-        Window& operator = (const Window& src) = delete;
-        Window& operator = (Window&& src) = delete;
+        auto operator = (const Window& src) -> Window& = delete;
+        auto operator = (Window&& src)      -> Window& = delete;
         ~Window() noexcept;
 
 
@@ -42,11 +42,11 @@ export namespace fatpound::win32
 
         auto GetHwnd() const noexcept -> HWND;
 
-        bool IsActive() const noexcept;
-        bool IsMinimized() const noexcept;
+        auto IsActive()    const noexcept -> bool;
+        auto IsMinimized() const noexcept -> bool;
 
         void SetTitle(const std::wstring& title);
-        void ShowMessageBox(const std::wstring& message, const std::wstring& title, UINT error_flags) noexcept;
+        void ShowMessageBox(const std::wstring& message, const std::wstring& title, const UINT error_flags) noexcept;
         void Kill() noexcept;
 
 
@@ -82,9 +82,9 @@ export namespace fatpound::win32
             explicit WndClass_(const WndClass_& src) = delete;
             explicit WndClass_(WndClass_&& src) = delete;
 
-            WndClass_& operator = (const WndClass_& src) = delete;
-            WndClass_& operator = (WndClass_&& src) = delete;
-            ~WndClass_();
+            auto operator = (const WndClass_& src) -> WndClass_& = delete;
+            auto operator = (WndClass_&& src)      -> WndClass_& = delete;
+            ~WndClass_() noexcept;
 
         private:
             HINSTANCE m_hInst_;

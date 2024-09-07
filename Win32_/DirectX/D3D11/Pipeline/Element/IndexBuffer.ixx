@@ -23,8 +23,8 @@ export namespace fatpound::win32::d3d11::pipeline::element
         explicit IndexBuffer(const IndexBuffer& src) = delete;
         explicit IndexBuffer(IndexBuffer&& src) = delete;
 
-        IndexBuffer& operator = (const IndexBuffer& src) = delete;
-        IndexBuffer& operator = (IndexBuffer&& src) = delete;
+        auto operator = (const IndexBuffer& src) -> IndexBuffer& = delete;
+        auto operator = (IndexBuffer&& src)      -> IndexBuffer& = delete;
         virtual ~IndexBuffer() noexcept final = default;
 
 

@@ -17,12 +17,16 @@ export namespace fatpound::win32::d3d11::visual
     class Drawable
     {
     public:
+        using bind_vec_t = std::vector<std::unique_ptr<NAMESPACE_PIPELINE::Bindable>>;
+
+
+    public:
         explicit Drawable() = default;
         explicit Drawable(const Drawable& src) = delete;
         explicit Drawable(Drawable&& src) = delete;
 
-        Drawable& operator = (const Drawable& src) = delete;
-        Drawable& operator = (Drawable&& src) = delete;
+        auto operator = (const Drawable& src) -> Drawable& = delete;
+        auto operator = (Drawable&& src)      -> Drawable& = delete;
         virtual ~Drawable() noexcept = default;
 
 
@@ -44,10 +48,10 @@ export namespace fatpound::win32::d3d11::visual
 
 
     private:
-        virtual auto GetStaticBinds_() const noexcept(IN_RELEASE) -> const std::vector<std::unique_ptr<NAMESPACE_PIPELINE::Bindable>>& = 0;
+        virtual auto GetStaticBinds_() const noexcept(IN_RELEASE) -> const bind_vec_t & = 0;
 
 
     private:
-        std::vector<std::unique_ptr<NAMESPACE_PIPELINE::Bindable>> m_binds_;
+        bind_vec_t m_binds_;
     };
 }

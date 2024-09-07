@@ -24,8 +24,8 @@ export namespace fatpound::win32::d3d11::pipeline::system
 		explicit Viewport(const Viewport& src) = delete;
 		explicit Viewport(Viewport&& src) = delete;
 
-		Viewport& operator = (const Viewport& src) = delete;
-		Viewport& operator = (Viewport&& src) = delete;
+		auto operator = (const Viewport& src) -> Viewport& = delete;
+		auto operator = (Viewport&& src)      -> Viewport& = delete;
 		~Viewport() noexcept = delete;
 
 

@@ -22,8 +22,8 @@ export namespace fatpound::win32::d3d11::factory
         explicit SwapChain(const SwapChain& src) = delete;
         explicit SwapChain(SwapChain&& src) = delete;
 
-        SwapChain& operator = (const SwapChain& src) = delete;
-        SwapChain& operator = (SwapChain&& src) = delete;
+        auto operator = (const SwapChain& src) -> SwapChain& = delete;
+        auto operator = (SwapChain&& src)      -> SwapChain& = delete;
         ~SwapChain() noexcept = delete;
 
 

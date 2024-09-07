@@ -19,7 +19,7 @@ export namespace fatpound::util
 
 
     public:
-        auto Mark()       noexcept -> float;
+        auto Mark() noexcept -> float;
         
         [[nodiscard]]
         auto Peek() const noexcept -> float;

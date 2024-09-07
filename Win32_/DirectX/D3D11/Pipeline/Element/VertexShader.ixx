@@ -23,8 +23,8 @@ export namespace fatpound::win32::d3d11::pipeline::element
         explicit VertexShader(const VertexShader& src) = delete;
         explicit VertexShader(VertexShader&& src) = delete;
 
-        VertexShader& operator = (const VertexShader& src) = delete;
-        VertexShader& operator = (VertexShader&& src) = delete;
+        auto operator = (const VertexShader& src) -> VertexShader& = delete;
+        auto operator = (VertexShader&& src)      -> VertexShader& = delete;
         virtual ~VertexShader() noexcept final = default;
 
 

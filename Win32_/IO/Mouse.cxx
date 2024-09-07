@@ -39,33 +39,33 @@ namespace fatpound::win32::io
         return Event{};
     }
 
-    int Mouse::GetPosX() const noexcept
+    auto Mouse::GetPosX() const noexcept -> int
     {
         return m_x_;
     }
-    int Mouse::GetPosY() const noexcept
+    auto Mouse::GetPosY() const noexcept -> int
     {
         return m_y_;
     }
 
-    bool Mouse::EventBufferIsEmpty() const noexcept
+    auto Mouse::EventBufferIsEmpty() const noexcept -> bool
     {
         return m_event_buffer_.empty();
     }
-    bool Mouse::IsInWindow() const noexcept
+
+    auto Mouse::IsInWindow()     const noexcept -> bool
     {
         return m_is_in_window_;
     }
-
-    bool Mouse::LeftIsPressed() const noexcept
+    auto Mouse::LeftIsPressed()  const noexcept -> bool
     {
         return m_left_is_pressed_;
     }
-    bool Mouse::RightIsPressed() const noexcept
+    auto Mouse::RightIsPressed() const noexcept -> bool
     {
         return m_right_is_pressed_;
     }
-    bool Mouse::WheelIsPressed() const noexcept
+    auto Mouse::WheelIsPressed() const noexcept -> bool
     {
         return m_wheel_is_pressed_;
     }
@@ -205,7 +205,7 @@ namespace fatpound::win32::io
 
     // Event
 
-    Mouse::Event::Event(Type type, const Mouse& parent) noexcept
+    Mouse::Event::Event(const Type type, const Mouse& parent) noexcept
         :
         type_(type),
         x_(parent.m_x_),
@@ -227,28 +227,28 @@ namespace fatpound::win32::io
         return type_;
     }
 
-    int Mouse::Event::GetPosX() const noexcept
+    auto Mouse::Event::GetPosX() const noexcept -> int
     {
         return x_;
     }
-    int Mouse::Event::GetPosY() const noexcept
+    auto Mouse::Event::GetPosY() const noexcept -> int
     {
         return y_;
     }
 
-    bool Mouse::Event::IsValid() const noexcept
+    auto Mouse::Event::IsValid() const noexcept -> bool
     {
         return type_ not_eq Type::Invalid;
     }
-    bool Mouse::Event::LeftIsPressed() const noexcept
+    auto Mouse::Event::LeftIsPressed()  const noexcept -> bool
     {
         return left_is_pressed_;
     }
-    bool Mouse::Event::RightIsPressed() const noexcept
+    auto Mouse::Event::RightIsPressed() const noexcept -> bool
     {
         return right_is_pressed_;
     }
-    bool Mouse::Event::WheelIsPressed() const noexcept
+    auto Mouse::Event::WheelIsPressed() const noexcept -> bool
     {
         return wheel_is_pressed_;
     }

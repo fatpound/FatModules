@@ -17,8 +17,8 @@ export namespace fatpound::win32::d3d11::factory
         explicit RenderTargetView(const RenderTargetView& src) = delete;
         explicit RenderTargetView(RenderTargetView&& src) = delete;
 
-        RenderTargetView& operator = (const RenderTargetView& src) = delete;
-        RenderTargetView& operator = (RenderTargetView&& src) = delete;
+        auto operator = (const RenderTargetView& src) -> RenderTargetView& = delete;
+        auto operator = (RenderTargetView&& src)      -> RenderTargetView& = delete;
         ~RenderTargetView() noexcept = delete;
 
 

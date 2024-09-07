@@ -19,8 +19,8 @@ export namespace fatpound::win32::d3d11::pipeline
         explicit StaticBindableVec(const StaticBindableVec& src) = delete;
         explicit StaticBindableVec(StaticBindableVec&& src) = delete;
 
-        StaticBindableVec& operator = (const StaticBindableVec& src) = delete;
-        StaticBindableVec& operator = (StaticBindableVec&& src) = delete;
+        auto operator = (const StaticBindableVec& src) -> StaticBindableVec& = delete;
+        auto operator = (StaticBindableVec&& src)      -> StaticBindableVec& = delete;
         ~StaticBindableVec() noexcept = default;
 
 
@@ -30,7 +30,7 @@ export namespace fatpound::win32::d3d11::pipeline
             return m_static_binds_;
         }
 
-        static bool IsStaticInitialized_() noexcept(IN_RELEASE)
+        static auto IsStaticInitialized_() noexcept(IN_RELEASE) -> bool
         {
             return not m_static_binds_.empty();
         }

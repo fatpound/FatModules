@@ -72,8 +72,8 @@ export namespace fatpound::win32::d3d11
         explicit Graphics(const Graphics& src) = delete;
         explicit Graphics(Graphics&& src) = delete;
 
-        Graphics& operator = (const Graphics& src) = delete;
-        Graphics& operator = (Graphics&& src) = delete;
+        auto operator = (const Graphics& src) -> Graphics& = delete;
+        auto operator = (Graphics&& src)      -> Graphics& = delete;
         ~Graphics() noexcept = default;
         ~Graphics() noexcept(false) requires(Framework)
         {

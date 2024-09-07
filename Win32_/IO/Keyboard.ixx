@@ -29,22 +29,22 @@ export namespace fatpound::win32::io
             };
 
         public:
-            explicit Event(Type type, unsigned char code) noexcept;
+            explicit Event(const Type type, const unsigned char code) noexcept;
 
             explicit Event() = default;
             Event(const Event& src) = default;
             Event(Event&& src) = default;
 
-            Event& operator = (const Event& src) = default;
-            Event& operator = (Event&& src) = default;
-            ~Event() = default;
+            auto operator = (const Event& src) -> Event& = default;
+            auto operator = (Event&& src)      -> Event& = default;
+            ~Event() noexcept = default;
 
         public:
-            unsigned char GetCode() const noexcept;
+            auto GetCode() const noexcept -> unsigned char;
 
-            bool IsPress() const noexcept;
-            bool IsRelease() const noexcept;
-            bool IsInvalid() const noexcept;
+            auto IsPress()   const noexcept -> bool;
+            auto IsRelease() const noexcept -> bool;
+            auto IsInvalid() const noexcept -> bool;
 
         protected:
 
@@ -60,25 +60,26 @@ export namespace fatpound::win32::io
         explicit Keyboard(const Keyboard& src) = delete;
         explicit Keyboard(Keyboard&& src) = delete;
 
-        Keyboard& operator = (const Keyboard& src) = delete;
-        Keyboard& operator = (Keyboard&& src) = delete;
+        auto operator = (const Keyboard& src) -> Keyboard& = delete;
+        auto operator = (Keyboard&& src)      -> Keyboard& = delete;
         ~Keyboard() noexcept = default;
 
 
     public:
-        Event ReadKeyFromBuffer() noexcept;
+        auto ReadKeyFromBuffer() noexcept -> Event;
 
         auto ReadCharFromBuffer() noexcept -> unsigned char;
 
-        bool KeyIsPressed(unsigned char keycode) const noexcept;
-        bool KeyBufferIsEmpty() const noexcept;
-        bool CharBufferIsEmpty() const noexcept;
-        bool AutoRepeatIsEnabled() const noexcept;
+        auto KeyIsPressed(const unsigned char keycode) const noexcept -> bool;
 
-        void FlushKeyBuffer() noexcept;
-        void FlushCharBuffer() noexcept;
-        void FlushBuffers() noexcept;
-        void EnableAutoRepeat() noexcept;
+        auto KeyBufferIsEmpty()    const noexcept -> bool;
+        auto CharBufferIsEmpty()   const noexcept -> bool;
+        auto AutoRepeatIsEnabled() const noexcept -> bool;
+
+        void FlushKeyBuffer()    noexcept;
+        void FlushCharBuffer()   noexcept;
+        void FlushBuffers()      noexcept;
+        void EnableAutoRepeat()  noexcept;
         void DisableAutoRepeat() noexcept;
 
 

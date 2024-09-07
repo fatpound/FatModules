@@ -22,8 +22,8 @@ export namespace fatpound::win32::d3d11::pipeline::system
 		explicit Sampler(const Sampler& src) = delete;
 		explicit Sampler(Sampler&& src) = delete;
 
-		Sampler& operator = (const Sampler& src) = delete;
-		Sampler& operator = (Sampler&& src) = delete;
+		auto operator = (const Sampler& src) -> Sampler& = delete;
+		auto operator = (Sampler&& src)      -> Sampler& = delete;
 		~Sampler() noexcept = delete;
 
 

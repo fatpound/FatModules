@@ -70,23 +70,19 @@ export namespace fatpound
                 dword = ((dword bitand 0xFF'FF'FF'00u) bitor static_cast<std::uint32_t>(blue));
             }
 
-            [[nodiscard]]
-            constexpr auto GetAlpha() const -> unsigned char
+            [[nodiscard]] constexpr auto GetAlpha() const -> unsigned char
             {
                 return dword >> 24u;
             }
-            [[nodiscard]]
-            constexpr auto GetR()     const -> unsigned char
+            [[nodiscard]] constexpr auto GetR()     const -> unsigned char
             {
                 return (dword >> 16u) bitand 0xFFu;
             }
-            [[nodiscard]]
-            constexpr auto GetG()     const -> unsigned char
+            [[nodiscard]] constexpr auto GetG()     const -> unsigned char
             {
                 return (dword >> 8u) bitand 0xFFu;
             }
-            [[nodiscard]]
-            constexpr auto GetB()     const -> unsigned char
+            [[nodiscard]] constexpr auto GetB()     const -> unsigned char
             {
                 return dword bitand 0xFFu;
             }

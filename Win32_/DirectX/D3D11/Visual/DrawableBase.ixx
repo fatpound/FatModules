@@ -21,8 +21,8 @@ export namespace fatpound::win32::d3d11::visual
         explicit DrawableBase(const DrawableBase& src) = delete;
         explicit DrawableBase(DrawableBase&& src) = delete;
 
-        DrawableBase& operator = (const DrawableBase& src) = delete;
-        DrawableBase& operator = (DrawableBase&& src) = delete;
+        auto operator = (const DrawableBase& src) -> DrawableBase& = delete;
+        auto operator = (DrawableBase&& src)      -> DrawableBase& = delete;
         virtual ~DrawableBase() noexcept = default;
 
 
@@ -56,7 +56,7 @@ export namespace fatpound::win32::d3d11::visual
 
 
     private:
-        virtual auto GetStaticBinds_() const noexcept(IN_RELEASE) -> const std::vector<std::unique_ptr<NAMESPACE_PIPELINE::Bindable>>& override
+        virtual auto GetStaticBinds_() const noexcept(IN_RELEASE) -> const bind_vec_t& override
         {
             return this->m_static_binds_;
         }
