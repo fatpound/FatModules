@@ -23,10 +23,10 @@ export namespace fatpound::win32::d3d11
         ::Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_pTarget           = nullptr;
         ::Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_pDSV              = nullptr;
 
-        [[maybe_unused]] ::Microsoft::WRL::ComPtr<ID3D11Texture2D> m_pSysBufferTexture = nullptr;
+        ::Microsoft::WRL::ComPtr<ID3D11Texture2D> m_pSysBufferTexture = nullptr;
 
-        [[maybe_unused]] D3D11_MAPPED_SUBRESOURCE m_mappedSysBufferTexture = {};
+        D3D11_MAPPED_SUBRESOURCE m_mappedSysBufferTexture = {};
 
-        [[maybe_unused]] NAMESPACE_UTIL::Color* m_pSysBuffer = nullptr;
+        NAMESPACE_UTIL::Color* m_pSysBuffer = nullptr;
     };
 }

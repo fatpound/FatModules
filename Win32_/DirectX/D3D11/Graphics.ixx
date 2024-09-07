@@ -55,7 +55,7 @@ export namespace fatpound::win32::d3d11
         {
             InitCommon_(hWnd);
 
-            pipeline::system::ShaderResource::SetDefault(m_res_pack_, m_dimensions_, m_msaaCount_, m_msaaQuality_);
+            pipeline::system::ShaderResource::SetDefault(m_res_pack_, m_dimensions_, m_msaa_count_, m_msaa_quality_);
             pipeline::system::Sampler::SetDefault(m_res_pack_);
 
             m_res_pack_.m_pSysBuffer = static_cast<Color*>(_aligned_malloc(sizeof(Color) * m_dimensions_.m_width * m_dimensions_.m_height, 16u));
@@ -222,7 +222,7 @@ export namespace fatpound::win32::d3d11
                 float v;
             };
 
-            inline static const std::vector<Vertex> vertices =
+            inline static const std::vector<const Vertex> vertices =
             {
                 Vertex{ -1.0f,  1.0f,  0.5f,  0.0f,  0.0f },
                 Vertex{  1.0f,  1.0f,  0.5f,  1.0f,  0.0f },
@@ -237,21 +237,21 @@ export namespace fatpound::win32::d3d11
     private:
         void InitMSAA_Settings_()
         {
-            constexpr std::array<UINT, 4> msaa_counts{ 32u, 16u, 8u, 4u };
+            constexpr std::array<const UINT, 4> msaa_counts{ 32u, 16u, 8u, 4u };
 
             for (auto i = 0u; i < msaa_counts.size(); ++i)
             {
-                m_res_pack_.m_pDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, msaa_counts[i], &m_msaaQuality_);
+                m_res_pack_.m_pDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, msaa_counts[i], &m_msaa_quality_);
 
-                if (m_msaaQuality_ > 0)
+                if (m_msaa_quality_ > 0)
                 {
-                    m_msaaCount_ = msaa_counts[i];
+                    m_msaa_count_ = msaa_counts[i];
 
                     break;
                 }
             }
 
-            if (m_msaaQuality_ <= 0)
+            if (m_msaa_quality_ <= 0)
             {
                 throw std::runtime_error{ "MSAA Quality is NOT valid!" };
             }
@@ -263,14 +263,14 @@ export namespace fatpound::win32::d3d11
                 factory::Device::Create(m_res_pack_);
 
                 InitMSAA_Settings_();
-
-                auto&& scdesc = factory::SwapChain::CreateDESC(hWnd, m_dimensions_, m_msaaCount_, m_msaaQuality_);
+                
+                auto&& scdesc = factory::SwapChain::CreateDESC(hWnd, m_dimensions_, m_msaa_count_, m_msaa_quality_);
                 factory::SwapChain::Create(m_res_pack_, scdesc);
             }
             
             ToggleAltEnterMode_();
 
-            pipeline::system::RenderTarget::SetDefault<Framework>(m_res_pack_, m_dimensions_, m_msaaCount_, m_msaaQuality_);
+            pipeline::system::RenderTarget::SetDefault<Framework>(m_res_pack_, m_dimensions_, m_msaa_count_, m_msaa_quality_);
             pipeline::system::Viewport::SetDefault(m_res_pack_, m_dimensions_);
         }
         void InitFramework_() requires(Framework)
@@ -312,7 +312,7 @@ export namespace fatpound::win32::d3d11
         void ToggleAltEnterMode_()
         {
             ::wrl::ComPtr<IDXGIFactory> pDXGIFactory = nullptr;
-
+            
             {
                 ::wrl::ComPtr<IDXGIDevice> pDXGIDevice = nullptr;
                 m_res_pack_.m_pDevice->QueryInterface(__uuidof(IDXGIDevice), &pDXGIDevice);
@@ -335,7 +335,7 @@ export namespace fatpound::win32::d3d11
                 flag or_eq magic_value;
             }
 
-            DXGI_SWAP_CHAIN_DESC desc = {};
+            DXGI_SWAP_CHAIN_DESC desc{};
             m_res_pack_.m_pSwapChain->GetDesc(&desc);
 
             const auto& hWnd = desc.OutputWindow;
@@ -345,7 +345,7 @@ export namespace fatpound::win32::d3d11
 
         void ClearBuffer_(const float red, const float green, const float blue)
         {
-            const std::array<float, 4> colors{ red, green, blue, 1.0f };
+            const std::array<const float, 4> colors{ red, green, blue, 1.0f };
 
             m_res_pack_.m_pImmediateContext->ClearRenderTargetView(m_res_pack_.m_pTarget.Get(), colors.data());
             m_res_pack_.m_pImmediateContext->ClearDepthStencilView(m_res_pack_.m_pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
@@ -359,10 +359,8 @@ export namespace fatpound::win32::d3d11
 
         const ScreenSizeInfo m_dimensions_;
 
-        UINT m_msaaCount_;
-        UINT m_msaaQuality_;
-
-        static constexpr auto s_max_msaaCount_ = std::conditional_t<Framework, std::integral_constant<UINT, 1u>, std::integral_constant<UINT, 16u>>::value;
+        UINT m_msaa_count_;
+        UINT m_msaa_quality_;
 
         static constexpr auto s_rasterizationEnabled_ = std::conditional_t<Framework, std::false_type, std::true_type>::value;
     };
