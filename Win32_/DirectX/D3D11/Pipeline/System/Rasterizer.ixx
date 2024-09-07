@@ -29,6 +29,11 @@ export namespace fatpound::win32::d3d11::pipeline::system
 	public:
 		static void SetDefault(const GraphicsResourcePack& gfxResPack);
 
+		static void SetDefault(
+			ID3D11Device* const pDevice,
+			ID3D11DeviceContext* const pImmediateContext
+		);
+
 
 	protected:
 

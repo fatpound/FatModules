@@ -27,9 +27,9 @@ export namespace fatpound::win32::d3d11::factory
 
 
     public:
-        static auto CreateDESC() -> D3D11_SAMPLER_DESC
+        static constexpr auto CreateDESC() noexcept -> D3D11_SAMPLER_DESC
         {
-            D3D11_SAMPLER_DESC desc = {};
+            D3D11_SAMPLER_DESC desc{};
             desc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
             desc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
             desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
@@ -45,8 +45,14 @@ export namespace fatpound::win32::d3d11::factory
     public:
         static void Create(
             const GraphicsResourcePack& gfxResPack,
-            ::Microsoft::WRL::ComPtr<ID3D11SamplerState>& pSamplerState,
-            D3D11_SAMPLER_DESC desc
+            D3D11_SAMPLER_DESC desc,
+            ::Microsoft::WRL::ComPtr<ID3D11SamplerState>& pSamplerState
+        );
+
+        static void Create(
+            ID3D11Device* const pDevice,
+            D3D11_SAMPLER_DESC desc,
+            ::Microsoft::WRL::ComPtr<ID3D11SamplerState>& pSamplerState
         );
 
 

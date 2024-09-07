@@ -18,7 +18,17 @@ namespace fatpound::win32::d3d11::factory
             const D3D11_DEPTH_STENCIL_VIEW_DESC& desc
         )
     {
-        const auto hr = gfxResPack.m_pDevice->CreateDepthStencilView(pDepthStencil.Get(), &desc, &gfxResPack.m_pDSV);
+        Create(gfxResPack.m_pDevice.Get(), pDepthStencil, desc, gfxResPack.m_pDSV);
+    }
+
+    void DepthStencilView::Create(
+            ID3D11Device* const pDevice,
+            const ::wrl::ComPtr<ID3D11Texture2D>& pDepthStencil,
+            const D3D11_DEPTH_STENCIL_VIEW_DESC& desc,
+            ::wrl::ComPtr<ID3D11DepthStencilView>& pDSV
+        )
+    {
+        const auto& hr = pDevice->CreateDepthStencilView(pDepthStencil.Get(), &desc, &pDSV);
 
         if (FAILED(hr)) [[unlikely]]
         {

@@ -29,7 +29,7 @@ export namespace fatpound::win32::d3d11::factory
     public:
         static constexpr auto CreateDESC(const UINT msaaCount) noexcept -> D3D11_DEPTH_STENCIL_VIEW_DESC
         {
-            D3D11_DEPTH_STENCIL_VIEW_DESC desc = {};
+            D3D11_DEPTH_STENCIL_VIEW_DESC desc{};
             desc.Format = DXGI_FORMAT_D32_FLOAT;
 
             if (msaaCount == 1u)
@@ -52,6 +52,13 @@ export namespace fatpound::win32::d3d11::factory
             GraphicsResourcePack& gfxResPack,
             const ::Microsoft::WRL::ComPtr<ID3D11Texture2D>& pDepthStencil,
             const D3D11_DEPTH_STENCIL_VIEW_DESC& desc
+        );
+
+        static void Create(
+            ID3D11Device* const pDevice,
+            const ::Microsoft::WRL::ComPtr<ID3D11Texture2D>& pDepthStencil,
+            const D3D11_DEPTH_STENCIL_VIEW_DESC& desc,
+            ::Microsoft::WRL::ComPtr<ID3D11DepthStencilView>& pDSV
         );
 
 

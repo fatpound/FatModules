@@ -29,7 +29,7 @@ export namespace fatpound::win32::d3d11::factory
     public:
         static constexpr auto CreateDESC() noexcept -> D3D11_RASTERIZER_DESC
         {
-            D3D11_RASTERIZER_DESC desc = {};
+            D3D11_RASTERIZER_DESC desc{};
             desc.FillMode = D3D11_FILL_SOLID;
             desc.CullMode = D3D11_CULL_BACK;
             desc.FrontCounterClockwise = false;
@@ -44,10 +44,18 @@ export namespace fatpound::win32::d3d11::factory
             return desc;
         }
 
+
+    public:
         static void Create(
             const GraphicsResourcePack& gfxResPack,
-            ::Microsoft::WRL::ComPtr<ID3D11RasterizerState>& pRasterizerState,
-            const D3D11_RASTERIZER_DESC& desc
+            const D3D11_RASTERIZER_DESC& desc,
+            ::Microsoft::WRL::ComPtr<ID3D11RasterizerState>& pRasterizerState
+        );
+
+        static void Create(
+            ID3D11Device* const pDevice,
+            const D3D11_RASTERIZER_DESC& desc,
+            ::Microsoft::WRL::ComPtr<ID3D11RasterizerState>& pRasterizerState
         );
 
 

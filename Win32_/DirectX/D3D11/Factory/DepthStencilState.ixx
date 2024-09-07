@@ -29,7 +29,7 @@ export namespace fatpound::win32::d3d11::factory
     public:
         static constexpr auto CreateDESC() noexcept -> D3D11_DEPTH_STENCIL_DESC
         {
-            D3D11_DEPTH_STENCIL_DESC desc = {};
+            D3D11_DEPTH_STENCIL_DESC desc{};
             desc.DepthEnable = true;
             desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
             desc.DepthFunc = D3D11_COMPARISON_LESS;
@@ -37,10 +37,18 @@ export namespace fatpound::win32::d3d11::factory
             return desc;
         }
 
+
+    public:
         static void Create(
             const GraphicsResourcePack& gfxResPack,
-            ::Microsoft::WRL::ComPtr<ID3D11DepthStencilState>& pDSState,
-            const D3D11_DEPTH_STENCIL_DESC& desc
+            const D3D11_DEPTH_STENCIL_DESC& desc,
+            ::Microsoft::WRL::ComPtr<ID3D11DepthStencilState>& pDSState
+        );
+
+        static void Create(
+            ID3D11Device* const pDevice,
+            const D3D11_DEPTH_STENCIL_DESC& desc,
+            ::Microsoft::WRL::ComPtr<ID3D11DepthStencilState>& pDSState
         );
 
 

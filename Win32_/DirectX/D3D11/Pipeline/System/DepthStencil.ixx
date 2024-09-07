@@ -2,6 +2,10 @@ module;
 
 #include <FatWin32_Settings.hpp>
 
+#include <d3d11.h>
+
+#include <wrl.h>
+
 export module FatPound.Win32.D3D11.Pipeline.System:DepthStencil;
 
 import FatPound.Win32.D3D11.Graphics.ResourcePack;
@@ -25,6 +29,11 @@ export namespace fatpound::win32::d3d11::pipeline::system
 
 	public:
 		static void SetDefault(const GraphicsResourcePack& gfxResPack);
+
+		static void SetDefault(
+			ID3D11Device* const pDevice,
+			ID3D11DeviceContext* const pImmediateContext
+		);
 
 
 	protected:

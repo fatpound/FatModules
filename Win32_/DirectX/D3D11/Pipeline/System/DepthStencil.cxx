@@ -16,11 +16,19 @@ namespace fatpound::win32::d3d11::pipeline::system
 {
 	void DepthStencil::SetDefault(const GraphicsResourcePack& gfxResPack)
 	{
+		SetDefault(gfxResPack.m_pDevice.Get(), gfxResPack.m_pImmediateContext.Get());
+	}
+
+	void DepthStencil::SetDefault(
+			ID3D11Device* const pDevice,
+			ID3D11DeviceContext* const pImmediateContext
+		)
+	{
 		::wrl::ComPtr<ID3D11DepthStencilState> pDSState = nullptr;
 
 		const auto& descDSS = factory::DepthStencilState::CreateDESC();
-		factory::DepthStencilState::Create(gfxResPack, pDSState, descDSS);
+		factory::DepthStencilState::Create(pDevice, descDSS, pDSState);
 
-		gfxResPack.m_pImmediateContext->OMSetDepthStencilState(pDSState.Get(), 1u);
+		pImmediateContext->OMSetDepthStencilState(pDSState.Get(), 1u);
 	}
 }

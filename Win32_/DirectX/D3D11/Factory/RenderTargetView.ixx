@@ -2,6 +2,10 @@ module;
 
 #include <FatWin32_Settings.hpp>
 
+#include <d3d11.h>
+
+#include <wrl.h>
+
 export module FatPound.Win32.D3D11.Factory:RenderTargetView;
 
 import FatPound.Win32.D3D11.Graphics.ResourcePack;
@@ -24,6 +28,12 @@ export namespace fatpound::win32::d3d11::factory
 
     public:
         static void Create(GraphicsResourcePack& gfxResPack);
+
+        static void Create(
+            IDXGISwapChain* const pSwapChain,
+            ID3D11Device* const pDevice,
+            ::Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& pRenderTargetView
+        );
 
 
     protected:

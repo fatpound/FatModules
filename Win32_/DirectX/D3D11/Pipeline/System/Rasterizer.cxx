@@ -16,11 +16,19 @@ namespace fatpound::win32::d3d11::pipeline::system
 {
     void Rasterizer::SetDefault(const GraphicsResourcePack& gfxResPack)
     {
+        SetDefault(gfxResPack.m_pDevice.Get(), gfxResPack.m_pImmediateContext.Get());
+    }
+
+    void Rasterizer::SetDefault(
+            ID3D11Device* const pDevice,
+            ID3D11DeviceContext* const pImmediateContext
+        )
+    {
         ::wrl::ComPtr<ID3D11RasterizerState> pRasterizerState = nullptr;
 
         const auto& descRS = factory::RasterizerState::CreateDESC();
-        factory::RasterizerState::Create(gfxResPack, pRasterizerState, descRS);
+        factory::RasterizerState::Create(pDevice, descRS, pRasterizerState);
 
-        gfxResPack.m_pImmediateContext->RSSetState(pRasterizerState.Get());
+        pImmediateContext->RSSetState(pRasterizerState.Get());
     }
 }

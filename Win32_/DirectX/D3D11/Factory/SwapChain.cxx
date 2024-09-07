@@ -51,8 +51,17 @@ namespace fatpound::win32::d3d11::factory
 
     void SwapChain::Create(GraphicsResourcePack& gfxResPack, DXGI_SWAP_CHAIN_DESC& desc)
     {
+        Create(gfxResPack.m_pDevice.Get(), desc, gfxResPack.m_pSwapChain);
+    }
+
+    void SwapChain::Create(
+            ID3D11Device* const pDevice,
+            DXGI_SWAP_CHAIN_DESC& desc,
+            ::wrl::ComPtr<IDXGISwapChain>& pSwapChain
+        )
+    {
         ::wrl::ComPtr<IDXGIDevice> pDXGIDevice = nullptr;
-        gfxResPack.m_pDevice->QueryInterface(__uuidof(IDXGIDevice), &pDXGIDevice);
+        pDevice->QueryInterface(__uuidof(IDXGIDevice), &pDXGIDevice);
 
         ::wrl::ComPtr<IDXGIAdapter> pDXGIAdapter = nullptr;
         pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), &pDXGIAdapter);
@@ -61,9 +70,9 @@ namespace fatpound::win32::d3d11::factory
         pDXGIAdapter->GetParent(__uuidof(IDXGIFactory), &pDXGIFactory);
 
         const auto& hr = pDXGIFactory->CreateSwapChain(
-            gfxResPack.m_pDevice.Get(),
+            pDevice,
             &desc,
-            gfxResPack.m_pSwapChain.GetAddressOf()
+            pSwapChain.GetAddressOf()
         );
 
         if (FAILED(hr)) [[unlikely]]

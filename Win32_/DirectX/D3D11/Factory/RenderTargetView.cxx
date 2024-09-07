@@ -14,18 +14,31 @@ namespace fatpound::win32::d3d11::factory
 {
     void RenderTargetView::Create(GraphicsResourcePack& gfxResPack)
     {
+        Create(
+            gfxResPack.m_pSwapChain.Get(),
+            gfxResPack.m_pDevice.Get(),
+            gfxResPack.m_pRTV
+        );
+    }
+
+    void RenderTargetView::Create(
+            IDXGISwapChain* const pSwapChain,
+            ID3D11Device* const pDevice,
+            ::wrl::ComPtr<ID3D11RenderTargetView>& pRenderTargetView
+        )
+    {
         ::wrl::ComPtr<ID3D11Texture2D> pBackBufferTexture = nullptr;
 
         HRESULT hr;
 
-        hr = gfxResPack.m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), &pBackBufferTexture);
+        hr = pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), &pBackBufferTexture);
 
         if (FAILED(hr)) [[unlikely]]
         {
             throw std::runtime_error("Could NOT get the buffer from SwapChain!");
         }
 
-        hr = gfxResPack.m_pDevice->CreateRenderTargetView(pBackBufferTexture.Get(), nullptr, &gfxResPack.m_pTarget);
+        hr = pDevice->CreateRenderTargetView(pBackBufferTexture.Get(), nullptr, &pRenderTargetView);
 
         if (FAILED(hr)) [[unlikely]]
         {

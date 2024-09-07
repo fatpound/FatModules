@@ -4,6 +4,8 @@ module;
 
 #include <d3d11.h>
 
+#include <wrl.h>
+
 export module FatPound.Win32.D3D11.Factory:Device;
 
 import FatPound.Win32.D3D11.Graphics.ResourcePack;
@@ -26,6 +28,11 @@ export namespace fatpound::win32::d3d11::factory
 
     public:
         static void Create(GraphicsResourcePack& gfxResPack);
+
+        static void Create(
+            ::Microsoft::WRL::ComPtr<ID3D11Device>& pDevice,
+            ::Microsoft::WRL::ComPtr<ID3D11DeviceContext>& pImmediateContext
+        );
 
 
     protected:

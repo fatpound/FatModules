@@ -5,6 +5,8 @@ module;
 
 #include <d3d11.h>
 
+#include <wrl.h>
+
 export module FatPound.Win32.D3D11.Factory:SwapChain;
 
 import FatPound.Win32.D3D11.Graphics.ResourcePack;
@@ -37,6 +39,12 @@ export namespace fatpound::win32::d3d11::factory
         noexcept -> DXGI_SWAP_CHAIN_DESC;
 
         static void Create(GraphicsResourcePack& gfxResPack, DXGI_SWAP_CHAIN_DESC& desc);
+
+        static void Create(
+            ID3D11Device* const pDevice,
+            DXGI_SWAP_CHAIN_DESC& desc,
+            ::Microsoft::WRL::ComPtr<IDXGISwapChain>& pSwapChain
+        );
 
 
     protected:

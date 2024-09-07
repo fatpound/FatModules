@@ -15,6 +15,8 @@ import FatPound.Util;
 
 import std;
 
+namespace wrl = Microsoft::WRL;
+
 export namespace fatpound::win32::d3d11::pipeline::system
 {
 	class ShaderResource final
@@ -33,15 +35,35 @@ export namespace fatpound::win32::d3d11::pipeline::system
 		template <bool ForFramework = true>
 		static void SetDefault(GraphicsResourcePack& gfxResPack, const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions, const UINT msaaCount, const UINT msaaQuality)
 		{
-			const auto& t2dDesc = factory::Texture2D::CreateDESC<ForFramework>(gfxDimensions, msaaCount, msaaQuality);
-			factory::Texture2D::Create(gfxResPack, t2dDesc);
+			SetDefault<ForFramework>(
+				gfxResPack.m_pDevice.Get(),
+				gfxResPack.m_pImmediateContext.Get(),
+				gfxResPack.m_pSysBufferTexture,
+				gfxDimensions,
+				msaaCount,
+				msaaQuality
+			);
+		}
 
-			::Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> pSysBufferTextureView_ = nullptr;
+		template <bool ForFramework = true>
+		static void SetDefault(
+				ID3D11Device* const pDevice,
+				ID3D11DeviceContext* const pImmediateContext,
+				::wrl::ComPtr<ID3D11Texture2D>& pSysBufferTexture,
+				const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions,
+				const UINT msaaCount,
+				const UINT msaaQuality
+			)
+		{
+			const auto& t2dDesc = factory::Texture2D::CreateDESC<ForFramework>(gfxDimensions, msaaCount, msaaQuality);
+			factory::Texture2D::Create(pDevice, t2dDesc, pSysBufferTexture);
+
+			::wrl::ComPtr<ID3D11ShaderResourceView> pSysBufferTextureView_ = nullptr;
 
 			const auto& srvDesc = factory::ShaderResourceView::CreateDESC(t2dDesc.Format, msaaCount);
-			factory::ShaderResourceView::Create(gfxResPack, pSysBufferTextureView_, srvDesc);
+			factory::ShaderResourceView::Create(pDevice, pSysBufferTexture.Get(), srvDesc, pSysBufferTextureView_);
 
-			gfxResPack.m_pImmediateContext->PSSetShaderResources(0u, 1u, pSysBufferTextureView_.GetAddressOf());
+			pImmediateContext->PSSetShaderResources(0u, 1u, pSysBufferTextureView_.GetAddressOf());
 		}
 
 

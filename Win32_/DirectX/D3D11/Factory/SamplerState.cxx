@@ -13,14 +13,21 @@ namespace wrl = Microsoft::WRL;
 namespace fatpound::win32::d3d11::factory
 {
     void SamplerState::Create(
-        const GraphicsResourcePack& gfxResPack,
-        ::wrl::ComPtr<ID3D11SamplerState>& pSamplerState,
-        D3D11_SAMPLER_DESC desc
-    )
+            const GraphicsResourcePack& gfxResPack,
+            D3D11_SAMPLER_DESC desc,
+            ::wrl::ComPtr<ID3D11SamplerState>& pSamplerState
+        )
     {
-        HRESULT hr;
+        Create(gfxResPack.m_pDevice.Get(), desc, pSamplerState);
+    }
 
-        hr = gfxResPack.m_pDevice->CreateSamplerState(&desc, &pSamplerState);
+    void SamplerState::Create(
+            ID3D11Device* const pDevice,
+            D3D11_SAMPLER_DESC desc,
+            ::wrl::ComPtr<ID3D11SamplerState>& pSamplerState
+        )
+    {
+        const auto& hr = pDevice->CreateSamplerState(&desc, &pSamplerState);
 
         if (FAILED(hr)) [[unlikely]]
         {

@@ -4,11 +4,23 @@ module;
 
 #include <d3d11.h>
 
+#include <wrl.h>
+
 module FatPound.Win32.D3D11.Factory:Device;
+
+namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d3d11::factory
 {
     void Device::Create(GraphicsResourcePack& gfxResPack)
+    {
+        Create(gfxResPack.m_pDevice, gfxResPack.m_pImmediateContext);
+    }
+
+    void Device::Create(
+            ::wrl::ComPtr<ID3D11Device>& pDevice,
+            ::wrl::ComPtr<ID3D11DeviceContext>& pImmediateContext
+        )
     {
         static constinit UINT swapCreateFlags;
 
@@ -31,9 +43,9 @@ namespace fatpound::win32::d3d11::factory
             nullptr,
             0u,
             D3D11_SDK_VERSION,
-            &gfxResPack.m_pDevice,
+            &pDevice,
             &featureLevel,
-            &gfxResPack.m_pImmediateContext
+            &pImmediateContext
         );
 
         if (FAILED(hr)) [[unlikely]]

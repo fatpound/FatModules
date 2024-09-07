@@ -16,6 +16,8 @@ import FatPound.Util;
 
 import std;
 
+namespace wrl = Microsoft::WRL;
+
 export namespace fatpound::win32::d3d11::pipeline::system
 {
 	class RenderTarget final
@@ -34,20 +36,44 @@ export namespace fatpound::win32::d3d11::pipeline::system
 		template <bool ForFramework = false>
 		static void SetDefault(GraphicsResourcePack& gfxResPack, const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions, const UINT msaaCount, const UINT msaaQuality)
 		{
-			factory::RenderTargetView::Create(gfxResPack);
+			SetDefault<ForFramework>(
+				gfxResPack.m_pSwapChain.Get(),
+				gfxResPack.m_pDevice.Get(),
+				gfxResPack.m_pImmediateContext.Get(),
+				gfxResPack.m_pRTV,
+				gfxResPack.m_pDSV,
+				gfxDimensions,
+				msaaCount,
+				msaaQuality
+			);
+		}
 
-			::Microsoft::WRL::ComPtr<ID3D11Texture2D> pTexture2D = nullptr;
+		template <bool ForFramework = false>
+		static void SetDefault(
+				IDXGISwapChain* const pSwapChain,
+				ID3D11Device* const pDevice,
+				ID3D11DeviceContext* const pImmediateContext,
+				::wrl::ComPtr<ID3D11RenderTargetView>& pRenderTargetView,
+				::wrl::ComPtr<ID3D11DepthStencilView>& pDSV,
+				const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions,
+				const UINT msaaCount,
+				const UINT msaaQuality
+			)
+		{
+			factory::RenderTargetView::Create(pSwapChain, pDevice, pRenderTargetView);
+			
+			::wrl::ComPtr<ID3D11Texture2D> pTexture2D = nullptr;
 
 			const auto& descTex2D = factory::Texture2D::CreateDESC(gfxDimensions, msaaCount, msaaQuality);
-			factory::Texture2D::Create(gfxResPack, pTexture2D, descTex2D);
+			factory::Texture2D::Create(pDevice, descTex2D, pTexture2D);
 
 			if constexpr (not ForFramework)
 			{
 				const auto& descDSV = factory::DepthStencilView::CreateDESC(msaaCount);
-				factory::DepthStencilView::Create(gfxResPack, pTexture2D, descDSV);
+				factory::DepthStencilView::Create(pDevice, pTexture2D, descDSV, pDSV);
 			}
 
-			gfxResPack.m_pImmediateContext->OMSetRenderTargets(1u, gfxResPack.m_pTarget.GetAddressOf(), gfxResPack.m_pDSV.Get());
+			pImmediateContext->OMSetRenderTargets(1u, pRenderTargetView.GetAddressOf(), pDSV.Get());
 		}
 
 

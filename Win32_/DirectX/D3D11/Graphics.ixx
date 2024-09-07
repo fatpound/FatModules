@@ -347,7 +347,7 @@ export namespace fatpound::win32::d3d11
         {
             const std::array<const float, 4> colors{ red, green, blue, 1.0f };
 
-            m_res_pack_.m_pImmediateContext->ClearRenderTargetView(m_res_pack_.m_pTarget.Get(), colors.data());
+            m_res_pack_.m_pImmediateContext->ClearRenderTargetView(m_res_pack_.m_pRTV.Get(), colors.data());
             m_res_pack_.m_pImmediateContext->ClearDepthStencilView(m_res_pack_.m_pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
         }
 
