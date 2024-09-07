@@ -22,7 +22,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
     class TransformCBuffer final : public Bindable
     {
     public:
-        explicit TransformCBuffer(ID3D11Device* pDevice, const T& parent, NAMESPACE_VISUAL::ViewXM& viewXM)
+        explicit TransformCBuffer(ID3D11Device* const pDevice, const T& parent, NAMESPACE_VISUAL::ViewXM& viewXM)
             :
             m_vcbuf_(pDevice),
             m_parent_(parent),
@@ -41,7 +41,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
 
 
     public:
-        virtual void Bind(ID3D11DeviceContext* pImmediateContext) override final
+        virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override final
         {
             m_vcbuf_.Update(
                 pImmediateContext,

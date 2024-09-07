@@ -18,7 +18,7 @@ export namespace fatpound::win32::d3d11::pipeline::element
     {
     public:
         template <typename T>
-        explicit VertexBuffer(ID3D11Device* pDevice, const std::vector<T>& vertices)
+        explicit VertexBuffer(ID3D11Device* const pDevice, const std::vector<T>& vertices)
             :
             m_stride_(sizeof(T))
         {
@@ -51,7 +51,7 @@ export namespace fatpound::win32::d3d11::pipeline::element
 
 
     public:
-        virtual void Bind(ID3D11DeviceContext* pImmediateContext) override final;
+        virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override final;
 
 
     protected:

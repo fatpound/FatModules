@@ -18,7 +18,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
     class CBuffer : public Bindable
     {
     public:
-        explicit CBuffer(ID3D11Device* pDevice, const T& consts)
+        explicit CBuffer(ID3D11Device* const pDevice, const T& consts)
         {
             D3D11_BUFFER_DESC cbd = {};
             cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
@@ -38,7 +38,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
                 throw std::runtime_error{ "Could NOT Create Direct3D Buffer in function: " __FUNCSIG__};
             }
         }
-        explicit CBuffer(ID3D11Device* pDevice)
+        explicit CBuffer(ID3D11Device* const pDevice)
         {
             D3D11_BUFFER_DESC cbd = {};
             cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
@@ -66,7 +66,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
 
 
     public:
-        virtual void Update(ID3D11DeviceContext* pImmediateContext, const T& consts) final
+        virtual void Update(ID3D11DeviceContext* const pImmediateContext, const T& consts) final
         {
             D3D11_MAPPED_SUBRESOURCE msr;
 

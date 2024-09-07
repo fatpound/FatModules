@@ -18,7 +18,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
     class SBuffer : public Bindable
     {
     public:
-        explicit SBuffer(ID3D11Device* pDevice, ID3D11DeviceContext* pImmediateContext, const std::vector<T>& structures)
+        explicit SBuffer(ID3D11Device* const pDevice, ID3D11DeviceContext* const pImmediateContext, const std::vector<T>& structures)
         {
             // I will refactor this
 
@@ -33,11 +33,13 @@ export namespace fatpound::win32::d3d11::pipeline::resource
             D3D11_SUBRESOURCE_DATA initData{};
             initData.pSysMem = structures.data();
 
-            const auto& hr = pDevice->CreateBuffer(&sbd, &initData, &m_pStructuredBuffer_);
-
-            if (FAILED(hr))
             {
-                throw std::runtime_error{ "Could NOT Create Direct3D Buffer in function: " __FUNCSIG__ };
+                const auto& hr = pDevice->CreateBuffer(&sbd, &initData, &m_pStructuredBuffer_);
+
+                if (FAILED(hr))
+                {
+                    throw std::runtime_error{ "Could NOT Create Direct3D Buffer in function: " __FUNCSIG__ };
+                }
             }
 
             D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
@@ -45,11 +47,13 @@ export namespace fatpound::win32::d3d11::pipeline::resource
             srvDesc.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
             srvDesc.Buffer.ElementWidth = static_cast<UINT>(structures.size());
 
-            const auto& hr2 = pDevice->CreateShaderResourceView(m_pStructuredBuffer_.Get(), &srvDesc, &m_pShaderResourceView_);
-
-            if (FAILED(hr2))
             {
-                throw std::runtime_error{ "Could NOT Create Direct3D ShaderResourceView in function: " __FUNCSIG__ };
+                const auto& hr = pDevice->CreateShaderResourceView(m_pStructuredBuffer_.Get(), &srvDesc, &m_pShaderResourceView_);
+
+                if (FAILED(hr))
+                {
+                    throw std::runtime_error{ "Could NOT Create Direct3D ShaderResourceView in function: " __FUNCSIG__ };
+                }
             }
 
             pImmediateContext->VSSetShaderResources(0u, 1u, m_pShaderResourceView_.GetAddressOf());

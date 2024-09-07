@@ -133,7 +133,7 @@ export namespace fatpound::win32::d3d11
         }
         void EndFrame()
         {
-            const auto hr = m_res_pack_.m_pSwapChain->Present(1u, 0u);
+            const auto& hr = m_res_pack_.m_pSwapChain->Present(1u, 0u);
 
             if (FAILED(hr)) [[unlikely]]
             {
@@ -279,7 +279,7 @@ export namespace fatpound::win32::d3d11
 
             InitFrameworkBinds_(binds);
 
-            const auto pImmediateContext = GetImmediateContext();
+            auto* const pImmediateContext = GetImmediateContext();
 
             for (auto& bindable : binds)
             {

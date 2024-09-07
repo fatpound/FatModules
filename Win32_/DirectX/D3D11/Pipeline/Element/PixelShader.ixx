@@ -17,7 +17,7 @@ export namespace fatpound::win32::d3d11::pipeline::element
     class PixelShader final : public Bindable
     {
     public:
-        explicit PixelShader(ID3D11Device* pDevice, const std::wstring& path);
+        explicit PixelShader(ID3D11Device* const pDevice, const std::wstring& path);
 
         explicit PixelShader() = delete;
         explicit PixelShader(const PixelShader& src) = delete;
@@ -29,7 +29,7 @@ export namespace fatpound::win32::d3d11::pipeline::element
 
 
     public:
-        virtual void Bind(ID3D11DeviceContext* pImmediateContext) override final;
+        virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override final;
 
 
     protected:

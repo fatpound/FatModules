@@ -23,7 +23,7 @@ export namespace fatpound::win32::d3d11::pipeline
         
 
     public:
-        virtual void Bind(ID3D11DeviceContext* pImmediateContext) = 0;
+        virtual void Bind(ID3D11DeviceContext* const pImmediateContext) = 0;
 
 
     protected:

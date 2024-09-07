@@ -17,7 +17,7 @@ export namespace fatpound::win32::d3d11::pipeline::element
     class VertexShader final : public Bindable
     {
     public:
-        explicit VertexShader(ID3D11Device* pDevice, const std::wstring& path);
+        explicit VertexShader(ID3D11Device* const pDevice, const std::wstring& path);
 
         explicit VertexShader() = delete;
         explicit VertexShader(const VertexShader& src) = delete;
@@ -29,7 +29,7 @@ export namespace fatpound::win32::d3d11::pipeline::element
 
 
     public:
-        virtual void Bind(ID3D11DeviceContext* pImmediateContext) override final;
+        virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override final;
 
 
     public:
