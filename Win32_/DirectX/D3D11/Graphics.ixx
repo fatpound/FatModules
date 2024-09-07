@@ -55,7 +55,7 @@ export namespace fatpound::win32::d3d11
         {
             InitCommon_(hWnd);
 
-            pipeline::system::ShaderResource::SetDefault(m_res_pack_, m_dimensions_, m_msaa_count_, m_msaa_quality_);
+            pipeline::system::ShaderResource::SetDefault<Framework>(m_res_pack_, m_dimensions_, m_msaa_count_, m_msaa_quality_);
             pipeline::system::Sampler::SetDefault(m_res_pack_);
 
             m_res_pack_.m_pSysBuffer = static_cast<Color*>(_aligned_malloc(sizeof(Color) * m_dimensions_.m_width * m_dimensions_.m_height, 16u));
@@ -264,7 +264,7 @@ export namespace fatpound::win32::d3d11
 
                 InitMSAA_Settings_();
                 
-                auto&& scdesc = factory::SwapChain::CreateDESC(hWnd, m_dimensions_, m_msaa_count_, m_msaa_quality_);
+                auto&& scdesc = factory::SwapChain::CreateDESC<Framework>(hWnd, m_dimensions_, m_msaa_count_, m_msaa_quality_);
                 factory::SwapChain::Create(m_res_pack_, scdesc);
             }
             

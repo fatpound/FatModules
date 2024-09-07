@@ -60,7 +60,7 @@ export namespace fatpound::win32::d3d11::pipeline::system
 
 			::wrl::ComPtr<ID3D11ShaderResourceView> pSysBufferTextureView_ = nullptr;
 
-			const auto& srvDesc = factory::ShaderResourceView::CreateDESC(t2dDesc.Format, msaaCount);
+			const auto& srvDesc = factory::ShaderResourceView::CreateDESC<ForFramework>(t2dDesc.Format, msaaCount);
 			factory::ShaderResourceView::Create(pDevice, pSysBufferTexture.Get(), srvDesc, pSysBufferTextureView_);
 
 			pImmediateContext->PSSetShaderResources(0u, 1u, pSysBufferTextureView_.GetAddressOf());

@@ -27,19 +27,27 @@ export namespace fatpound::win32::d3d11::factory
 
 
     public:
-        static constexpr auto CreateDESC(const DXGI_FORMAT format, const UINT msaaCount) noexcept -> D3D11_SHADER_RESOURCE_VIEW_DESC
+        template <bool ForFramework = true>
+        static constexpr auto CreateDESC(const DXGI_FORMAT format, [[maybe_unused]] const UINT msaaCount) noexcept -> D3D11_SHADER_RESOURCE_VIEW_DESC
         {
-            D3D11_SHADER_RESOURCE_VIEW_DESC desc = {};
+            D3D11_SHADER_RESOURCE_VIEW_DESC desc{};
             desc.Format = format;
             desc.Texture2D.MipLevels = 1u;
 
-            if (msaaCount == 1u)
+            if constexpr (ForFramework)
             {
                 desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
             }
             else
             {
-                desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
+                if (msaaCount == 1u)
+                {
+                    desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+                }
+                else
+                {
+                    desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DMS;
+                }
             }
 
             return desc;
