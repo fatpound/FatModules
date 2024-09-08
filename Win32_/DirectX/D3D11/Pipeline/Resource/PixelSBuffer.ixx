@@ -8,7 +8,7 @@ module;
 
 export module FatPound.Win32.D3D11.Pipeline.Resource:PixelSBuffer;
 
-import :SBuffer;
+export import :SBuffer;
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 
