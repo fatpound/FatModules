@@ -69,5 +69,3 @@ export namespace fatpound::automata
         static constexpr auto s_recurse_limit_ = 1u;
     };
 }
-
-module : private;

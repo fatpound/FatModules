@@ -56,5 +56,3 @@ export namespace fatpound::automata
         static constexpr auto s_language_content_seperator_ = "-->";
     };
 }
-
-module : private;
