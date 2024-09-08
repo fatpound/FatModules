@@ -127,7 +127,7 @@ export namespace fatpound::win32::d3d11
 
         void BeginFrame()
         {
-            ClearBuffer_(0.0f, 0.0f, 0.0f);
+            ClearBuffer_(0.0f, 0.0f, 0.25f);
         }
         void BeginFrame() noexcept requires(Framework)
         {
