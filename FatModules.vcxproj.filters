@@ -249,7 +249,7 @@
     <ClCompile Include="Win32_\DirectX\D3D11\Visual\DrawableBase.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Visual\ViewXM.ixx">
+    <ClCompile Include="Util\ViewXM.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Visual\Visual.ixx">
@@ -349,6 +349,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Core\Core.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\ViewXM.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

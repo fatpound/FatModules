@@ -92,11 +92,6 @@ export namespace fatpound::win32::d3d11
 
 
     public:
-        auto GetViewXM() noexcept -> visual::ViewXM&
-        {
-            return m_viewXM_;
-        }
-
         auto GetDevice() noexcept -> ID3D11Device*
         {
             return m_res_pack_.m_pDevice.Get();
@@ -104,24 +99,6 @@ export namespace fatpound::win32::d3d11
         auto GetImmediateContext() noexcept -> ID3D11DeviceContext*
         {
             return m_res_pack_.m_pImmediateContext.Get();
-        }
-
-        auto GetCameraXM()     const noexcept -> ::DirectX::XMMATRIX requires(not Framework)
-        {
-            return GetViewXM().GetCameraXM();
-        }
-        auto GetProjectionXM() const noexcept -> ::DirectX::XMMATRIX requires(not Framework)
-        {
-            return GetViewXM().GetProjectionXM();
-        }
-
-        void SetCameraXM(const ::DirectX::XMMATRIX& camera)         noexcept requires(not Framework)
-        {
-            GetViewXM().SetCameraXM(camera);
-        }
-        void SetProjectionXM(const ::DirectX::XMMATRIX& projection) noexcept requires(not Framework)
-        {
-            GetViewXM().SetProjectionXM(projection);
         }
 
         void BeginFrame()
@@ -238,11 +215,11 @@ export namespace fatpound::win32::d3d11
     private:
         void InitCommon_(const HWND hWnd)
         {
-            {
-                core::Device::Create(m_res_pack_);
+            core::Device::Create(m_res_pack_);
 
-                InitMSAA_Settings_();
-                
+            InitMSAA_Settings_();
+
+            {
                 auto&& scdesc = factory::SwapChain::CreateDESC<Framework>(hWnd, m_dimensions_, m_msaa_count_, m_msaa_quality_);
                 factory::SwapChain::Create(m_res_pack_, scdesc);
             }
@@ -342,8 +319,6 @@ export namespace fatpound::win32::d3d11
 
     private:
         GraphicsResourcePack m_res_pack_{};
-
-        visual::ViewXM m_viewXM_{};
 
         const ScreenSizeInfo m_dimensions_{};
 

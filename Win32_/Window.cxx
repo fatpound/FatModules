@@ -173,7 +173,13 @@ namespace fatpound::win32
             /******** KEYBOARD MESSAGES ********/
         case WM_KEYDOWN: [[fallthrough]];
         case WM_SYSKEYDOWN:
-            if (!(lParam & 0x40000000) || m_keyboard_.AutoRepeatIsEnabled())
+            if (wParam == VK_ESCAPE)
+            {
+                ::PostQuitMessage(0);
+                return 0;
+            }
+
+            if (not (lParam bitand 0x40000000) || m_keyboard_.AutoRepeatIsEnabled())
             {
                 m_keyboard_.OnKeyPressed_(static_cast<unsigned char>(wParam));
             }
@@ -195,9 +201,12 @@ namespace fatpound::win32
         {
             const POINTS pt = MAKEPOINTS(lParam);
 
-            if (pt.x >= 0 &&
-                pt.x < static_cast<SHORT>(m_client_size_.m_width) &&
-                pt.y >= 0 &&
+            if (pt.x >= 0
+                and
+                pt.x < static_cast<SHORT>(m_client_size_.m_width)
+                and
+                pt.y >= 0
+                and
                 pt.y < static_cast<SHORT>(m_client_size_.m_height)
             )
             {
@@ -211,7 +220,7 @@ namespace fatpound::win32
             }
             else
             {
-                if (wParam & (MK_LBUTTON | MK_RBUTTON))
+                if (wParam bitand (MK_LBUTTON bitor MK_RBUTTON))
                 {
                     m_mouse_.OnMouseMove_(pt.x, pt.y);
                 }
@@ -222,7 +231,7 @@ namespace fatpound::win32
                 }
             }
         }
-        break;
+            break;
 
         case WM_LBUTTONDOWN:
             m_mouse_.OnLeftPressed_();
@@ -267,7 +276,7 @@ namespace fatpound::win32
         :
         m_hInst_(::GetModuleHandle(nullptr))
     {
-        WNDCLASSEX wc = {};
+        WNDCLASSEX wc{};
         wc.cbSize = sizeof(wc);
         wc.style = CS_OWNDC;
         wc.lpfnWndProc = &Window::HandleMsgSetup_;

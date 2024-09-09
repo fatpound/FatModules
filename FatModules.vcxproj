@@ -58,6 +58,7 @@
     <ClCompile Include="Util\Color.ixx" />
     <ClCompile Include="Util\ScreenSizeInfo.ixx" />
     <ClCompile Include="Util\Util.ixx" />
+    <ClCompile Include="Util\ViewXM.cxx" />
     <ClCompile Include="Win32_\DirectX\D2D\D2D.ixx" />
     <ClCompile Include="Win32_\DirectX\D2D\Graphics.cxx" />
     <ClCompile Include="Win32_\DirectX\D2D\Graphics.ixx" />
@@ -121,7 +122,7 @@
     <ClCompile Include="Win32_\DirectX\D3D11\Visual\Drawable.cxx" />
     <ClCompile Include="Win32_\DirectX\D3D11\Visual\Drawable.ixx" />
     <ClCompile Include="Win32_\DirectX\D3D11\Visual\DrawableBase.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Visual\ViewXM.ixx" />
+    <ClCompile Include="Util\ViewXM.ixx" />
     <ClCompile Include="Win32_\DirectX\D3D11\Visual\Visual.ixx" />
     <ClCompile Include="Win32_\DirectX\DirectX.ixx" />
     <ClCompile Include="Win32_\DirectX\DXGI\DXGI.ixx" />
