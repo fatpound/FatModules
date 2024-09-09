@@ -56,8 +56,8 @@ export namespace fatpound::win32::d3d11
         {
             InitCommon_(hWnd);
 
-            pipeline::system::ShaderResource::SetDefault<Framework>(m_res_pack_, m_dimensions_, m_msaa_count_, m_msaa_quality_);
-            pipeline::system::Sampler::SetDefault(m_res_pack_);
+            pipeline::system::ShaderResource::SetView_Default<Framework>(m_res_pack_, m_dimensions_, m_msaa_count_, m_msaa_quality_);
+            pipeline::system::Sampler::SetState_FatDefault(m_res_pack_);
 
             m_res_pack_.m_pSysBuffer = static_cast<Color*>(_aligned_malloc(sizeof(Color) * m_dimensions_.m_width * m_dimensions_.m_height, 16u));
 
@@ -236,28 +236,6 @@ export namespace fatpound::win32::d3d11
 
 
     private:
-        void InitMSAA_Settings_()
-        {
-            constexpr std::array<const UINT, 4> msaa_counts{ 32u, 16u, 8u, 4u };
-
-            for (auto i = 0u; i < msaa_counts.size(); ++i)
-            {
-                m_res_pack_.m_pDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, msaa_counts[i], &m_msaa_quality_);
-
-                if (m_msaa_quality_ > 0)
-                {
-                    m_msaa_count_ = msaa_counts[i];
-
-                    break;
-                }
-            }
-
-            if (m_msaa_quality_ <= 0)
-            {
-                throw std::runtime_error{ "MSAA Quality is NOT valid!" };
-            }
-        }
-
         void InitCommon_(const HWND hWnd)
         {
             {
@@ -287,6 +265,28 @@ export namespace fatpound::win32::d3d11
                 bindable->Bind(pImmediateContext);
             }
         }
+
+        void InitMSAA_Settings_()
+        {
+            constexpr std::array<const UINT, 4> msaa_counts{ 32u, 16u, 8u, 4u };
+
+            for (auto i = 0u; i < msaa_counts.size(); ++i)
+            {
+                m_res_pack_.m_pDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, msaa_counts[i], &m_msaa_quality_);
+
+                if (m_msaa_quality_ > 0)
+                {
+                    m_msaa_count_ = msaa_counts[i];
+
+                    break;
+                }
+            }
+
+            if (m_msaa_quality_ <= 0)
+            {
+                throw std::runtime_error{ "MSAA Quality is NOT valid!" };
+            }
+        }
         void InitFrameworkBinds_(auto& binds) requires(Framework)
         {
             auto pVS = std::make_unique<NAMESPACE_PIPELINE_ELEMENT::VertexShader>(GetDevice(), L"..\\FatModules\\VSFrameBuffer.cso");
@@ -297,18 +297,16 @@ export namespace fatpound::win32::d3d11
             binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::VertexBuffer>(GetDevice(), FullScreenQuad_::vertices));
             binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
 
+            const std::vector<D3D11_INPUT_ELEMENT_DESC> iedesc =
             {
-                const std::vector<D3D11_INPUT_ELEMENT_DESC> ied =
+                D3D11_INPUT_ELEMENT_DESC
                 {
-                    D3D11_INPUT_ELEMENT_DESC
-                    {
-                        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-                        { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
-                    }
-                };
+                    { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+                    { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+                }
+            };
 
-                binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::InputLayout>(GetDevice(), ied, pBlob));
-            }
+            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::InputLayout>(GetDevice(), iedesc, pBlob));
         }
 
         void ToggleAltEnterMode_()
