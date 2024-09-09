@@ -6,13 +6,13 @@ module;
 
 #include <wrl.h>
 
-export module FatPound.Win32.D3D11.Factory:Device;
+export module FatPound.Win32.D3D11.Core:Device;
 
 import FatPound.Win32.D3D11.Graphics.ResourcePack;
 
 import std;
 
-export namespace fatpound::win32::d3d11::factory
+export namespace fatpound::win32::d3d11::core
 {
     class Device final
     {

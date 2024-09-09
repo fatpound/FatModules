@@ -333,10 +333,10 @@
     <ClCompile Include="Math\RectF.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Factory\Device.ixx">
+    <ClCompile Include="Win32_\DirectX\D3D11\Core\Device.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Factory\Device.cxx">
+    <ClCompile Include="Win32_\DirectX\D3D11\Core\Device.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\DirectX\DXGI\Util\Util.ixx">
@@ -346,6 +346,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\DirectX\DXGI\DXGI.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32_\DirectX\D3D11\Core\Core.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -34,9 +34,9 @@ export namespace fatpound::win32::d3d11::pipeline::system
 
 	public:
 		template <bool ForFramework = false>
-		static void SetDefault(GraphicsResourcePack& gfxResPack, const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions, const UINT msaaCount, const UINT msaaQuality)
+		static void Set_FatDefault(GraphicsResourcePack& gfxResPack, const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions, const UINT msaaCount, const UINT msaaQuality)
 		{
-			SetDefault<ForFramework>(
+			Set_FatDefault<ForFramework>(
 				gfxResPack.m_pSwapChain.Get(),
 				gfxResPack.m_pDevice.Get(),
 				gfxResPack.m_pImmediateContext.Get(),
@@ -53,7 +53,7 @@ export namespace fatpound::win32::d3d11::pipeline::system
 #pragma warning (disable : 26460 26417)
 
 		template <bool ForFramework = false>
-		static void SetDefault(
+		static void Set_FatDefault(
 				IDXGISwapChain* const pSwapChain,
 				ID3D11Device* const pDevice,
 				ID3D11DeviceContext* const pImmediateContext,
@@ -65,16 +65,20 @@ export namespace fatpound::win32::d3d11::pipeline::system
 			)
 		{
 			factory::RenderTargetView::Create(pSwapChain, pDevice, pRenderTargetView);
-			
-			::wrl::ComPtr<ID3D11Texture2D> pTexture2D{};
-
-			const auto& descTex2D = factory::Texture2D::CreateDESC(gfxDimensions, msaaCount, msaaQuality);
-			factory::Texture2D::Create(pDevice, descTex2D, pTexture2D);
 
 			if constexpr (not ForFramework)
 			{
-				const auto& descDSV = factory::DepthStencilView::CreateDESC(msaaCount);
-				factory::DepthStencilView::Create(pDevice, pTexture2D, descDSV, pDSV);
+				::wrl::ComPtr<ID3D11Texture2D> pTexture2D{};
+
+				{
+					const auto& descTex2D = factory::Texture2D::CreateDESC(gfxDimensions, msaaCount, msaaQuality);
+					factory::Texture2D::Create(pDevice, descTex2D, pTexture2D);
+				}
+
+				{
+					const auto& descDSV = factory::DepthStencilView::CreateDESC(msaaCount);
+					factory::DepthStencilView::Create(pDevice, pTexture2D, descDSV, pDSV);
+				}
 			}
 
 			pImmediateContext->OMSetRenderTargets(1u, pRenderTargetView.GetAddressOf(), pDSV.Get());

@@ -33,9 +33,9 @@ export namespace fatpound::win32::d3d11::pipeline::system
 
 	public:
 		template <bool ForFramework = true>
-		static void SetDefault(GraphicsResourcePack& gfxResPack, const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions, const UINT msaaCount, const UINT msaaQuality)
+		static void SetView_Default(GraphicsResourcePack& gfxResPack, const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions, const UINT msaaCount, const UINT msaaQuality)
 		{
-			SetDefault<ForFramework>(
+			SetView_Default<ForFramework>(
 				gfxResPack.m_pDevice.Get(),
 				gfxResPack.m_pImmediateContext.Get(),
 				gfxResPack.m_pSysBufferTexture,
@@ -46,7 +46,7 @@ export namespace fatpound::win32::d3d11::pipeline::system
 		}
 
 		template <bool ForFramework = true>
-		static void SetDefault(
+		static void SetView_Default(
 				ID3D11Device* const pDevice,
 				ID3D11DeviceContext* const pImmediateContext,
 				::wrl::ComPtr<ID3D11Texture2D>& pSysBufferTexture,
@@ -55,15 +55,17 @@ export namespace fatpound::win32::d3d11::pipeline::system
 				const UINT msaaQuality
 			)
 		{
-			const auto& t2dDesc = factory::Texture2D::CreateDESC<ForFramework>(gfxDimensions, msaaCount, msaaQuality);
-			factory::Texture2D::Create(pDevice, t2dDesc, pSysBufferTexture);
+			::wrl::ComPtr<ID3D11ShaderResourceView> pSysBufferTextureView{};
 
-			::wrl::ComPtr<ID3D11ShaderResourceView> pSysBufferTextureView_{};
+			{
+				const auto& t2dDesc = factory::Texture2D::CreateDESC<ForFramework>(gfxDimensions, msaaCount, msaaQuality);
+				factory::Texture2D::Create(pDevice, t2dDesc, pSysBufferTexture);
 
-			const auto& srvDesc = factory::ShaderResourceView::CreateDESC<ForFramework>(t2dDesc.Format, msaaCount);
-			factory::ShaderResourceView::Create(pDevice, pSysBufferTexture.Get(), srvDesc, pSysBufferTextureView_);
+				const auto& srvDesc = factory::ShaderResourceView::CreateDESC<ForFramework>(t2dDesc.Format, msaaCount);
+				factory::ShaderResourceView::Create(pDevice, pSysBufferTexture.Get(), srvDesc, pSysBufferTextureView);
+			}
 
-			pImmediateContext->PSSetShaderResources(0u, 1u, pSysBufferTextureView_.GetAddressOf());
+			pImmediateContext->PSSetShaderResources(0u, 1u, pSysBufferTextureView.GetAddressOf());
 		}
 
 

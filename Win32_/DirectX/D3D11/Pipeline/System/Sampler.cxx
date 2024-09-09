@@ -12,22 +12,23 @@ namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d3d11::pipeline::system
 {
-	void Sampler::SetDefault(const GraphicsResourcePack& gfxResPack)
+	void Sampler::SetState_FatDefault(const GraphicsResourcePack& gfxResPack)
 	{
-        SetDefault(gfxResPack.m_pDevice.Get(), gfxResPack.m_pImmediateContext.Get());
+        SetState_FatDefault(gfxResPack.m_pDevice.Get(), gfxResPack.m_pImmediateContext.Get());
 	}
 
-    void Sampler::SetDefault(
+    void Sampler::SetState_FatDefault(
             ID3D11Device* const pDevice,
             ID3D11DeviceContext* const pImmediateContext
         )
     {
-        ::wrl::ComPtr<ID3D11SamplerState> pSamplerState_{};
+        ::wrl::ComPtr<ID3D11SamplerState> pSamplerState{};
 
-        const auto& sampDesc = factory::SamplerState::CreateDESC();
+        {
+            const auto& sampDesc = factory::SamplerState::CreateDESC();
+            factory::SamplerState::Create(pDevice, sampDesc, pSamplerState);
+        }
 
-        factory::SamplerState::Create(pDevice, sampDesc, pSamplerState_);
-
-        pImmediateContext->PSSetSamplers(0u, 1u, pSamplerState_.GetAddressOf());
+        pImmediateContext->PSSetSamplers(0u, 1u, pSamplerState.GetAddressOf());
     }
 }

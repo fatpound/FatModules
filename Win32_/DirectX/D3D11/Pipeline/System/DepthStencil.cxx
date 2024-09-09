@@ -14,20 +14,22 @@ namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d3d11::pipeline::system
 {
-	void DepthStencil::SetDefault(const GraphicsResourcePack& gfxResPack)
+	void DepthStencil::SetState_FatDefault(const GraphicsResourcePack& gfxResPack)
 	{
-		SetDefault(gfxResPack.m_pDevice.Get(), gfxResPack.m_pImmediateContext.Get());
+		SetState_FatDefault(gfxResPack.m_pDevice.Get(), gfxResPack.m_pImmediateContext.Get());
 	}
 
-	void DepthStencil::SetDefault(
+	void DepthStencil::SetState_FatDefault(
 			ID3D11Device* const pDevice,
 			ID3D11DeviceContext* const pImmediateContext
 		)
 	{
 		::wrl::ComPtr<ID3D11DepthStencilState> pDSState{};
 
-		const auto& descDSS = factory::DepthStencilState::CreateDESC();
-		factory::DepthStencilState::Create(pDevice, descDSS, pDSState);
+		{
+			const auto& descDSS = factory::DepthStencilState::CreateDESC();
+			factory::DepthStencilState::Create(pDevice, descDSS, pDSState);
+		}
 
 		pImmediateContext->OMSetDepthStencilState(pDSState.Get(), 1u);
 	}

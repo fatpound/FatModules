@@ -14,20 +14,22 @@ namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d3d11::pipeline::system
 {
-    void Rasterizer::SetDefault(const GraphicsResourcePack& gfxResPack)
+    void Rasterizer::SetState_FatDefault(const GraphicsResourcePack& gfxResPack)
     {
-        SetDefault(gfxResPack.m_pDevice.Get(), gfxResPack.m_pImmediateContext.Get());
+        SetState_FatDefault(gfxResPack.m_pDevice.Get(), gfxResPack.m_pImmediateContext.Get());
     }
 
-    void Rasterizer::SetDefault(
+    void Rasterizer::SetState_FatDefault(
             ID3D11Device* const pDevice,
             ID3D11DeviceContext* const pImmediateContext
         )
     {
         ::wrl::ComPtr<ID3D11RasterizerState> pRasterizerState{};
 
-        const auto& descRS = factory::RasterizerState::CreateDESC();
-        factory::RasterizerState::Create(pDevice, descRS, pRasterizerState);
+        {
+            const auto& descRS = factory::RasterizerState::CreateDESC();
+            factory::RasterizerState::Create(pDevice, descRS, pRasterizerState);
+        }
 
         pImmediateContext->RSSetState(pRasterizerState.Get());
     }

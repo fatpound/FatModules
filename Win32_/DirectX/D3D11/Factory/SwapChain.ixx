@@ -34,11 +34,11 @@ export namespace fatpound::win32::d3d11::factory
     public:
         template <bool ForFramework = false>
         static auto CreateDESC(
-            const HWND hWnd,
-            const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions,
-            [[maybe_unused]] const UINT msaaCount,
-            [[maybe_unused]] const UINT msaaQuality
-        )
+                const HWND hWnd,
+                const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions,
+                [[maybe_unused]] const UINT msaaCount,
+                [[maybe_unused]] const UINT msaaQuality
+            )
             noexcept -> DXGI_SWAP_CHAIN_DESC
         {
             DXGI_SWAP_CHAIN_DESC desc = {};

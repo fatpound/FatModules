@@ -15,6 +15,7 @@ export module FatPound.Win32.D3D11.Graphics;
 
 import FatPound.Win32.D3D11.Graphics.ResourcePack;
 
+import FatPound.Win32.D3D11.Core;
 import FatPound.Win32.D3D11.Pipeline;
 import FatPound.Win32.D3D11.Visual;
 import FatPound.Win32.D3D11.Factory;
@@ -44,11 +45,9 @@ export namespace fatpound::win32::d3d11
         {
             InitCommon_(hWnd);
             
-            pipeline::system::DepthStencil::SetDefault(m_res_pack_);
-
             if constexpr (s_rasterizationEnabled_)
             {
-                pipeline::system::Rasterizer::SetDefault(m_res_pack_);
+                pipeline::system::Rasterizer::SetState_FatDefault(m_res_pack_);
             }
         }
         explicit Graphics(const HWND hWnd, const ScreenSizeInfo& dimensions) requires(Framework)
@@ -262,7 +261,7 @@ export namespace fatpound::win32::d3d11
         void InitCommon_(const HWND hWnd)
         {
             {
-                factory::Device::Create(m_res_pack_);
+                core::Device::Create(m_res_pack_);
 
                 InitMSAA_Settings_();
                 
@@ -272,8 +271,8 @@ export namespace fatpound::win32::d3d11
             
             ToggleAltEnterMode_();
 
-            pipeline::system::RenderTarget::SetDefault<Framework>(m_res_pack_, m_dimensions_, m_msaa_count_, m_msaa_quality_);
-            pipeline::system::Viewport::SetDefault(m_res_pack_, m_dimensions_);
+            pipeline::system::RenderTarget::Set_FatDefault<Framework>(m_res_pack_, m_dimensions_, m_msaa_count_, m_msaa_quality_);
+            pipeline::system::Viewport::Set_FatDefault(m_res_pack_, m_dimensions_);
         }
         void InitFramework_() requires(Framework)
         {
@@ -290,10 +289,10 @@ export namespace fatpound::win32::d3d11
         }
         void InitFrameworkBinds_(auto& binds) requires(Framework)
         {
-            auto pvs = std::make_unique<NAMESPACE_PIPELINE_ELEMENT::VertexShader>(GetDevice(), L"..\\FatModules\\VSFrameBuffer.cso");
-            auto pvsbc = pvs->GetBytecode();
+            auto pVS = std::make_unique<NAMESPACE_PIPELINE_ELEMENT::VertexShader>(GetDevice(), L"..\\FatModules\\VSFrameBuffer.cso");
+            auto pBlob = pVS->GetBytecode();
 
-            binds.push_back(std::move(pvs));
+            binds.push_back(std::move(pVS));
             binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::PixelShader>(GetDevice(), L"..\\FatModules\\PSFrameBuffer.cso"));
             binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::VertexBuffer>(GetDevice(), FullScreenQuad_::vertices));
             binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
@@ -301,13 +300,14 @@ export namespace fatpound::win32::d3d11
             {
                 const std::vector<D3D11_INPUT_ELEMENT_DESC> ied =
                 {
+                    D3D11_INPUT_ELEMENT_DESC
                     {
                         { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
                         { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
                     }
                 };
 
-                binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::InputLayout>(GetDevice(), ied, pvsbc));
+                binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::InputLayout>(GetDevice(), ied, pBlob));
             }
         }
 

@@ -6,11 +6,11 @@ module;
 
 #include <wrl.h>
 
-module FatPound.Win32.D3D11.Factory:Device;
+module FatPound.Win32.D3D11.Core:Device;
 
 namespace wrl = Microsoft::WRL;
 
-namespace fatpound::win32::d3d11::factory
+namespace fatpound::win32::d3d11::core
 {
     void Device::Create(GraphicsResourcePack& gfxResPack)
     {

@@ -13,12 +13,12 @@ namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d3d11::pipeline::system
 {
-    void Viewport::SetDefault(const GraphicsResourcePack& gfxResPack, const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions)
+    void Viewport::Set_FatDefault(const GraphicsResourcePack& gfxResPack, const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions)
     {
-        SetDefault(gfxResPack.m_pImmediateContext.Get(), gfxDimensions);
+        Set_FatDefault(gfxResPack.m_pImmediateContext.Get(), gfxDimensions);
     }
 
-    void Viewport::SetDefault(ID3D11DeviceContext* const pImmediateContext, const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions)
+    void Viewport::Set_FatDefault(ID3D11DeviceContext* const pImmediateContext, const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions)
     {
         D3D11_VIEWPORT vp{};
         vp.Width = static_cast<FLOAT>(gfxDimensions.m_width);
