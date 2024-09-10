@@ -37,16 +37,13 @@ export namespace fatpound::win32
 
 
     public:
-        auto GetMouse()    noexcept -> NAMESPACE_IO::Mouse&;
-        auto GetKeyboard() noexcept -> NAMESPACE_IO::Keyboard&;
-
         auto GetHwnd() const noexcept -> HWND;
 
         auto IsActive()    const noexcept -> bool;
         auto IsMinimized() const noexcept -> bool;
 
         void SetTitle(const std::wstring& title);
-        void ShowMessageBox(const std::wstring& message, const std::wstring& title, const UINT error_flags) noexcept;
+        void ShowMessageBox(const std::wstring& message, const std::wstring& title, const UINT error_flags) const noexcept;
         void Kill() noexcept;
 
 
@@ -62,6 +59,11 @@ export namespace fatpound::win32
         {
             return static_cast<N>(m_client_size_.m_height);
         }
+
+
+    public:
+        NAMESPACE_IO::Mouse m_mouse;
+        NAMESPACE_IO::Keyboard m_keyboard;
 
         
     protected:
@@ -110,9 +112,6 @@ export namespace fatpound::win32
         HWND m_hWnd_;
 
         const NAMESPACE_UTIL::ScreenSizeInfo m_client_size_;
-
-        NAMESPACE_IO::Mouse m_mouse_;
-        NAMESPACE_IO::Keyboard m_keyboard_;
 
         static constexpr bool s_cursorEnabled_ = true;
     };

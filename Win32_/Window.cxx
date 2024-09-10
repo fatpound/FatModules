@@ -38,7 +38,7 @@ namespace fatpound::win32
     {
 #if IN_DEBUG
 
-        RECT rect = {};
+        RECT rect{};
         rect.left = 150;
         rect.right = CLIENT_WIDTH + rect.left;
         rect.top = 150;
@@ -93,15 +93,6 @@ namespace fatpound::win32
         return std::nullopt;
     }
 
-    auto Window::GetMouse() noexcept -> NAMESPACE_IO::Mouse&
-    {
-        return m_mouse_;
-    }
-    auto Window::GetKeyboard() noexcept -> NAMESPACE_IO::Keyboard&
-    {
-        return m_keyboard_;
-    }
-
     auto Window::GetHwnd() const noexcept -> HWND
     {
         return m_hWnd_;
@@ -123,7 +114,7 @@ namespace fatpound::win32
             throw std::runtime_error("Could NOT set the Window Text!");
         }
     }
-    void Window::ShowMessageBox(const std::wstring& message, const std::wstring& title, const UINT error_flags) noexcept
+    void Window::ShowMessageBox(const std::wstring& message, const std::wstring& title, const UINT error_flags) const noexcept
     {
         ::MessageBox(m_hWnd_, message.c_str(), title.c_str(), error_flags);
     }
@@ -167,7 +158,7 @@ namespace fatpound::win32
             return 0;
 
         case WM_KILLFOCUS:
-            m_keyboard_.ClearKeyStateBitset_();
+            m_keyboard.ClearKeyStateBitset_();
             break;
 
             /******** KEYBOARD MESSAGES ********/
@@ -179,19 +170,19 @@ namespace fatpound::win32
                 return 0;
             }
 
-            if (not (lParam bitand 0x40000000) || m_keyboard_.AutoRepeatIsEnabled())
+            if ((not (lParam bitand 0x40000000)) or m_keyboard.AutoRepeatIsEnabled())
             {
-                m_keyboard_.OnKeyPressed_(static_cast<unsigned char>(wParam));
+                m_keyboard.OnKeyPressed_(static_cast<unsigned char>(wParam));
             }
             break;
 
         case WM_KEYUP: [[fallthrough]];
         case WM_SYSKEYUP:
-            m_keyboard_.OnKeyReleased_(static_cast<unsigned char>(wParam));
+            m_keyboard.OnKeyReleased_(static_cast<unsigned char>(wParam));
             break;
 
         case WM_CHAR:
-            m_keyboard_.OnChar_(static_cast<unsigned char>(wParam));
+            m_keyboard.OnChar_(static_cast<unsigned char>(wParam));
             break;
             /******** END KEYBOARD MESSAGES ********/
 
@@ -210,55 +201,55 @@ namespace fatpound::win32
                 pt.y < static_cast<SHORT>(m_client_size_.m_height)
             )
             {
-                m_mouse_.OnMouseMove_(pt.x, pt.y);
+                m_mouse.OnMouseMove_(pt.x, pt.y);
 
-                if (not m_mouse_.IsInWindow())
+                if (not m_mouse.IsInWindow())
                 {
                     ::SetCapture(hWnd);
-                    m_mouse_.OnMouseEnter_();
+                    m_mouse.OnMouseEnter_();
                 }
             }
             else
             {
                 if (wParam bitand (MK_LBUTTON bitor MK_RBUTTON))
                 {
-                    m_mouse_.OnMouseMove_(pt.x, pt.y);
+                    m_mouse.OnMouseMove_(pt.x, pt.y);
                 }
                 else
                 {
                     ::ReleaseCapture();
-                    m_mouse_.OnMouseLeave_();
+                    m_mouse.OnMouseLeave_();
                 }
             }
         }
             break;
 
         case WM_LBUTTONDOWN:
-            m_mouse_.OnLeftPressed_();
+            m_mouse.OnLeftPressed_();
             break;
 
         case WM_LBUTTONUP:
-            m_mouse_.OnLeftReleased_();
+            m_mouse.OnLeftReleased_();
             break;
 
         case WM_RBUTTONDOWN:
-            m_mouse_.OnRightPressed_();
+            m_mouse.OnRightPressed_();
             break;
 
         case WM_RBUTTONUP:
-            m_mouse_.OnRightReleased_();
+            m_mouse.OnRightReleased_();
             break;
 
         case WM_MBUTTONDOWN:
-            m_mouse_.OnWheelPressed_();
+            m_mouse.OnWheelPressed_();
             break;
 
         case WM_MBUTTONUP:
-            m_mouse_.OnWheelReleased_();
+            m_mouse.OnWheelReleased_();
             break;
 
         case WM_MOUSEWHEEL:
-            m_mouse_.OnWheelDelta_(GET_WHEEL_DELTA_WPARAM(wParam));
+            m_mouse.OnWheelDelta_(GET_WHEEL_DELTA_WPARAM(wParam));
             break;
             /******* END MOUSE MESSAGES *******/
 
