@@ -47,6 +47,10 @@
     <ClCompile Include="DSA\Tree\N-ary\N_ary.ixx" />
     <ClCompile Include="DSA\Tree\Tree.ixx" />
     <ClCompile Include="FatPound.ixx" />
+    <ClCompile Include="Math\Concepts\Concepts.ixx" />
+    <ClCompile Include="Math\Concepts\Multiplicable.ixx" />
+    <ClCompile Include="Math\Concepts\NumberSet\NumberSet.ixx" />
+    <ClCompile Include="Math\Concepts\NumberSet\Rational.ixx" />
     <ClCompile Include="Math\Math.cxx" />
     <ClCompile Include="Math\Math.ixx" />
     <ClCompile Include="Math\RectF.cxx" />

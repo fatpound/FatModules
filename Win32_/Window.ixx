@@ -48,16 +48,16 @@ export namespace fatpound::win32
 
 
     public:
-        template <NAMESPACE_MATH::Number N>
+        template <NAMESPACE_MATH_CONCEPTS::number_set::Rational Q>
         auto GetClientWidth() const noexcept
         {
-            return static_cast<N>(m_client_size_.m_width);
+            return static_cast<Q>(m_client_size_.m_width);
         }
 
-        template <NAMESPACE_MATH::Number N>
+        template <NAMESPACE_MATH_CONCEPTS::number_set::Rational Q>
         auto GetClientHeight() const noexcept
         {
-            return static_cast<N>(m_client_size_.m_height);
+            return static_cast<Q>(m_client_size_.m_height);
         }
 
 

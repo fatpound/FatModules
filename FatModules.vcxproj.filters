@@ -354,6 +354,18 @@
     <ClCompile Include="Util\ViewXM.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Math\Concepts\Concepts.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Concepts\Multiplicable.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Concepts\NumberSet\Rational.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Concepts\NumberSet\NumberSet.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32_\FatWin32_.hpp">

@@ -1,6 +1,9 @@
 #pragma once
 
+// I will refactor this later
+
 #define NAMESPACE_MATH                ::fatpound::math
+#define NAMESPACE_MATH_CONCEPTS       NAMESPACE_MATH::concepts
 #define NAMESPACE_UTIL                ::fatpound::util
 #define NAMESPACE_WIN32               ::fatpound::win32
 #define NAMESPACE_IO                  NAMESPACE_WIN32::io

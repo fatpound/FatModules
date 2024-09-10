@@ -38,6 +38,8 @@ export namespace fatpound::win32::d3d11
     template <bool Framework = false>
     class Graphics final
     {
+        using float_t = float;
+
     public:
         explicit Graphics(const HWND hWnd, const ScreenSizeInfo& dimensions)
             :
@@ -103,7 +105,7 @@ export namespace fatpound::win32::d3d11
 
         void BeginFrame()
         {
-            ClearBuffer_(0.0f, 0.0f, 0.25f);
+            ClearBuffer_<0.0f, 0.0f, 0.25f>();
         }
         void BeginFrame() noexcept requires(Framework)
         {
@@ -111,54 +113,52 @@ export namespace fatpound::win32::d3d11
         }
         void EndFrame()
         {
-            const auto& hr = m_res_pack_.m_pSwapChain->Present(1u, 0u);
-
-            if (FAILED(hr)) [[unlikely]]
-            {
-                throw std::runtime_error("The Graphics Device Failed to Present/Draw!");
-            }
+            Present_<>();
         }
         void EndFrame() requires(Framework)
         {
-            HRESULT hr = GetImmediateContext()->Map(
-                m_res_pack_.m_pSysBufferTexture.Get(),
-                0u,
-                D3D11_MAP_WRITE_DISCARD,
-                0u,
-                &m_res_pack_.m_mappedSysBufferTexture
-            );
-
-            if (FAILED(hr)) [[unlikely]]
             {
-                throw std::exception("Could NOT Map the ImmediateContext!");
-            }
-
-            Color* pDst = static_cast<Color*>(m_res_pack_.m_mappedSysBufferTexture.pData);
-
-            const auto& dstPitch = m_res_pack_.m_mappedSysBufferTexture.RowPitch / sizeof(Color);
-            const auto& srcPitch = m_dimensions_.m_width;
-            const auto& rowBytes = srcPitch * sizeof(Color);
-
-            for (auto y = 0u; y < m_dimensions_.m_height; ++y)
-            {
-                std::memcpy(
-                    static_cast<void*>(&pDst[y * dstPitch]),
-                    static_cast<void*>(&m_res_pack_.m_pSysBuffer[y * srcPitch]),
-                    rowBytes
+                const auto& hr = GetImmediateContext()->Map(
+                    m_res_pack_.m_pSysBufferTexture.Get(),
+                    0u,
+                    D3D11_MAP_WRITE_DISCARD,
+                    0u,
+                    &m_res_pack_.m_mappedSysBufferTexture
                 );
+
+                if (FAILED(hr)) [[unlikely]]
+                {
+                    throw std::exception("Could NOT Map the ImmediateContext!");
+                }
+            }
+            
+            {
+                Color* const pDst = static_cast<Color*>(m_res_pack_.m_mappedSysBufferTexture.pData);
+
+                const auto dstPitch = m_res_pack_.m_mappedSysBufferTexture.RowPitch / sizeof(Color);
+                const auto srcPitch = m_dimensions_.m_width;
+                const auto rowBytes = srcPitch * sizeof(Color);
+
+                for (auto y = 0u; y < m_dimensions_.m_height; ++y)
+                {
+                    std::memcpy(
+                        static_cast<void*>(&pDst[y * dstPitch]),
+                        static_cast<void*>(&m_res_pack_.m_pSysBuffer[y * srcPitch]),
+                        rowBytes
+                    );
+                }
             }
 
             GetImmediateContext()->Unmap(m_res_pack_.m_pSysBufferTexture.Get(), 0u);
             GetImmediateContext()->Draw(6u, 0u);
 
-            hr = m_res_pack_.m_pSwapChain->Present(1u, 0u);
-
-            if (FAILED(hr)) [[unlikely]]
-            {
-                throw std::exception("SwapChain could NOT Present and Draw its contents!");;
-            }
+            Present_<>();
         }
 
+        void FillWithSolidColor(const float_t red, const float_t green, const float_t blue, const float_t alpha = 1.0f) requires(not Framework)
+        {
+            ClearBuffer_(red, green, blue, alpha);
+        }
         void PutPixel(const int x, const int y, const Color color) noexcept requires(Framework)
         {
             assert(x >= 0);
@@ -171,16 +171,16 @@ export namespace fatpound::win32::d3d11
 
 
     public:
-        template <NAMESPACE_MATH::Number N>
+        template <NAMESPACE_MATH_CONCEPTS::number_set::Rational Q>
         auto GetWidth() const noexcept
         {
-            return static_cast<N>(m_dimensions_.m_width);
+            return static_cast<Q>(m_dimensions_.m_width);
         }
 
-        template <NAMESPACE_MATH::Number N>
+        template <NAMESPACE_MATH_CONCEPTS::number_set::Rational Q>
         auto GetHeight() const noexcept
         {
-            return static_cast<N>(m_dimensions_.m_height);
+            return static_cast<Q>(m_dimensions_.m_height);
         }
 
 
@@ -213,6 +213,56 @@ export namespace fatpound::win32::d3d11
 
 
     private:
+        static void InitFrameworkBinds_(auto& binds) requires(Framework)
+        {
+            auto pVS = std::make_unique<NAMESPACE_PIPELINE_ELEMENT::VertexShader>(GetDevice(), L"..\\FatModules\\VSFrameBuffer.cso");
+            auto pBlob = pVS->GetBytecode();
+
+            binds.push_back(std::move(pVS));
+            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::PixelShader>(GetDevice(), L"..\\FatModules\\PSFrameBuffer.cso"));
+            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::VertexBuffer>(GetDevice(), FullScreenQuad_::vertices));
+            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
+
+            const std::vector<D3D11_INPUT_ELEMENT_DESC> iedesc =
+            {
+                {
+                    { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+                    { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+                }
+            };
+
+            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::InputLayout>(GetDevice(), iedesc, pBlob));
+        }
+
+
+    private:
+        template <
+            float_t red   = 0.0f,
+            float_t green = 0.0f,
+            float_t blue  = 0.0f,
+            float_t alpha = 1.0f
+        >
+        void ClearBuffer_() requires(not Framework)
+        {
+            constexpr std::array<const float_t, 4> colors{ red, green, blue, alpha };
+
+            m_res_pack_.m_pImmediateContext->ClearRenderTargetView(m_res_pack_.m_pRTV.Get(), colors.data());
+            m_res_pack_.m_pImmediateContext->ClearDepthStencilView(m_res_pack_.m_pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
+        }
+
+        template <bool VSynced = true>
+        void Present_()
+        {
+            const auto& hr = m_res_pack_.m_pSwapChain->Present(static_cast<UINT>(VSynced), 0u);
+
+            if (FAILED(hr)) [[unlikely]]
+            {
+                throw std::exception("SwapChain could NOT Present!");;
+            }
+        }
+
+
+    private:
         void InitCommon_(const HWND hWnd)
         {
             core::Device::Create(m_res_pack_);
@@ -242,7 +292,6 @@ export namespace fatpound::win32::d3d11
                 bindable->Bind(pImmediateContext);
             }
         }
-
         void InitMSAA_Settings_()
         {
             constexpr std::array<const UINT, 4> msaa_counts{ 32u, 16u, 8u, 4u };
@@ -264,30 +313,10 @@ export namespace fatpound::win32::d3d11
                 throw std::runtime_error{ "MSAA Quality is NOT valid!" };
             }
         }
-        void InitFrameworkBinds_(auto& binds) requires(Framework)
-        {
-            auto pVS = std::make_unique<NAMESPACE_PIPELINE_ELEMENT::VertexShader>(GetDevice(), L"..\\FatModules\\VSFrameBuffer.cso");
-            auto pBlob = pVS->GetBytecode();
-
-            binds.push_back(std::move(pVS));
-            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::PixelShader>(GetDevice(), L"..\\FatModules\\PSFrameBuffer.cso"));
-            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::VertexBuffer>(GetDevice(), FullScreenQuad_::vertices));
-            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
-
-            const std::vector<D3D11_INPUT_ELEMENT_DESC> iedesc =
-            {
-                {
-                    { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-                    { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
-                }
-            };
-
-            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::InputLayout>(GetDevice(), iedesc, pBlob));
-        }
 
         void ToggleAltEnterMode_()
         {
-            static UINT flag = 0u;
+            static UINT flag{};
 
             static constexpr auto magic_value = static_cast<UINT>(DXGI_MWA_NO_ALT_ENTER);
 
@@ -307,10 +336,10 @@ export namespace fatpound::win32::d3d11
 
             NAMESPACE_DXGI::util::GetFactory(GetDevice())->MakeWindowAssociation(hWnd, flag);
         }
-
-        void ClearBuffer_(const float red, const float green, const float blue)
+        
+        void ClearBuffer_(const float_t red, const float_t green, const float_t blue, const float_t alpha = 1.0f) requires(not Framework)
         {
-            const std::array<const float, 4> colors{ red, green, blue, 1.0f };
+            const std::array<const float_t, 4> colors{ red, green, blue, alpha };
 
             m_res_pack_.m_pImmediateContext->ClearRenderTargetView(m_res_pack_.m_pRTV.Get(), colors.data());
             m_res_pack_.m_pImmediateContext->ClearDepthStencilView(m_res_pack_.m_pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
