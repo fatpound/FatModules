@@ -249,7 +249,7 @@ export namespace fatpound::win32::d3d11
 
             for (auto i = 0u; i < msaa_counts.size(); ++i)
             {
-                m_res_pack_.m_pDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_R8G8B8A8_UNORM, msaa_counts[i], &m_msaa_quality_);
+                m_res_pack_.m_pDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_B8G8R8A8_UNORM, msaa_counts[i], &m_msaa_quality_);
 
                 if (m_msaa_quality_ > 0)
                 {
