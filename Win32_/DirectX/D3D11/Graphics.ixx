@@ -213,29 +213,6 @@ export namespace fatpound::win32::d3d11
 
 
     private:
-        static void InitFrameworkBinds_(auto& binds) requires(Framework)
-        {
-            auto pVS = std::make_unique<NAMESPACE_PIPELINE_ELEMENT::VertexShader>(GetDevice(), L"..\\FatModules\\VSFrameBuffer.cso");
-            auto pBlob = pVS->GetBytecode();
-
-            binds.push_back(std::move(pVS));
-            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::PixelShader>(GetDevice(), L"..\\FatModules\\PSFrameBuffer.cso"));
-            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::VertexBuffer>(GetDevice(), FullScreenQuad_::vertices));
-            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
-
-            const std::vector<D3D11_INPUT_ELEMENT_DESC> iedesc =
-            {
-                {
-                    { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-                    { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
-                }
-            };
-
-            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::InputLayout>(GetDevice(), iedesc, pBlob));
-        }
-
-
-    private:
         template <
             float_t red   = 0.0f,
             float_t green = 0.0f,
@@ -312,6 +289,26 @@ export namespace fatpound::win32::d3d11
             {
                 throw std::runtime_error{ "MSAA Quality is NOT valid!" };
             }
+        }
+        void InitFrameworkBinds_(auto& binds) requires(Framework)
+        {
+            auto pVS = std::make_unique<NAMESPACE_PIPELINE_ELEMENT::VertexShader>(GetDevice(), L"..\\FatModules\\VSFrameBuffer.cso");
+            auto pBlob = pVS->GetBytecode();
+
+            binds.push_back(std::move(pVS));
+            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::PixelShader>(GetDevice(), L"..\\FatModules\\PSFrameBuffer.cso"));
+            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::VertexBuffer>(GetDevice(), FullScreenQuad_::vertices));
+            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
+
+            const std::vector<D3D11_INPUT_ELEMENT_DESC> iedesc =
+            {
+                {
+                    { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+                    { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+                }
+            };
+
+            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::InputLayout>(GetDevice(), iedesc, pBlob));
         }
 
         void ToggleAltEnterMode_()
