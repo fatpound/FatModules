@@ -154,7 +154,7 @@ namespace fatpound::win32
         switch (msg)
         {
         case WM_CLOSE:
-            ::PostQuitMessage(0);
+            Kill();
             return 0;
 
         case WM_KILLFOCUS:
@@ -166,7 +166,7 @@ namespace fatpound::win32
         case WM_SYSKEYDOWN:
             if (wParam == VK_ESCAPE)
             {
-                ::PostQuitMessage(0);
+                Kill();
                 return 0;
             }
 
