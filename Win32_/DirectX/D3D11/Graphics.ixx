@@ -296,9 +296,9 @@ export namespace fatpound::win32::d3d11
             auto pBlob = pVS->GetBytecode();
 
             binds.push_back(std::move(pVS));
-            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::PixelShader>(GetDevice(), L"..\\FatModules\\PSFrameBuffer.cso"));
-            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::VertexBuffer>(GetDevice(), FullScreenQuad_::vertices));
-            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
+            binds.push_back(std::make_unique<NAMESPACE_PIPELINE_ELEMENT::PixelShader>(GetDevice(), L"..\\FatModules\\PSFrameBuffer.cso"));
+            binds.push_back(std::make_unique<NAMESPACE_PIPELINE_ELEMENT::VertexBuffer>(GetDevice(), FullScreenQuad_::vertices));
+            binds.push_back(std::make_unique<NAMESPACE_PIPELINE_ELEMENT::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
 
             const std::vector<D3D11_INPUT_ELEMENT_DESC> iedesc =
             {
@@ -308,7 +308,7 @@ export namespace fatpound::win32::d3d11
                 }
             };
 
-            binds.push_back(std::make_unique<NAMESPACE_PIPELINE::element::InputLayout>(GetDevice(), iedesc, pBlob));
+            binds.push_back(std::make_unique<NAMESPACE_PIPELINE_ELEMENT::InputLayout>(GetDevice(), iedesc, pBlob));
         }
 
         void ToggleAltEnterMode_()
