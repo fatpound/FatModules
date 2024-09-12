@@ -77,9 +77,9 @@ namespace fatpound::win32
 
     auto Window::ProcessMessages() noexcept -> std::optional<WPARAM>
     {
-        MSG msg;
+        MSG msg{};
 
-        while (::PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+        while (::PeekMessage(&msg, nullptr, 0u, 0u, PM_REMOVE))
         {
             if (msg.message == WM_QUIT) [[unlikely]]
             {
