@@ -19,7 +19,7 @@ export namespace fatpound::win32
 #else
         using str_t = const char*;
 #endif // UNICODE
-
+        
     public:
         explicit Window(const str_t title, const NAMESPACE_UTIL::ScreenSizeInfo& dimensions);
 
@@ -37,17 +37,6 @@ export namespace fatpound::win32
 
 
     public:
-        auto GetHwnd() const noexcept -> HWND;
-
-        auto IsActive()    const noexcept -> bool;
-        auto IsMinimized() const noexcept -> bool;
-
-        void SetTitle(const std::wstring& title);
-        void ShowMessageBox(const std::wstring& message, const std::wstring& title, const UINT error_flags) const noexcept;
-        void Kill() noexcept;
-
-
-    public:
         template <NAMESPACE_MATH_CONCEPTS::number_set::Rational Q>
         auto GetClientWidth() const noexcept
         {
@@ -59,6 +48,17 @@ export namespace fatpound::win32
         {
             return static_cast<Q>(m_client_size_.m_height);
         }
+
+
+    public:
+        auto GetHwnd() const noexcept -> HWND;
+
+        auto IsActive()    const noexcept -> bool;
+        auto IsMinimized() const noexcept -> bool;
+
+        void SetTitle(const std::wstring& title);
+        void ShowMessageBox(const std::wstring& message, const std::wstring& title, const UINT error_flags) const noexcept;
+        void Kill() noexcept;
 
 
     public:
@@ -89,6 +89,10 @@ export namespace fatpound::win32
             ~WndClass_() noexcept;
 
         private:
+            static auto CALLBACK HandleMsgSetup_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT;
+            static auto CALLBACK HandleMsgThunk_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT;
+
+        private:
             HINSTANCE m_hInst_;
 
 #ifdef UNICODE
@@ -100,12 +104,7 @@ export namespace fatpound::win32
 
 
     private:
-        static auto CALLBACK HandleMsgSetup_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT;
-        static auto CALLBACK HandleMsgThunk_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT;
-
-
-    private:
-        auto HandleMsg_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT;
+        auto HandleMsg_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT;
 
 
     private:

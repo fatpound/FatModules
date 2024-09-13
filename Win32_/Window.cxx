@@ -31,7 +31,7 @@ module FatPound.Win32.Window;
 namespace fatpound::win32
 {
     // Window
-
+    
     Window::Window(const str_t title, const NAMESPACE_UTIL::ScreenSizeInfo& dimensions)
         :
         m_client_size_{ dimensions }
@@ -121,32 +121,6 @@ namespace fatpound::win32
     void Window::Kill() noexcept
     {
         ::PostQuitMessage(0);
-    }
-
-    auto CALLBACK Window::HandleMsgSetup_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT
-    {
-        if (msg == WM_NCCREATE)
-        {
-            const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
-            Window* const pWnd = static_cast<Window*>(pCreate->lpCreateParams);
-
-            ::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
-
-#pragma warning (push)
-#pragma warning (disable : 5039)
-            ::SetWindowLongPtr(hWnd, GWLP_WNDPROC,  reinterpret_cast<LONG_PTR>(&Window::HandleMsgThunk_));
-#pragma warning (pop)
-
-            return pWnd->HandleMsg_(hWnd, msg, wParam, lParam);
-        }
-
-        return ::DefWindowProc(hWnd, msg, wParam, lParam);
-    }
-    auto CALLBACK Window::HandleMsgThunk_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT
-    {
-        Window* const pWnd = reinterpret_cast<Window*>(::GetWindowLongPtr(hWnd, GWLP_USERDATA));
-
-        return pWnd->HandleMsg_(hWnd, msg, wParam, lParam);
     }
 
     auto Window::HandleMsg_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT
@@ -267,29 +241,30 @@ namespace fatpound::win32
         :
         m_hInst_(::GetModuleHandle(nullptr))
     {
-        WNDCLASSEX wc{};
-        wc.cbSize = sizeof(wc);
-        wc.style = CS_OWNDC;
-        wc.lpfnWndProc = &Window::HandleMsgSetup_;
-        wc.cbClsExtra = 0;
-        wc.cbWndExtra = 0;
-        wc.hInstance = m_hInst_;
-        wc.hIcon = nullptr;
-        wc.hIconSm = nullptr;
-        wc.hbrBackground = nullptr;
-        wc.lpszMenuName = nullptr;
-        wc.lpszClassName = s_wndClassName_;
+        WNDCLASSEX wcx{};
+        wcx.cbSize = sizeof(wcx);
+        wcx.style = CS_OWNDC;
+        wcx.lpfnWndProc = &WndClass_::HandleMsgSetup_;
+        wcx.cbClsExtra = 0;
+        wcx.cbWndExtra = 0;
+        wcx.hInstance = m_hInst_;
+        wcx.hIcon = nullptr;
+        wcx.hIconSm = nullptr;
+        wcx.hbrBackground = nullptr;
+        wcx.lpszMenuName = nullptr;
+        wcx.lpszClassName = s_wndClassName_;
 
         if constexpr (s_cursorEnabled_)
         {
-            wc.hCursor = ::LoadCursor(nullptr, IDC_ARROW);
+            wcx.hCursor = ::LoadCursor(nullptr, IDC_ARROW);
         }
         else
         {
             ::ShowCursor(false);
         }
 
-        ::RegisterClassEx(&wc);
+        [[maybe_unused]]
+        const auto&& atom = ::RegisterClassEx(&wcx);
     }
     Window::WndClass_::~WndClass_() noexcept
     {
@@ -306,5 +281,31 @@ namespace fatpound::win32
     auto Window::WndClass_::GetName() noexcept -> str_t
     {
         return s_wndClassName_;
+    }
+
+    auto CALLBACK Window::WndClass_::HandleMsgSetup_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT
+    {
+        if (msg == WM_NCCREATE)
+        {
+            const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
+            Window* const pWnd = static_cast<Window*>(pCreate->lpCreateParams);
+
+            ::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
+
+#pragma warning (push)
+#pragma warning (disable : 5039)
+            ::SetWindowLongPtr(hWnd, GWLP_WNDPROC,  reinterpret_cast<LONG_PTR>(&WndClass_::HandleMsgThunk_));
+#pragma warning (pop)
+
+            return pWnd->HandleMsg_(hWnd, msg, wParam, lParam);
+        }
+
+        return ::DefWindowProc(hWnd, msg, wParam, lParam);
+    }
+    auto CALLBACK Window::WndClass_::HandleMsgThunk_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT
+    {
+        Window* const pWnd = reinterpret_cast<Window*>(::GetWindowLongPtr(hWnd, GWLP_USERDATA));
+
+        return pWnd->HandleMsg_(hWnd, msg, wParam, lParam);
     }
 }
