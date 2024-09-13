@@ -26,13 +26,13 @@ module;
 
 #endif // IN_RELEASE
 
-module FatPound.Win32.Window;
+module FatPound.Win32.Window_;
 
 namespace fatpound::win32
 {
-    // Window
+    // Window_
     
-    Window::Window(const str_t title, const NAMESPACE_UTIL::ScreenSizeInfo& dimensions)
+    Window_::Window_(const str_t title, const NAMESPACE_UTIL::ScreenSizeInfo& dimensions)
         :
         m_client_size_{ dimensions }
     {
@@ -70,12 +70,12 @@ namespace fatpound::win32
         ::ShowWindow(m_hWnd_, SW_SHOWDEFAULT);
         ::UpdateWindow(m_hWnd_);
     }
-    Window::~Window()
+    Window_::~Window_()
     {
         ::DestroyWindow(m_hWnd_);
     }
 
-    auto Window::ProcessMessages() noexcept -> std::optional<WPARAM>
+    auto Window_::ProcessMessages() noexcept -> std::optional<WPARAM>
     {
         MSG msg{};
 
@@ -93,37 +93,37 @@ namespace fatpound::win32
         return std::nullopt;
     }
 
-    auto Window::GetHwnd() const noexcept -> HWND
+    auto Window_::GetHwnd() const noexcept -> HWND
     {
         return m_hWnd_;
     }
 
-    auto Window::IsActive()    const noexcept -> bool
+    auto Window_::IsActive()    const noexcept -> bool
     {
         return ::GetActiveWindow() == m_hWnd_;
     }
-    auto Window::IsMinimized() const noexcept -> bool
+    auto Window_::IsMinimized() const noexcept -> bool
     {
         return ::IsIconic(m_hWnd_) not_eq 0;
     }
 
-    void Window::SetTitle(const std::wstring& title)
+    void Window_::SetTitle(const std::wstring& title)
     {
         if (::SetWindowText(m_hWnd_, title.c_str()) == 0) [[unlikely]]
         {
             throw std::runtime_error("Could NOT set the Window Text!");
         }
     }
-    void Window::ShowMessageBox(const std::wstring& message, const std::wstring& title, const UINT error_flags) const noexcept
+    void Window_::ShowMessageBox(const std::wstring& message, const std::wstring& title, const UINT error_flags) const noexcept
     {
         ::MessageBox(m_hWnd_, message.c_str(), title.c_str(), error_flags);
     }
-    void Window::Kill() noexcept
+    void Window_::Kill() noexcept
     {
         ::PostQuitMessage(0);
     }
 
-    auto Window::HandleMsg_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT
+    auto Window_::HandleMsg_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT
     {
         switch (msg)
         {
@@ -235,9 +235,9 @@ namespace fatpound::win32
     }
 
 
-    // Window::WndClass_
+    // Window_::WndClass_
 
-    Window::WndClass_::WndClass_() noexcept
+    Window_::WndClass_::WndClass_() noexcept
         :
         m_hInst_(::GetModuleHandle(nullptr))
     {
@@ -266,29 +266,29 @@ namespace fatpound::win32
         [[maybe_unused]]
         const auto&& atom = ::RegisterClassEx(&wcx);
     }
-    Window::WndClass_::~WndClass_() noexcept
+    Window_::WndClass_::~WndClass_() noexcept
     {
         ::UnregisterClass(s_wndClassName_, WndClass_::GetInstance());
     }
 
-    auto Window::WndClass_::GetInstance() noexcept -> HINSTANCE
+    auto Window_::WndClass_::GetInstance() noexcept -> HINSTANCE
     {
         static WndClass_ wndClass_;
 
         return wndClass_.m_hInst_;
     }
 
-    auto Window::WndClass_::GetName() noexcept -> str_t
+    auto Window_::WndClass_::GetName() noexcept -> str_t
     {
         return s_wndClassName_;
     }
 
-    auto CALLBACK Window::WndClass_::HandleMsgSetup_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT
+    auto CALLBACK Window_::WndClass_::HandleMsgSetup_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT
     {
         if (msg == WM_NCCREATE)
         {
             const CREATESTRUCTW* const pCreate = reinterpret_cast<CREATESTRUCTW*>(lParam);
-            Window* const pWnd = static_cast<Window*>(pCreate->lpCreateParams);
+            Window_* const pWnd = static_cast<Window_*>(pCreate->lpCreateParams);
 
             ::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
 
@@ -302,9 +302,9 @@ namespace fatpound::win32
 
         return ::DefWindowProc(hWnd, msg, wParam, lParam);
     }
-    auto CALLBACK Window::WndClass_::HandleMsgThunk_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT
+    auto CALLBACK Window_::WndClass_::HandleMsgThunk_(const HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT
     {
-        Window* const pWnd = reinterpret_cast<Window*>(::GetWindowLongPtr(hWnd, GWLP_USERDATA));
+        Window_* const pWnd = reinterpret_cast<Window_*>(::GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
         return pWnd->HandleMsg_(hWnd, msg, wParam, lParam);
     }

@@ -2,7 +2,7 @@ module;
 
 #include <FatWin32_.hpp>
 
-export module FatPound.Win32.Window;
+export module FatPound.Win32.Window_;
 
 import FatPound.Win32.IO;
 import FatPound.Math;
@@ -12,7 +12,7 @@ import std;
 
 export namespace fatpound::win32
 {
-    class Window final
+    class Window_ final
     {
 #ifdef UNICODE
         using str_t = const wchar_t*;
@@ -21,15 +21,15 @@ export namespace fatpound::win32
 #endif // UNICODE
         
     public:
-        explicit Window(const str_t title, const NAMESPACE_UTIL::ScreenSizeInfo& dimensions);
+        explicit Window_(const str_t title, const NAMESPACE_UTIL::ScreenSizeInfo& dimensions);
 
-        explicit Window() = delete;
-        explicit Window(const Window& src) = delete;
-        explicit Window(Window&& src) = delete;
+        explicit Window_() = delete;
+        explicit Window_(const Window_& src) = delete;
+        explicit Window_(Window_&& src) = delete;
 
-        auto operator = (const Window& src) -> Window& = delete;
-        auto operator = (Window&& src)      -> Window& = delete;
-        ~Window() noexcept;
+        auto operator = (const Window_& src) -> Window_& = delete;
+        auto operator = (Window_&& src)      -> Window_& = delete;
+        ~Window_() noexcept;
 
 
     public:

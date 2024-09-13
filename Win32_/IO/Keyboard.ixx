@@ -8,14 +8,14 @@ import std;
 
 namespace fatpound::win32
 {
-    class Window;
+    class Window_;
 }
 
 export namespace fatpound::win32::io
 {
     class Keyboard final
     {
-        friend NAMESPACE_WIN32::Window;
+        friend NAMESPACE_WIN32::Window_;
 
     public:
         class Event final
