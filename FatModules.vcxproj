@@ -138,8 +138,8 @@
     <ClCompile Include="Win32_\IO\Mouse.cxx" />
     <ClCompile Include="Win32_\IO\Mouse.ixx" />
     <ClCompile Include="Win32_\Win32.ixx" />
-    <ClCompile Include="Win32_\Window.cxx" />
-    <ClCompile Include="Win32_\Window.ixx" />
+    <ClCompile Include="Win32_\Window_.cxx" />
+    <ClCompile Include="Win32_\Window_.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32_\FatWin32_.hpp" />
