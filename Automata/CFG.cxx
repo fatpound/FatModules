@@ -60,7 +60,7 @@ namespace fatpound::automata
     {
         string str;
 
-        while (std::getline(inputFile, str, s_language_seperator_))
+        while (std::getline(inputFile, str, scx_language_seperator_))
         {
             {
                 const auto& it = std::ranges::remove_if(str, [](const auto& ch) noexcept -> bool { return std::isspace(ch) not_eq 0; });
@@ -68,13 +68,13 @@ namespace fatpound::automata
                 str.erase(it.begin(), it.end());
             }
 
-            const auto& index = str.find(s_language_content_seperator_);
+            const auto& index = str.find(scx_language_content_seperator_);
 
             if (index not_eq string::npos)
             {
                 string word(str.cbegin(), str.cbegin() + static_cast<std::ptrdiff_t>(index));
 
-                str.erase(0, index + std::strlen(s_language_content_seperator_));
+                str.erase(0, index + std::strlen(scx_language_content_seperator_));
 
                 vector<string> leaves;
 
@@ -82,7 +82,7 @@ namespace fatpound::automata
 
                 string tempstr;
 
-                while (std::getline(iss, tempstr, s_language_word_seperator_))
+                while (std::getline(iss, tempstr, scx_language_word_seperator_))
                 {
                     if (std::ranges::find(leaves, tempstr) == leaves.cend())
                     {

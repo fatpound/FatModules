@@ -58,6 +58,10 @@ export namespace fatpound::automata
 
 
     private:
+        static constexpr auto scx_recurse_limit_ = 1u;
+
+
+    private:
         const std::vector<std::pair<std::string, std::vector<std::string>>>& m_cfgrammar_;
 
         std::vector<std::string> m_results_;
@@ -65,7 +69,5 @@ export namespace fatpound::automata
         std::vector<std::size_t> m_recursers_;
 
         Node_* m_tree_ = nullptr;
-
-        static constexpr auto s_recurse_limit_ = 1u;
     };
 }

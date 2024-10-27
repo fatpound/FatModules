@@ -79,7 +79,7 @@ namespace fatpound::automata
                         const auto tree_index = static_cast<std::size_t>(it - m_trees_.cbegin());
                         const auto will_recurse = ((tree_index == index) ? 1 : 0);
 
-                        if (recursed < s_recurse_limit_)
+                        if (recursed < scx_recurse_limit_)
                         {
                             // const auto size = tempstrings.size();
 

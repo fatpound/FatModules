@@ -1,7 +1,7 @@
 module;
 
 #include <FatWin32_Settings.hpp>
-#include <FatWin32_Namespaces.hpp>
+#include <FatNamespaces.hpp>
 
 #include <d3d11.h>
 
@@ -32,7 +32,7 @@ export namespace fatpound::win32::d3d11::factory
     public:
         template <bool ForShaderResource = false>
         static constexpr auto CreateDESC(
-                const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions,
+                const FATSPACE_UTIL::ScreenSizeInfo gfxDimensions,
                 const UINT msaaCount,
                 const UINT msaaQuality
             )

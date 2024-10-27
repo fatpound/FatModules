@@ -132,7 +132,7 @@ namespace fatpound::automata
 
                 if (cfgstr.contains(ch))
                 {
-                    if (m_recursers_[index] >= s_recurse_limit_)
+                    if (m_recursers_[index] >= scx_recurse_limit_)
                     {
                         // const auto [first, last] = rn::remove_if(str, [](const auto& ch) { return std::isupper(ch); });
                         // 

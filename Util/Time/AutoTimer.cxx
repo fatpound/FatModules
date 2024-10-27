@@ -2,9 +2,9 @@ module;
 
 #include <chrono>
 
-module FatPound.Util.AutoTimer;
+module FatPound.Util.Time.AutoTimer;
 
-namespace fatpound::util
+namespace fatpound::util::time
 {
     float AutoTimer::Mark() noexcept
     {

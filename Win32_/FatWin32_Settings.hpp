@@ -14,10 +14,10 @@
 // #define NOSYSMETRICS
 #define NOMENUS
 #define NOICONS
-#define NOSYSCOMMANDS
+// #define NOSYSCOMMANDS
 #define NORASTEROPS
 #define OEMRESOURCE
-#define NOATOM
+// #define NOATOM
 #define NOCLIPBOARD
 // #define NOCOLOR
 #define NOCTLMGR

@@ -1,10 +1,10 @@
 module;
 
-export module FatPound.Util.AutoTimer;
+export module FatPound.Util.Time.AutoTimer;
 
 import std;
 
-export namespace fatpound::util
+export namespace fatpound::util::time
 {
     class AutoTimer final
     {

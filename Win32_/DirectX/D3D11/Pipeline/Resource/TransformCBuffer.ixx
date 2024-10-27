@@ -1,7 +1,7 @@
 module;
 
 #include <FatWin32_Settings.hpp>
-#include <FatWin32_Namespaces.hpp>
+#include <FatNamespaces.hpp>
 
 #include <DirectXMath.h>
 
@@ -23,7 +23,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
     class TransformCBuffer final : public Bindable
     {
     public:
-        explicit TransformCBuffer(ID3D11Device* const pDevice, const T& parent, NAMESPACE_UTIL::ViewXM& viewXM)
+        explicit TransformCBuffer(ID3D11Device* const pDevice, const T& parent, FATSPACE_UTIL::ViewXM& viewXM)
             :
             m_vcbuf_(pDevice),
             m_parent_(parent),
@@ -61,10 +61,10 @@ export namespace fatpound::win32::d3d11::pipeline::resource
 
 
     private:
-        VertexCBuffer<DirectX::XMMATRIX> m_vcbuf_;
+        VertexCBuffer<::DirectX::XMMATRIX> m_vcbuf_;
 
         const T& m_parent_;
 
-        NAMESPACE_UTIL::ViewXM& m_viewXM_;
+        FATSPACE_UTIL::ViewXM& m_viewXM_;
     };
 }

@@ -1,6 +1,6 @@
 module;
 
-#include <FatWin32_Namespaces.hpp>
+#include <FatNamespaces.hpp>
 
 #include <d3d11.h>
 
@@ -24,21 +24,21 @@ namespace fatpound::win32::d3d11::visual
             static_bindable->Bind(pImmediateContext);
         }
 
-        pImmediateContext->DrawIndexed(pCIndexBuffer_->GetCount(), 0u, 0);
+        pImmediateContext->DrawIndexed(m_pCIndexBuffer_->GetCount(), 0u, 0);
     }
 
-    void Drawable::AddBind_(std::unique_ptr<NAMESPACE_PIPELINE::Bindable> bind) noexcept(IN_RELEASE)
+    void Drawable::AddBind_(std::unique_ptr<FATSPACE_PIPELINE::Bindable> bind) noexcept(IN_RELEASE)
     {
-        assert((typeid(*bind) not_eq typeid(NAMESPACE_PIPELINE_ELEMENT::IndexBuffer)) && "*Must* use AddIndexBuffer_() method to bind it!");
+        assert((typeid(*bind) not_eq typeid(FATSPACE_PIPELINE_ELEMENT::IndexBuffer)) && "*Must* use AddIndexBuffer_() method to bind it!");
 
         m_binds_.push_back(std::move(bind));
     }
 
-    void Drawable::AddIndexBuffer_(std::unique_ptr<NAMESPACE_PIPELINE_ELEMENT::IndexBuffer> idxbuf) noexcept(IN_RELEASE)
+    void Drawable::AddIndexBuffer_(std::unique_ptr<FATSPACE_PIPELINE_ELEMENT::IndexBuffer> idxbuf) noexcept(IN_RELEASE)
     {
-        assert((pCIndexBuffer_ == nullptr) && "Attempting to add index buffer a second time");
+        assert((m_pCIndexBuffer_ == nullptr) && "Attempting to add index buffer a second time");
 
-        pCIndexBuffer_ = idxbuf.get();
+        m_pCIndexBuffer_ = idxbuf.get();
 
         m_binds_.push_back(std::move(idxbuf));
     }

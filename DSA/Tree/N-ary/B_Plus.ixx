@@ -4,8 +4,6 @@ export module FatPound.DSA.Tree.N_ary.B_Plus;
 
 import std;
 
-namespace rn = std::ranges;
-
 export namespace fatpound::dsa::tree::n_ary
 {
     template <std::totally_ordered T, std::size_t I, std::size_t S>

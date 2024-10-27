@@ -4,4 +4,4 @@
 
 #include <Windows.h>
 
-#include <FatWin32_Namespaces.hpp>
+#include <FatNamespaces.hpp>

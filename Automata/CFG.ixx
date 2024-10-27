@@ -49,10 +49,12 @@ export namespace fatpound::automata
 
 
     private:
-        GrammarType m_grammar_;
+        static constexpr auto scx_language_seperator_         = ',';
+        static constexpr auto scx_language_word_seperator_    = '|';
+        static constexpr auto scx_language_content_seperator_ = "-->";
 
-        static constexpr auto s_language_seperator_         = ',';
-        static constexpr auto s_language_word_seperator_    = '|';
-        static constexpr auto s_language_content_seperator_ = "-->";
+
+    private:
+        GrammarType m_grammar_;
     };
 }

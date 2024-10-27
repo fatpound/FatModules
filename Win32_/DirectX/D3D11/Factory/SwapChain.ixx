@@ -1,7 +1,7 @@
 module;
 
 #include <FatWin32_Settings.hpp>
-#include <FatWin32_Namespaces.hpp>
+#include <FatNamespaces.hpp>
 
 #include <d3d11.h>
 
@@ -32,16 +32,19 @@ export namespace fatpound::win32::d3d11::factory
 
 
     public:
-        template <bool ForFramework = false>
+        template <
+            bool ForFramework = false,
+            bool Fullscreen = false
+        >
         static auto CreateDESC(
                 const HWND hWnd,
-                const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions,
+                const FATSPACE_UTIL::ScreenSizeInfo gfxDimensions,
                 [[maybe_unused]] const UINT msaaCount,
                 [[maybe_unused]] const UINT msaaQuality
             )
             noexcept -> DXGI_SWAP_CHAIN_DESC
         {
-            DXGI_SWAP_CHAIN_DESC desc = {};
+            DXGI_SWAP_CHAIN_DESC desc{};
             desc.BufferDesc.Width = gfxDimensions.m_width;
             desc.BufferDesc.Height = gfxDimensions.m_height;
             desc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
@@ -66,7 +69,7 @@ export namespace fatpound::win32::d3d11::factory
                 desc.SampleDesc.Quality = msaaQuality - 1u;
             }
 
-            if constexpr (IN_RELEASE)
+            if constexpr (Fullscreen)
             {
                 desc.Windowed = false;
             }
@@ -82,7 +85,7 @@ export namespace fatpound::win32::d3d11::factory
     public:
         static auto CreateDESC(
             const HWND hWnd,
-            const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions,
+            const FATSPACE_UTIL::ScreenSizeInfo gfxDimensions,
             const UINT msaaCount,
             const UINT msaaQuality
         ) 

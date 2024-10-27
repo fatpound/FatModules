@@ -58,10 +58,12 @@ export namespace fatpound::automata
 
 
     private:
+        static constexpr auto scx_recurse_limit_ = 1u;
+
+
+    private:
         std::vector<std::pair<std::string, bool>> m_results_;
 
         std::vector<Node_*> m_trees_;
-
-        static constexpr auto s_recurse_limit_ = 1u;
     };
 }

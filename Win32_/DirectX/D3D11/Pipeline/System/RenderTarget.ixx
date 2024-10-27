@@ -1,7 +1,7 @@
 module;
 
 #include <FatWin32_Settings.hpp>
-#include <FatWin32_Namespaces.hpp>
+#include <FatNamespaces.hpp>
 
 #include <d3d11.h>
 
@@ -34,7 +34,7 @@ export namespace fatpound::win32::d3d11::pipeline::system
 
 	public:
 		template <bool ForFramework = false>
-		static void Set_FatDefault(GraphicsResourcePack& gfxResPack, const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions, const UINT msaaCount, const UINT msaaQuality)
+		static void Set_FatDefault(GraphicsResourcePack& gfxResPack, const FATSPACE_UTIL::ScreenSizeInfo gfxDimensions, const UINT msaaCount, const UINT msaaQuality)
 		{
 			Set_FatDefault<ForFramework>(
 				gfxResPack.m_pSwapChain.Get(),
@@ -59,7 +59,7 @@ export namespace fatpound::win32::d3d11::pipeline::system
 				ID3D11DeviceContext* const pImmediateContext,
 				::wrl::ComPtr<ID3D11RenderTargetView>& pRenderTargetView,
 				::wrl::ComPtr<ID3D11DepthStencilView>& pDSV,
-				const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions,
+				const FATSPACE_UTIL::ScreenSizeInfo gfxDimensions,
 				const UINT msaaCount,
 				const UINT msaaQuality
 			)

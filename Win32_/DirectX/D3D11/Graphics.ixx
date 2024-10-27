@@ -30,8 +30,8 @@ import std;
 namespace dx = DirectX;
 namespace wrl = Microsoft::WRL;
 
-using NAMESPACE_UTIL::Color;
-using NAMESPACE_UTIL::ScreenSizeInfo;
+using FATSPACE_UTIL::Color;
+using FATSPACE_UTIL::ScreenSizeInfo;
 
 export namespace fatpound::win32::d3d11
 {
@@ -43,25 +43,25 @@ export namespace fatpound::win32::d3d11
     public:
         explicit Graphics(const HWND hWnd, const ScreenSizeInfo& dimensions)
             :
-            m_dimensions_{ dimensions }
+            mc_dimensions_{ dimensions }
         {
             InitCommon_(hWnd);
             
-            if constexpr (s_rasterizationEnabled_)
+            if constexpr (scx_rasterizationEnabled_)
             {
                 pipeline::system::Rasterizer::SetState_FatDefault(m_res_pack_);
             }
         }
         explicit Graphics(const HWND hWnd, const ScreenSizeInfo& dimensions) requires(Framework)
             :
-            m_dimensions_{ dimensions }
+            mc_dimensions_{ dimensions }
         {
             InitCommon_(hWnd);
 
-            pipeline::system::ShaderResource::SetView_Default<Framework>(m_res_pack_, m_dimensions_, m_msaa_count_, m_msaa_quality_);
+            pipeline::system::ShaderResource::SetView_FatDefault<Framework>(m_res_pack_, mc_dimensions_, m_msaa_count_, m_msaa_quality_);
             pipeline::system::Sampler::SetState_FatDefault(m_res_pack_);
 
-            m_res_pack_.m_pSysBuffer = static_cast<Color*>(_aligned_malloc(sizeof(Color) * m_dimensions_.m_width * m_dimensions_.m_height, 16u));
+            m_res_pack_.m_pSysBuffer = static_cast<Color*>(::_aligned_malloc(sizeof(Color) * mc_dimensions_.m_width * mc_dimensions_.m_height, 16u));
 
             if (m_res_pack_.m_pSysBuffer == nullptr) [[unlikely]]
             {
@@ -78,18 +78,39 @@ export namespace fatpound::win32::d3d11
         auto operator = (const Graphics& src) -> Graphics& = delete;
         auto operator = (Graphics&& src)      -> Graphics& = delete;
         ~Graphics() noexcept = default;
-        ~Graphics() noexcept(false) requires(Framework)
+        ~Graphics() noexcept requires(Framework)
         {
             if (m_res_pack_.m_pSysBuffer not_eq nullptr) [[likely]]
             {
-                _aligned_free(m_res_pack_.m_pSysBuffer);
+                ::_aligned_free(m_res_pack_.m_pSysBuffer);
                 m_res_pack_.m_pSysBuffer = nullptr;
             }
 
             if (m_res_pack_.m_pImmediateContext not_eq nullptr) [[likely]]
             {
-                m_res_pack_.m_pImmediateContext->ClearState();
+                try
+                {
+                    m_res_pack_.m_pImmediateContext->ClearState();
+                }
+                catch (...)
+                {
+                    OutputDebugString(L"COM Exception caught in Graphics<Framework> destructor!\n");
+                }
             }
+        }
+
+
+    public:
+        template <float_t red, float_t green, float_t blue, float_t alpha = 1.0f>
+        void FillWithSolidColor() requires(not Framework)
+        {
+            ClearBuffer_<red, green, blue, alpha>();
+        }
+
+        template <std::floating_point T = float_t>
+        void FillWithSolidColor(const T red, const T green, const T blue, const T alpha = static_cast<T>(1.0)) requires(not Framework)
+        {
+            ClearBuffer_(red, green, blue, alpha);
         }
 
 
@@ -109,7 +130,7 @@ export namespace fatpound::win32::d3d11
         }
         void BeginFrame() noexcept requires(Framework)
         {
-            std::memset(static_cast<void*>(m_res_pack_.m_pSysBuffer), 0u, sizeof(Color) * m_dimensions_.m_width * m_dimensions_.m_height);
+            std::memset(static_cast<void*>(m_res_pack_.m_pSysBuffer), 0u, sizeof(Color) * mc_dimensions_.m_width * mc_dimensions_.m_height);
         }
         void EndFrame()
         {
@@ -136,10 +157,10 @@ export namespace fatpound::win32::d3d11
                 Color* const pDst = static_cast<Color*>(m_res_pack_.m_mappedSysBufferTexture.pData);
 
                 const auto dstPitch = m_res_pack_.m_mappedSysBufferTexture.RowPitch / sizeof(Color);
-                const auto srcPitch = m_dimensions_.m_width;
+                const auto srcPitch = mc_dimensions_.m_width;
                 const auto rowBytes = srcPitch * sizeof(Color);
 
-                for (auto y = 0u; y < m_dimensions_.m_height; ++y)
+                for (auto y = 0u; y < mc_dimensions_.m_height; ++y)
                 {
                     std::memcpy(
                         static_cast<void*>(&pDst[y * dstPitch]),
@@ -155,32 +176,28 @@ export namespace fatpound::win32::d3d11
             Present_<>();
         }
 
-        void FillWithSolidColor(const float_t red, const float_t green, const float_t blue, const float_t alpha = 1.0f) requires(not Framework)
-        {
-            ClearBuffer_(red, green, blue, alpha);
-        }
         void PutPixel(const int x, const int y, const Color color) noexcept requires(Framework)
         {
             assert(x >= 0);
-            assert(x < static_cast<int>(m_dimensions_.m_width));
+            assert(x < static_cast<int>(mc_dimensions_.m_width));
             assert(y >= 0);
-            assert(y < static_cast<int>(m_dimensions_.m_height));
+            assert(y < static_cast<int>(mc_dimensions_.m_height));
 
-            m_res_pack_.m_pSysBuffer[m_dimensions_.m_width * y + x] = color;
+            m_res_pack_.m_pSysBuffer[mc_dimensions_.m_width * y + x] = color;
         }
 
 
     public:
-        template <NAMESPACE_MATH_CONCEPTS::number_set::Rational Q>
+        template <FATSPACE_MATH::number_set::Rational Q>
         auto GetWidth() const noexcept
         {
-            return static_cast<Q>(m_dimensions_.m_width);
+            return static_cast<Q>(mc_dimensions_.m_width);
         }
 
-        template <NAMESPACE_MATH_CONCEPTS::number_set::Rational Q>
+        template <FATSPACE_MATH::number_set::Rational Q>
         auto GetHeight() const noexcept
         {
-            return static_cast<Q>(m_dimensions_.m_height);
+            return static_cast<Q>(mc_dimensions_.m_height);
         }
 
 
@@ -200,7 +217,7 @@ export namespace fatpound::win32::d3d11
                 float v;
             };
 
-            inline static const std::vector<Vertex> vertices =
+            inline static const std::vector<Vertex> sc_vertices =
             {
                 Vertex{ -1.0f,  1.0f,  0.5f,  0.0f,  0.0f },
                 Vertex{  1.0f,  1.0f,  0.5f,  1.0f,  0.0f },
@@ -213,15 +230,19 @@ export namespace fatpound::win32::d3d11
 
 
     private:
-        template <
-            float_t red   = 0.0f,
-            float_t green = 0.0f,
-            float_t blue  = 0.0f,
-            float_t alpha = 1.0f
-        >
+        template <float_t red = 0.0f, float_t green = 0.0f, float_t blue = 0.0f, float_t alpha = 1.0f>
         void ClearBuffer_() requires(not Framework)
         {
             constexpr std::array<const float_t, 4> colors{ red, green, blue, alpha };
+
+            m_res_pack_.m_pImmediateContext->ClearRenderTargetView(m_res_pack_.m_pRTV.Get(), colors.data());
+            m_res_pack_.m_pImmediateContext->ClearDepthStencilView(m_res_pack_.m_pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
+        }
+
+        template <std::floating_point T = float_t>
+        void ClearBuffer_(const T red, const T green, const T blue, const T alpha = static_cast<T>(1.0)) requires(not Framework)
+        {
+            const std::array<const T, 4> colors{ red, green, blue, alpha };
 
             m_res_pack_.m_pImmediateContext->ClearRenderTargetView(m_res_pack_.m_pRTV.Get(), colors.data());
             m_res_pack_.m_pImmediateContext->ClearDepthStencilView(m_res_pack_.m_pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
@@ -247,18 +268,18 @@ export namespace fatpound::win32::d3d11
             InitMSAA_Settings_();
 
             {
-                auto&& scdesc = factory::SwapChain::CreateDESC<Framework>(hWnd, m_dimensions_, m_msaa_count_, m_msaa_quality_);
+                auto&& scdesc = factory::SwapChain::CreateDESC<Framework>(hWnd, mc_dimensions_, m_msaa_count_, m_msaa_quality_);
                 factory::SwapChain::Create(m_res_pack_, scdesc);
             }
             
             ToggleAltEnterMode_();
 
-            pipeline::system::RenderTarget::Set_FatDefault<Framework>(m_res_pack_, m_dimensions_, m_msaa_count_, m_msaa_quality_);
-            pipeline::system::Viewport::Set_FatDefault(m_res_pack_, m_dimensions_);
+            pipeline::system::RenderTarget::Set_FatDefault<Framework>(m_res_pack_, mc_dimensions_, m_msaa_count_, m_msaa_quality_);
+            pipeline::system::Viewport::Set_FatDefault(m_res_pack_, mc_dimensions_);
         }
         void InitFramework_() requires(Framework)
         {
-            std::vector<std::unique_ptr<NAMESPACE_PIPELINE::Bindable>> binds;
+            std::vector<std::unique_ptr<FATSPACE_PIPELINE::Bindable>> binds;
 
             InitFrameworkBinds_(binds);
 
@@ -292,13 +313,13 @@ export namespace fatpound::win32::d3d11
         }
         void InitFrameworkBinds_(auto& binds) requires(Framework)
         {
-            auto pVS = std::make_unique<NAMESPACE_PIPELINE_ELEMENT::VertexShader>(GetDevice(), L"..\\FatModules\\VSFrameBuffer.cso");
+            auto pVS = std::make_unique<FATSPACE_PIPELINE_ELEMENT::VertexShader>(GetDevice(), L"..\\FatModules\\VSFrameBuffer.cso");
             auto pBlob = pVS->GetBytecode();
 
             binds.push_back(std::move(pVS));
-            binds.push_back(std::make_unique<NAMESPACE_PIPELINE_ELEMENT::PixelShader>(GetDevice(), L"..\\FatModules\\PSFrameBuffer.cso"));
-            binds.push_back(std::make_unique<NAMESPACE_PIPELINE_ELEMENT::VertexBuffer>(GetDevice(), FullScreenQuad_::vertices));
-            binds.push_back(std::make_unique<NAMESPACE_PIPELINE_ELEMENT::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
+            binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::PixelShader>(GetDevice(), L"..\\FatModules\\PSFrameBuffer.cso"));
+            binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::VertexBuffer>(GetDevice(), FullScreenQuad_::sc_vertices));
+            binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
 
             const std::vector<D3D11_INPUT_ELEMENT_DESC> iedesc =
             {
@@ -308,49 +329,41 @@ export namespace fatpound::win32::d3d11
                 }
             };
 
-            binds.push_back(std::make_unique<NAMESPACE_PIPELINE_ELEMENT::InputLayout>(GetDevice(), iedesc, pBlob));
+            binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::InputLayout>(GetDevice(), iedesc, pBlob));
         }
 
         void ToggleAltEnterMode_()
         {
             static UINT flag{};
 
-            static constexpr auto magic_value = static_cast<UINT>(DXGI_MWA_NO_ALT_ENTER);
-
-            if ((flag bitand magic_value) not_eq 0u)
+            static constexpr auto magicVal = static_cast<UINT>(DXGI_MWA_NO_ALT_ENTER);
+            
+            if ((flag bitand magicVal) not_eq 0u)
             {
-                flag and_eq ~magic_value;
+                flag and_eq (compl magicVal);
             }
             else
             {
-                flag or_eq magic_value;
+                flag or_eq magicVal;
             }
 
-            DXGI_SWAP_CHAIN_DESC desc{};
-            m_res_pack_.m_pSwapChain->GetDesc(&desc);
+            DXGI_SWAP_CHAIN_DESC scdesc{};
+            m_res_pack_.m_pSwapChain->GetDesc(&scdesc);
 
-            const auto& hWnd = desc.OutputWindow;
-
-            NAMESPACE_DXGI::util::GetFactory(GetDevice())->MakeWindowAssociation(hWnd, flag);
-        }
-        
-        void ClearBuffer_(const float_t red, const float_t green, const float_t blue, const float_t alpha = 1.0f) requires(not Framework)
-        {
-            const std::array<const float_t, 4> colors{ red, green, blue, alpha };
-
-            m_res_pack_.m_pImmediateContext->ClearRenderTargetView(m_res_pack_.m_pRTV.Get(), colors.data());
-            m_res_pack_.m_pImmediateContext->ClearDepthStencilView(m_res_pack_.m_pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
+            FATSPACE_DXGI::util::GetFactory(GetDevice())->MakeWindowAssociation(scdesc.OutputWindow, flag);
         }
 
 
     private:
-        GraphicsResourcePack m_res_pack_{};
+        static constexpr auto scx_rasterizationEnabled_ = std::bool_constant<not Framework>::value;
 
-        const ScreenSizeInfo m_dimensions_{};
+
+    private:
+        GraphicsResourcePack m_res_pack_{};
+        
+        const ScreenSizeInfo mc_dimensions_;
 
         UINT m_msaa_count_{};
         UINT m_msaa_quality_{};
-
-        static constexpr auto s_rasterizationEnabled_ = std::conditional_t<Framework, std::false_type, std::true_type>::value;
     };
 }

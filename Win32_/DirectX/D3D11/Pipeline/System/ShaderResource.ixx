@@ -33,9 +33,9 @@ export namespace fatpound::win32::d3d11::pipeline::system
 
 	public:
 		template <bool ForFramework = true>
-		static void SetView_Default(GraphicsResourcePack& gfxResPack, const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions, const UINT msaaCount, const UINT msaaQuality)
+		static void SetView_FatDefault(GraphicsResourcePack& gfxResPack, const FATSPACE_UTIL::ScreenSizeInfo gfxDimensions, const UINT msaaCount, const UINT msaaQuality)
 		{
-			SetView_Default<ForFramework>(
+			SetView_FatDefault<ForFramework>(
 				gfxResPack.m_pDevice.Get(),
 				gfxResPack.m_pImmediateContext.Get(),
 				gfxResPack.m_pSysBufferTexture,
@@ -46,11 +46,11 @@ export namespace fatpound::win32::d3d11::pipeline::system
 		}
 
 		template <bool ForFramework = true>
-		static void SetView_Default(
+		static void SetView_FatDefault(
 				ID3D11Device* const pDevice,
 				ID3D11DeviceContext* const pImmediateContext,
 				::wrl::ComPtr<ID3D11Texture2D>& pSysBufferTexture,
-				const NAMESPACE_UTIL::ScreenSizeInfo gfxDimensions,
+				const FATSPACE_UTIL::ScreenSizeInfo gfxDimensions,
 				const UINT msaaCount,
 				const UINT msaaQuality
 			)

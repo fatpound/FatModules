@@ -13,7 +13,7 @@ export namespace fatpound::util
     class ViewXM final
     {
     public:
-        ViewXM() = default;
+        explicit ViewXM() = default;
         explicit ViewXM(const ViewXM& src) = delete;
         explicit ViewXM(ViewXM&& src) = delete;
 
@@ -23,7 +23,7 @@ export namespace fatpound::util
 
 
     public:
-        auto GetCameraXM() const noexcept -> ::DirectX::XMMATRIX;
+        auto GetCameraXM()     const noexcept -> ::DirectX::XMMATRIX;
         auto GetProjectionXM() const noexcept -> ::DirectX::XMMATRIX;
 
         void SetCameraXM(const ::DirectX::XMMATRIX& camera) noexcept;

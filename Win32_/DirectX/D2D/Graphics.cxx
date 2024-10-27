@@ -19,7 +19,7 @@ namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d2d
 {
-    Graphics::Graphics(HWND hWnd, const NAMESPACE_UTIL::ScreenSizeInfo& dimensions)
+    Graphics::Graphics(HWND hWnd, const FATSPACE_UTIL::ScreenSizeInfo& dimensions)
         :
         width_(dimensions.m_width),
         height_(dimensions.m_height)

@@ -1,7 +1,7 @@
 module;
 
 #include <FatWin32_Settings.hpp>
-#include <FatWin32_Namespaces.hpp>
+#include <FatNamespaces.hpp>
 
 #include <d3d11.h>
 
@@ -24,7 +24,7 @@ namespace fatpound::win32::d3d11::factory
             ::wrl::ComPtr<IDXGISwapChain>& pSwapChain
         )
     {
-        const auto& hr = NAMESPACE_DXGI::util::GetFactory(pDevice)->CreateSwapChain(
+        const auto& hr = FATSPACE_DXGI::util::GetFactory(pDevice)->CreateSwapChain(
             pDevice,
             &desc,
             pSwapChain.GetAddressOf()

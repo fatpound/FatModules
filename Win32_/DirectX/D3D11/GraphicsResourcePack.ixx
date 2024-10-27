@@ -1,7 +1,7 @@
 module;
 
 #include <FatWin32_Settings.hpp>
-#include <FatWin32_Namespaces.hpp>
+#include <FatNamespaces.hpp>
 
 #include <d3d11.h>
 
@@ -27,6 +27,6 @@ export namespace fatpound::win32::d3d11
 
         D3D11_MAPPED_SUBRESOURCE m_mappedSysBufferTexture{};
 
-        NAMESPACE_UTIL::Color* m_pSysBuffer{};
+        FATSPACE_UTIL::Color* m_pSysBuffer{};
     };
 }

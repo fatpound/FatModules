@@ -1,27 +1,19 @@
 module;
 
-export module FatPound.Math.Concepts:Multiplicable;
+export module FatPound.Math:Multiplicable;
 
 import std;
 
-export namespace fatpound::math::concepts
+export namespace fatpound::math
 {
-    template <
-        typename T,
-        typename U
-    >
+    template <typename T, typename U>
     concept Multiplicable = requires(T var1, U var2)
     {
         { var1 * var2 };
     };
 
-    template <
-        typename T,
-        typename U
-    >
-    concept Multiplicable_Noexcept = Multiplicable<T, U>
-    and
-    requires(T var1, U var2)
+    template <typename T, typename U>
+    concept Multiplicable_Noexcept = requires(T var1, U var2)
     {
         { var1 * var2 } noexcept;
     };
@@ -31,9 +23,7 @@ export namespace fatpound::math::concepts
         typename U,
         typename Which = T
     >
-    concept Multiplicable_SameAs_Which = Multiplicable<T, U>
-    and
-    requires(T var1, U var2)
+    concept Multiplicable_SameAs = requires(T var1, U var2)
     {
         { var1 * var2 } -> std::same_as<Which>;
     };

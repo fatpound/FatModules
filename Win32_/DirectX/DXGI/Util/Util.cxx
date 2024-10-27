@@ -1,7 +1,7 @@
 module;
 
 #include <FatWin32_Settings.hpp>
-#include <FatWin32_Namespaces.hpp>
+#include <FatNamespaces.hpp>
 
 #include <d3d11.h>
 
@@ -15,13 +15,13 @@ namespace fatpound::win32::dxgi::util
 {
     auto GetFactory(ID3D11Device* const pDevice) -> ::wrl::ComPtr<IDXGIFactory>
     {
-        ::wrl::ComPtr<IDXGIDevice> pDXGIDevice{};
+        auto pDXGIDevice = ::wrl::ComPtr<IDXGIDevice>{};
         pDevice->QueryInterface(__uuidof(IDXGIDevice), &pDXGIDevice);
 
-        ::wrl::ComPtr<IDXGIAdapter> pDXGIAdapter{};
+        auto pDXGIAdapter = ::wrl::ComPtr<IDXGIAdapter>{};
         pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), &pDXGIAdapter);
 
-        ::wrl::ComPtr<IDXGIFactory> pDXGIFactory{};
+        auto pDXGIFactory = ::wrl::ComPtr<IDXGIFactory>{};
         pDXGIAdapter->GetParent(__uuidof(IDXGIFactory), &pDXGIFactory);
 
         return pDXGIFactory;

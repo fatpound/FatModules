@@ -19,7 +19,7 @@ export namespace fatpound::win32::d2d
     class Graphics final
     {
     public:
-        explicit Graphics(HWND hWnd, const NAMESPACE_UTIL::ScreenSizeInfo& dimensions);
+        explicit Graphics(HWND hWnd, const FATSPACE_UTIL::ScreenSizeInfo& dimensions);
 
         explicit Graphics() = delete;
         explicit Graphics(const Graphics& src) = delete;

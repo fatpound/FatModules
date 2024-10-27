@@ -27,24 +27,24 @@ export namespace fatpound::win32::d3d11::pipeline
     protected:
         static auto& GetStaticBinds_() noexcept
         {
-            return m_static_binds_;
+            return s_static_binds_;
         }
 
         static auto IsStaticInitialized_() noexcept(IN_RELEASE) -> bool
         {
-            return not m_static_binds_.empty();
+            return not s_static_binds_.empty();
         }
 
         static void AddStaticBind_(std::unique_ptr<Bindable> bind) noexcept(IN_RELEASE)
         {
             assert("*Must* use AddStaticIndexBuffer to bind index buffer" && typeid(*bind) not_eq typeid(element::IndexBuffer));
 
-            m_static_binds_.push_back(std::move(bind));
+            s_static_binds_.push_back(std::move(bind));
         }
 
 
     protected:
-        inline static std::vector<std::unique_ptr<Bindable>> m_static_binds_ = {};
+        inline static thread_local std::vector<std::unique_ptr<Bindable>> s_static_binds_{};
 
 
     private:

@@ -1,12 +1,12 @@
 module;
 
-#include <FatWin32_Namespaces.hpp>
+#include <FatNamespaces.hpp>
 
 #include <DirectXMath.h>
 
 export module FatPound.Util.Camera;
 
-import FatPound.Win32.IO;
+import FatPound.Util.IO;
 
 import std;
 
@@ -15,7 +15,7 @@ export namespace fatpound::util
     class Camera final
     {
     public:
-        explicit Camera(const float min_depth, const float max_depth, NAMESPACE_IO::Mouse& mouse, const NAMESPACE_IO::Keyboard& keyboard) noexcept;
+        explicit Camera(const float max_depth, std::shared_ptr<FATSPACE_IO::Keyboard> pKeyboard, std::shared_ptr<FATSPACE_IO::Mouse> pMouse) noexcept;
 
         explicit Camera() = delete;
         explicit Camera(const Camera& src) = delete;
@@ -50,14 +50,14 @@ export namespace fatpound::util
         class Controller_ final
         {
         public:
-            explicit Controller_(Camera& camera, NAMESPACE_IO::Mouse& mouse, const NAMESPACE_IO::Keyboard& keyboard) noexcept;
+            explicit Controller_(Camera& camera, std::shared_ptr<FATSPACE_IO::Keyboard> pKeyboard, std::shared_ptr<FATSPACE_IO::Mouse> pMouse) noexcept;
 
             explicit Controller_() = delete;
             explicit Controller_(const Controller_& src) = delete;
             explicit Controller_(Controller_&& src) = delete;
 
-            Controller_& operator = (const Controller_& src) = delete;
-            Controller_& operator = (Controller_&& src) = delete;
+            auto operator = (const Controller_& src) -> Controller_& = delete;
+            auto operator = (Controller_&& src)      -> Controller_& = delete;
             ~Controller_() noexcept = default;
 
         public:
@@ -66,28 +66,28 @@ export namespace fatpound::util
         protected:
 
         private:
-            ::DirectX::XMFLOAT2 last_position_{};
+            static constexpr auto scx_zoomIncrement_ = 0.02f;
 
-            Camera& camera_;
+        private:
+            ::DirectX::XMFLOAT2 m_last_position_{};
 
-            NAMESPACE_IO::Mouse& mouse_;
-            const NAMESPACE_IO::Keyboard& keyboard_;
+            Camera& m_camera_;
 
-            bool engaged_ = false;
+            const std::shared_ptr<FATSPACE_IO::Keyboard> mc_pKeyboard_;
+            const std::shared_ptr<FATSPACE_IO::Mouse> mc_pMouse_;
 
-            static constexpr float s_zoomIncrement_ = 0.025f;
+            std::atomic<bool> m_engaged_{};
         };
 
 
     private:
-        const float min_depth_;
-        const float max_depth_;
+        const float mc_max_depth_;
 
-        float r_  = 0.1f;
-        float x_  = 0.0f;
-        float y_  = 0.0f;
-        float z_  = 0.0f;
+        float m_r_{ 0.1f };
+        float m_x_{};
+        float m_y_{};
+        float m_z_{};
 
-        std::unique_ptr<Controller_> m_pController_;
+        Controller_ m_controller_;
     };
 }
