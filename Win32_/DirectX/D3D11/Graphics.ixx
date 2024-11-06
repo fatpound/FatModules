@@ -205,31 +205,6 @@ export namespace fatpound::win32::d3d11
 
 
     private:
-        struct FullScreenQuad_ final
-        {
-            struct Vertex final
-            {
-                float x;
-                float y;
-                float z;
-
-                float u;
-                float v;
-            };
-
-            inline static const std::vector<Vertex> sc_vertices =
-            {
-                Vertex{ -1.0f,  1.0f,  0.5f,  0.0f,  0.0f },
-                Vertex{  1.0f,  1.0f,  0.5f,  1.0f,  0.0f },
-                Vertex{  1.0f, -1.0f,  0.5f,  1.0f,  1.0f },
-                Vertex{ -1.0f,  1.0f,  0.5f,  0.0f,  0.0f },
-                Vertex{  1.0f, -1.0f,  0.5f,  1.0f,  1.0f },
-                Vertex{ -1.0f, -1.0f,  0.5f,  0.0f,  1.0f }
-            };
-        };
-
-
-    private:
         template <float_t red = 0.0f, float_t green = 0.0f, float_t blue = 0.0f, float_t alpha = 1.0f>
         void ClearBuffer_() requires(not Framework)
         {
@@ -257,6 +232,27 @@ export namespace fatpound::win32::d3d11
             {
                 throw std::exception("SwapChain could NOT Present!");;
             }
+        }
+
+        void InitFrameworkBinds_(auto& binds) requires(Framework)
+        {
+            auto pVS = std::make_unique<FATSPACE_PIPELINE_ELEMENT::VertexShader>(GetDevice(), L"..\\FatModules\\VSFrameBuffer.cso");
+            auto pBlob = pVS->GetBytecode();
+
+            binds.push_back(std::move(pVS));
+            binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::PixelShader>(GetDevice(), L"..\\FatModules\\PSFrameBuffer.cso"));
+            binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::VertexBuffer>(GetDevice(), FATSPACE_UTIL_GFX::FullScreenQuad::sc_vertices));
+            binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
+
+            const std::vector<D3D11_INPUT_ELEMENT_DESC> iedesc =
+            {
+                {
+                    { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+                    { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+                }
+            };
+
+            binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::InputLayout>(GetDevice(), iedesc, pBlob));
         }
 
 
@@ -310,26 +306,6 @@ export namespace fatpound::win32::d3d11
             {
                 throw std::runtime_error{ "MSAA Quality is NOT valid!" };
             }
-        }
-        void InitFrameworkBinds_(auto& binds) requires(Framework)
-        {
-            auto pVS = std::make_unique<FATSPACE_PIPELINE_ELEMENT::VertexShader>(GetDevice(), L"..\\FatModules\\VSFrameBuffer.cso");
-            auto pBlob = pVS->GetBytecode();
-
-            binds.push_back(std::move(pVS));
-            binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::PixelShader>(GetDevice(), L"..\\FatModules\\PSFrameBuffer.cso"));
-            binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::VertexBuffer>(GetDevice(), FullScreenQuad_::sc_vertices));
-            binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
-
-            const std::vector<D3D11_INPUT_ELEMENT_DESC> iedesc =
-            {
-                {
-                    { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-                    { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
-                }
-            };
-
-            binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::InputLayout>(GetDevice(), iedesc, pBlob));
         }
 
         void ToggleAltEnterMode_()

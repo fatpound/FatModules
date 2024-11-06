@@ -60,6 +60,8 @@
     <ClCompile Include="Util\Camera.cxx" />
     <ClCompile Include="Util\Camera.ixx" />
     <ClCompile Include="Util\Color.ixx" />
+    <ClCompile Include="Util\Gfx\FullScreenQuad.ixx" />
+    <ClCompile Include="Util\Gfx\Gfx.ixx" />
     <ClCompile Include="Util\IO\IO.ixx" />
     <ClCompile Include="Util\IO\Keyboard.cxx" />
     <ClCompile Include="Util\IO\Keyboard.ixx" />

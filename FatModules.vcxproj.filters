@@ -396,6 +396,12 @@
     <ClCompile Include="Win32_\WindowEx.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Util\Gfx\FullScreenQuad.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\Gfx\Gfx.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32_\FatWin32_.hpp">

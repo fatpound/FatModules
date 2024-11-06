@@ -163,7 +163,7 @@ namespace fatpound::util::io
 
     void Mouse::TrimBuffer_() noexcept
     {
-        while (m_event_buffer_.size() > Mouse::scx_bufferSize_)
+        while (m_event_buffer_.size() > scx_bufferSize_)
         {
             m_event_buffer_.pop();
         }

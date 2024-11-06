@@ -8,11 +8,14 @@
 #define FATSPACE_COLORS               ::fatpound::colors
 #define FATSPACE_CONCURRENCY          ::fatpound::concurrency
 #define FATSPACE_MATH                 ::fatpound::math
-#define FATSPACE_UTIL                 ::fatpound::util
 #define FATSPACE_WIN32                ::fatpound::win32
+#define FATSPACE_UTIL                 ::fatpound::util
 
-#define FATSPACE_TIME                 FATSPACE_UTIL::time
-#define FATSPACE_IO                   FATSPACE_UTIL::io
+#define FATSPACE_UTIL_TIME            FATSPACE_UTIL::time
+#define FATSPACE_UTIL_IO              FATSPACE_UTIL::io
+#define FATSPACE_UTIL_GFX             FATSPACE_UTIL::gfx
+
+// these will be refactored later
 #define FATSPACE_D2D                  FATSPACE_WIN32::d2d
 #define FATSPACE_D3D11                FATSPACE_WIN32::d3d11
 #define FATSPACE_DIRECTX              FATSPACE_WIN32::directx

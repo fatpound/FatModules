@@ -10,8 +10,8 @@ namespace fatpound::win32
 {
     WindowEx::WindowEx(
             std::shared_ptr<WndClassEx> pWndClassEx,
-            std::shared_ptr<FATSPACE_IO::Keyboard> pKeyboard,
-            std::shared_ptr<FATSPACE_IO::Mouse> pMouse,
+            std::shared_ptr<FATSPACE_UTIL_IO::Keyboard> pKeyboard,
+            std::shared_ptr<FATSPACE_UTIL_IO::Mouse> pMouse,
             std::wstring title,
             FATSPACE_UTIL::ScreenSizeInfo clientDimensions,
             std::optional<::DirectX::XMINT2> position
@@ -140,11 +140,6 @@ namespace fatpound::win32
 
     auto WindowEx::HandleMessage_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT
     {
-        using FATSPACE_IO::Keyboard;
-        using FATSPACE_IO::KeyEvent;
-
-        using enum KeyEvent::Type;
-
         switch (msg)
         {
         case WM_MOUSEMOVE:
