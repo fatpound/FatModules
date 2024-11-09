@@ -213,16 +213,16 @@ namespace fatpound::win32
             {
                 m_pKeyboard->OnKeyPressed_(static_cast<unsigned char>(wParam));
             }
-            return 0;
+            break;
 
         case WM_KEYUP: [[fallthrough]];
         case WM_SYSKEYUP:
             m_pKeyboard->OnKeyReleased_(static_cast<unsigned char>(wParam));
-            return 0;
+            break;
 
         case WM_CHAR:
             m_pKeyboard->OnChar_(static_cast<unsigned char>(wParam));
-            return 0;
+            break;
 
         case scx_customTaskMsgId_:
             m_tasks_.ExecuteFirstAndPopOff();
