@@ -173,39 +173,39 @@ namespace fatpound::win32
                 }
             }
         }
-            break;
+            return 0;
 
         case WM_LBUTTONDOWN:
             m_pMouse->OnLeftPressed_();
-            break;
+            return 0;
 
         case WM_LBUTTONUP:
             m_pMouse->OnLeftReleased_();
-            break;
+            return 0;
 
         case WM_RBUTTONDOWN:
             m_pMouse->OnRightPressed_();
-            break;
+            return 0;
 
         case WM_RBUTTONUP:
             m_pMouse->OnRightReleased_();
-            break;
+            return 0;
 
         case WM_MBUTTONDOWN:
             m_pMouse->OnWheelPressed_();
-            break;
+            return 0;
 
         case WM_MBUTTONUP:
             m_pMouse->OnWheelReleased_();
-            break;
+            return 0;
 
         case WM_MOUSEWHEEL:
             m_pMouse->OnWheelDelta_(GET_WHEEL_DELTA_WPARAM(wParam));
-            break;
+            return 0;
 
         case WM_KILLFOCUS:
             m_pKeyboard->ClearKeyStateBitset_();
-            break;
+            return 0;
 
         case WM_KEYDOWN: [[fallthrough]];
         case WM_SYSKEYDOWN:
@@ -213,21 +213,22 @@ namespace fatpound::win32
             {
                 m_pKeyboard->OnKeyPressed_(static_cast<unsigned char>(wParam));
             }
-            break;
+            return 0;
 
         case WM_KEYUP: [[fallthrough]];
         case WM_SYSKEYUP:
             m_pKeyboard->OnKeyReleased_(static_cast<unsigned char>(wParam));
-            break;
+            return 0;
 
         case WM_CHAR:
             m_pKeyboard->OnChar_(static_cast<unsigned char>(wParam));
-            break;
+            return 0;
 
         case scx_customTaskMsgId_:
             m_tasks_.ExecuteFirstAndPopOff();
             return 0;
 
+        // also controls window movement
         case WM_SYSCOMMAND:
             if ((wParam bitand 0xFFF0u) == SC_CLOSE)
             {
