@@ -38,7 +38,7 @@ export namespace fatpound::win32::d3d11::factory
             )
             noexcept -> D3D11_TEXTURE2D_DESC
         {
-            D3D11_TEXTURE2D_DESC desc = {};
+            D3D11_TEXTURE2D_DESC desc{};
             desc.Width = gfxDimensions.m_width;
             desc.Height = gfxDimensions.m_height;
             desc.MipLevels = 1u;

@@ -130,7 +130,11 @@ export namespace fatpound::win32::d3d11
         }
         void BeginFrame() noexcept requires(Framework)
         {
-            std::memset(static_cast<void*>(m_res_pack_.m_pSysBuffer), 0u, sizeof(Color) * mc_dimensions_.m_width * mc_dimensions_.m_height);
+            std::memset(
+                static_cast<void*>(m_res_pack_.m_pSysBuffer),
+                0u,
+                sizeof(Color) * mc_dimensions_.m_width * mc_dimensions_.m_height
+            );
         }
         void EndFrame()
         {
@@ -138,37 +142,9 @@ export namespace fatpound::win32::d3d11
         }
         void EndFrame() requires(Framework)
         {
-            {
-                const auto& hr = GetImmediateContext()->Map(
-                    m_res_pack_.m_pSysBufferTexture.Get(),
-                    0u,
-                    D3D11_MAP_WRITE_DISCARD,
-                    0u,
-                    &m_res_pack_.m_mappedSysBufferTexture
-                );
+            MapSubresource_();
 
-                if (FAILED(hr)) [[unlikely]]
-                {
-                    throw std::exception("Could NOT Map the ImmediateContext!");
-                }
-            }
-            
-            {
-                Color* const pDst = static_cast<Color*>(m_res_pack_.m_mappedSysBufferTexture.pData);
-
-                const auto dstPitch = m_res_pack_.m_mappedSysBufferTexture.RowPitch / sizeof(Color);
-                const auto srcPitch = mc_dimensions_.m_width;
-                const auto rowBytes = srcPitch * sizeof(Color);
-
-                for (auto y = 0u; y < mc_dimensions_.m_height; ++y)
-                {
-                    std::memcpy(
-                        static_cast<void*>(&pDst[y * dstPitch]),
-                        static_cast<void*>(&m_res_pack_.m_pSysBuffer[y * srcPitch]),
-                        rowBytes
-                    );
-                }
-            }
+            CopySysbufferToMappedSubresource_();
 
             GetImmediateContext()->Unmap(m_res_pack_.m_pSysBufferTexture.Get(), 0u);
             GetImmediateContext()->Draw(6u, 0u);
@@ -327,6 +303,39 @@ export namespace fatpound::win32::d3d11
             m_res_pack_.m_pSwapChain->GetDesc(&scdesc);
 
             FATSPACE_DXGI::util::GetFactory(GetDevice())->MakeWindowAssociation(scdesc.OutputWindow, flag);
+        }
+
+        void MapSubresource_() requires(Framework)
+        {
+            const auto& hr = GetImmediateContext()->Map(
+                m_res_pack_.m_pSysBufferTexture.Get(),
+                0u,
+                D3D11_MAP_WRITE_DISCARD,
+                0u,
+                &m_res_pack_.m_mappedSysBufferTexture
+            );
+
+            if (FAILED(hr)) [[unlikely]]
+            {
+                throw std::exception("Could NOT Map the ImmediateContext!");
+            }
+        }
+        void CopySysbufferToMappedSubresource_() requires(Framework)
+        {
+            Color* const pDst = static_cast<Color*>(m_res_pack_.m_mappedSysBufferTexture.pData);
+
+            const auto dstPitch = m_res_pack_.m_mappedSysBufferTexture.RowPitch / sizeof(Color);
+            const auto srcPitch = mc_dimensions_.m_width;
+            const auto rowBytes = srcPitch * sizeof(Color);
+
+            for (auto y = 0u; y < mc_dimensions_.m_height; ++y)
+            {
+                std::memcpy(
+                    static_cast<void*>(&pDst[y * dstPitch]),
+                    static_cast<void*>(&m_res_pack_.m_pSysBuffer[y * srcPitch]),
+                    rowBytes
+                );
+            }
         }
 
 
