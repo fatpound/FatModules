@@ -155,7 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FatNamespaces.hpp" />
-    <ClInclude Include="Win32_\FatWin32_.hpp" />
+    <ClInclude Include="Win32_\FatWin32.hpp" />
     <ClInclude Include="Win32_\FatWin32_Settings.hpp" />
   </ItemGroup>
   <ItemGroup>

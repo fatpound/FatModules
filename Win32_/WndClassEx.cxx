@@ -1,6 +1,6 @@
 module;
 
-#include <FatWin32_.hpp>
+#include <FatWin32.hpp>
 
 module FatPound.Win32.WndClassEx;
 

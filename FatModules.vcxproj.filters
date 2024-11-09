@@ -404,7 +404,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Win32_\FatWin32_.hpp">
+    <ClInclude Include="Win32_\FatWin32.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Win32_\FatWin32_Settings.hpp">
