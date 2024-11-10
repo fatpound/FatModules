@@ -312,12 +312,6 @@
     <ClCompile Include="Win32_\DirectX\D3D11\Core\Device.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\DirectX\DXGI\Util\Util.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\DXGI\Util\Util.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\DirectX\DXGI\DXGI.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -403,6 +397,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Memory\Memory.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\Gfx\Gfx.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

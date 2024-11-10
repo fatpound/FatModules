@@ -24,7 +24,7 @@ namespace fatpound::win32::d3d11::factory
             ::wrl::ComPtr<IDXGISwapChain>& pSwapChain
         )
     {
-        const auto& hr = FATSPACE_DXGI::util::GetFactory(pDevice)->CreateSwapChain(
+        const auto& hr = FATSPACE_UTIL::gfx::GetDXGIFactory(pDevice)->CreateSwapChain(
             pDevice,
             &desc,
             pSwapChain.GetAddressOf()

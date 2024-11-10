@@ -61,6 +61,7 @@
     <ClCompile Include="Util\Camera.ixx" />
     <ClCompile Include="Util\Color.ixx" />
     <ClCompile Include="Util\Gfx\FullScreenQuad.ixx" />
+    <ClCompile Include="Util\Gfx\Gfx.cxx" />
     <ClCompile Include="Util\Gfx\Gfx.ixx" />
     <ClCompile Include="IO\IO.ixx" />
     <ClCompile Include="IO\Keyboard.cxx" />
@@ -143,8 +144,6 @@
     <ClCompile Include="Win32_\DirectX\D3D11\Visual\Visual.ixx" />
     <ClCompile Include="Win32_\DirectX\DirectX.ixx" />
     <ClCompile Include="Win32_\DirectX\DXGI\DXGI.ixx" />
-    <ClCompile Include="Win32_\DirectX\DXGI\Util\Util.cxx" />
-    <ClCompile Include="Win32_\DirectX\DXGI\Util\Util.ixx" />
     <ClCompile Include="Win32_\IWindow.ixx" />
     <ClCompile Include="Win32_\MessageMap.cxx" />
     <ClCompile Include="Win32_\MessageMap.ixx" />

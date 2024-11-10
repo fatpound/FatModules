@@ -115,6 +115,13 @@ export namespace fatpound::win32::d3d11
 
 
     public:
+        auto GetHwnd() const
+        {
+            DXGI_SWAP_CHAIN_DESC scdesc{};
+            m_res_pack_.m_pSwapChain->GetDesc(&scdesc);
+
+            return scdesc.OutputWindow;
+        }
         auto GetDevice() noexcept -> ID3D11Device*
         {
             return m_res_pack_.m_pDevice.Get();
@@ -286,23 +293,7 @@ export namespace fatpound::win32::d3d11
 
         void ToggleAltEnterMode_()
         {
-            static UINT flag{};
-
-            static constexpr auto magicVal = static_cast<UINT>(DXGI_MWA_NO_ALT_ENTER);
-            
-            if ((flag bitand magicVal) not_eq 0u)
-            {
-                flag and_eq (compl magicVal);
-            }
-            else
-            {
-                flag or_eq magicVal;
-            }
-
-            DXGI_SWAP_CHAIN_DESC scdesc{};
-            m_res_pack_.m_pSwapChain->GetDesc(&scdesc);
-
-            FATSPACE_DXGI::util::GetFactory(GetDevice())->MakeWindowAssociation(scdesc.OutputWindow, flag);
+            FATSPACE_UTIL::gfx::ToggleDXGI_AltEnterMode(GetDevice(), GetHwnd(), m_dxgi_mode_);
         }
 
         void MapSubresource_() requires(Framework)
@@ -350,5 +341,7 @@ export namespace fatpound::win32::d3d11
 
         UINT m_msaa_count_{};
         UINT m_msaa_quality_{};
+
+        UINT m_dxgi_mode_{};
     };
 }
