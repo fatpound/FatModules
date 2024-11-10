@@ -69,6 +69,7 @@
     <ClCompile Include="Util\IO\Mouse.cxx" />
     <ClCompile Include="Util\IO\Mouse.ixx" />
     <ClCompile Include="Util\IO\MouseEvent.ixx" />
+    <ClCompile Include="Memory\Memory.ixx" />
     <ClCompile Include="Util\ScreenSizeInfo.ixx" />
     <ClCompile Include="Util\Time\AutoTimer.cxx" />
     <ClCompile Include="Util\Time\AutoTimer.ixx" />

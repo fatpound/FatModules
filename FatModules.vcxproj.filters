@@ -402,6 +402,9 @@
     <ClCompile Include="Util\Gfx\Gfx.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Memory\Memory.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32_\FatWin32.hpp">
