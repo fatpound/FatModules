@@ -31,30 +31,54 @@ export namespace fatpound::win32::d2d
 
 
     public:
-        void BeginFrame() noexcept;
+        template <bool Clear = true>
+        void BeginFrame() noexcept
+        {
+            m_pRenderTarget_->BeginDraw();
+
+            if constexpr (Clear)
+            {
+                ClearScreen_();
+            }
+        }
+
+
+    public:
         void EndFrame() noexcept;
 
         void DrawLine(const D2D1_POINT_2F p0, const D2D1_POINT_2F p1) noexcept;
         void DrawLine(const D2D1_POINT_2F p0, const D2D1_POINT_2F p1, const D2D1_COLOR_F color) noexcept;
 
-        void DrawClosedPolyLine(const std::vector<DirectX::XMFLOAT2>& vertices, const D2D1_COLOR_F color) noexcept;
-        void DrawClosedPolyLine(const std::vector<DirectX::XMFLOAT2>& vertices, const D2D1_COLOR_F color, DirectX::XMMATRIX transform) noexcept;
+        void DrawClosedPolyLine(const std::vector<::DirectX::XMFLOAT2>& vertices, const D2D1_COLOR_F color) noexcept;
+        void DrawClosedPolyLine(const std::vector<::DirectX::XMFLOAT2>& vertices, const D2D1_COLOR_F color, ::DirectX::XMMATRIX transform) noexcept;
 
 
     public:
-        const std::size_t width_;
-        const std::size_t height_;
+        const std::size_t m_width;
+        const std::size_t m_height;
 
 
     protected:
 
 
     private:
-        void ClearScreen_(float r, float g, float b) noexcept;
+        template <
+            float r = 0.0f,
+            float g = 0.0f,
+            float b = 0.0f
+        >
+        void ClearScreen_() noexcept
+        {
+            m_pRenderTarget_->Clear(D2D1::ColorF(r, g, b));
+        }
+
+
+    private:
+        void ClearScreen_(const float r, const float g, const float b) noexcept;
         
         
     private:
-        Microsoft::WRL::ComPtr<ID2D1HwndRenderTarget> pRenderTarget_{};
-        Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>  pBrush_{};
+        ::Microsoft::WRL::ComPtr<ID2D1HwndRenderTarget> m_pRenderTarget_{};
+        ::Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>  m_pBrush_{};
     };
 }
