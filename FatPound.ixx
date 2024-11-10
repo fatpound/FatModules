@@ -6,5 +6,6 @@ export import FatPound.Automata;
 export import FatPound.Concurrency;
 export import FatPound.DSA;
 export import FatPound.Math;
+export import FatPound.Memory;
 export import FatPound.Util;
 export import FatPound.Win32;

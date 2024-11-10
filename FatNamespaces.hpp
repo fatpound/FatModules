@@ -8,6 +8,7 @@
 #define FATSPACE_COLORS               ::fatpound::colors
 #define FATSPACE_CONCURRENCY          ::fatpound::concurrency
 #define FATSPACE_MATH                 ::fatpound::math
+#define FATSPACE_MEMORY               ::fatpound::memory
 #define FATSPACE_WIN32                ::fatpound::win32
 #define FATSPACE_UTIL                 ::fatpound::util
 
