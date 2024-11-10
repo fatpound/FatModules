@@ -2,9 +2,9 @@ module;
 
 #include <FatWin32.hpp>
 
-module FatPound.Util.IO.Mouse;
+module FatPound.IO.Mouse;
 
-namespace fatpound::util::io
+namespace fatpound::io
 {
     auto Mouse::GetEvent() noexcept -> std::optional<MouseEvent>
     {

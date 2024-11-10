@@ -6,7 +6,7 @@ module;
 
 export module FatPound.Util.Camera;
 
-import FatPound.Util.IO;
+import FatPound.IO;
 
 import std;
 
@@ -15,7 +15,7 @@ export namespace fatpound::util
     class Camera final
     {
     public:
-        explicit Camera(const float max_depth, std::shared_ptr<FATSPACE_UTIL_IO::Keyboard> pKeyboard, std::shared_ptr<FATSPACE_UTIL_IO::Mouse> pMouse) noexcept;
+        explicit Camera(const float max_depth, std::shared_ptr<FATSPACE_IO::Keyboard> pKeyboard, std::shared_ptr<FATSPACE_IO::Mouse> pMouse) noexcept;
 
         explicit Camera() = delete;
         explicit Camera(const Camera& src) = delete;
@@ -50,7 +50,7 @@ export namespace fatpound::util
         class Controller_ final
         {
         public:
-            explicit Controller_(Camera& camera, std::shared_ptr<FATSPACE_UTIL_IO::Keyboard> pKeyboard, std::shared_ptr<FATSPACE_UTIL_IO::Mouse> pMouse) noexcept;
+            explicit Controller_(Camera& camera, std::shared_ptr<FATSPACE_IO::Keyboard> pKeyboard, std::shared_ptr<FATSPACE_IO::Mouse> pMouse) noexcept;
 
             explicit Controller_() = delete;
             explicit Controller_(const Controller_& src) = delete;
@@ -73,8 +73,8 @@ export namespace fatpound::util
 
             Camera& m_camera_;
 
-            const std::shared_ptr<FATSPACE_UTIL_IO::Keyboard> mc_pKeyboard_;
-            const std::shared_ptr<FATSPACE_UTIL_IO::Mouse> mc_pMouse_;
+            const std::shared_ptr<FATSPACE_IO::Keyboard> mc_pKeyboard_;
+            const std::shared_ptr<FATSPACE_IO::Mouse> mc_pMouse_;
 
             std::atomic<bool> m_engaged_{};
         };

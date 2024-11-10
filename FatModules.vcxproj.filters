@@ -345,25 +345,25 @@
     <ClCompile Include="Math\Multiplicable.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\IO\IO.ixx">
+    <ClCompile Include="IO\IO.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\IO\Keyboard.cxx">
+    <ClCompile Include="IO\Keyboard.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\IO\Keyboard.ixx">
+    <ClCompile Include="IO\Keyboard.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\IO\KeyEvent.ixx">
+    <ClCompile Include="IO\KeyEvent.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\IO\Mouse.cxx">
+    <ClCompile Include="IO\Mouse.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\IO\Mouse.ixx">
+    <ClCompile Include="IO\Mouse.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\IO\MouseEvent.ixx">
+    <ClCompile Include="IO\MouseEvent.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Util\Time\AutoTimer.cxx">

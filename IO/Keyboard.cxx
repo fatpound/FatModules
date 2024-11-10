@@ -1,8 +1,8 @@
 module;
 
-module FatPound.Util.IO.Keyboard;
+module FatPound.IO.Keyboard;
 
-namespace fatpound::util::io
+namespace fatpound::io
 {
     auto Keyboard::GetEvent() noexcept -> std::optional<KeyEvent>
     {

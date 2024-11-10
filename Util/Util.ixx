@@ -3,7 +3,6 @@ module;
 export module FatPound.Util;
 
 export import FatPound.Util.Gfx;
-export import FatPound.Util.IO;
 export import FatPound.Util.Time;
 
 export import FatPound.Util.Camera;

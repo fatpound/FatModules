@@ -10,6 +10,7 @@ import FatPound.Win32.IWindow;
 import FatPound.Win32.WndClassEx;
 
 import FatPound.Concurrency;
+import FatPound.IO;
 import FatPound.Math;
 import FatPound.Util;
 
@@ -22,8 +23,8 @@ export namespace fatpound::win32
     public:
         explicit WindowEx(
             std::shared_ptr<WndClassEx> pWndClassEx,
-            std::shared_ptr<FATSPACE_UTIL_IO::Keyboard> pKeyboard,
-            std::shared_ptr<FATSPACE_UTIL_IO::Mouse> pMouse,
+            std::shared_ptr<FATSPACE_IO::Keyboard> pKeyboard,
+            std::shared_ptr<FATSPACE_IO::Mouse> pMouse,
             std::wstring title,
             FATSPACE_UTIL::ScreenSizeInfo clientDimensions,
             std::optional<::DirectX::XMINT2> position = std::nullopt
@@ -61,8 +62,8 @@ export namespace fatpound::win32
 
 
     public:
-        std::shared_ptr<FATSPACE_UTIL_IO::Keyboard> m_pKeyboard;
-        std::shared_ptr<FATSPACE_UTIL_IO::Mouse> m_pMouse;
+        std::shared_ptr<FATSPACE_IO::Keyboard> m_pKeyboard;
+        std::shared_ptr<FATSPACE_IO::Mouse> m_pMouse;
 
 
     protected:

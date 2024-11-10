@@ -2,9 +2,9 @@ module;
 
 #include <FatNamespaces.hpp>
 
-export module FatPound.Util.IO.Keyboard;
+export module FatPound.IO.Keyboard;
 
-export import FatPound.Util.IO.KeyEvent;
+export import FatPound.IO.KeyEvent;
 
 import std;
 
@@ -13,7 +13,7 @@ namespace fatpound::win32
     class WindowEx;
 }
 
-export namespace fatpound::util::io
+export namespace fatpound::io
 {
     class Keyboard final
     {
@@ -40,8 +40,8 @@ export namespace fatpound::util::io
         auto KeyIsPressed(keycode_t code) const noexcept -> bool;
         auto AutoRepeatIsEnabled() const noexcept -> bool;
 
-        auto KeyBufferIsEmpty()    const noexcept -> bool;
-        auto CharBufferIsEmpty()   const noexcept -> bool;
+        auto KeyBufferIsEmpty()  const noexcept -> bool;
+        auto CharBufferIsEmpty() const noexcept -> bool;
 
         void EnableAutoRepeat()  noexcept;
         void DisableAutoRepeat() noexcept;

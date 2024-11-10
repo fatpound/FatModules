@@ -1,10 +1,10 @@
 module;
 
-export module FatPound.Util.IO.KeyEvent;
+export module FatPound.IO.KeyEvent;
 
 import std;
 
-export namespace fatpound::util::io
+export namespace fatpound::io
 {
     struct KeyEvent final
     {

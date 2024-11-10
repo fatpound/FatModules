@@ -2,9 +2,9 @@ module;
 
 #include <FatNamespaces.hpp>
 
-export module FatPound.Util.IO.Mouse;
+export module FatPound.IO.Mouse;
 
-export import FatPound.Util.IO.MouseEvent;
+export import FatPound.IO.MouseEvent;
 
 import std;
 
@@ -13,7 +13,7 @@ namespace fatpound::win32
     class WindowEx;
 }
 
-export namespace fatpound::util::io
+export namespace fatpound::io
 {
     class Mouse final
     {
@@ -43,7 +43,7 @@ export namespace fatpound::util::io
 
         auto EventBufferIsEmpty() const noexcept -> bool;
 
-        auto IsInWindow()     const noexcept -> bool;
+        auto IsInWindow() const noexcept -> bool;
 
         auto LeftIsPressed()  const noexcept -> bool;
         auto RightIsPressed() const noexcept -> bool;

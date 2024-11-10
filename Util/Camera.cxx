@@ -13,7 +13,7 @@ namespace fatpound::util
 {
     // Camera
 
-    Camera::Camera(const float max_depth, std::shared_ptr<FATSPACE_UTIL_IO::Keyboard> pKeyboard, std::shared_ptr<FATSPACE_UTIL_IO::Mouse> pMouse) noexcept
+    Camera::Camera(const float max_depth, std::shared_ptr<FATSPACE_IO::Keyboard> pKeyboard, std::shared_ptr<FATSPACE_IO::Mouse> pMouse) noexcept
         :
         mc_max_depth_{ max_depth },
         ///////////////////////////////////////
@@ -93,7 +93,7 @@ namespace fatpound::util
 
     // Camera::Controller_
 
-    Camera::Controller_::Controller_(Camera& camera, std::shared_ptr<FATSPACE_UTIL_IO::Keyboard> pKeyboard, std::shared_ptr<FATSPACE_UTIL_IO::Mouse> pMouse) noexcept
+    Camera::Controller_::Controller_(Camera& camera, std::shared_ptr<FATSPACE_IO::Keyboard> pKeyboard, std::shared_ptr<FATSPACE_IO::Mouse> pMouse) noexcept
         :
         m_camera_{ camera },
         mc_pKeyboard_{ pKeyboard },
@@ -115,7 +115,7 @@ namespace fatpound::util
 
             switch (mouseE->type)
             {
-            case FATSPACE_UTIL_IO::MouseEvent::Type::LPress:
+            case FATSPACE_IO::MouseEvent::Type::LPress:
             {
                 m_engaged_ = true;
         
@@ -127,16 +127,16 @@ namespace fatpound::util
             }
                 break;
         
-            case FATSPACE_UTIL_IO::MouseEvent::Type::LRelease:
+            case FATSPACE_IO::MouseEvent::Type::LRelease:
                 m_engaged_ = false;
                 break;
         
 
-            case FATSPACE_UTIL_IO::MouseEvent::Type::WheelUp:
+            case FATSPACE_IO::MouseEvent::Type::WheelUp:
                 m_camera_.SetR(m_camera_.GetR() - scx_zoomIncrement_ * 5.0f);
                 break;
 
-            case FATSPACE_UTIL_IO::MouseEvent::Type::WheelDown:
+            case FATSPACE_IO::MouseEvent::Type::WheelDown:
                 m_camera_.SetR(m_camera_.GetR() + scx_zoomIncrement_ * 5.0f);
                 break;
         

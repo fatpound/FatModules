@@ -1,10 +1,10 @@
 module;
 
-export module FatPound.Util.IO.MouseEvent;
+export module FatPound.IO.MouseEvent;
 
 import std;
 
-export namespace fatpound::util::io
+export namespace fatpound::io
 {
     struct MouseEvent final
     {
