@@ -9,7 +9,7 @@ module;
 
 export module FatPound.Win32.D3D11.Graphics.ResourcePack;
 
-import FatPound.Util;
+import FatPound.Util.Color;
 
 import std;
 

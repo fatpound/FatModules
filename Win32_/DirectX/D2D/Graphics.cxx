@@ -14,17 +14,17 @@ module;
 
 module FatPound.Win32.D2D.Graphics;
 
-namespace dx = DirectX;
+namespace dx  = DirectX;
 namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d2d
 {
-    Graphics::Graphics(HWND hWnd, const FATSPACE_UTIL::ScreenSizeInfo& dimensions)
+    Graphics::Graphics(const HWND hWnd, const FATSPACE_UTIL::ScreenSizeInfo& dimensions)
         :
         m_width(dimensions.m_width),
         m_height(dimensions.m_height)
     {
-        HRESULT hr;
+        HRESULT hr{};
         
         ::wrl::ComPtr<ID2D1Factory> pFactory{};
 
@@ -65,7 +65,7 @@ namespace fatpound::win32::d2d
 
         m_pRenderTarget_->DrawLine(p0, p1, m_pBrush_.Get());
     }
-    void Graphics::DrawClosedPolyLine(const std::vector<dx::XMFLOAT2>& vertices, const D2D1_COLOR_F color) noexcept
+    void Graphics::DrawClosedPolyLine(const std::vector<::dx::XMFLOAT2>& vertices, const D2D1_COLOR_F color) noexcept
     {
         m_pRenderTarget_->CreateSolidColorBrush(color, &m_pBrush_);
 
@@ -103,6 +103,6 @@ namespace fatpound::win32::d2d
 
     void Graphics::ClearScreen_(const float r, const float g, const float b) noexcept
     {
-        m_pRenderTarget_->Clear(D2D1::ColorF(r, g, b));
+        m_pRenderTarget_->Clear(::D2D1::ColorF(r, g, b));
     }
 }

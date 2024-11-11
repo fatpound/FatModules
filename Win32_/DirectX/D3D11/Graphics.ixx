@@ -39,6 +39,7 @@ export namespace fatpound::win32::d3d11
     class Graphics final
     {
         static constexpr auto NotFramework = std::bool_constant<not Framework>::value;
+        static constexpr auto RasterizationEnabled = NotFramework; // 
 
         using float_t = float;
 
@@ -49,7 +50,7 @@ export namespace fatpound::win32::d3d11
         {
             InitCommon_(hWnd);
             
-            if constexpr (scx_rasterizationEnabled_)
+            if constexpr (RasterizationEnabled)
             {
                 pipeline::system::Rasterizer::SetState_FatDefault(m_res_pack_);
             }
@@ -173,11 +174,9 @@ export namespace fatpound::win32::d3d11
         void EndFrame() requires(Framework)
         {
             MapSubresource_();
-
             CopySysbufferToMappedSubresource_();
-
-            GetImmediateContext()->Unmap(m_res_pack_.m_pSysBufferTexture.Get(), 0u);
-            GetImmediateContext()->Draw(6u, 0u);
+            UnmapSubresource_();
+            Draw_();
 
             Present_<>();
         }
@@ -226,7 +225,33 @@ export namespace fatpound::win32::d3d11
             }
         }
 
-        void InitFrameworkBinds_(auto& binds) requires(Framework)
+
+    private:
+        void InitCommon_(const HWND hWnd)
+        {
+            core::Device::Create(m_res_pack_);
+
+            InitMSAA_Settings_();
+            InitSwapChain_(hWnd);
+            ToggleAltEnterMode_();
+
+            pipeline::system::RenderTarget::Set_FatDefault<Framework>(m_res_pack_, mc_dimensions_, m_msaa_count_, m_msaa_quality_);
+            pipeline::system::Viewport::Set_FatDefault(m_res_pack_, mc_dimensions_);
+        }
+        void InitFramework_() requires(Framework)
+        {
+            std::vector<std::unique_ptr<FATSPACE_PIPELINE::Bindable>> binds;
+
+            InitFrameworkBinds_(binds);
+
+            auto* const pImmediateContext = GetImmediateContext();
+
+            for (auto& bindable : binds)
+            {
+                bindable->Bind(pImmediateContext);
+            }
+        }
+        void InitFrameworkBinds_(std::vector<std::unique_ptr<FATSPACE_PIPELINE::Bindable>>& binds) requires(Framework)
         {
             auto pVS = std::make_unique<FATSPACE_PIPELINE_ELEMENT::VertexShader>(GetDevice(), L"..\\FatModules\\VSFrameBuffer.cso");
             auto pBlob = pVS->GetBytecode();
@@ -245,38 +270,6 @@ export namespace fatpound::win32::d3d11
             };
 
             binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::InputLayout>(GetDevice(), iedesc, pBlob));
-        }
-
-
-    private:
-        void InitCommon_(const HWND hWnd)
-        {
-            core::Device::Create(m_res_pack_);
-
-            InitMSAA_Settings_();
-
-            {
-                auto&& scdesc = factory::SwapChain::CreateDESC<Framework>(hWnd, mc_dimensions_, m_msaa_count_, m_msaa_quality_);
-                factory::SwapChain::Create(m_res_pack_, scdesc);
-            }
-            
-            ToggleAltEnterMode_();
-
-            pipeline::system::RenderTarget::Set_FatDefault<Framework>(m_res_pack_, mc_dimensions_, m_msaa_count_, m_msaa_quality_);
-            pipeline::system::Viewport::Set_FatDefault(m_res_pack_, mc_dimensions_);
-        }
-        void InitFramework_() requires(Framework)
-        {
-            std::vector<std::unique_ptr<FATSPACE_PIPELINE::Bindable>> binds;
-
-            InitFrameworkBinds_(binds);
-
-            auto* const pImmediateContext = GetImmediateContext();
-
-            for (auto& bindable : binds)
-            {
-                bindable->Bind(pImmediateContext);
-            }
         }
         void InitMSAA_Settings_()
         {
@@ -299,10 +292,10 @@ export namespace fatpound::win32::d3d11
                 throw std::runtime_error{ "MSAA Quality is NOT valid!" };
             }
         }
-
-        void ToggleAltEnterMode_()
+        void InitSwapChain_(const HWND hWnd)
         {
-            FATSPACE_UTIL::gfx::ToggleDXGI_AltEnterMode(GetDevice(), GetHwnd(), m_dxgi_mode_);
+            auto&& scdesc = factory::SwapChain::CreateDESC<Framework>(hWnd, mc_dimensions_, m_msaa_count_, m_msaa_quality_);
+            factory::SwapChain::Create(m_res_pack_, scdesc);
         }
 
         void MapSubresource_() requires(Framework)
@@ -337,10 +330,19 @@ export namespace fatpound::win32::d3d11
                 );
             }
         }
+        void UnmapSubresource_() requires(Framework)
+        {
+            GetImmediateContext()->Unmap(m_res_pack_.m_pSysBufferTexture.Get(), 0u);
+        }
+        void Draw_() requires(Framework)
+        {
+            GetImmediateContext()->Draw(6u, 0u);
+        }
 
-
-    private:
-        static constexpr auto scx_rasterizationEnabled_ = NotFramework;
+        void ToggleAltEnterMode_()
+        {
+            FATSPACE_UTIL::gfx::ToggleDXGI_AltEnterMode(GetDevice(), GetHwnd(), m_dxgi_mode_);
+        }
 
 
     private:
