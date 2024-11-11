@@ -113,7 +113,7 @@ export namespace fatpound::win32::d3d11
         }
 
         template <bool FullBlack = true, float_t red = 1.0f, float_t green = 1.0f, float_t blue = 1.0f, float_t alpha = 1.0f>
-        void BeginFrame()
+        void BeginFrame() requires(NotFramework)
         {
             if constexpr (FullBlack)
             {
@@ -127,7 +127,7 @@ export namespace fatpound::win32::d3d11
         }
 
         template <bool VSynced = true>
-        void EndFrame()
+        void EndFrame() requires(NotFramework)
         {
             Present_<VSynced>();
         }
