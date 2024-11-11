@@ -38,6 +38,8 @@ export namespace fatpound::win32::d3d11
     template <bool Framework = false>
     class Graphics final
     {
+        static constexpr auto NotFramework = std::bool_constant<not Framework>::value;
+
         using float_t = float;
 
     public:
@@ -101,14 +103,43 @@ export namespace fatpound::win32::d3d11
 
 
     public:
+        template <FATSPACE_MATH::number_set::Rational Q> auto GetWidth()  const noexcept
+        {
+            return static_cast<Q>(mc_dimensions_.m_width);
+        }
+        template <FATSPACE_MATH::number_set::Rational Q> auto GetHeight() const noexcept
+        {
+            return static_cast<Q>(mc_dimensions_.m_height);
+        }
+
+        template <bool FullBlack = true, float_t red = 1.0f, float_t green = 1.0f, float_t blue = 1.0f, float_t alpha = 1.0f>
+        void BeginFrame()
+        {
+            if constexpr (FullBlack)
+            {
+                ClearBuffer_<>();
+            }
+            else
+            {
+                ClearBuffer_<red, green, blue, alpha>();
+            }
+            
+        }
+
+        template <bool VSynced = true>
+        void EndFrame()
+        {
+            Present_<VSynced>();
+        }
+
         template <float_t red, float_t green, float_t blue, float_t alpha = 1.0f>
-        void FillWithSolidColor() requires(not Framework)
+        void FillWithSolidColor() requires(NotFramework)
         {
             ClearBuffer_<red, green, blue, alpha>();
         }
 
         template <std::floating_point T = float_t>
-        void FillWithSolidColor(const T red, const T green, const T blue, const T alpha = static_cast<T>(1.0)) requires(not Framework)
+        void FillWithSolidColor(const T red, const T green, const T blue, const T alpha = static_cast<T>(1.0)) requires(NotFramework)
         {
             ClearBuffer_(red, green, blue, alpha);
         }
@@ -131,10 +162,6 @@ export namespace fatpound::win32::d3d11
             return m_res_pack_.m_pImmediateContext.Get();
         }
 
-        void BeginFrame()
-        {
-            ClearBuffer_<0.0f, 0.0f, 0.25f>();
-        }
         void BeginFrame() noexcept requires(Framework)
         {
             std::memset(
@@ -142,10 +169,6 @@ export namespace fatpound::win32::d3d11
                 0u,
                 sizeof(Color) * mc_dimensions_.m_width * mc_dimensions_.m_height
             );
-        }
-        void EndFrame()
-        {
-            Present_<>();
         }
         void EndFrame() requires(Framework)
         {
@@ -170,26 +193,12 @@ export namespace fatpound::win32::d3d11
         }
 
 
-    public:
-        template <FATSPACE_MATH::number_set::Rational Q>
-        auto GetWidth() const noexcept
-        {
-            return static_cast<Q>(mc_dimensions_.m_width);
-        }
-
-        template <FATSPACE_MATH::number_set::Rational Q>
-        auto GetHeight() const noexcept
-        {
-            return static_cast<Q>(mc_dimensions_.m_height);
-        }
-
-
     protected:
 
 
     private:
         template <float_t red = 0.0f, float_t green = 0.0f, float_t blue = 0.0f, float_t alpha = 1.0f>
-        void ClearBuffer_() requires(not Framework)
+        void ClearBuffer_() requires(NotFramework)
         {
             constexpr std::array<const float_t, 4> colors{ red, green, blue, alpha };
 
@@ -198,7 +207,7 @@ export namespace fatpound::win32::d3d11
         }
 
         template <std::floating_point T = float_t>
-        void ClearBuffer_(const T red, const T green, const T blue, const T alpha = static_cast<T>(1.0)) requires(not Framework)
+        void ClearBuffer_(const T red, const T green, const T blue, const T alpha = static_cast<T>(1.0)) requires(NotFramework)
         {
             const std::array<const T, 4> colors{ red, green, blue, alpha };
 
@@ -331,7 +340,7 @@ export namespace fatpound::win32::d3d11
 
 
     private:
-        static constexpr auto scx_rasterizationEnabled_ = std::bool_constant<not Framework>::value;
+        static constexpr auto scx_rasterizationEnabled_ = NotFramework;
 
 
     private:

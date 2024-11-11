@@ -26,21 +26,21 @@ namespace fatpound::win32::d2d
     {
         HRESULT hr;
         
-        wrl::ComPtr<ID2D1Factory> pFactory{};
+        ::wrl::ComPtr<ID2D1Factory> pFactory{};
 
-        hr = D2D1CreateFactory<ID2D1Factory>(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pFactory);
+        hr = ::D2D1CreateFactory<ID2D1Factory>(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pFactory);
 
         if (FAILED(hr)) [[unlikely]]
         {
             throw std::runtime_error("A problem occured when creating the Factory!");
         }
 
-        RECT rect = {};
-        GetClientRect(hWnd, &rect);
+        RECT rect{};
+        ::GetClientRect(hWnd, &rect);
 
         hr = pFactory->CreateHwndRenderTarget(
-            D2D1::RenderTargetProperties(),
-            D2D1::HwndRenderTargetProperties(hWnd, D2D1::SizeU(static_cast<UINT32>(rect.right), static_cast<UINT32>(rect.bottom))),
+            ::D2D1::RenderTargetProperties(),
+            ::D2D1::HwndRenderTargetProperties(hWnd, ::D2D1::SizeU(static_cast<UINT32>(rect.right), static_cast<UINT32>(rect.bottom))),
             &m_pRenderTarget_
         );
 
