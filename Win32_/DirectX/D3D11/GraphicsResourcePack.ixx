@@ -7,6 +7,13 @@ module;
 
 #include <wrl.h>
 
+#define GFX_RES_PACK_COMMON \
+::Microsoft::WRL::ComPtr<::IDXGISwapChain>         m_pSwapChain{};\
+::Microsoft::WRL::ComPtr<::ID3D11Device>           m_pDevice{};\
+::Microsoft::WRL::ComPtr<::ID3D11DeviceContext>    m_pImmediateContext{};\
+::Microsoft::WRL::ComPtr<::ID3D11RenderTargetView> m_pRTV{};\
+::Microsoft::WRL::ComPtr<::ID3D11DepthStencilView> m_pDSV{};\
+
 export module FatPound.Win32.D3D11.Graphics.ResourcePack;
 
 import FatPound.Util.Color;
@@ -17,16 +24,20 @@ export namespace fatpound::win32::d3d11
 {
     struct GraphicsResourcePack final
     {
-        ::Microsoft::WRL::ComPtr<IDXGISwapChain>         m_pSwapChain{};
-        ::Microsoft::WRL::ComPtr<ID3D11Device>           m_pDevice{};
-        ::Microsoft::WRL::ComPtr<ID3D11DeviceContext>    m_pImmediateContext{};
-        ::Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_pRTV{};
-        ::Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_pDSV{};
+        GFX_RES_PACK_COMMON;
+    };
 
-        ::Microsoft::WRL::ComPtr<ID3D11Texture2D> m_pSysBufferTexture{};
+    struct GraphicsFrameworkResourcePack final
+    {
+        GFX_RES_PACK_COMMON;
 
-        D3D11_MAPPED_SUBRESOURCE m_mappedSysBufferTexture{};
+        ::Microsoft::WRL::ComPtr<::ID3D11Texture2D> m_pSysBufferTexture{};
+
+        ::D3D11_MAPPED_SUBRESOURCE m_mappedSysBufferTexture{};
 
         FATSPACE_UTIL::Color* m_pSysBuffer{};
     };
+
+    template <typename T>
+    concept CGfxResPack = ::std::same_as<T, GraphicsResourcePack> or ::std::same_as<T, GraphicsFrameworkResourcePack>;
 }

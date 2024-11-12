@@ -39,8 +39,9 @@ export namespace fatpound::win32::d3d11
     class Graphics final
     {
         static constexpr auto NotFramework = std::bool_constant<not Framework>::value;
-        static constexpr auto RasterizationEnabled = NotFramework; // 
+        static constexpr auto RasterizationEnabled = NotFramework; // optional
 
+        using ResourcePackType = std::conditional_t<Framework, GraphicsFrameworkResourcePack, GraphicsResourcePack>;
         using float_t = float;
 
     public:
@@ -233,6 +234,7 @@ export namespace fatpound::win32::d3d11
 
             InitMSAA_Settings_();
             InitSwapChain_(hWnd);
+
             ToggleAltEnterMode_();
 
             pipeline::system::RenderTarget::Set_FatDefault<Framework>(m_res_pack_, mc_dimensions_, m_msaa_count_, m_msaa_quality_);
@@ -346,7 +348,7 @@ export namespace fatpound::win32::d3d11
 
 
     private:
-        GraphicsResourcePack m_res_pack_{};
+        ResourcePackType m_res_pack_{};
         
         const ScreenSizeInfo mc_dimensions_;
 

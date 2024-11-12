@@ -53,14 +53,21 @@ export namespace fatpound::win32::d3d11::factory
             return desc;
         }
 
+        void Create(
+            const CGfxResPack auto& gfxResPack,
+            D3D11_SHADER_RESOURCE_VIEW_DESC desc,
+            ::Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& pSysBufferTextureView)
+        {
+            Create(
+                gfxResPack.m_pDevice.Get(),
+                gfxResPack.m_pSysBufferTexture.Get(),
+                desc,
+                pSysBufferTextureView
+            );
+        }
+
 
     public:
-        static void Create(
-            const GraphicsResourcePack& gfxResPack,
-            D3D11_SHADER_RESOURCE_VIEW_DESC desc,
-            ::Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& pSysBufferTextureView
-        );
-
         static void Create(
             ID3D11Device* const pDevice,
             ID3D11Texture2D* pSysBufferTexture,
