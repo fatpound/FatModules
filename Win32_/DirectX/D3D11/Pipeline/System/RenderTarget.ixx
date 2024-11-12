@@ -34,7 +34,7 @@ export namespace fatpound::win32::d3d11::pipeline::system
 
 	public:
 		template <bool ForFramework = false>
-		static void Set_FatDefault(GraphicsResourcePack& gfxResPack, const FATSPACE_UTIL::ScreenSizeInfo gfxDimensions, const UINT msaaCount, const UINT msaaQuality)
+		static void Set_FatDefault(CGfxResPack auto& gfxResPack, const FATSPACE_UTIL::ScreenSizeInfo gfxDimensions, const UINT msaaCount, const UINT msaaQuality)
 		{
 			Set_FatDefault<ForFramework>(
 				gfxResPack.m_pSwapChain.Get(),

@@ -28,8 +28,13 @@ export namespace fatpound::win32::d3d11::pipeline::system
 
 
 	public:
-		static void SetState_FatDefault(const GraphicsResourcePack& gfxResPack);
+		static void SetState_FatDefault(const CGfxResPack auto& gfxResPack)
+		{
+			SetState_FatDefault(gfxResPack.m_pDevice.Get(), gfxResPack.m_pImmediateContext.Get());
+		}
 
+
+	public:
 		static void SetState_FatDefault(
 			ID3D11Device* const pDevice,
 			ID3D11DeviceContext* const pImmediateContext

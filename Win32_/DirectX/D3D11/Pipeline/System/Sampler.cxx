@@ -12,11 +12,6 @@ namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d3d11::pipeline::system
 {
-	void Sampler::SetState_FatDefault(const GraphicsResourcePack& gfxResPack)
-	{
-        SetState_FatDefault(gfxResPack.m_pDevice.Get(), gfxResPack.m_pImmediateContext.Get());
-	}
-
     void Sampler::SetState_FatDefault(
             ID3D11Device* const pDevice,
             ID3D11DeviceContext* const pImmediateContext

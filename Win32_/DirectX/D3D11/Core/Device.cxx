@@ -12,11 +12,6 @@ namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d3d11::core
 {
-    void Device::Create(GraphicsResourcePack& gfxResPack)
-    {
-        Create(gfxResPack.m_pDevice, gfxResPack.m_pImmediateContext);
-    }
-
     void Device::Create(
             ::wrl::ComPtr<ID3D11Device>& pDevice,
             ::wrl::ComPtr<ID3D11DeviceContext>& pImmediateContext

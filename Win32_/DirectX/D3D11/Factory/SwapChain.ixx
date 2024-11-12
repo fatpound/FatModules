@@ -81,6 +81,11 @@ export namespace fatpound::win32::d3d11::factory
             return desc;
         }
 
+        static void Create(CGfxResPack auto& gfxResPack, DXGI_SWAP_CHAIN_DESC& desc)
+        {
+            Create(gfxResPack.m_pDevice.Get(), desc, gfxResPack.m_pSwapChain);
+        }
+
 
     public:
         static auto CreateDESC(
@@ -90,8 +95,6 @@ export namespace fatpound::win32::d3d11::factory
             const UINT msaaQuality
         ) 
         noexcept -> DXGI_SWAP_CHAIN_DESC;
-
-        static void Create(GraphicsResourcePack& gfxResPack, DXGI_SWAP_CHAIN_DESC& desc);
 
         static void Create(
             ID3D11Device* const pDevice,
