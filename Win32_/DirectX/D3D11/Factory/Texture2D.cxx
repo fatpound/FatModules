@@ -15,8 +15,7 @@ namespace fatpound::win32::d3d11::factory
     void Texture2D::Create(
             ID3D11Device* const pDevice,
             const D3D11_TEXTURE2D_DESC& desc,
-            ::wrl::ComPtr<ID3D11Texture2D>& pSysBufferTexture
-        )
+            ::wrl::ComPtr<ID3D11Texture2D>& pSysBufferTexture)
     {
         const auto& hr = pDevice->CreateTexture2D(&desc, nullptr, &pSysBufferTexture);
 

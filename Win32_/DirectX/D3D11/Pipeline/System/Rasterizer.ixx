@@ -31,8 +31,7 @@ export namespace fatpound::win32::d3d11::pipeline::system
 
 		static void SetState_FatDefault(
 			ID3D11Device* const pDevice,
-			ID3D11DeviceContext* const pImmediateContext
-		);
+			ID3D11DeviceContext* const pImmediateContext);
 
 
 	protected:

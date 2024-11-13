@@ -52,8 +52,7 @@ export namespace fatpound::win32::d3d11::pipeline::system
 				::wrl::ComPtr<ID3D11Texture2D>& pSysBufferTexture,
 				const FATSPACE_UTIL::ScreenSizeInfo gfxDimensions,
 				const UINT msaaCount,
-				const UINT msaaQuality
-			)
+				const UINT msaaQuality)
 		{
 			::wrl::ComPtr<ID3D11ShaderResourceView> pSysBufferTextureView{};
 

@@ -46,14 +46,12 @@ export namespace fatpound::win32::d3d11::factory
         static void Create(
             const GraphicsResourcePack& gfxResPack,
             D3D11_SAMPLER_DESC desc,
-            ::Microsoft::WRL::ComPtr<ID3D11SamplerState>& pSamplerState
-        );
+            ::Microsoft::WRL::ComPtr<ID3D11SamplerState>& pSamplerState);
 
         static void Create(
             ID3D11Device* const pDevice,
             D3D11_SAMPLER_DESC desc,
-            ::Microsoft::WRL::ComPtr<ID3D11SamplerState>& pSamplerState
-        );
+            ::Microsoft::WRL::ComPtr<ID3D11SamplerState>& pSamplerState);
 
 
     protected:

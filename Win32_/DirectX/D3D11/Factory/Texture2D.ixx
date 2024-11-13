@@ -34,8 +34,7 @@ export namespace fatpound::win32::d3d11::factory
         static constexpr auto CreateDESC(
                 const FATSPACE_UTIL::ScreenSizeInfo gfxDimensions,
                 const UINT msaaCount,
-                const UINT msaaQuality
-            )
+                const UINT msaaQuality)
             noexcept -> D3D11_TEXTURE2D_DESC
         {
             D3D11_TEXTURE2D_DESC desc{};
@@ -75,8 +74,7 @@ export namespace fatpound::win32::d3d11::factory
         static void Create(
             ID3D11Device* const pDevice,
             const D3D11_TEXTURE2D_DESC& desc,
-            ::Microsoft::WRL::ComPtr<ID3D11Texture2D>& pTexture2D
-        );
+            ::Microsoft::WRL::ComPtr<ID3D11Texture2D>& pTexture2D);
 
 
     protected:

@@ -36,8 +36,7 @@ export namespace fatpound::win32::d3d11::core
     public:
         static void Create(
             ::Microsoft::WRL::ComPtr<ID3D11Device>& pDevice,
-            ::Microsoft::WRL::ComPtr<ID3D11DeviceContext>& pImmediateContext
-        );
+            ::Microsoft::WRL::ComPtr<ID3D11DeviceContext>& pImmediateContext);
 
 
     protected:

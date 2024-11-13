@@ -16,8 +16,7 @@ namespace fatpound::win32::d3d11::factory
     void SwapChain::Create(
             ID3D11Device* const pDevice,
             DXGI_SWAP_CHAIN_DESC& desc,
-            ::wrl::ComPtr<IDXGISwapChain>& pSwapChain
-        )
+            ::wrl::ComPtr<IDXGISwapChain>& pSwapChain)
     {
         const auto& hr = FATSPACE_UTIL::gfx::GetDXGIFactory(pDevice)->CreateSwapChain(
             pDevice,

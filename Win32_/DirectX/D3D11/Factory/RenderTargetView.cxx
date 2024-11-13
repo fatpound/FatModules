@@ -24,8 +24,7 @@ namespace fatpound::win32::d3d11::factory
     void RenderTargetView::Create(
             IDXGISwapChain* const pSwapChain,
             ID3D11Device* const pDevice,
-            ::wrl::ComPtr<ID3D11RenderTargetView>& pRenderTargetView
-        )
+            ::wrl::ComPtr<ID3D11RenderTargetView>& pRenderTargetView)
     {
         ::wrl::ComPtr<ID3D11Texture2D> pBackBufferTexture{};
 

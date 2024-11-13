@@ -42,14 +42,12 @@ export namespace fatpound::win32::d3d11::factory
         static void Create(
             const GraphicsResourcePack& gfxResPack,
             const D3D11_DEPTH_STENCIL_DESC& desc,
-            ::Microsoft::WRL::ComPtr<ID3D11DepthStencilState>& pDSState
-        );
+            ::Microsoft::WRL::ComPtr<ID3D11DepthStencilState>& pDSState);
 
         static void Create(
             ID3D11Device* const pDevice,
             const D3D11_DEPTH_STENCIL_DESC& desc,
-            ::Microsoft::WRL::ComPtr<ID3D11DepthStencilState>& pDSState
-        );
+            ::Microsoft::WRL::ComPtr<ID3D11DepthStencilState>& pDSState);
 
 
     protected:

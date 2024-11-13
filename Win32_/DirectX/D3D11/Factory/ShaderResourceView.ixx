@@ -72,8 +72,7 @@ export namespace fatpound::win32::d3d11::factory
             ID3D11Device* const pDevice,
             ID3D11Texture2D* pSysBufferTexture,
             D3D11_SHADER_RESOURCE_VIEW_DESC desc,
-            ::Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& pSysBufferTextureView
-        );
+            ::Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& pSysBufferTextureView);
 
 
     protected:

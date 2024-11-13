@@ -37,7 +37,9 @@ export namespace fatpound::win32::d3d11::pipeline::system
 
 
 	public:
-		static void Set_FatDefault(ID3D11DeviceContext* const pImmediateContext, const FATSPACE_UTIL::ScreenSizeInfo gfxDimensions);
+		static void Set_FatDefault(
+			ID3D11DeviceContext* const pImmediateContext,
+			const FATSPACE_UTIL::ScreenSizeInfo gfxDimensions);
 
 
 	protected:

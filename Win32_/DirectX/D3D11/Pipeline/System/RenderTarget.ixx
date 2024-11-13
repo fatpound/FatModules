@@ -61,8 +61,7 @@ export namespace fatpound::win32::d3d11::pipeline::system
 				::wrl::ComPtr<ID3D11DepthStencilView>& pDSV,
 				const FATSPACE_UTIL::ScreenSizeInfo gfxDimensions,
 				const UINT msaaCount,
-				const UINT msaaQuality
-			)
+				const UINT msaaQuality)
 		{
 			factory::RenderTargetView::Create(pSwapChain, pDevice, pRenderTargetView);
 

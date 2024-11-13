@@ -15,8 +15,7 @@ namespace fatpound::win32::d3d11::factory
     void SamplerState::Create(
             const GraphicsResourcePack& gfxResPack,
             D3D11_SAMPLER_DESC desc,
-            ::wrl::ComPtr<ID3D11SamplerState>& pSamplerState
-        )
+            ::wrl::ComPtr<ID3D11SamplerState>& pSamplerState)
     {
         Create(gfxResPack.m_pDevice.Get(), desc, pSamplerState);
     }
@@ -24,8 +23,7 @@ namespace fatpound::win32::d3d11::factory
     void SamplerState::Create(
             ID3D11Device* const pDevice,
             D3D11_SAMPLER_DESC desc,
-            ::wrl::ComPtr<ID3D11SamplerState>& pSamplerState
-        )
+            ::wrl::ComPtr<ID3D11SamplerState>& pSamplerState)
     {
         const auto& hr = pDevice->CreateSamplerState(&desc, &pSamplerState);
 

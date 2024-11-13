@@ -40,8 +40,7 @@ export namespace fatpound::win32::d3d11::factory
                 const HWND hWnd,
                 const FATSPACE_UTIL::ScreenSizeInfo gfxDimensions,
                 [[maybe_unused]] const UINT msaaCount,
-                [[maybe_unused]] const UINT msaaQuality
-            )
+                [[maybe_unused]] const UINT msaaQuality)
             noexcept -> DXGI_SWAP_CHAIN_DESC
         {
             DXGI_SWAP_CHAIN_DESC desc{};
@@ -92,15 +91,13 @@ export namespace fatpound::win32::d3d11::factory
             const HWND hWnd,
             const FATSPACE_UTIL::ScreenSizeInfo gfxDimensions,
             const UINT msaaCount,
-            const UINT msaaQuality
-        ) 
-        noexcept -> DXGI_SWAP_CHAIN_DESC;
+            const UINT msaaQuality)
+            noexcept -> DXGI_SWAP_CHAIN_DESC;
 
         static void Create(
             ID3D11Device* const pDevice,
             DXGI_SWAP_CHAIN_DESC& desc,
-            ::Microsoft::WRL::ComPtr<IDXGISwapChain>& pSwapChain
-        );
+            ::Microsoft::WRL::ComPtr<IDXGISwapChain>& pSwapChain);
 
 
     protected:

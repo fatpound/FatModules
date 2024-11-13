@@ -32,8 +32,7 @@ export namespace fatpound::win32::d3d11::factory
         static void Create(
             IDXGISwapChain* const pSwapChain,
             ID3D11Device* const pDevice,
-            ::Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& pRenderTargetView
-        );
+            ::Microsoft::WRL::ComPtr<ID3D11RenderTargetView>& pRenderTargetView);
 
 
     protected:
