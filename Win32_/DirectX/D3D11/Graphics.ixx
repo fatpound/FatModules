@@ -128,9 +128,28 @@ export namespace fatpound::win32::d3d11
             
         }
 
-        template <bool VSynced = true>
-        void EndFrame() requires(NotFramework)
+        template <int GrayToneValue = 0>
+        void BeginFrame() noexcept requires(Framework)
         {
+            [[maybe_unused]]
+            void* ptr = ::std::memset(
+                static_cast<void*>(m_res_pack_.m_pSysBuffer),
+                GrayToneValue,
+                sizeof(Color) * mc_dimensions_.m_width * mc_dimensions_.m_height
+            );
+        }
+
+        template <bool VSynced = true>
+        void EndFrame()
+        {
+            if constexpr (Framework)
+            {
+                MapSubresource_();
+                CopySysbufferToMappedSubresource_();
+                UnmapSubresource_();
+                Draw_();
+            }
+
             Present_<VSynced>();
         }
 
@@ -162,24 +181,6 @@ export namespace fatpound::win32::d3d11
         auto GetImmediateContext() noexcept -> ID3D11DeviceContext*
         {
             return m_res_pack_.m_pImmediateContext.Get();
-        }
-
-        void BeginFrame() noexcept requires(Framework)
-        {
-            std::memset(
-                static_cast<void*>(m_res_pack_.m_pSysBuffer),
-                0u,
-                sizeof(Color) * mc_dimensions_.m_width * mc_dimensions_.m_height
-            );
-        }
-        void EndFrame() requires(Framework)
-        {
-            MapSubresource_();
-            CopySysbufferToMappedSubresource_();
-            UnmapSubresource_();
-            Draw_();
-
-            Present_<>();
         }
 
         void PutPixel(const int x, const int y, const Color color) noexcept requires(Framework)
