@@ -18,10 +18,8 @@
     <None Include="FatRules.ruleset" />
     <None Include="FatCpp.props" />
     <None Include="FatCpp_Debug.props" />
-    <None Include="FatCpp_Debug_NoDLL.props" />
     <None Include="FatCpp_Intrinsic.props" />
     <None Include="FatCpp_Release.props" />
-    <None Include="FatCpp_Release_NoDLL.props" />
     <None Include="FatLibrary.props" />
     <None Include="FatLibraryM.props" />
   </ItemGroup>
