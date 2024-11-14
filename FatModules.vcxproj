@@ -19,10 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <None Include="FatCpp.props" />
+    <None Include="FatCpp_Debug.props" />
+    <None Include="FatCpp_Debug_NoDLL.props" />
+    <None Include="FatCpp_Intrinsic.props" />
+    <None Include="FatCpp_Release.props" />
+    <None Include="FatCpp_Release_NoDLL.props" />
+    <None Include="FatLibrary.props" />
+    <None Include="FatLibraryM.props" />
     <None Include="FatRules.ruleset" />
-    <None Include="FatSettings.props" />
-    <None Include="FatSettings_Debug.props" />
-    <None Include="FatSettings_Release.props" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Automata\Automata.ixx" />
@@ -189,30 +194,30 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -221,28 +226,37 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="FatSettings.props" />
-    <Import Project="FatSettings_Debug.props" />
+    <Import Project="FatCpp.props" />
+    <Import Project="FatCpp_Debug.props" />
+    <Import Project="FatLibrary.props" />
+    <Import Project="FatLibraryM.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="FatSettings.props" />
-    <Import Project="FatSettings_Release.props" />
+    <Import Project="FatCpp.props" />
+    <Import Project="FatCpp_Release.props" />
+    <Import Project="FatCpp_Intrinsic.props" />
+    <Import Project="FatLibrary.props" />
+    <Import Project="FatLibraryM.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="FatSettings.props" />
-    <Import Project="FatSettings_Debug.props" />
+    <Import Project="FatCpp.props" />
+    <Import Project="FatCpp_Debug.props" />
+    <Import Project="FatLibrary.props" />
+    <Import Project="FatLibraryM.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="FatSettings.props" />
-    <Import Project="FatSettings_Release.props" />
+    <Import Project="FatCpp.props" />
+    <Import Project="FatCpp_Release.props" />
+    <Import Project="FatCpp_Intrinsic.props" />
+    <Import Project="FatLibrary.props" />
+    <Import Project="FatLibraryM.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -254,6 +268,7 @@
       <ProgramDataBaseFileName>$(IntDir)vc\$(TargetName).pdb</ProgramDataBaseFileName>
       <XMLDocumentationFileName>$(IntDir)%(RelativeDir)</XMLDocumentationFileName>
       <SourceDependenciesFile>$(IntDir)%(RelativeDir)</SourceDependenciesFile>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -263,7 +278,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
@@ -288,7 +302,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
@@ -300,6 +313,7 @@
       <ProgramDataBaseFileName>$(IntDir)vc\$(TargetName).pdb</ProgramDataBaseFileName>
       <XMLDocumentationFileName>$(IntDir)%(RelativeDir)</XMLDocumentationFileName>
       <SourceDependenciesFile>$(IntDir)%(RelativeDir)</SourceDependenciesFile>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -309,7 +323,6 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <WarningLevel>EnableAllWarnings</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
