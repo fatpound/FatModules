@@ -3,6 +3,7 @@ module;
 export module FatPound.Win32;
 
 export import FatPound.Win32.DirectX;
+export import FatPound.Win32.GDI_Plus;
 
 export import FatPound.Win32.WndClassEx;
 export import FatPound.Win32.IWindow;

@@ -405,6 +405,15 @@
     <ClCompile Include="Util\Gfx\Gfx.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Win32_\GDI_Plus\Manager.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32_\GDI_Plus\Manager.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32_\GDI_Plus\GDI_Plus.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32_\FatWin32.hpp">
