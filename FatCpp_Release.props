@@ -9,7 +9,11 @@
       <FloatingPointModel>Fast</FloatingPointModel>
       <PreprocessorDefinitions>IN_DEBUG=false;IN_RELEASE=true;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalOptions>/Qvec-report:2 %(AdditionalOptions)</AdditionalOptions>
+      <DebugInformationFormat>None</DebugInformationFormat>
     </ClCompile>
+    <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>
