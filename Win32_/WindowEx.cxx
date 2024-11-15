@@ -9,16 +9,15 @@ module FatPound.Win32.WindowEx;
 namespace fatpound::win32
 {
     WindowEx::WindowEx(
-            std::shared_ptr<WndClassEx> pWndClassEx,
-            std::shared_ptr<FATSPACE_IO::Keyboard> pKeyboard,
-            std::shared_ptr<FATSPACE_IO::Mouse> pMouse,
-            std::wstring title,
-            FATSPACE_UTIL::ScreenSizeInfo clientDimensions,
-            std::optional<::DirectX::XMINT2> position
-        )
+        std::shared_ptr<WndClassEx> pWndClassEx,
+        const std::wstring title,
+        const FATSPACE_UTIL::ScreenSizeInfo clientDimensions,
+        std::shared_ptr<FATSPACE_IO::Mouse> pMouse,
+        std::shared_ptr<FATSPACE_IO::Keyboard> pKeyboard,
+        const std::optional<::DirectX::XMINT2> position)
         :
-        m_pKeyboard{ std::move(pKeyboard) },
         m_pMouse{ std::move(pMouse) },
+        m_pKeyboard{ std::move(pKeyboard) },
         m_pWndClassEx_{ std::move(pWndClassEx) },
         mc_client_size_{ .m_width = clientDimensions.m_width, .m_height = clientDimensions.m_height },
         ///////////////////////////////////////////////
@@ -103,6 +102,7 @@ namespace fatpound::win32
 
         future.get();
     }
+
     WindowEx::~WindowEx() noexcept(false)
     {
         [[maybe_unused]]

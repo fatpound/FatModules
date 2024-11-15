@@ -23,14 +23,16 @@ import FatPound.Win32.D3D11.Factory;
 import FatPound.Win32.DXGI;
 
 import FatPound.Math;
+
 import FatPound.Util;
 
 import std;
 
-namespace dx = DirectX;
+namespace dx  = DirectX;
 namespace wrl = Microsoft::WRL;
 
 using FATSPACE_UTIL::Color;
+using FATSPACE_UTIL::Surface;
 using FATSPACE_UTIL::ScreenSizeInfo;
 
 export namespace fatpound::win32::d3d11
@@ -61,17 +63,6 @@ export namespace fatpound::win32::d3d11
             mc_dimensions_{ dimensions }
         {
             InitCommon_(hWnd);
-
-            pipeline::system::ShaderResource::SetView_FatDefault<Framework>(m_res_pack_, mc_dimensions_, m_msaa_count_, m_msaa_quality_);
-            pipeline::system::Sampler::SetState_FatDefault(m_res_pack_);
-
-            m_res_pack_.m_pSysBuffer = static_cast<Color*>(::_aligned_malloc(sizeof(Color) * mc_dimensions_.m_width * mc_dimensions_.m_height, 16u));
-
-            if (m_res_pack_.m_pSysBuffer == nullptr) [[unlikely]]
-            {
-                throw std::runtime_error("Could NOT allocate memory for sysBuffer");
-            }
-            
             InitFramework_();
         }
 
@@ -167,7 +158,7 @@ export namespace fatpound::win32::d3d11
 
 
     public:
-        auto GetHwnd() const
+        auto GetHwnd() const -> HWND
         {
             DXGI_SWAP_CHAIN_DESC scdesc{};
             m_res_pack_.m_pSwapChain->GetDesc(&scdesc);
@@ -191,6 +182,27 @@ export namespace fatpound::win32::d3d11
             assert(y < static_cast<int>(mc_dimensions_.m_height));
 
             m_res_pack_.m_pSysBuffer[mc_dimensions_.m_width * y + x] = color;
+        }
+        void BindSurface(std::unique_ptr<Surface> pSurface) requires(Framework)
+        {
+            if (m_pSurface_ not_eq nullptr)
+            {
+                m_pSurface_.get_deleter()(m_pSurface_.get());
+                m_pSurface_ = nullptr;
+            }
+
+            m_pSurface_ = std::move(pSurface);
+        }
+        void CopySurfaceToSysBuffer() requires(Framework)
+        {
+            if (m_pSurface_ not_eq nullptr)
+            {
+                ::std::memcpy(
+                    static_cast<void*>(m_res_pack_.m_pSysBuffer),
+                    static_cast<const void*>(*(m_pSurface_.get())),
+                    sizeof(Color) * mc_dimensions_.m_width * mc_dimensions_.m_height
+                );
+            }
         }
 
 
@@ -243,6 +255,16 @@ export namespace fatpound::win32::d3d11
         }
         void InitFramework_() requires(Framework)
         {
+            pipeline::system::ShaderResource::SetView_FatDefault<Framework>(m_res_pack_, mc_dimensions_, m_msaa_count_, m_msaa_quality_);
+            pipeline::system::Sampler::SetState_FatDefault(m_res_pack_);
+
+            m_res_pack_.m_pSysBuffer = static_cast<Color*>(::_aligned_malloc(sizeof(Color) * mc_dimensions_.m_width * mc_dimensions_.m_height, 16u));
+
+            if (m_res_pack_.m_pSysBuffer == nullptr) [[unlikely]]
+            {
+                throw std::runtime_error("Could NOT allocate memory for sysBuffer");
+            }
+
             std::vector<std::unique_ptr<FATSPACE_PIPELINE::Bindable>> binds;
 
             InitFrameworkBinds_(binds);
@@ -357,5 +379,7 @@ export namespace fatpound::win32::d3d11
         UINT m_msaa_quality_{};
 
         UINT m_dxgi_mode_{};
+
+        std::unique_ptr<Surface> m_pSurface_;
     };
 }

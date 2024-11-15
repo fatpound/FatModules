@@ -414,6 +414,12 @@
     <ClCompile Include="Win32_\GDI_Plus\GDI_Plus.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Util\Surface.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\Surface.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32_\FatWin32.hpp">

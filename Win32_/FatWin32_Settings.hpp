@@ -11,19 +11,14 @@
 #ifndef FATPOUND_FULL_WIN_TARGETED
 #define WIN32_LEAN_AND_MEAN // for 16-bit Windows libraries, rarely used
 #define NOGDICAPMASKS
-// #define NOSYSMETRICS
 #define NOMENUS
 #define NOICONS
-// #define NOSYSCOMMANDS
 #define NORASTEROPS
 #define OEMRESOURCE
-// #define NOATOM
 #define NOCLIPBOARD
-// #define NOCOLOR
 #define NOCTLMGR
 #define NODRAWTEXT
 #define NOKERNEL
-// #define NONLS
 #define NOMEMMGR
 #define NOMETAFILE
 #define NOOPENFILE
@@ -42,6 +37,11 @@
 #define NOPROXYSTUB
 #define NOIMAGE
 #define NOTAPE
+// #define NOSYSMETRICS
+// #define NOSYSCOMMANDS
+// #define NOATOM
+// #define NOCOLOR
+// #define NONLS
 #endif
 
 
