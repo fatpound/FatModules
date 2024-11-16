@@ -28,7 +28,7 @@ export namespace fatpound::util
         explicit Surface(const ScreenSizeInfo dimensions, const unsigned int alignBytes = FAT_DEFAULT_ALIGNMENT);
         explicit Surface(const unsigned int width, const unsigned int height, const unsigned int alignBytes = FAT_DEFAULT_ALIGNMENT);
 
-        explicit Surface() = delete;
+        explicit Surface() noexcept;
         Surface(const Surface& src);
         Surface(Surface&& src) noexcept;
 

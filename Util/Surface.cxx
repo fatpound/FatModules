@@ -65,6 +65,12 @@ namespace fatpound::util
     {
 
     }
+    Surface::Surface() noexcept
+        :
+        m_pBuffer_(nullptr, nullptr)
+    {
+
+    }
 
     Surface::Surface(const Surface& src)
         :
