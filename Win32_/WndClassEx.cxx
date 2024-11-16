@@ -21,7 +21,7 @@ namespace fatpound::win32
             .cbWndExtra = 0,
             .hInstance = m_hInstance_,
             .hIcon = nullptr,
-            .hCursor = nullptr,
+            .hCursor = ::LoadCursor(nullptr, IDC_ARROW),
             .hbrBackground = nullptr,
             .lpszMenuName = nullptr,
             .lpszClassName = clsName.c_str(),
@@ -34,9 +34,9 @@ namespace fatpound::win32
         {
             throw std::runtime_error{
                 "ATOM could not be created!\n\n"
-                "Please make sure that WNDCLASSEX::lpszClassName has a unique name!\n"
-                "Consider checking WndClassEx' constructor's 'clsName' parameter.\n"
-                "This shall not be caused internally."
+                "You might consider checking WNDCLASSEX::lpszClassName\n"
+                "It should have a unique name. If that's not the problem\n"
+                "Then check other parameters too."
             };
         }
     }
