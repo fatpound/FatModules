@@ -9,6 +9,7 @@ module;
 export module FatPound.Win32.D3D11.Pipeline.System:Rasterizer;
 
 import FatPound.Win32.D3D11.Graphics.ResourcePack;
+import FatPound.Win32.D3D11.Factory;
 
 import std;
 

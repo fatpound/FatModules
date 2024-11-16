@@ -8,8 +8,6 @@ module;
 
 module FatPound.Win32.D3D11.Pipeline.System:Rasterizer;
 
-import FatPound.Win32.D3D11.Factory;
-
 namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d3d11::pipeline::system
