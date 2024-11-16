@@ -42,7 +42,7 @@ namespace fatpound::util
             {
                 ::Gdiplus::Color c;
 
-                bitmap.GetPixel(x, y, &c);
+                bitmap.GetPixel(static_cast<INT>(x), static_cast<INT>(y), &c);
                 surf.PutPixel(x, y, Color{ c.GetValue() });
             }
         }
