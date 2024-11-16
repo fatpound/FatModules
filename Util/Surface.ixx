@@ -108,6 +108,7 @@ export namespace fatpound::util
 
 
     private:
+        void DeepCopyFrom_(const Surface& src);
         void Clear_();
 
 

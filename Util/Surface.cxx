@@ -76,7 +76,7 @@ namespace fatpound::util
         :
         Surface(src.m_width_, src.m_height_, src.m_align_byte_)
     {
-
+        DeepCopyFrom_(src);
     }
     Surface::Surface(Surface&& src) noexcept
         :
@@ -97,10 +97,12 @@ namespace fatpound::util
 
             m_pBuffer_ = FATSPACE_MEMORY::make_unique_aligned_array<Color>(src.m_width_ * src.m_height_, src.m_align_byte_);
 
-            m_width_ = src.m_width_;
-            m_height_ = src.m_height_;
-            m_align_byte_ = src.m_align_byte_;
+            m_width_       = src.m_width_;
+            m_height_      = src.m_height_;
+            m_align_byte_  = src.m_align_byte_;
             m_pixel_pitch_ = src.m_pixel_pitch_;
+
+            DeepCopyFrom_(src);
         }
 
         return *this;
@@ -113,9 +115,9 @@ namespace fatpound::util
 
             m_pBuffer_ = ::std::move(src.m_pBuffer_);
 
-            m_width_ = src.m_width_;
-            m_height_ = src.m_height_;
-            m_align_byte_ = src.m_align_byte_;
+            m_width_       = src.m_width_;
+            m_height_      = src.m_height_;
+            m_align_byte_  = src.m_align_byte_;
             m_pixel_pitch_ = src.m_pixel_pitch_;
 
             src.Clear_();
@@ -167,6 +169,22 @@ namespace fatpound::util
         return { m_width_, m_height_ };
     }
 
+    void Surface::DeepCopyFrom_(const Surface& src)
+    {
+              auto* const pDest =     m_pBuffer_.get();
+        const auto* const pSrc  = src.m_pBuffer_.get();
+
+        const auto srcPitch = src.GetPitch<::std::size_t>();
+
+        for (auto y = 0u; y < src.m_height_; ++y)
+        {
+            ::std::memcpy(
+                &pDest[y * m_pixel_pitch_],
+                &pSrc[y * src.m_pixel_pitch_],
+                srcPitch
+            );
+        }
+    }
     void Surface::Clear_()
     {
         if (m_pBuffer_ not_eq nullptr)
