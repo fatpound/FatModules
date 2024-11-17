@@ -60,6 +60,7 @@ export namespace fatpound::win32::d3d11
         }
         explicit Graphics(const HWND hWnd, const ScreenSizeInfo& dimensions) requires(Framework)
             :
+            m_res_pack_(dimensions),
             mc_dimensions_{ dimensions }
         {
             InitCommon_(hWnd);
@@ -81,12 +82,6 @@ export namespace fatpound::win32::d3d11
         ~Graphics() noexcept = default;
         ~Graphics() noexcept requires(Framework)
         {
-            if (m_res_pack_.m_pSysBuffer not_eq nullptr) [[likely]]
-            {
-                ::_aligned_free(m_res_pack_.m_pSysBuffer);
-                m_res_pack_.m_pSysBuffer = nullptr;
-            }
-
             if (m_res_pack_.m_pImmediateContext not_eq nullptr) [[likely]]
             {
                 try
@@ -129,8 +124,8 @@ export namespace fatpound::win32::d3d11
         void BeginFrame() noexcept requires(Framework)
         {
             [[maybe_unused]]
-            void* ptr = ::std::memset(
-                static_cast<void*>(m_res_pack_.m_pSysBuffer),
+            void* const ptr = ::std::memset(
+                m_res_pack_.m_surface,
                 GrayToneValue,
                 sizeof(Color) * mc_dimensions_.m_width * mc_dimensions_.m_height
             );
@@ -187,25 +182,25 @@ export namespace fatpound::win32::d3d11
             assert(y >= 0);
             assert(y < static_cast<int>(mc_dimensions_.m_height));
 
-            m_res_pack_.m_pSysBuffer[mc_dimensions_.m_width * y + x] = color;
+            m_res_pack_.m_surface[mc_dimensions_.m_width * y + x] = color;
         }
         void BindSurface(std::unique_ptr<Surface> pSurface) requires(Framework)
         {
-            if (m_pSurface_ not_eq nullptr)
+            if (m_extra_pSurface_ not_eq nullptr)
             {
-                m_pSurface_->Clear();
+                m_extra_pSurface_->Clear();
             }
 
-            m_pSurface_ = std::move(pSurface);
+            m_extra_pSurface_ = std::move(pSurface);
         }
         void CopySurfaceToSysBuffer() requires(Framework)
         {
-            const void* const pSrc = *(m_pSurface_.get());
+            const void* const pSrc = *(m_extra_pSurface_.get());
 
             if (pSrc not_eq nullptr)
             {
                 ::std::memcpy(
-                    static_cast<void*>(m_res_pack_.m_pSysBuffer),
+                    static_cast<void*>(m_res_pack_.m_surface),
                     pSrc,
                     sizeof(Color) * mc_dimensions_.m_width * mc_dimensions_.m_height
                 );
@@ -264,13 +259,6 @@ export namespace fatpound::win32::d3d11
         {
             pipeline::system::ShaderResource::SetView_FatDefault<Framework>(m_res_pack_, mc_dimensions_, m_msaa_count_, m_msaa_quality_);
             pipeline::system::Sampler::SetState_FatDefault(m_res_pack_);
-
-            m_res_pack_.m_pSysBuffer = static_cast<Color*>(::_aligned_malloc(sizeof(Color) * mc_dimensions_.m_width * mc_dimensions_.m_height, 16u));
-
-            if (m_res_pack_.m_pSysBuffer == nullptr) [[unlikely]]
-            {
-                throw std::runtime_error("Could NOT allocate memory for sysBuffer");
-            }
 
             std::vector<std::unique_ptr<FATSPACE_PIPELINE::Bindable>> binds;
 
@@ -357,7 +345,7 @@ export namespace fatpound::win32::d3d11
             {
                 std::memcpy(
                     static_cast<void*>(&pDst[y * dstPitch]),
-                    static_cast<void*>(&m_res_pack_.m_pSysBuffer[y * srcPitch]),
+                    static_cast<void*>(&m_res_pack_.m_surface[y * srcPitch]),
                     rowBytes
                 );
             }
@@ -380,13 +368,13 @@ export namespace fatpound::win32::d3d11
     private:
         ResourcePackType m_res_pack_{};
         
-        const ScreenSizeInfo mc_dimensions_; // d
+        const ScreenSizeInfo mc_dimensions_;
 
         UINT m_msaa_count_{};
         UINT m_msaa_quality_{};
 
         UINT m_dxgi_mode_{};
 
-        std::unique_ptr<Surface> m_pSurface_;
+        std::unique_ptr<Surface> m_extra_pSurface_;
     };
 }

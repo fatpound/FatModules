@@ -17,6 +17,8 @@ module;
 export module FatPound.Win32.D3D11.Graphics.ResourcePack;
 
 import FatPound.Util.Color;
+import FatPound.Util.ScreenSizeInfo;
+import FatPound.Util.Surface;
 
 import std;
 
@@ -35,7 +37,14 @@ export namespace fatpound::win32::d3d11
 
         ::D3D11_MAPPED_SUBRESOURCE m_mappedSysBufferTexture{};
 
-        FATSPACE_UTIL::Color* m_pSysBuffer{};
+        FATSPACE_UTIL::Surface m_surface;
+
+        GraphicsFrameworkResourcePack(const FATSPACE_UTIL::ScreenSizeInfo& dimensions)
+            :
+            m_surface(dimensions)
+        {
+            
+        }
     };
 
     template <typename T>
