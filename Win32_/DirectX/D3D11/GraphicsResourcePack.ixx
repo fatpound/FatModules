@@ -24,12 +24,12 @@ export namespace fatpound::win32::d3d11
 {
     struct GraphicsResourcePack final
     {
-        GFX_RES_PACK_COMMON;
+        GFX_RES_PACK_COMMON
     };
 
     struct GraphicsFrameworkResourcePack final
     {
-        GFX_RES_PACK_COMMON;
+        GFX_RES_PACK_COMMON
 
         ::Microsoft::WRL::ComPtr<::ID3D11Texture2D> m_pSysBufferTexture{};
 

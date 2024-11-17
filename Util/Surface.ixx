@@ -103,13 +103,14 @@ export namespace fatpound::util
 
         auto GetScreenSizeInfo() -> ScreenSizeInfo;
 
+        void Clear();
+
 
     protected:
 
 
     private:
         void DeepCopyFrom_(const Surface& src);
-        void Clear_();
 
 
     private:

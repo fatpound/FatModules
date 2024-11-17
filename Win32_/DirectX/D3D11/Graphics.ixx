@@ -65,6 +65,12 @@ export namespace fatpound::win32::d3d11
             InitCommon_(hWnd);
             InitFramework_();
         }
+        explicit Graphics(const HWND hWnd, std::unique_ptr<Surface> pSurface) requires(Framework)
+            :
+            Graphics(hWnd, pSurface->GetScreenSizeInfo())
+        {
+            BindSurface(std::move(pSurface));
+        }
 
         explicit Graphics() = delete;
         explicit Graphics(const Graphics& src) = delete;
@@ -187,19 +193,20 @@ export namespace fatpound::win32::d3d11
         {
             if (m_pSurface_ not_eq nullptr)
             {
-                m_pSurface_.get_deleter()(m_pSurface_.get());
-                m_pSurface_ = nullptr;
+                m_pSurface_->Clear();
             }
 
             m_pSurface_ = std::move(pSurface);
         }
         void CopySurfaceToSysBuffer() requires(Framework)
         {
-            if (m_pSurface_ not_eq nullptr)
+            const void* const pSrc = *(m_pSurface_.get());
+
+            if (pSrc not_eq nullptr)
             {
                 ::std::memcpy(
                     static_cast<void*>(m_res_pack_.m_pSysBuffer),
-                    static_cast<const void*>(*(m_pSurface_.get())),
+                    pSrc,
                     sizeof(Color) * mc_dimensions_.m_width * mc_dimensions_.m_height
                 );
             }
@@ -373,7 +380,7 @@ export namespace fatpound::win32::d3d11
     private:
         ResourcePackType m_res_pack_{};
         
-        const ScreenSizeInfo mc_dimensions_;
+        const ScreenSizeInfo mc_dimensions_; // d
 
         UINT m_msaa_count_{};
         UINT m_msaa_quality_{};

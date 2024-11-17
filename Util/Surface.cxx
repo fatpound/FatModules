@@ -10,8 +10,6 @@ module;
 #include <cassert>
 #include <cstdlib>
 
-#undef FATPOUND_FULL_WIN_TARGETED
-
 #pragma comment(lib, "gdiplus")
 
 module FatPound.Util.Surface;
@@ -31,7 +29,7 @@ namespace fatpound::util
             throw std::runtime_error("GDI+ Bitmap error in func: " __FUNCSIG__);
         }
 
-        const auto width = bitmap.GetWidth();
+        const auto width  = bitmap.GetWidth();
         const auto height = bitmap.GetHeight();
 
         Surface surf(width, height, alignBytes);
@@ -86,14 +84,14 @@ namespace fatpound::util
         m_align_byte_(src.m_align_byte_),
         m_pixel_pitch_(src.m_pixel_pitch_)
     {
-        src.Clear_();
+        src.Clear();
     }
 
     auto Surface::operator = (const Surface& src) -> Surface&
     {
         if (this not_eq ::std::addressof(src))
         {
-            Clear_();
+            Clear();
 
             m_pBuffer_ = FATSPACE_MEMORY::make_unique_aligned_array<Color>(src.m_width_ * src.m_height_, src.m_align_byte_);
 
@@ -111,7 +109,7 @@ namespace fatpound::util
     {
         if (this not_eq ::std::addressof(src))
         {
-            Clear_();
+            Clear();
 
             m_pBuffer_ = ::std::move(src.m_pBuffer_);
 
@@ -120,7 +118,7 @@ namespace fatpound::util
             m_align_byte_  = src.m_align_byte_;
             m_pixel_pitch_ = src.m_pixel_pitch_;
 
-            src.Clear_();
+            src.Clear();
         }
 
         return *this;
@@ -169,6 +167,20 @@ namespace fatpound::util
         return { m_width_, m_height_ };
     }
 
+    void Surface::Clear()
+    {
+        if (m_pBuffer_ not_eq nullptr)
+        {
+            m_pBuffer_.get_deleter()(m_pBuffer_.get());
+            m_pBuffer_.release();
+        }
+
+        m_width_       = 0u;
+        m_height_      = 0u;
+        m_align_byte_  = 0u;
+        m_pixel_pitch_ = 0u;
+    }
+
     void Surface::DeepCopyFrom_(const Surface& src)
     {
               auto* const pDest =     m_pBuffer_.get();
@@ -184,18 +196,5 @@ namespace fatpound::util
                 srcPitch
             );
         }
-    }
-    void Surface::Clear_()
-    {
-        if (m_pBuffer_ not_eq nullptr)
-        {
-            m_pBuffer_.get_deleter()(m_pBuffer_.get());
-            m_pBuffer_.release();
-        }
-
-        m_width_ = 0u;
-        m_height_ = 0u;
-        m_align_byte_ = 0u;
-        m_pixel_pitch_ = 0u;
     }
 }
