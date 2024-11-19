@@ -49,9 +49,10 @@ export namespace fatpound::win32::d3d11
     public:
         explicit Graphics(const HWND hWnd, const ScreenSizeInfo& dimensions)
             :
+            mc_hWnd_(hWnd),
             mc_dimensions_{ dimensions }
         {
-            InitCommon_(hWnd);
+            InitCommon_();
             
             if constexpr (RasterizationEnabled)
             {
@@ -61,9 +62,10 @@ export namespace fatpound::win32::d3d11
         explicit Graphics(const HWND hWnd, const ScreenSizeInfo& dimensions) requires(Framework)
             :
             m_res_pack_(dimensions),
+            mc_hWnd_(hWnd),
             mc_dimensions_{ dimensions }
         {
-            InitCommon_(hWnd);
+            InitCommon_();
             InitFramework_();
         }
         explicit Graphics(const HWND hWnd, std::unique_ptr<Surface> pSurface) requires(Framework)
@@ -97,6 +99,10 @@ export namespace fatpound::win32::d3d11
 
 
     public:
+
+
+
+    public:
         template <FATSPACE_MATH::number_set::Rational Q> auto GetWidth()  const noexcept
         {
             return static_cast<Q>(mc_dimensions_.m_width);
@@ -111,13 +117,12 @@ export namespace fatpound::win32::d3d11
         {
             if constexpr (FullBlack)
             {
-                ClearBuffer_<>();
+                FillWithSolidColor<>();
             }
             else
             {
-                ClearBuffer_<red, green, blue, alpha>();
+                FillWithSolidColor<red, green, blue, alpha>();
             }
-            
         }
 
         template <int GrayToneValue = 0>
@@ -138,33 +143,42 @@ export namespace fatpound::win32::d3d11
             {
                 MapSubresource_();
                 CopySysbufferToMappedSubresource_();
-                UnmapSubresource_();
-                Draw_();
+
+                GetImmediateContext()->Unmap(GetSysbufferTexture(), 0u);
+                GetImmediateContext()->Draw(6u, 0u);
             }
 
-            Present_<VSynced>();
+            const auto& hr = m_res_pack_.m_pSwapChain->Present(static_cast<UINT>(VSynced), 0u);
+
+            if (FAILED(hr)) [[unlikely]]
+            {
+                throw std::exception("SwapChain could NOT Present!");;
+            }
         }
 
-        template <float_t red, float_t green, float_t blue, float_t alpha = 1.0f>
+        template <float_t red = 0.0f, float_t green = 0.0f, float_t blue = 0.0f, float_t alpha = 1.0f>
         void FillWithSolidColor() requires(NotFramework)
         {
-            ClearBuffer_<red, green, blue, alpha>();
+            constexpr std::array<const float_t, 4> colors{ red, green, blue, alpha };
+
+            m_res_pack_.m_pImmediateContext->ClearRenderTargetView(m_res_pack_.m_pRTV.Get(), colors.data());
+            m_res_pack_.m_pImmediateContext->ClearDepthStencilView(m_res_pack_.m_pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
         }
 
         template <std::floating_point T = float_t>
         void FillWithSolidColor(const T red, const T green, const T blue, const T alpha = static_cast<T>(1.0)) requires(NotFramework)
         {
-            ClearBuffer_(red, green, blue, alpha);
+            const std::array<const T, 4> colors{ red, green, blue, alpha };
+
+            m_res_pack_.m_pImmediateContext->ClearRenderTargetView(m_res_pack_.m_pRTV.Get(), colors.data());
+            m_res_pack_.m_pImmediateContext->ClearDepthStencilView(m_res_pack_.m_pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
         }
 
 
     public:
         auto GetHwnd() const -> HWND
         {
-            DXGI_SWAP_CHAIN_DESC scdesc{};
-            m_res_pack_.m_pSwapChain->GetDesc(&scdesc);
-
-            return scdesc.OutputWindow;
+            return mc_hWnd_;
         }
         auto GetDevice() noexcept -> ID3D11Device*
         {
@@ -174,16 +188,11 @@ export namespace fatpound::win32::d3d11
         {
             return m_res_pack_.m_pImmediateContext.Get();
         }
-
-        void PutPixel(const int x, const int y, const Color color) noexcept requires(Framework)
+        auto GetSysbufferTexture() -> ID3D11Texture2D* requires(Framework)
         {
-            assert(x >= 0);
-            assert(x < static_cast<int>(mc_dimensions_.m_width));
-            assert(y >= 0);
-            assert(y < static_cast<int>(mc_dimensions_.m_height));
-
-            m_res_pack_.m_surface[mc_dimensions_.m_width * y + x] = color;
+            return m_res_pack_.m_pSysBufferTexture.Get();
         }
+
         void BindSurface(std::unique_ptr<Surface> pSurface) requires(Framework)
         {
             if (m_extra_pSurface_ not_eq nullptr)
@@ -207,48 +216,31 @@ export namespace fatpound::win32::d3d11
             }
         }
 
+        void PutPixel(const int x, const int y, const Color color) noexcept requires(Framework)
+        {
+            assert(x >= 0);
+            assert(x < static_cast<int>(mc_dimensions_.m_width));
+            assert(y >= 0);
+            assert(y < static_cast<int>(mc_dimensions_.m_height));
+
+            m_res_pack_.m_surface[mc_dimensions_.m_width * y + x] = color;
+        }
+
 
     protected:
 
 
     private:
-        template <float_t red = 0.0f, float_t green = 0.0f, float_t blue = 0.0f, float_t alpha = 1.0f>
-        void ClearBuffer_() requires(NotFramework)
-        {
-            constexpr std::array<const float_t, 4> colors{ red, green, blue, alpha };
-
-            m_res_pack_.m_pImmediateContext->ClearRenderTargetView(m_res_pack_.m_pRTV.Get(), colors.data());
-            m_res_pack_.m_pImmediateContext->ClearDepthStencilView(m_res_pack_.m_pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
-        }
-
-        template <std::floating_point T = float_t>
-        void ClearBuffer_(const T red, const T green, const T blue, const T alpha = static_cast<T>(1.0)) requires(NotFramework)
-        {
-            const std::array<const T, 4> colors{ red, green, blue, alpha };
-
-            m_res_pack_.m_pImmediateContext->ClearRenderTargetView(m_res_pack_.m_pRTV.Get(), colors.data());
-            m_res_pack_.m_pImmediateContext->ClearDepthStencilView(m_res_pack_.m_pDSV.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
-        }
-
-        template <bool VSynced = true>
-        void Present_()
-        {
-            const auto& hr = m_res_pack_.m_pSwapChain->Present(static_cast<UINT>(VSynced), 0u);
-
-            if (FAILED(hr)) [[unlikely]]
-            {
-                throw std::exception("SwapChain could NOT Present!");;
-            }
-        }
-
-
-    private:
-        void InitCommon_(const HWND hWnd)
+        void InitCommon_()
         {
             core::Device::Create(m_res_pack_);
 
             InitMSAA_Settings_();
-            InitSwapChain_(hWnd);
+            
+            {
+                auto&& scdesc = factory::SwapChain::CreateDESC<Framework>(GetHwnd(), mc_dimensions_, m_msaa_count_, m_msaa_quality_);
+                factory::SwapChain::Create(m_res_pack_, scdesc);
+            }
 
             ToggleAltEnterMode_();
 
@@ -312,16 +304,11 @@ export namespace fatpound::win32::d3d11
                 throw std::runtime_error{ "MSAA Quality is NOT valid!" };
             }
         }
-        void InitSwapChain_(const HWND hWnd)
-        {
-            auto&& scdesc = factory::SwapChain::CreateDESC<Framework>(hWnd, mc_dimensions_, m_msaa_count_, m_msaa_quality_);
-            factory::SwapChain::Create(m_res_pack_, scdesc);
-        }
 
         void MapSubresource_() requires(Framework)
         {
             const auto& hr = GetImmediateContext()->Map(
-                m_res_pack_.m_pSysBufferTexture.Get(),
+                GetSysbufferTexture(),
                 0u,
                 D3D11_MAP_WRITE_DISCARD,
                 0u,
@@ -350,14 +337,6 @@ export namespace fatpound::win32::d3d11
                 );
             }
         }
-        void UnmapSubresource_() requires(Framework)
-        {
-            GetImmediateContext()->Unmap(m_res_pack_.m_pSysBufferTexture.Get(), 0u);
-        }
-        void Draw_() requires(Framework)
-        {
-            GetImmediateContext()->Draw(6u, 0u);
-        }
 
         void ToggleAltEnterMode_()
         {
@@ -367,6 +346,8 @@ export namespace fatpound::win32::d3d11
 
     private:
         ResourcePackType m_res_pack_{};
+
+        const HWND mc_hWnd_;
         
         const ScreenSizeInfo mc_dimensions_;
 
