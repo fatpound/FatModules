@@ -14,9 +14,9 @@ import std;
 export namespace fatpound::math
 {
     template <SelfMultiplicable T>
-    inline constexpr auto Square(const T& var) noexcept(SelfMultiplicable_Noexcept<T>)
+    inline constexpr auto Square(const T& x) noexcept(SelfMultiplicable_Noexcept<T>)
     {
-        return var * var;
+        return x * x;
     }
 
     auto GetDifferenceVector(const ::DirectX::XMVECTOR pos1_vec, const ::DirectX::XMVECTOR pos2_vec) noexcept -> ::DirectX::XMVECTOR;

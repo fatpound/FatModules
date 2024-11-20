@@ -56,8 +56,8 @@
     <ClCompile Include="Math\Math.cxx" />
     <ClCompile Include="Math\Math.ixx" />
     <ClCompile Include="Math\Multiplicable.ixx" />
-    <ClCompile Include="Math\NumberSet\NumberSet.ixx" />
-    <ClCompile Include="Math\NumberSet\Rational.ixx" />
+    <ClCompile Include="Math\Number_Set\Number_Set.ixx" />
+    <ClCompile Include="Math\Number_Set\Rational.ixx" />
     <ClCompile Include="Math\RectF.cxx" />
     <ClCompile Include="Math\RectF.ixx" />
     <ClCompile Include="Util\Camera.cxx" />

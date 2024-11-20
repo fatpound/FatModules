@@ -333,10 +333,10 @@
     <ClCompile Include="Concurrency\TaskQueue.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\NumberSet\NumberSet.ixx">
+    <ClCompile Include="Math\Number_Set\Number_Set.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\NumberSet\Rational.ixx">
+    <ClCompile Include="Math\Number_Set\Rational.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Math\Multiplicable.ixx">

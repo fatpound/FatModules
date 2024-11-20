@@ -8,7 +8,7 @@ export namespace fatpound::io
 {
     struct KeyEvent final
     {
-        enum struct Type : std::uint8_t
+        enum struct Type : ::std::uint8_t
         {
             Press,
             Release,
