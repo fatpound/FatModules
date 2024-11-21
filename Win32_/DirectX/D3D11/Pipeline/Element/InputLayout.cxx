@@ -6,7 +6,7 @@ module;
 
 #include <wrl.h>
 
-module FatPound.Win32.D3D11.Pipeline.Element:InputLayout;
+module FatPound.Win32.D3D11.Pipeline.Element.InputLayout;
 
 namespace fatpound::win32::d3d11::pipeline::element
 {

@@ -2,13 +2,13 @@ module;
 
 export module FatPound.Win32.D3D11.Factory;
 
-export import :SwapChain;
-export import :Texture2D;
+export import FatPound.Win32.D3D11.Factory.SwapChain;
+export import FatPound.Win32.D3D11.Factory.Texture2D;
 
-export import :DepthStencilView;
-export import :RenderTargetView;
-export import :ShaderResourceView;
+export import FatPound.Win32.D3D11.Factory.DepthStencilView;
+export import FatPound.Win32.D3D11.Factory.RenderTargetView;
+export import FatPound.Win32.D3D11.Factory.ShaderResourceView;
 
-export import :DepthStencilState;
-export import :RasterizerState;
-export import :SamplerState;
+export import FatPound.Win32.D3D11.Factory.DepthStencilState;
+export import FatPound.Win32.D3D11.Factory.RasterizerState;
+export import FatPound.Win32.D3D11.Factory.SamplerState;

@@ -6,7 +6,7 @@ module;
 
 #include <wrl.h>
 
-export module FatPound.Win32.D3D11.Pipeline.Element:InputLayout;
+export module FatPound.Win32.D3D11.Pipeline.Element.InputLayout;
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 

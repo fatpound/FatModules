@@ -6,25 +6,16 @@ module;
 
 #include <wrl.h>
 
-module FatPound.Win32.D3D11.Factory:RenderTargetView;
+module FatPound.Win32.D3D11.Factory.RenderTargetView;
 
 namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d3d11::factory
 {
-    void RenderTargetView::Create(GraphicsResourcePack& gfxResPack)
-    {
-        Create(
-            gfxResPack.m_pSwapChain.Get(),
-            gfxResPack.m_pDevice.Get(),
-            gfxResPack.m_pRTV
-        );
-    }
-
-    void RenderTargetView::Create(
-            IDXGISwapChain* const pSwapChain,
-            ID3D11Device* const pDevice,
-            ::wrl::ComPtr<ID3D11RenderTargetView>& pRenderTargetView)
+    void Create_RenderTargetView(
+        IDXGISwapChain* const pSwapChain,
+        ID3D11Device* const pDevice,
+        ::wrl::ComPtr<ID3D11RenderTargetView>& pRenderTargetView)
     {
         ::wrl::ComPtr<ID3D11Texture2D> pBackBufferTexture{};
 

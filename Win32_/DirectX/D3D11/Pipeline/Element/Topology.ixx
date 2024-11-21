@@ -4,7 +4,7 @@ module;
 
 #include <d3d11.h>
 
-export module FatPound.Win32.D3D11.Pipeline.Element:Topology;
+export module FatPound.Win32.D3D11.Pipeline.Element.Topology;
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 

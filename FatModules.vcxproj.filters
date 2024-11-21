@@ -195,39 +195,6 @@
     <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Resource\VertexCBuffer.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\System\DepthStencil.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\System\DepthStencil.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\System\Rasterizer.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\System\Rasterizer.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\System\RenderTarget.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\System\Sampler.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\System\Sampler.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\System\ShaderResource.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\System\System.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\System\Viewport.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\System\Viewport.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Bindable.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>

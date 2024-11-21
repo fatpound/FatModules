@@ -7,7 +7,7 @@ module;
 
 #include <wrl.h>
 
-export module FatPound.Win32.D3D11.Factory:Texture2D;
+export module FatPound.Win32.D3D11.Factory.Texture2D;
 
 import FatPound.Win32.D3D11.Graphics.ResourcePack;
 
@@ -17,69 +17,46 @@ import std;
 
 export namespace fatpound::win32::d3d11::factory
 {
-    class Texture2D final
+    template <bool ForShaderResource = false>
+    constexpr auto Create_Texture2D_DESC(
+        const FATSPACE_UTIL::ScreenSizeInfo gfxDimensions,
+        const UINT msaaCount,
+        const UINT msaaQuality) noexcept -> D3D11_TEXTURE2D_DESC
     {
-    public:
-        explicit Texture2D() = delete;
-        explicit Texture2D(const Texture2D& src) = delete;
-        explicit Texture2D(Texture2D&& src) = delete;
+        D3D11_TEXTURE2D_DESC desc{};
+        desc.Width = gfxDimensions.m_width;
+        desc.Height = gfxDimensions.m_height;
+        desc.MipLevels = 1u;
+        desc.ArraySize = 1u;
 
-        auto operator = (const Texture2D& src) -> Texture2D& = delete;
-        auto operator = (Texture2D&& src)      -> Texture2D& = delete;
-        ~Texture2D() noexcept = delete;
-
-
-    public:
-        template <bool ForShaderResource = false>
-        static constexpr auto CreateDESC(
-                const FATSPACE_UTIL::ScreenSizeInfo gfxDimensions,
-                const UINT msaaCount,
-                const UINT msaaQuality)
-            noexcept -> D3D11_TEXTURE2D_DESC
+        if constexpr (ForShaderResource)
         {
-            D3D11_TEXTURE2D_DESC desc{};
-            desc.Width = gfxDimensions.m_width;
-            desc.Height = gfxDimensions.m_height;
-            desc.MipLevels = 1u;
-            desc.ArraySize = 1u;
-
-            if constexpr (ForShaderResource)
-            {
-                desc.SampleDesc.Count = 1;
-                desc.SampleDesc.Quality = 0;
-                desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-                desc.Usage = D3D11_USAGE_DYNAMIC;
-                desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-                desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-            }
-            else
-            {
-                desc.SampleDesc.Count = msaaCount;
-                desc.SampleDesc.Quality = msaaQuality - 1u;
-                desc.Format = DXGI_FORMAT_D32_FLOAT;
-                desc.Usage = D3D11_USAGE_DEFAULT;
-                desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-            }
-
-            return desc;
+            desc.SampleDesc.Count = 1;
+            desc.SampleDesc.Quality = 0;
+            desc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+            desc.Usage = D3D11_USAGE_DYNAMIC;
+            desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+            desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+        }
+        else
+        {
+            desc.SampleDesc.Count = msaaCount;
+            desc.SampleDesc.Quality = msaaQuality - 1u;
+            desc.Format = DXGI_FORMAT_D32_FLOAT;
+            desc.Usage = D3D11_USAGE_DEFAULT;
+            desc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
         }
 
-        void Create(CGfxResPack auto& gfxResPack, const D3D11_TEXTURE2D_DESC& desc)
-        {
-            Create(gfxResPack.m_pDevice.Get(), desc, gfxResPack.m_pSysBufferTexture);
-        }
+        return desc;
+    }
 
+    void Create_Texture2D(
+        ID3D11Device* const pDevice,
+        const D3D11_TEXTURE2D_DESC& desc,
+        ::Microsoft::WRL::ComPtr<ID3D11Texture2D>& pTexture2D);
 
-    public:
-        static void Create(
-            ID3D11Device* const pDevice,
-            const D3D11_TEXTURE2D_DESC& desc,
-            ::Microsoft::WRL::ComPtr<ID3D11Texture2D>& pTexture2D);
-
-
-    protected:
-
-
-    private:
-    };
+    void Create_Texture2D(CGfxResPack auto& gfxResPack, const D3D11_TEXTURE2D_DESC& desc)
+    {
+        Create_Texture2D(gfxResPack.m_pDevice.Get(), desc, gfxResPack.m_pSysBufferTexture);
+    }
 }

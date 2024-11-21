@@ -7,16 +7,16 @@ module;
 
 #include <wrl.h>
 
-module FatPound.Win32.D3D11.Factory:SwapChain;
+module FatPound.Win32.D3D11.Factory.SwapChain;
 
 namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d3d11::factory
 {
-    void SwapChain::Create(
-            ID3D11Device* const pDevice,
-            DXGI_SWAP_CHAIN_DESC& desc,
-            ::wrl::ComPtr<IDXGISwapChain>& pSwapChain)
+    void Create_SwapChain(
+        ID3D11Device* const pDevice,
+        DXGI_SWAP_CHAIN_DESC& desc,
+        ::wrl::ComPtr<IDXGISwapChain>& pSwapChain)
     {
         const auto& hr = FATSPACE_UTIL::gfx::GetDXGIFactory(pDevice)->CreateSwapChain(
             pDevice,

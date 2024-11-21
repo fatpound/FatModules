@@ -173,12 +173,12 @@ namespace fatpound::util
         {
             m_pBuffer_.get_deleter()(m_pBuffer_.get());
             m_pBuffer_.release();
-        }
 
-        m_width_       = 0u;
-        m_height_      = 0u;
-        m_align_byte_  = 0u;
-        m_pixel_pitch_ = 0u;
+            m_width_       = 0u;
+            m_height_      = 0u;
+            m_align_byte_  = 0u;
+            m_pixel_pitch_ = 0u;
+        }
     }
 
     void Surface::DeepCopyFrom_(const Surface& src)

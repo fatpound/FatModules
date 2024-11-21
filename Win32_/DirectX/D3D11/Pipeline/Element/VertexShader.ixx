@@ -6,7 +6,7 @@ module;
 
 #include <wrl.h>
 
-export module FatPound.Win32.D3D11.Pipeline.Element:VertexShader;
+export module FatPound.Win32.D3D11.Pipeline.Element.VertexShader;
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 

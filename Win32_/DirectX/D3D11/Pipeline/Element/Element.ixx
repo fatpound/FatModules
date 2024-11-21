@@ -2,11 +2,11 @@ module;
 
 export module FatPound.Win32.D3D11.Pipeline.Element;
 
-export import :Topology;
-export import :InputLayout;
+export import FatPound.Win32.D3D11.Pipeline.Element.Topology;
+export import FatPound.Win32.D3D11.Pipeline.Element.InputLayout;
 
-export import :IndexBuffer;
-export import :VertexBuffer;
+export import FatPound.Win32.D3D11.Pipeline.Element.IndexBuffer;
+export import FatPound.Win32.D3D11.Pipeline.Element.VertexBuffer;
 
-export import :PixelShader;
-export import :VertexShader;
+export import FatPound.Win32.D3D11.Pipeline.Element.PixelShader;
+export import FatPound.Win32.D3D11.Pipeline.Element.VertexShader;

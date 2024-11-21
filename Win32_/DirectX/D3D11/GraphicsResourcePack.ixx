@@ -12,7 +12,7 @@ module;
 ::Microsoft::WRL::ComPtr<::ID3D11Device>           m_pDevice{};\
 ::Microsoft::WRL::ComPtr<::ID3D11DeviceContext>    m_pImmediateContext{};\
 ::Microsoft::WRL::ComPtr<::ID3D11RenderTargetView> m_pRTV{};\
-::Microsoft::WRL::ComPtr<::ID3D11DepthStencilView> m_pDSV{};\
+::Microsoft::WRL::ComPtr<::ID3D11DepthStencilView> m_pDSV{};
 
 export module FatPound.Win32.D3D11.Graphics.ResourcePack;
 

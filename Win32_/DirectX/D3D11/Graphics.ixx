@@ -56,7 +56,7 @@ export namespace fatpound::win32::d3d11
             
             if constexpr (RasterizationEnabled)
             {
-                pipeline::system::Rasterizer::SetState_FatDefault(m_res_pack_);
+                InitRasterizer_();
             }
         }
         explicit Graphics(const HWND hWnd, const ScreenSizeInfo& dimensions) requires(Framework)
@@ -96,10 +96,6 @@ export namespace fatpound::win32::d3d11
                 }
             }
         }
-
-
-    public:
-
 
 
     public:
@@ -180,15 +176,23 @@ export namespace fatpound::win32::d3d11
         {
             return mc_hWnd_;
         }
-        auto GetDevice() noexcept -> ID3D11Device*
+        auto GetDevice() const noexcept -> ID3D11Device*
         {
             return m_res_pack_.m_pDevice.Get();
         }
-        auto GetImmediateContext() noexcept -> ID3D11DeviceContext*
+        auto GetImmediateContext() const noexcept -> ID3D11DeviceContext*
         {
             return m_res_pack_.m_pImmediateContext.Get();
         }
-        auto GetSysbufferTexture() -> ID3D11Texture2D* requires(Framework)
+        auto GetRenderTargetView() const noexcept -> ID3D11RenderTargetView*
+        {
+            return m_res_pack_.m_pRTV.Get();
+        }
+        auto GetDepthStencilView() const noexcept -> ID3D11DepthStencilView*
+        {
+            return m_res_pack_.m_pDSV.Get();
+        }
+        auto GetSysbufferTexture() const noexcept -> ID3D11Texture2D* requires(Framework)
         {
             return m_res_pack_.m_pSysBufferTexture.Get();
         }
@@ -233,24 +237,24 @@ export namespace fatpound::win32::d3d11
     private:
         void InitCommon_()
         {
-            core::Device::Create(m_res_pack_);
+            core::Create_Device(m_res_pack_);
 
             InitMSAA_Settings_();
             
             {
-                auto&& scdesc = factory::SwapChain::CreateDESC<Framework>(GetHwnd(), mc_dimensions_, m_msaa_count_, m_msaa_quality_);
-                factory::SwapChain::Create(m_res_pack_, scdesc);
+                auto&& scdesc = factory::Create_SwapChain_DESC<Framework>(GetHwnd(), mc_dimensions_, m_msaa_count_, m_msaa_quality_);
+                factory::Create_SwapChain(m_res_pack_, scdesc);
             }
 
             ToggleAltEnterMode_();
 
-            pipeline::system::RenderTarget::Set_FatDefault<Framework>(m_res_pack_, mc_dimensions_, m_msaa_count_, m_msaa_quality_);
-            pipeline::system::Viewport::Set_FatDefault(m_res_pack_, mc_dimensions_);
+            InitRenderTarget_();
+            InitViewport_();
         }
         void InitFramework_() requires(Framework)
         {
-            pipeline::system::ShaderResource::SetView_FatDefault<Framework>(m_res_pack_, mc_dimensions_, m_msaa_count_, m_msaa_quality_);
-            pipeline::system::Sampler::SetState_FatDefault(m_res_pack_);
+            InitShaderResourceView_();
+            InitSampler_();
 
             std::vector<std::unique_ptr<FATSPACE_PIPELINE::Bindable>> binds;
 
@@ -303,6 +307,76 @@ export namespace fatpound::win32::d3d11
             {
                 throw std::runtime_error{ "MSAA Quality is NOT valid!" };
             }
+        }
+
+        void InitRasterizer_() requires(NotFramework)
+        {
+            ::wrl::ComPtr<ID3D11RasterizerState> pRasterizerState{};
+
+            {
+                const auto& descRS = factory::Create_RasterizerState_DESC();
+                factory::Create_RasterizerState(m_res_pack_, descRS, pRasterizerState);
+            }
+
+            GetImmediateContext()->RSSetState(pRasterizerState.Get());
+        }
+        void InitRenderTarget_()
+        {
+            factory::Create_RenderTargetView(m_res_pack_);
+
+            if constexpr (NotFramework)
+            {
+                ::wrl::ComPtr<ID3D11Texture2D> pTexture2D{};
+
+                {
+                    const auto& descTex2D = factory::Create_Texture2D_DESC(mc_dimensions_, m_msaa_count_, m_msaa_quality_);
+                    factory::Create_Texture2D(m_res_pack_, descTex2D, pTexture2D);
+                }
+
+                {
+                    const auto& descDSV = factory::Create_DepthStencilView_DESC(m_msaa_count_);
+                    factory::Create_DepthStencilView(m_res_pack_, pTexture2D, descDSV);
+                }
+            }
+
+            GetImmediateContext()->OMSetRenderTargets(1u, m_res_pack_.m_pRTV.GetAddressOf(), GetDepthStencilView());
+        }
+        void InitViewport_()
+        {
+            D3D11_VIEWPORT vp{};
+            vp.Width = static_cast<FLOAT>(mc_dimensions_.m_width);
+            vp.Height = static_cast<FLOAT>(mc_dimensions_.m_height);
+            vp.MinDepth = 0.0f;
+            vp.MaxDepth = 1.0f;
+            vp.TopLeftX = 0.0f;
+            vp.TopLeftY = 0.0f;
+
+            GetImmediateContext()->RSSetViewports(1u, &vp);
+        }
+        void InitShaderResourceView_() requires(Framework)
+        {
+            ::wrl::ComPtr<ID3D11ShaderResourceView> pSysBufferTextureView{};
+
+            {
+                const auto& t2dDesc = factory::Create_Texture2D_DESC<Framework>(mc_dimensions_, m_msaa_count_, m_msaa_quality_);
+                factory::Create_Texture2D(m_res_pack_, t2dDesc);
+
+                const auto& srvDesc = factory::Create_ShaderResourceView_DESC<Framework>(t2dDesc.Format, m_msaa_count_);
+                factory::Create_ShaderResourceView(m_res_pack_, srvDesc, pSysBufferTextureView);
+            }
+
+            GetImmediateContext()->PSSetShaderResources(0u, 1u, pSysBufferTextureView.GetAddressOf());
+        }
+        void InitSampler_() requires(Framework)
+        {
+            ::wrl::ComPtr<ID3D11SamplerState> pSamplerState{};
+
+            {
+                const auto& sampDesc = factory::Create_SamplerState_DESC();
+                factory::Create_SamplerState(m_res_pack_, sampDesc, pSamplerState);
+            }
+
+            GetImmediateContext()->PSSetSamplers(0u, 1u, pSamplerState.GetAddressOf());
         }
 
         void MapSubresource_() requires(Framework)

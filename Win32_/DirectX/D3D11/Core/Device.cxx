@@ -6,15 +6,15 @@ module;
 
 #include <wrl.h>
 
-module FatPound.Win32.D3D11.Core:Device;
+module FatPound.Win32.D3D11.Core.Device;
 
 namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d3d11::core
 {
-    void Device::Create(
-            ::wrl::ComPtr<ID3D11Device>& pDevice,
-            ::wrl::ComPtr<ID3D11DeviceContext>& pImmediateContext)
+    void Create_Device(
+        ::wrl::ComPtr<ID3D11Device>& pDevice,
+        ::wrl::ComPtr<ID3D11DeviceContext>& pImmediateContext)
     {
         static constinit UINT swapCreateFlags;
 
