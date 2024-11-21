@@ -330,7 +330,7 @@ export namespace fatpound::win32::d3d11
 
                 {
                     const auto& descTex2D = factory::Create_Texture2D_DESC(mc_dimensions_, m_msaa_count_, m_msaa_quality_);
-                    factory::Create_Texture2D(m_res_pack_, descTex2D, pTexture2D);
+                    factory::Create_Texture2D(GetDevice(), descTex2D, pTexture2D);
                 }
 
                 {

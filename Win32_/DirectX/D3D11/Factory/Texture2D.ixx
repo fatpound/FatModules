@@ -50,13 +50,10 @@ export namespace fatpound::win32::d3d11::factory
         return desc;
     }
 
+    void Create_Texture2D(GraphicsFrameworkResourcePack& gfxFwkResPack, const D3D11_TEXTURE2D_DESC& desc);
+
     void Create_Texture2D(
         ID3D11Device* const pDevice,
         const D3D11_TEXTURE2D_DESC& desc,
         ::Microsoft::WRL::ComPtr<ID3D11Texture2D>& pTexture2D);
-
-    void Create_Texture2D(CGfxResPack auto& gfxResPack, const D3D11_TEXTURE2D_DESC& desc)
-    {
-        Create_Texture2D(gfxResPack.m_pDevice.Get(), desc, gfxResPack.m_pSysBufferTexture);
-    }
 }

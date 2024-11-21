@@ -12,6 +12,11 @@ namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d3d11::factory
 {
+    void Create_Texture2D(GraphicsFrameworkResourcePack& gfxFwkResPack, const D3D11_TEXTURE2D_DESC& desc)
+    {
+        Create_Texture2D(gfxFwkResPack.m_pDevice.Get(), desc, gfxFwkResPack.m_pSysBufferTexture);
+    }
+
     void Create_Texture2D(
         ID3D11Device* const pDevice,
         const D3D11_TEXTURE2D_DESC& desc,

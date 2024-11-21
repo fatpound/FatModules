@@ -9,6 +9,5 @@ export import FatPound.Win32.D3D11.Factory.DepthStencilView;
 export import FatPound.Win32.D3D11.Factory.RenderTargetView;
 export import FatPound.Win32.D3D11.Factory.ShaderResourceView;
 
-export import FatPound.Win32.D3D11.Factory.DepthStencilState;
 export import FatPound.Win32.D3D11.Factory.RasterizerState;
 export import FatPound.Win32.D3D11.Factory.SamplerState;

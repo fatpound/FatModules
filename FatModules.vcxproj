@@ -87,8 +87,6 @@
     <ClCompile Include="Win32_\DirectX\D2D\Graphics.ixx" />
     <ClCompile Include="Win32_\DirectX\D3D11\Core\Core.ixx" />
     <ClCompile Include="Win32_\DirectX\D3D11\D3D11.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Factory\DepthStencilState.cxx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Factory\DepthStencilState.ixx" />
     <ClCompile Include="Win32_\DirectX\D3D11\Factory\DepthStencilView.cxx" />
     <ClCompile Include="Win32_\DirectX\D3D11\Factory\DepthStencilView.ixx" />
     <ClCompile Include="Win32_\DirectX\D3D11\Core\Device.cxx" />
