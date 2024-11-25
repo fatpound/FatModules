@@ -8,7 +8,7 @@ import std;
 
 export namespace fatpound::memory
 {
-	template <typename T> using unique_ptr_aligned       = ::std::unique_ptr<T,   decltype(&::_aligned_free)>;
+    template <typename T> using unique_ptr_aligned       = ::std::unique_ptr<T,   decltype(&::_aligned_free)>;
     template <typename T> using unique_ptr_aligned_array = ::std::unique_ptr<T[], decltype(&::_aligned_free)>;
 
     template <typename T>

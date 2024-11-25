@@ -55,7 +55,7 @@ namespace fatpound::util
     }
     Surface::Surface(const unsigned int width, const unsigned int height, const unsigned int alignBytes)
         :
-        m_pBuffer_((assert(width > 0u), assert(height > 0), FATSPACE_MEMORY::make_unique_aligned_array<Color>(width* height, alignBytes))),
+        m_pBuffer_((assert(width > 0u), assert(height > 0), FATSPACE_MEMORY::make_unique_aligned_array<Color>(width * height, alignBytes))),
         m_width_(width),
         m_height_(height),
         m_align_byte_(alignBytes),
