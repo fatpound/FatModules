@@ -324,13 +324,7 @@
     <ClCompile Include="IO\MouseEvent.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Time\AutoTimer.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Util\Time\AutoTimer.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Util\Time\Time.ixx">
+    <ClCompile Include="Util\Timer.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\MessageMap.ixx">

@@ -77,9 +77,7 @@
     <ClCompile Include="Util\ScreenSizeInfo.ixx" />
     <ClCompile Include="Util\Surface.cxx" />
     <ClCompile Include="Util\Surface.ixx" />
-    <ClCompile Include="Util\Time\AutoTimer.cxx" />
-    <ClCompile Include="Util\Time\AutoTimer.ixx" />
-    <ClCompile Include="Util\Time\Time.ixx" />
+    <ClCompile Include="Util\Timer.ixx" />
     <ClCompile Include="Util\Util.ixx" />
     <ClCompile Include="Util\ViewXM.cxx" />
     <ClCompile Include="Win32_\DirectX\D2D\D2D.ixx" />

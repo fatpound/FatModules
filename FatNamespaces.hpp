@@ -13,7 +13,6 @@
 #define FATSPACE_WIN32                NAMESPACE_FATPOUND::win32
 #define FATSPACE_UTIL                 NAMESPACE_FATPOUND::util
 
-#define FATSPACE_UTIL_TIME            FATSPACE_UTIL::time
 #define FATSPACE_UTIL_GFX             FATSPACE_UTIL::gfx
 
 // these will be refactored later

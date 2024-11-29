@@ -6,7 +6,7 @@ module;
 
 #include <d2d1.h>
 
-module FatPound.Math:RectF;
+module FatPound.Math.RectF;
 
 namespace fatpound::math
 {

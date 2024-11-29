@@ -1,6 +1,6 @@
 module;
 
-export module FatPound.Math:Multiplicable;
+export module FatPound.Math.Multiplicable;
 
 import std;
 

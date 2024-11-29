@@ -49,7 +49,13 @@ export namespace fatpound
 
 
         public:
+            auto operator <=> (const Color& src) const -> bool = delete;
             auto operator == (const Color& src) const -> bool = default;
+
+            operator ::std::uint32_t () const noexcept
+            {
+                return dword;
+            }
 
 
         public:
@@ -70,19 +76,19 @@ export namespace fatpound
                 dword = ((dword bitand 0xFF'FF'FF'00u) bitor static_cast<::std::uint32_t>(blue));
             }
 
-            [[nodiscard]] constexpr auto GetAlpha() const -> unsigned char
+            [[nodiscard]] __forceinline constexpr auto GetA() const -> unsigned char
             {
                 return dword >> 24u;
             }
-            [[nodiscard]] constexpr auto GetR()     const -> unsigned char
+            [[nodiscard]] __forceinline constexpr auto GetR() const -> unsigned char
             {
                 return (dword >> 16u) bitand 0xFFu;
             }
-            [[nodiscard]] constexpr auto GetG()     const -> unsigned char
+            [[nodiscard]] __forceinline constexpr auto GetG() const -> unsigned char
             {
                 return (dword >> 8u) bitand 0xFFu;
             }
-            [[nodiscard]] constexpr auto GetB()     const -> unsigned char
+            [[nodiscard]] __forceinline constexpr auto GetB() const -> unsigned char
             {
                 return dword bitand 0xFFu;
             }

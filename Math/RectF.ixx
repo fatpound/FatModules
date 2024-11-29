@@ -6,7 +6,7 @@ module;
 
 #include <d2d1.h>
 
-export module FatPound.Math:RectF;
+export module FatPound.Math.RectF;
 
 import std;
 

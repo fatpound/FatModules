@@ -206,14 +206,12 @@ export namespace fatpound::win32::d3d11
 
             m_extra_pSurface_ = std::move(pSurface);
         }
-        void CopySurfaceToSysBuffer() requires(Framework)
+        void CopySurfaceToSysbuffer() requires(Framework)
         {
-            const void* const pSrc = *(m_extra_pSurface_.get());
-
-            if (pSrc not_eq nullptr)
+            if (const void* const pSrc = *m_extra_pSurface_)
             {
                 ::std::memcpy(
-                    static_cast<void*>(m_res_pack_.m_surface),
+                    m_res_pack_.m_surface,
                     pSrc,
                     sizeof(Color) * mc_dimensions_.m_width * mc_dimensions_.m_height
                 );

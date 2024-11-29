@@ -1,6 +1,6 @@
 module;
 
-export module FatPound.Math.Number_Set:Rational;
+export module FatPound.Math.Number_Set.Rational;
 
 import std;
 

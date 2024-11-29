@@ -4,9 +4,8 @@ module;
 
 export module FatPound.Math;
 
-export import :RectF;
-export import :Multiplicable;
-
+export import FatPound.Math.RectF;
+export import FatPound.Math.Multiplicable;
 export import FatPound.Math.Number_Set;
 
 import std;
@@ -17,6 +16,14 @@ export namespace fatpound::math
     inline constexpr auto Square(const T& x) noexcept(SelfMultiplicable_Noexcept<T>)
     {
         return x * x;
+    }
+
+    template <std::floating_point N>
+    inline constexpr auto Gaussian(const N x, const N rho)
+    {
+        const auto rhoSq2 = Square(rho) * 2.0;
+
+        return (1.0 / ::std::sqrt(rhoSq2 * ::std::numbers::pi_v<N>)) * ::std::exp(-(Square(x) / rhoSq2));
     }
 
     auto GetDifferenceVector(const ::DirectX::XMVECTOR pos1_vec, const ::DirectX::XMVECTOR pos2_vec) noexcept -> ::DirectX::XMVECTOR;

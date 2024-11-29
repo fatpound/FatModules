@@ -167,6 +167,10 @@ namespace fatpound::util
         return { m_width_, m_height_ };
     }
 
+    void Surface::Fill(const Color& color)
+    {
+        ::std::memset(m_pBuffer_.get(), color, GetWidth() * GetHeight() * sizeof(Color));
+    }
     void Surface::Clear()
     {
         if (m_pBuffer_ not_eq nullptr)
