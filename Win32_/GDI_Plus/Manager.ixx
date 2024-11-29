@@ -1,10 +1,6 @@
 module;
 
-#define FATPOUND_FULL_WIN_TARGETED
-
 #include <FatWin32.hpp>
-
-#include <gdiplus.h>
 
 export module FatPound.Win32.GDI_Plus.Manager;
 
