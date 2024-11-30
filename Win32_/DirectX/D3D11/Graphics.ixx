@@ -172,6 +172,11 @@ export namespace fatpound::win32::d3d11
 
 
     public:
+        auto GetSurface() -> Surface*
+        {
+            return m_extra_pSurface_.get();
+        }
+
         auto GetHwnd() const -> HWND
         {
             return mc_hWnd_;
