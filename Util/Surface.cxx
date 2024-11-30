@@ -169,7 +169,7 @@ namespace fatpound::util
 
     void Surface::Fill(const Color& color)
     {
-        ::std::memset(m_pBuffer_.get(), color, GetWidth() * GetHeight() * sizeof(Color));
+        ::std::memset(m_pBuffer_.get(), static_cast<int>(color), GetWidth() * GetHeight() * sizeof(Color));
     }
     void Surface::Clear()
     {

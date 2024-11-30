@@ -245,7 +245,7 @@ export namespace fatpound::win32::d3d11
             InitMSAA_Settings_();
             
             {
-                auto&& scdesc = factory::Create_SwapChain_DESC<Framework>(GetHwnd(), mc_dimensions_, m_msaa_count_, m_msaa_quality_);
+                auto&& scdesc = factory::Create_SwapChain_DESC<Framework, IN_RELEASE>(GetHwnd(), mc_dimensions_, m_msaa_count_, m_msaa_quality_);
                 factory::Create_SwapChain(m_res_pack_, scdesc);
             }
 

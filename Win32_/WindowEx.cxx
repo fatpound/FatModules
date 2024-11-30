@@ -2,6 +2,8 @@ module;
 
 #include <FatWin32.hpp>
 
+#include <FatFrameworkMacros.hpp>
+
 #include <DirectXMath.h>
 
 module FatPound.Win32.WindowEx;
@@ -38,7 +40,7 @@ namespace fatpound::win32
                 {
                     WS_VISIBLE
 
-#if IN_DEBUG
+#if IN_DEBUG or IS_FRAMEWORK
 
                     bitor WS_CAPTION
                     bitor WS_MINIMIZEBOX
@@ -56,13 +58,11 @@ namespace fatpound::win32
                     [[maybe_unused]]
                     const auto&& retval = ::AdjustWindowRectEx(&rect, styles, false, exStyles);
                 }
-
 #else
-
                     bitor WS_POPUP
                 };
 
-#endif // IN_DEBUG
+#endif // IN_DEBUG or IS_FRAMEWORK
                 
                 const auto hModule = ::GetModuleHandle(nullptr);
                 
@@ -78,13 +78,17 @@ namespace fatpound::win32
                     styles,
                     position.has_value() ? position->x : CW_USEDEFAULT,
                     position.has_value() ? position->y : CW_USEDEFAULT,
-#if IN_DEBUG
+
+#if IN_DEBUG or IS_FRAMEWORK
+
                     rect.right  - rect.left,
                     rect.bottom - rect.top,
 #else
                     static_cast<LONG>(mc_client_size_.m_width),
                     static_cast<LONG>(mc_client_size_.m_height),
-#endif // IN_DEBUG
+
+#endif // IN_DEBUG or IS_FRAMEWORK
+
                     nullptr,
                     nullptr,
                     hModule,

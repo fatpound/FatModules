@@ -386,6 +386,9 @@
     <ClInclude Include="FatNamespaces.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FatFrameworkMacros.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Win32_\DirectX\D3D11\Shader\PSFrameBuffer.hlsl" />
