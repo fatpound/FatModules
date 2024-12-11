@@ -41,16 +41,16 @@ export namespace fatpound
 
             constexpr explicit Color() = default;
             constexpr Color(const Color& src) = default;
-            constexpr Color(Color&& src) = default;
+            constexpr Color(Color&& src) noexcept = default;
 
-            constexpr auto operator = (const Color& src) -> Color& = default;
-            constexpr auto operator = (Color&& src)      -> Color& = default;
+            constexpr auto operator = (const Color& src)     -> Color& = default;
+            constexpr auto operator = (Color&& src) noexcept -> Color& = default;
             constexpr ~Color() noexcept = default;
 
 
         public:
             auto operator <=> (const Color& src) const -> bool = delete;
-            auto operator == (const Color& src) const -> bool = default;
+            auto operator ==  (const Color& src) const -> bool = default;
 
             operator ::std::uint32_t () const noexcept
             {
@@ -59,23 +59,6 @@ export namespace fatpound
 
 
         public:
-            void SetAlpha(unsigned char alpha) noexcept
-            {
-                dword = ((dword bitand 0x00'FF'FF'FFu) bitor (static_cast<::std::uint32_t>(alpha) << 24u));
-            }
-            void SetR(unsigned char red) noexcept
-            {
-                dword = ((dword bitand 0xFF'00'FF'FFu) bitor (static_cast<::std::uint32_t>(red) << 16u));
-            }
-            void SetG(unsigned char green) noexcept
-            {
-                dword = ((dword bitand 0xFF'FF'00'FFu) bitor (static_cast<::std::uint32_t>(green) << 8u));
-            }
-            void SetB(unsigned char blue) noexcept
-            {
-                dword = ((dword bitand 0xFF'FF'FF'00u) bitor static_cast<::std::uint32_t>(blue));
-            }
-
             [[nodiscard]] __forceinline constexpr auto GetA() const -> unsigned char
             {
                 return dword >> 24u;
@@ -91,6 +74,23 @@ export namespace fatpound
             [[nodiscard]] __forceinline constexpr auto GetB() const -> unsigned char
             {
                 return dword bitand 0xFFu;
+            }
+
+            __forceinline void SetA(unsigned char alpha) noexcept
+            {
+                dword = ((dword bitand 0x00'FF'FF'FFu) bitor (static_cast<::std::uint32_t>(alpha) << 24u));
+            }
+            __forceinline void SetR(unsigned char red) noexcept
+            {
+                dword = ((dword bitand 0xFF'00'FF'FFu) bitor (static_cast<::std::uint32_t>(red) << 16u));
+            }
+            __forceinline void SetG(unsigned char green) noexcept
+            {
+                dword = ((dword bitand 0xFF'FF'00'FFu) bitor (static_cast<::std::uint32_t>(green) << 8u));
+            }
+            __forceinline void SetB(unsigned char blue) noexcept
+            {
+                dword = ((dword bitand 0xFF'FF'FF'00u) bitor static_cast<::std::uint32_t>(blue));
             }
 
 
