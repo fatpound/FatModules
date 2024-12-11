@@ -47,18 +47,20 @@ export namespace fatpound::win32::d3d11::factory
         {
             desc.SampleDesc.Count = 1u;
             desc.SampleDesc.Quality = 0u;
-
-            desc.Windowed = true;
         }
         else
         {
             desc.SampleDesc.Count = msaaCount;
             desc.SampleDesc.Quality = msaaQuality - 1u;
+        }
 
-            if constexpr (Fullscreen)
-            {
-                desc.Windowed = false;
-            }
+        if constexpr (Fullscreen and not ForFramework)
+        {
+            desc.Windowed = false;
+        }
+        else
+        {
+            desc.Windowed = true;
         }
 
         return desc;
