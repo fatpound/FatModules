@@ -108,7 +108,7 @@ export namespace fatpound::win32
 
         HWND m_hWnd_{};
 
-        std::atomic<bool> m_is_closing_{};
+        std::atomic_bool m_is_closing_{};
         std::binary_semaphore m_start_signal_{ 0 };
 
         std::jthread m_msg_jthread_;

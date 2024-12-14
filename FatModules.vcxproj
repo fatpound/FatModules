@@ -80,6 +80,9 @@
     <ClCompile Include="Util\Timer.ixx" />
     <ClCompile Include="Util\Util.ixx" />
     <ClCompile Include="Util\ViewXM.cxx" />
+    <ClCompile Include="Win32_\COM\COM.ixx" />
+    <ClCompile Include="Win32_\COM\Manager.cxx" />
+    <ClCompile Include="Win32_\COM\Manager.ixx" />
     <ClCompile Include="Win32_\DirectX\D2D\D2D.ixx" />
     <ClCompile Include="Win32_\DirectX\D2D\Graphics.cxx" />
     <ClCompile Include="Win32_\DirectX\D2D\Graphics.ixx" />
@@ -143,6 +146,9 @@
     <ClCompile Include="Win32_\Win32.ixx" />
     <ClCompile Include="Win32_\WindowEx.cxx" />
     <ClCompile Include="Win32_\WindowEx.ixx" />
+    <ClCompile Include="Win32_\WMF\Manager.cxx" />
+    <ClCompile Include="Win32_\WMF\Manager.ixx" />
+    <ClCompile Include="Win32_\WMF\WMF.ixx" />
     <ClCompile Include="Win32_\WndClassEx.cxx" />
     <ClCompile Include="Win32_\WndClassEx.ixx" />
   </ItemGroup>
