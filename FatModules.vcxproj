@@ -74,6 +74,7 @@
     <ClCompile Include="IO\Mouse.ixx" />
     <ClCompile Include="IO\MouseEvent.ixx" />
     <ClCompile Include="Memory\Memory.ixx" />
+    <ClCompile Include="Util\Gfx\ResourcePack.ixx" />
     <ClCompile Include="Util\ScreenSizeInfo.ixx" />
     <ClCompile Include="Util\Surface.cxx" />
     <ClCompile Include="Util\Surface.ixx" />
@@ -106,7 +107,6 @@
     <ClCompile Include="Win32_\DirectX\D3D11\Factory\Texture2D.cxx" />
     <ClCompile Include="Win32_\DirectX\D3D11\Factory\Texture2D.ixx" />
     <ClCompile Include="Win32_\DirectX\D3D11\Graphics.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\GraphicsResourcePack.ixx" />
     <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Bindable.ixx" />
     <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\Element.ixx" />
     <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\IndexBuffer.cxx" />

@@ -1,6 +1,7 @@
 module;
 
 #include <FatWin32_Settings.hpp>
+#include <FatNamespaces.hpp>
 
 #include <d3d11.h>
 
@@ -12,6 +13,11 @@ namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d3d11::core
 {
+    void Create_Device(FATSPACE_UTIL_GFX::ResourcePack& gfxResPack)
+    {
+        Create_Device(gfxResPack.m_pDevice, gfxResPack.m_pImmediateContext);
+    }
+
     void Create_Device(
         ::wrl::ComPtr<ID3D11Device>& pDevice,
         ::wrl::ComPtr<ID3D11DeviceContext>& pImmediateContext)

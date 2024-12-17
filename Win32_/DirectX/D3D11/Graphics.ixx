@@ -13,8 +13,6 @@ module;
 
 export module FatPound.Win32.D3D11.Graphics;
 
-import FatPound.Win32.D3D11.Graphics.ResourcePack;
-
 import FatPound.Win32.D3D11.Core;
 import FatPound.Win32.D3D11.Pipeline;
 import FatPound.Win32.D3D11.Visual;
@@ -41,9 +39,9 @@ export namespace fatpound::win32::d3d11
     class Graphics final
     {
         static constexpr auto NotFramework = std::bool_constant<not Framework>::value;
-        static constexpr auto RasterizationEnabled = NotFramework; // optional
+        static constexpr auto RasterizationEnabled = NotFramework;
 
-        using ResourcePackType = std::conditional_t<Framework, GraphicsFrameworkResourcePack, GraphicsResourcePack>;
+        using ResourcePack_t = ::std::conditional_t<Framework, FATSPACE_UTIL_GFX::FrameworkResourcePack, FATSPACE_UTIL_GFX::ResourcePack>;
         using float_t = float;
 
     public:
@@ -422,7 +420,7 @@ export namespace fatpound::win32::d3d11
 
 
     private:
-        ResourcePackType m_res_pack_{};
+        ResourcePack_t m_res_pack_{};
 
         const HWND mc_hWnd_;
         

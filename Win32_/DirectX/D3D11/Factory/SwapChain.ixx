@@ -9,7 +9,7 @@ module;
 
 export module FatPound.Win32.D3D11.Factory.SwapChain;
 
-import FatPound.Win32.D3D11.Graphics.ResourcePack;
+import FatPound.Util.Gfx;
 
 import FatPound.Win32.DXGI;
 
@@ -66,13 +66,10 @@ export namespace fatpound::win32::d3d11::factory
         return desc;
     }
 
+    void Create_SwapChain(FATSPACE_UTIL_GFX::ResourcePack& gfxResPack, DXGI_SWAP_CHAIN_DESC& desc);
+
     void Create_SwapChain(
         ID3D11Device* const pDevice,
         DXGI_SWAP_CHAIN_DESC& desc,
         ::Microsoft::WRL::ComPtr<IDXGISwapChain>& pSwapChain);
-
-    void Create_SwapChain(CGfxResPack auto& gfxResPack, DXGI_SWAP_CHAIN_DESC& desc)
-    {
-        Create_SwapChain(gfxResPack.m_pDevice.Get(), desc, gfxResPack.m_pSwapChain);
-    }
 }

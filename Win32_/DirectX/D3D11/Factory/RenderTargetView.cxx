@@ -1,6 +1,7 @@
 module;
 
 #include <FatWin32_Settings.hpp>
+#include <FatNamespaces.hpp>
 
 #include <d3d11.h>
 
@@ -12,6 +13,15 @@ namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d3d11::factory
 {
+    void Create_RenderTargetView(FATSPACE_UTIL_GFX::ResourcePack& gfxResPack)
+    {
+        Create_RenderTargetView(
+            gfxResPack.m_pSwapChain.Get(),
+            gfxResPack.m_pDevice.Get(),
+            gfxResPack.m_pRTV
+        );
+    }
+
     void Create_RenderTargetView(
         IDXGISwapChain* const pSwapChain,
         ID3D11Device* const pDevice,

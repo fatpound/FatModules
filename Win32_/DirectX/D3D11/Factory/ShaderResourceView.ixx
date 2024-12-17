@@ -1,6 +1,7 @@
 module;
 
 #include <FatWin32_Settings.hpp>
+#include <FatNamespaces.hpp>
 
 #include <d3d11.h>
 
@@ -8,7 +9,7 @@ module;
 
 export module FatPound.Win32.D3D11.Factory.ShaderResourceView;
 
-import FatPound.Win32.D3D11.Graphics.ResourcePack;
+import FatPound.Util.Gfx;
 
 import std;
 
@@ -43,21 +44,13 @@ export namespace fatpound::win32::d3d11::factory
     }
 
     void Create_ShaderResourceView(
-        ID3D11Device* const pDevice,
-        ID3D11Texture2D* pSysBufferTexture,
+        const FATSPACE_UTIL_GFX::FrameworkResourcePack& gfxFwkResPack,
         D3D11_SHADER_RESOURCE_VIEW_DESC desc,
         ::Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& pSysBufferTextureView);
 
     void Create_ShaderResourceView(
-        const CGfxResPack auto& gfxResPack,
+        ID3D11Device* const pDevice,
+        ID3D11Texture2D* pSysBufferTexture,
         D3D11_SHADER_RESOURCE_VIEW_DESC desc,
-        ::Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& pSysBufferTextureView)
-    {
-        Create_ShaderResourceView(
-            gfxResPack.m_pDevice.Get(),
-            gfxResPack.m_pSysBufferTexture.Get(),
-            desc,
-            pSysBufferTextureView
-        );
-    }
+        ::Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>& pSysBufferTextureView);
 }

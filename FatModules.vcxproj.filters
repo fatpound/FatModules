@@ -219,9 +219,6 @@
     <ClCompile Include="Win32_\DirectX\D3D11\Graphics.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\GraphicsResourcePack.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\DirectX\DirectX.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -391,6 +388,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\COM\Manager.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Util\Gfx\ResourcePack.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

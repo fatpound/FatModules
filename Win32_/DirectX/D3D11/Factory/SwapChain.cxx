@@ -13,6 +13,11 @@ namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d3d11::factory
 {
+    void Create_SwapChain(FATSPACE_UTIL_GFX::ResourcePack& gfxResPack, DXGI_SWAP_CHAIN_DESC& desc)
+    {
+        Create_SwapChain(gfxResPack.m_pDevice.Get(), desc, gfxResPack.m_pSwapChain);
+    }
+
     void Create_SwapChain(
         ID3D11Device* const pDevice,
         DXGI_SWAP_CHAIN_DESC& desc,

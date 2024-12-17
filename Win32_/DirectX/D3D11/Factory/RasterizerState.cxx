@@ -1,6 +1,7 @@
 module;
 
 #include <FatWin32_Settings.hpp>
+#include <FatNamespaces.hpp>
 
 #include <d3d11.h>
 
@@ -13,7 +14,7 @@ namespace wrl = Microsoft::WRL;
 namespace fatpound::win32::d3d11::factory
 {
     void Create_RasterizerState(
-        const GraphicsResourcePack& gfxResPack,
+        const FATSPACE_UTIL_GFX::ResourcePack& gfxResPack,
         const D3D11_RASTERIZER_DESC& desc,
         ::wrl::ComPtr<ID3D11RasterizerState>& pRasterizerState)
     {

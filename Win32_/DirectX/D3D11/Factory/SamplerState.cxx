@@ -1,6 +1,7 @@
 module;
 
 #include <FatWin32_Settings.hpp>
+#include <FatNamespaces.hpp>
 
 #include <d3d11.h>
 
@@ -12,6 +13,14 @@ namespace wrl = Microsoft::WRL;
 
 namespace fatpound::win32::d3d11::factory
 {
+    void Create_SamplerState(
+        const FATSPACE_UTIL_GFX::ResourcePack& gfxResPack,
+        D3D11_SAMPLER_DESC desc,
+        ::Microsoft::WRL::ComPtr<ID3D11SamplerState>& pSamplerState)
+    {
+        Create_SamplerState(gfxResPack.m_pDevice.Get(), desc, pSamplerState);
+    }
+
     void Create_SamplerState(
         ID3D11Device* const pDevice,
         D3D11_SAMPLER_DESC desc,

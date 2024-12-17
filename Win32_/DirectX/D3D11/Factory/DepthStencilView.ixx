@@ -1,6 +1,7 @@
 module;
 
 #include <FatWin32_Settings.hpp>
+#include <FatNamespaces.hpp>
 
 #include <d3d11.h>
 
@@ -8,7 +9,7 @@ module;
 
 export module FatPound.Win32.D3D11.Factory.DepthStencilView;
 
-import FatPound.Win32.D3D11.Graphics.ResourcePack;
+import FatPound.Util.Gfx;
 
 import std;
 
@@ -34,7 +35,7 @@ export namespace fatpound::win32::d3d11::factory
     }
 
     void Create_DepthStencilView(
-        GraphicsResourcePack& gfxResPack,
+        FATSPACE_UTIL_GFX::ResourcePack& gfxResPack,
         const ::Microsoft::WRL::ComPtr<ID3D11Texture2D>& pDepthStencil,
         const D3D11_DEPTH_STENCIL_VIEW_DESC& desc);
 

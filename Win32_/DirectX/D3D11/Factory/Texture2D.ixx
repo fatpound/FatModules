@@ -9,7 +9,7 @@ module;
 
 export module FatPound.Win32.D3D11.Factory.Texture2D;
 
-import FatPound.Win32.D3D11.Graphics.ResourcePack;
+import FatPound.Util.Gfx;
 
 import FatPound.Util;
 
@@ -50,7 +50,7 @@ export namespace fatpound::win32::d3d11::factory
         return desc;
     }
 
-    void Create_Texture2D(GraphicsFrameworkResourcePack& gfxFwkResPack, const D3D11_TEXTURE2D_DESC& desc);
+    void Create_Texture2D(FATSPACE_UTIL_GFX::FrameworkResourcePack& gfxFwkResPack, const D3D11_TEXTURE2D_DESC& desc);
 
     void Create_Texture2D(
         ID3D11Device* const pDevice,
