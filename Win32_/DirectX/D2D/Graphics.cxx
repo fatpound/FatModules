@@ -21,8 +21,8 @@ namespace fatpound::win32::d2d
 {
     Graphics::Graphics(const HWND hWnd, const FATSPACE_UTIL::ScreenSizeInfo& dimensions)
         :
-        m_width(dimensions.m_width),
-        m_height(dimensions.m_height)
+        mc_width(dimensions.m_width),
+        mc_height(dimensions.m_height)
     {
         HRESULT hr{};
         
@@ -50,9 +50,9 @@ namespace fatpound::win32::d2d
         }
     }
 
-    void Graphics::EndFrame() noexcept
+    void Graphics::ClearScreen(const float r, const float g, const float b) noexcept
     {
-        m_pRenderTarget_->EndDraw();
+        m_pRenderTarget_->Clear(::D2D1::ColorF(r, g, b));
     }
 
     void Graphics::DrawLine(const D2D1_POINT_2F p0, const D2D1_POINT_2F p1) noexcept
@@ -101,8 +101,8 @@ namespace fatpound::win32::d2d
         }
     }
 
-    void Graphics::ClearScreen_(const float r, const float g, const float b) noexcept
+    void Graphics::EndFrame() noexcept
     {
-        m_pRenderTarget_->Clear(::D2D1::ColorF(r, g, b));
+        m_pRenderTarget_->EndDraw();
     }
 }

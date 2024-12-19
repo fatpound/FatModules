@@ -38,47 +38,38 @@ export namespace fatpound::win32::d2d
 
             if constexpr (Clear)
             {
-                ClearScreen_();
+                ClearScreen<>();
             }
         }
 
-
-    public:
-        void EndFrame() noexcept;
-
-        void DrawLine(const D2D1_POINT_2F p0, const D2D1_POINT_2F p1) noexcept;
-        void DrawLine(const D2D1_POINT_2F p0, const D2D1_POINT_2F p1, const D2D1_COLOR_F color) noexcept;
-
-        void DrawClosedPolyLine(const std::vector<::DirectX::XMFLOAT2>& vertices, const D2D1_COLOR_F color) noexcept;
-        void DrawClosedPolyLine(const std::vector<::DirectX::XMFLOAT2>& vertices, const D2D1_COLOR_F color, ::DirectX::XMMATRIX transform) noexcept;
-
-
-    public:
-        const std::size_t m_width;
-        const std::size_t m_height;
-
-
-    protected:
-
-
-    private:
-        template <
-            float r = 0.0f,
-            float g = 0.0f,
-            float b = 0.0f
-        >
-        void ClearScreen_() noexcept
+        template <float r = 0.0f, float g = 0.0f, float b = 0.0f>
+        void ClearScreen() noexcept
         {
-            m_pRenderTarget_->Clear(D2D1::ColorF(r, g, b));
+            m_pRenderTarget_->Clear(::D2D1::ColorF(r, g, b));
         }
 
 
-    private:
-        void ClearScreen_(const float r, const float g, const float b) noexcept;
+    public:
+        void ClearScreen(const float r, const float g, const float b) noexcept;
+
+        void DrawLine(const D2D1_POINT_2F p0, const D2D1_POINT_2F p1) noexcept;
+        void DrawLine(const D2D1_POINT_2F p0, const D2D1_POINT_2F p1, const D2D1_COLOR_F color) noexcept;
+        void DrawClosedPolyLine(const std::vector<::DirectX::XMFLOAT2>& vertices, const D2D1_COLOR_F color) noexcept;
+        void DrawClosedPolyLine(const std::vector<::DirectX::XMFLOAT2>& vertices, const D2D1_COLOR_F color, ::DirectX::XMMATRIX transform) noexcept;
+
+        void EndFrame() noexcept;
+
+
+    public:
+        const std::size_t mc_width;
+        const std::size_t mc_height;
+
+
+    protected:
         
         
     private:
-        ::Microsoft::WRL::ComPtr<ID2D1HwndRenderTarget> m_pRenderTarget_{};
-        ::Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>  m_pBrush_{};
+        ::Microsoft::WRL::ComPtr<ID2D1HwndRenderTarget> m_pRenderTarget_;
+        ::Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>  m_pBrush_;
     };
 }
