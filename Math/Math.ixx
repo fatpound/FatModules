@@ -12,8 +12,8 @@ import std;
 
 export namespace fatpound::math
 {
-    template <SelfMultiplicable T>
-    inline constexpr auto Square(const T& x) noexcept(SelfMultiplicable_Noexcept<T>)
+    template <Squarable T>
+    inline constexpr auto Square(const T& x) noexcept(Squarable_NX<T>)
     {
         return x * x;
     }
