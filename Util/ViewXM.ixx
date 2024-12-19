@@ -1,7 +1,5 @@
 module;
 
-#include <FatWin32_Settings.hpp>
-
 #include <DirectXMath.h>
 
 export module FatPound.Util.ViewXM;

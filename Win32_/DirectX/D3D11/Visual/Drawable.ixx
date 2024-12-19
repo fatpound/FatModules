@@ -2,6 +2,8 @@ module;
 
 #include <FatNamespaces.hpp>
 
+#include <FatWin32.hpp>
+
 #include <DirectXMath.h>
 
 #include <d3d11.h>

@@ -2,8 +2,9 @@ module;
 
 #define FATPOUND_FULL_WIN_TARGETED
 
-#include <FatWin32.hpp>
 #include <FatNamespaces.hpp>
+
+#include <FatWin32.hpp>
 
 #include <gdiplus.h>
 
