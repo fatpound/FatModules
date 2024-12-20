@@ -84,13 +84,7 @@
     <ClCompile Include="Util\Util.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Factory\DepthStencilView.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Factory\DepthStencilView.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Factory\SwapChain.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Factory\SwapChain.ixx">
@@ -99,31 +93,16 @@
     <ClCompile Include="Win32_\DirectX\D3D11\Factory\Factory.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Factory\RasterizerState.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Factory\RasterizerState.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Factory\RenderTargetView.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Factory\RenderTargetView.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Factory\SamplerState.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Factory\SamplerState.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Factory\ShaderResourceView.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Factory\ShaderResourceView.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Factory\Texture2D.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Factory\Texture2D.ixx">
@@ -132,37 +111,19 @@
     <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\Element.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\IndexBuffer.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\IndexBuffer.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\InputLayout.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\InputLayout.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\PixelShader.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\PixelShader.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\Topology.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\Topology.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\VertexBuffer.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\VertexBuffer.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\VertexShader.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\VertexShader.ixx">
@@ -196,9 +157,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\StaticBindableVec.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Visual\Drawable.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Visual\Drawable.ixx">
@@ -255,9 +213,6 @@
     <ClCompile Include="Win32_\DirectX\D2D\D2D.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D2D\Graphics.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\DirectX\D2D\Graphics.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -268,12 +223,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Core\Device.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\D3D11\Core\Device.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\DirectX\DXGI\DXGI.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\DirectX\D3D11\Core\Core.ixx">
@@ -330,19 +279,10 @@
     <ClCompile Include="Win32_\IWindow.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\MessageMap.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\WindowEx.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\WndClassEx.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\WndClassEx.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\WindowEx.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Util\Gfx\FullScreenQuad.ixx">
@@ -360,9 +300,6 @@
     <ClCompile Include="Win32_\GDI_Plus\Manager.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\GDI_Plus\Manager.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\GDI_Plus\GDI_Plus.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -378,16 +315,10 @@
     <ClCompile Include="Win32_\WMF\Manager.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\WMF\Manager.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\COM\COM.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\COM\Manager.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\COM\Manager.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Util\Gfx\ResourcePack.ixx">

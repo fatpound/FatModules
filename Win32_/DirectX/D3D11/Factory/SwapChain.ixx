@@ -12,8 +12,6 @@ export module FatPound.Win32.D3D11.Factory.SwapChain;
 
 import FatPound.Util.Gfx;
 
-import FatPound.Win32.DXGI;
-
 import FatPound.Util;
 
 import std;
@@ -67,10 +65,25 @@ export namespace fatpound::win32::d3d11::factory
         return desc;
     }
 
-    void Create_SwapChain(FATSPACE_UTIL_GFX::ResourcePack& gfxResPack, DXGI_SWAP_CHAIN_DESC& desc);
-
     void Create_SwapChain(
         ID3D11Device* const pDevice,
         DXGI_SWAP_CHAIN_DESC& desc,
-        ::Microsoft::WRL::ComPtr<IDXGISwapChain>& pSwapChain);
+        ::Microsoft::WRL::ComPtr<IDXGISwapChain>& pSwapChain)
+    {
+        const auto& hr = FATSPACE_UTIL::gfx::GetDXGIFactory(pDevice)->CreateSwapChain(
+            pDevice,
+            &desc,
+            pSwapChain.GetAddressOf()
+        );
+
+        if (FAILED(hr)) [[unlikely]]
+        {
+            throw std::runtime_error("Could NOT create Direct3D SwapChain!");
+        }
+    }
+
+    void Create_SwapChain(FATSPACE_UTIL_GFX::ResourcePack& gfxResPack, DXGI_SWAP_CHAIN_DESC& desc)
+    {
+        Create_SwapChain(gfxResPack.m_pDevice.Get(), desc, gfxResPack.m_pSwapChain);
+    }
 }

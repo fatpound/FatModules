@@ -17,7 +17,16 @@ export namespace fatpound::win32::d3d11::pipeline::element
     class InputLayout final : public Bindable
     {
     public:
-        explicit InputLayout(ID3D11Device* const pDevice, const std::vector<D3D11_INPUT_ELEMENT_DESC>& layout, ID3DBlob* const pVertexShaderBytecode);
+        explicit InputLayout(ID3D11Device* const pDevice, const std::vector<D3D11_INPUT_ELEMENT_DESC>& layout, ID3DBlob* const pVertexShaderBytecode)
+        {
+            pDevice->CreateInputLayout(
+                layout.data(),
+                static_cast<UINT>(layout.size()),
+                pVertexShaderBytecode->GetBufferPointer(),
+                pVertexShaderBytecode->GetBufferSize(),
+                &m_pInputLayout_
+            );
+        }
 
         explicit InputLayout() = delete;
         explicit InputLayout(const InputLayout& src) = delete;
@@ -29,7 +38,10 @@ export namespace fatpound::win32::d3d11::pipeline::element
 
 
     public:
-        virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override final;
+        virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override final
+        {
+            pImmediateContext->IASetInputLayout(m_pInputLayout_.Get());
+        }
 
 
     protected:

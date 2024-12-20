@@ -20,8 +20,6 @@ import FatPound.Win32.D3D11.Pipeline;
 import FatPound.Win32.D3D11.Visual;
 import FatPound.Win32.D3D11.Factory;
 
-import FatPound.Win32.DXGI;
-
 import FatPound.Math;
 
 import FatPound.Util;

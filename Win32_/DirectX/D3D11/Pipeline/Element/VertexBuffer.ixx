@@ -51,7 +51,12 @@ export namespace fatpound::win32::d3d11::pipeline::element
 
 
     public:
-        virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override final;
+        virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override final
+        {
+            constexpr UINT offset{};
+
+            pImmediateContext->IASetVertexBuffers(0u, 1u, m_pVertexBuffer_.GetAddressOf(), &m_stride_, &offset);
+        }
 
 
     protected:
