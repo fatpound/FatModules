@@ -6,7 +6,7 @@ module;
 
 #include <wrl.h>
 
-export module FatPound.Win32.D3D11.Pipeline.Resource:CBuffer;
+export module FatPound.Win32.D3D11.Pipeline.Resource.CBuffer;
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 
@@ -91,3 +91,5 @@ export namespace fatpound::win32::d3d11::pipeline::resource
     private:
     };
 }
+
+module : private;

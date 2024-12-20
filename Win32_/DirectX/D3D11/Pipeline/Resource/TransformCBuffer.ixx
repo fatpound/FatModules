@@ -10,9 +10,9 @@ module;
 
 #include <wrl.h>
 
-export module FatPound.Win32.D3D11.Pipeline.Resource:TransformCBuffer;
+export module FatPound.Win32.D3D11.Pipeline.Resource.TransformCBuffer;
 
-export import :VertexCBuffer;
+export import FatPound.Win32.D3D11.Pipeline.Resource.VertexCBuffer;
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 
@@ -69,3 +69,5 @@ export namespace fatpound::win32::d3d11::pipeline::resource
         FATSPACE_UTIL::ViewXM& m_viewXM_;
     };
 }
+
+module : private;

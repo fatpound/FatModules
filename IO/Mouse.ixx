@@ -90,3 +90,5 @@ export namespace fatpound::io
         bool m_wheel_is_pressed_{};
     };
 }
+
+module : private;

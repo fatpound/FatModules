@@ -119,3 +119,5 @@ export namespace fatpound::dsa::tree::binary
         // NOLINTEND(readability-identifier-length)
     };
 }
+
+module : private;

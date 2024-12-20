@@ -67,3 +67,5 @@ export namespace fatpound::automata
         std::vector<Node_*> m_trees_;
     };
 }
+
+module : private;

@@ -37,3 +37,5 @@ export namespace fatpound::memory
         return unique_ptr_aligned_array<T>(ptr, &::_aligned_free);
     }
 }
+
+module : private;

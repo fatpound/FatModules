@@ -82,3 +82,5 @@ export namespace fatpound::io
         std::atomic<bool> m_auto_repeat_enabled_{};
     };
 }
+
+module : private;

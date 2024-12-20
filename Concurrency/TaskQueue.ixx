@@ -56,3 +56,5 @@ export namespace fatpound::concurrency
         std::mutex m_mtx_;
     };
 }
+
+module : private;

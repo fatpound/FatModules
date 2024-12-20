@@ -10,3 +10,5 @@ export import FatPound.Math;
 export import FatPound.Memory;
 export import FatPound.Util;
 export import FatPound.Win32;
+
+module : private;

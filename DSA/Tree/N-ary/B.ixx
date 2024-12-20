@@ -285,3 +285,5 @@ export namespace fatpound::dsa::tree::n_ary
         std::size_t m_depth_ = 0u;
     };
 }
+
+module : private;

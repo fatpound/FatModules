@@ -157,3 +157,5 @@ export namespace fatpound::win32::d2d
         ::Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>  m_pBrush_;
     };
 }
+
+module : private;

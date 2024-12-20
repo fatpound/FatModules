@@ -129,3 +129,5 @@ export namespace fatpound
         constexpr auto Magenta   = MakeRGB(255u,   0u, 255u);
     }
 }
+
+module : private;

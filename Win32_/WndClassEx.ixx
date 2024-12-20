@@ -118,3 +118,5 @@ export namespace fatpound::win32
         ATOM m_atom_;
     };
 }
+
+module : private;

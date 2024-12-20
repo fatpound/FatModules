@@ -54,3 +54,5 @@ export namespace fatpound::win32::d3d11::factory
         Create_RasterizerState(gfxResPack.m_pDevice.Get(), desc, pRasterizerState);
     }
 }
+
+module : private;

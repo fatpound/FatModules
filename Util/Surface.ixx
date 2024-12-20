@@ -125,3 +125,5 @@ export namespace fatpound::util
         unsigned int m_pixel_pitch_{};
     };
 }
+
+module : private;

@@ -42,3 +42,5 @@ export namespace fatpound::win32
     private:
     };
 }
+
+module : private;

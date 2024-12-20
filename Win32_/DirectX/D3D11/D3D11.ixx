@@ -6,3 +6,5 @@ export import FatPound.Win32.D3D11.Core;
 export import FatPound.Win32.D3D11.Graphics;
 export import FatPound.Win32.D3D11.Pipeline;
 export import FatPound.Win32.D3D11.Visual;
+
+module : private;

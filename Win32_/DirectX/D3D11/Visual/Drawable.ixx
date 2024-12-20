@@ -84,3 +84,5 @@ export namespace fatpound::win32::d3d11::visual
         bind_vec_t m_binds_;
     };
 }
+
+module : private;

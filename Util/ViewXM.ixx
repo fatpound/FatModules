@@ -36,3 +36,5 @@ export namespace fatpound::util
         ::DirectX::XMMATRIX m_projection_{};
     };
 }
+
+module : private;

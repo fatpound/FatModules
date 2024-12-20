@@ -53,3 +53,5 @@ export namespace fatpound::math
     private:
     };
 }
+
+module : private;

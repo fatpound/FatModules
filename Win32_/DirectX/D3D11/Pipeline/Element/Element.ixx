@@ -10,3 +10,5 @@ export import FatPound.Win32.D3D11.Pipeline.Element.VertexBuffer;
 
 export import FatPound.Win32.D3D11.Pipeline.Element.PixelShader;
 export import FatPound.Win32.D3D11.Pipeline.Element.VertexShader;
+
+module : private;

@@ -22,3 +22,5 @@ export namespace fatpound::util::gfx
 
     void ToggleDXGI_AltEnterMode(ID3D11Device* const pDevice, const HWND hWnd, UINT& flag);
 }
+
+module : private;

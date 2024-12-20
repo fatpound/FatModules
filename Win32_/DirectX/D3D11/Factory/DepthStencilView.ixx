@@ -57,3 +57,5 @@ export namespace fatpound::win32::d3d11::factory
         Create_DepthStencilView(gfxResPack.m_pDevice.Get(), pDepthStencil, desc, gfxResPack.m_pDSV);
     }
 }
+
+module : private;

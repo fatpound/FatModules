@@ -58,3 +58,5 @@ export namespace fatpound::automata
         GrammarType m_grammar_;
     };
 }
+
+module : private;

@@ -48,3 +48,5 @@ export namespace fatpound::util
         ::std::chrono::steady_clock::time_point m_last_;
     };
 }
+
+module : private;

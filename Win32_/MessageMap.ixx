@@ -244,3 +244,5 @@ export namespace fatpound::win32
         std::unordered_map<DWORD, std::wstring> m_map_;
     };
 }
+
+module : private;

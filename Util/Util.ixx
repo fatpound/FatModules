@@ -10,3 +10,5 @@ export import FatPound.Util.Surface;
 export import FatPound.Util.ScreenSizeInfo;
 export import FatPound.Util.Timer;
 export import FatPound.Util.ViewXM;
+
+module : private;

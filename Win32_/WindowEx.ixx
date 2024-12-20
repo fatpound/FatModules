@@ -364,3 +364,5 @@ export namespace fatpound::win32
         std::jthread m_msg_jthread_;
     };
 }
+
+module : private;

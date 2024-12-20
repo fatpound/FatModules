@@ -434,3 +434,5 @@ export namespace fatpound::win32::d3d11
         std::unique_ptr<Surface> m_extra_pSurface_;
     };
 }
+
+module : private;

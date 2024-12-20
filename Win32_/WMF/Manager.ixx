@@ -39,3 +39,5 @@ export namespace fatpound::win32::wmf
     private:
     };
 }
+
+module : private;

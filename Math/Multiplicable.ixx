@@ -40,3 +40,5 @@ export namespace fatpound::math
     template <typename T> concept Squarable    = Multiplicable<T, T>; // inefficient?
     template <typename T> concept Squarable_NX = Multiplicable_NX<T, T>;
 }
+
+module : private;

@@ -50,3 +50,5 @@ export namespace fatpound::win32::gdi_plus
 		inline static int s_ref_count_{};
 	};
 }
+
+module : private;

@@ -420,3 +420,5 @@ export namespace fatpound::dsa::tree::n_ary
         std::size_t item_count_ = 0u;
     };
 }
+
+module : private;

@@ -21,3 +21,5 @@ export namespace fatpound::io
         std::underlying_type_t<Type> code{};
     };
 }
+
+module : private;

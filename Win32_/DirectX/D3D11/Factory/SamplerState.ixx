@@ -51,3 +51,5 @@ export namespace fatpound::win32::d3d11::factory
         Create_SamplerState(gfxResPack.m_pDevice.Get(), desc, pSamplerState);
     }
 }
+
+module : private;

@@ -91,3 +91,5 @@ export namespace fatpound::util
         Controller_ m_controller_;
     };
 }
+
+module : private;

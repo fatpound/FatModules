@@ -205,3 +205,5 @@ export namespace fatpound::dsa::tree::binary
     private:
     };
 }
+
+module : private;

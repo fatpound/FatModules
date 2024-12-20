@@ -201,3 +201,5 @@ export namespace fatpound::dsa::linkedlist
     private:
     };
 }
+
+module : private;

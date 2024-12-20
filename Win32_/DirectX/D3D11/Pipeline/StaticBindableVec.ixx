@@ -50,3 +50,5 @@ export namespace fatpound::win32::d3d11::pipeline
     private:
     };
 }
+
+module : private;

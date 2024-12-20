@@ -29,3 +29,5 @@ export namespace fatpound::util::gfx
         };
     };
 }
+
+module : private;

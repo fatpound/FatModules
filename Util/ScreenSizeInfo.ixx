@@ -10,3 +10,5 @@ export namespace fatpound::util
 		unsigned int m_height{};
 	};
 }
+
+module : private;

@@ -11,3 +11,5 @@ export import FatPound.Win32.D3D11.Factory.ShaderResourceView;
 
 export import FatPound.Win32.D3D11.Factory.RasterizerState;
 export import FatPound.Win32.D3D11.Factory.SamplerState;
+
+module : private;

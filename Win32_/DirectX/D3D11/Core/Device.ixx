@@ -62,3 +62,5 @@ export namespace fatpound::win32::d3d11::core
         Create_Device(gfxResPack.m_pDevice, gfxResPack.m_pImmediateContext);
     }
 }
+
+module : private;

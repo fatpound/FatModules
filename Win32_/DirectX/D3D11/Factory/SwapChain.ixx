@@ -87,3 +87,5 @@ export namespace fatpound::win32::d3d11::factory
         Create_SwapChain(gfxResPack.m_pDevice.Get(), desc, gfxResPack.m_pSwapChain);
     }
 }
+
+module : private;

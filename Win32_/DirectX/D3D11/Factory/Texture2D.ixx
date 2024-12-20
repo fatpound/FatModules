@@ -69,3 +69,5 @@ export namespace fatpound::win32::d3d11::factory
         Create_Texture2D(gfxFwkResPack.m_pDevice.Get(), desc, gfxFwkResPack.m_pSysBufferTexture);
     }
 }
+
+module : private;

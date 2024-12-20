@@ -71,3 +71,5 @@ export namespace fatpound::automata
         Node_* m_tree_ = nullptr;
     };
 }
+
+module : private;

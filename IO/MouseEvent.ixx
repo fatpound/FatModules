@@ -41,3 +41,5 @@ export namespace fatpound::io
         bool wheel_is_pressed{};
     };
 }
+
+module : private;
