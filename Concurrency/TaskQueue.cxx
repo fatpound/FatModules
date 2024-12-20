@@ -2,8 +2,6 @@ module;
 
 module FatPound.Concurrency.TaskQueue;
 
-import std;
-
 namespace fatpound::concurrency
 {
     void TaskQueue::ExecuteFirstAndPopOff()
