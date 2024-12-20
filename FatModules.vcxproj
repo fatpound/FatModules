@@ -83,42 +83,41 @@
     <ClCompile Include="Util\ViewXM.cxx" />
     <ClCompile Include="Win32_\COM\COM.ixx" />
     <ClCompile Include="Win32_\COM\Manager.ixx" />
-    <ClCompile Include="Win32_\DirectX\D2D\D2D.ixx" />
-    <ClCompile Include="Win32_\DirectX\D2D\Graphics.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Core\Core.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\D3D11.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Factory\DepthStencilView.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Core\Device.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Factory\SwapChain.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Factory\Factory.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Factory\RasterizerState.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Factory\RenderTargetView.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Factory\SamplerState.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Factory\ShaderResourceView.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Factory\Texture2D.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Graphics.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Bindable.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\Element.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\IndexBuffer.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\InputLayout.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\PixelShader.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\Topology.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\VertexBuffer.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Element\VertexShader.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Pipeline.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Resource\CBuffer.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Resource\PixelCBuffer.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Resource\PixelSBuffer.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Resource\Resource.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Resource\SBuffer.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Resource\TransformCBuffer.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\Resource\VertexCBuffer.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Pipeline\StaticBindableVec.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Visual\Drawable.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Visual\DrawableBase.ixx" />
+    <ClCompile Include="Win32_\D2D\D2D.ixx" />
+    <ClCompile Include="Win32_\D2D\Graphics.ixx" />
+    <ClCompile Include="Win32_\D3D11\Core\Core.ixx" />
+    <ClCompile Include="Win32_\D3D11\D3D11.ixx" />
+    <ClCompile Include="Win32_\D3D11\Factory\DepthStencilView.ixx" />
+    <ClCompile Include="Win32_\D3D11\Core\Device.ixx" />
+    <ClCompile Include="Win32_\D3D11\Factory\SwapChain.ixx" />
+    <ClCompile Include="Win32_\D3D11\Factory\Factory.ixx" />
+    <ClCompile Include="Win32_\D3D11\Factory\RasterizerState.ixx" />
+    <ClCompile Include="Win32_\D3D11\Factory\RenderTargetView.ixx" />
+    <ClCompile Include="Win32_\D3D11\Factory\SamplerState.ixx" />
+    <ClCompile Include="Win32_\D3D11\Factory\ShaderResourceView.ixx" />
+    <ClCompile Include="Win32_\D3D11\Factory\Texture2D.ixx" />
+    <ClCompile Include="Win32_\D3D11\Graphics.ixx" />
+    <ClCompile Include="Win32_\D3D11\Pipeline\Bindable.ixx" />
+    <ClCompile Include="Win32_\D3D11\Pipeline\Element\Element.ixx" />
+    <ClCompile Include="Win32_\D3D11\Pipeline\Element\IndexBuffer.ixx" />
+    <ClCompile Include="Win32_\D3D11\Pipeline\Element\InputLayout.ixx" />
+    <ClCompile Include="Win32_\D3D11\Pipeline\Element\PixelShader.ixx" />
+    <ClCompile Include="Win32_\D3D11\Pipeline\Element\Topology.ixx" />
+    <ClCompile Include="Win32_\D3D11\Pipeline\Element\VertexBuffer.ixx" />
+    <ClCompile Include="Win32_\D3D11\Pipeline\Element\VertexShader.ixx" />
+    <ClCompile Include="Win32_\D3D11\Pipeline\Pipeline.ixx" />
+    <ClCompile Include="Win32_\D3D11\Pipeline\Resource\CBuffer.ixx" />
+    <ClCompile Include="Win32_\D3D11\Pipeline\Resource\PixelCBuffer.ixx" />
+    <ClCompile Include="Win32_\D3D11\Pipeline\Resource\PixelSBuffer.ixx" />
+    <ClCompile Include="Win32_\D3D11\Pipeline\Resource\Resource.ixx" />
+    <ClCompile Include="Win32_\D3D11\Pipeline\Resource\SBuffer.ixx" />
+    <ClCompile Include="Win32_\D3D11\Pipeline\Resource\TransformCBuffer.ixx" />
+    <ClCompile Include="Win32_\D3D11\Pipeline\Resource\VertexCBuffer.ixx" />
+    <ClCompile Include="Win32_\D3D11\Pipeline\StaticBindableVec.ixx" />
+    <ClCompile Include="Win32_\D3D11\Visual\Drawable.ixx" />
+    <ClCompile Include="Win32_\D3D11\Visual\DrawableBase.ixx" />
     <ClCompile Include="Util\ViewXM.ixx" />
-    <ClCompile Include="Win32_\DirectX\D3D11\Visual\Visual.ixx" />
-    <ClCompile Include="Win32_\DirectX\DirectX.ixx" />
+    <ClCompile Include="Win32_\D3D11\Visual\Visual.ixx" />
     <ClCompile Include="Win32_\GDI_Plus\GDI_Plus.ixx" />
     <ClCompile Include="Win32_\GDI_Plus\Manager.ixx" />
     <ClCompile Include="Win32_\IWindow.ixx" />
@@ -136,7 +135,7 @@
     <ClInclude Include="Win32_\FatWin32_Settings.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="Win32_\DirectX\D3D11\Shader\PSFrameBuffer.hlsl">
+    <FxCompile Include="Win32_\D3D11\Shader\PSFrameBuffer.hlsl">
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
@@ -146,7 +145,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
-    <FxCompile Include="Win32_\DirectX\D3D11\Shader\VSFrameBuffer.hlsl">
+    <FxCompile Include="Win32_\D3D11\Shader\VSFrameBuffer.hlsl">
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
