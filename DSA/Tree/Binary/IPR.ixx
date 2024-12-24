@@ -2,6 +2,7 @@ module;
 
 export module FatPound.DSA.Tree.Binary.IPR;
 
+import FatPound.DSA.Tree.Binary.BST;
 import FatPound.DSA.Tree.Binary.AVL;
 
 import std;
@@ -11,11 +12,11 @@ export namespace fatpound::dsa::tree::binary
     template <std::totally_ordered T>
     class IPR final : public AVL<T>
     {
-    public:
         using typename BST<T>::Node_;
 
         using AVL<T>::Balance_;
 
+    public:
         using SizeType = AVL<T>::SizeType;
 
 
@@ -33,7 +34,7 @@ export namespace fatpound::dsa::tree::binary
                 Balance_();
             }
 
-            ++this->m_node_count_;
+            ++(this->m_node_count_);
         }
 
 
@@ -52,9 +53,9 @@ export namespace fatpound::dsa::tree::binary
 
             while (last->parent not_eq nullptr) // Going up
             {
-                decltype(SizeType{}) na{};
-                decltype(SizeType{}) nb{};
-                decltype(SizeType{}) nc{};
+                SizeType na{};
+                SizeType nb{};
+                SizeType nc{};
 
                 // false => left, true => right
                 bool a_location{};

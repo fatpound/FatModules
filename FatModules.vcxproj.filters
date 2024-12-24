@@ -195,13 +195,13 @@
     <ClCompile Include="DSA\Tree\Binary\IPR.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DSA\Tree\N-ary\B.ixx">
+    <ClCompile Include="DSA\Tree\N_ary\B.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DSA\Tree\N-ary\B_Plus.ixx">
+    <ClCompile Include="DSA\Tree\N_ary\B_Plus.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DSA\Tree\N-ary\N_ary.ixx">
+    <ClCompile Include="DSA\Tree\N_ary\N_ary.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DSA\Tree\Tree.ixx">

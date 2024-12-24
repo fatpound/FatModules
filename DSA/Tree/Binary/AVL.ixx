@@ -11,9 +11,9 @@ export namespace fatpound::dsa::tree::binary
     template <std::totally_ordered T>
     class AVL : public BST<T>
     {
-    public:
         using typename BST<T>::Node_;
 
+    public:
         using SizeType = BST<T>::SizeType;
 
 
@@ -31,7 +31,7 @@ export namespace fatpound::dsa::tree::binary
                 Balance_();
             }
 
-            ++this->m_node_count_;
+            ++(this->m_node_count_);
         }
         virtual void Delete(const T old_item) override
         {

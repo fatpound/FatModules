@@ -98,6 +98,8 @@ export namespace fatpound::dsa::tree::n_ary
 
             }
 
+            explicit Node_() = default;
+
             std::vector<std::pair<T, Node_*>*> items;
 
             Node_* lesser = nullptr;
