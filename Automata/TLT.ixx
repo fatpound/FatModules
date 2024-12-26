@@ -40,9 +40,9 @@ export namespace fatpound::automata
         {
             explicit Node_(const std::string& item);
 
-            std::vector<Node_*> leaves;
+            std::vector<Node_*> m_leaves;
 
-            std::string item;
+            std::string m_item;
         };
 
 
@@ -62,7 +62,7 @@ export namespace fatpound::automata
 
 
     private:
-        const std::vector<std::pair<std::string, std::vector<std::string>>>& m_cfgrammar_;
+        const CFG::GrammarType m_cfgrammar_;
 
         std::vector<std::string> m_results_;
 

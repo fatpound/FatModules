@@ -24,7 +24,7 @@ namespace fatpound::automata
 
         for (const auto& leaf_str : m_cfgrammar_[0].second)
         {
-            m_tree_->leaves.push_back(new Node_(leaf_str));
+            m_tree_->m_leaves.push_back(new Node_(leaf_str));
         }
 
         CreateTree_(m_tree_);
@@ -90,13 +90,13 @@ namespace fatpound::automata
 
     void TLT::CreateTree_(Node_* node)
     {
-        m_results_.reserve(node->leaves.size());
+        m_results_.reserve(node->m_leaves.size());
 
-        for (auto& leaf : node->leaves)
+        for (auto& leaf : node->m_leaves)
         {
-            if (IsTerminal_(leaf->item))
+            if (IsTerminal_(leaf->m_item))
             {
-                m_results_.push_back(leaf->item);
+                m_results_.push_back(leaf->m_item);
 
                 continue;
             }
@@ -106,9 +106,9 @@ namespace fatpound::automata
     }
     void TLT::CreateInnerTree_(Node_* node)
     {
-        for (std::size_t i = 0u; i < node->item.size(); ++i)
+        for (std::size_t i = 0u; i < node->m_item.size(); ++i)
         {
-            const auto& ch = node->item[i];
+            const auto& ch = node->m_item[i];
 
             if (not std::isupper(ch))
             {
@@ -117,12 +117,12 @@ namespace fatpound::automata
 
             const auto& cfg_it = std::ranges::find_if(m_cfgrammar_, [&](const auto& pair) { return pair.first[0] == ch; });
 
-            string leftstr(node->item.cbegin(), node->item.cbegin() + static_cast<std::ptrdiff_t>(i));
-            string rightstr(node->item.cbegin() + static_cast<std::ptrdiff_t>(i + 1u), node->item.cend());
+            string leftstr(node->m_item.cbegin(), node->m_item.cbegin() + static_cast<std::ptrdiff_t>(i));
+            string rightstr(node->m_item.cbegin() + static_cast<std::ptrdiff_t>(i + 1u), node->m_item.cend());
 
             const std::size_t index = static_cast<std::size_t>(cfg_it - m_cfgrammar_.cbegin());
 
-            node->leaves.reserve(node->leaves.size() + cfg_it->second.size());
+            node->m_leaves.reserve(node->m_leaves.size() + cfg_it->second.size());
 
             for (const auto& cfgstr : cfg_it->second)
             {
@@ -150,7 +150,7 @@ namespace fatpound::automata
 
                 Node_* newnode = new Node_(newstr);
 
-                node->leaves.push_back(newnode);
+                node->m_leaves.push_back(newnode);
 
                 if (recursed or (not IsTerminal_(newstr)))
                 {
@@ -186,7 +186,7 @@ namespace fatpound::automata
 
             nodes.pop_back();
 
-            for (auto& leaf : node->leaves)
+            for (auto& leaf : node->m_leaves)
             {
                 nodes.push_back(leaf);
             }
@@ -200,7 +200,7 @@ namespace fatpound::automata
 
     TLT::Node_::Node_(const std::string& item)
         :
-        item(item)
+        m_item(item)
     {
 
     }

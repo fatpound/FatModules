@@ -41,9 +41,9 @@ export namespace fatpound::automata
             explicit Node_(const std::pair<std::string, std::vector<std::string>>& tree);
             explicit Node_(const std::string& str);
 
-            std::vector<Node_*> leaves_;
+            std::vector<Node_*> m_leaves;
 
-            std::string item_;
+            std::string m_item;
         };
 
 

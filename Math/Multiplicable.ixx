@@ -37,7 +37,7 @@ export namespace fatpound::math
     template <typename T, typename U> concept Multiplicable_SameAs_First_NX_BothWays  = Multiplicable_SameAs_First_BothWays<T, U>  and Multiplicable_NX_BothWays<T, U>;
     template <typename T, typename U> concept Multiplicable_SameAs_Second_NX_BothWays = Multiplicable_SameAs_Second_BothWays<T, U> and Multiplicable_NX_BothWays<T, U>;
 
-    template <typename T> concept Squarable    = Multiplicable<T, T>; // inefficient?
+    template <typename T> concept Squarable    = Multiplicable<T, T>;
     template <typename T> concept Squarable_NX = Multiplicable_NX<T, T>;
 }
 

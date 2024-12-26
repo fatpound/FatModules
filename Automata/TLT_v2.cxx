@@ -52,13 +52,13 @@ namespace fatpound::automata
     {
         vector<pair<string, bool>> strings;
 
-        for (const auto& node : m_trees_[index]->leaves_)
+        for (const auto& node : m_trees_[index]->m_leaves)
         {
             vector<pair<string, bool>> tempstrings;
 
             tempstrings.emplace_back(init_str, false);
 
-            for (const auto& ch : node->item_)
+            for (const auto& ch : node->m_item)
             {
                 vector<pair<string, bool>> newTempStrings;
 
@@ -68,7 +68,7 @@ namespace fatpound::automata
 
                     const auto insertedindex = newTempStrings.size() - 1;
 
-                    const auto it = std::find_if(m_trees_.cbegin() + static_cast<std::ptrdiff_t>(index), m_trees_.cend(), [&](const auto& tree) -> bool { return ch == tree->item_[0]; });
+                    const auto it = std::find_if(m_trees_.cbegin() + static_cast<std::ptrdiff_t>(index), m_trees_.cend(), [&](const auto& tree) -> bool { return ch == tree->m_item[0]; });
 
                     if (it == m_trees_.cend())
                     {
@@ -77,7 +77,7 @@ namespace fatpound::automata
                     else
                     {
                         const auto tree_index = static_cast<std::size_t>(it - m_trees_.cbegin());
-                        const auto will_recurse = ((tree_index == index) ? 1 : 0);
+                        const auto will_recurse = static_cast<::std::size_t>((tree_index == index) ? 1 : 0);
 
                         if (recursed < scx_recurse_limit_)
                         {
@@ -124,7 +124,7 @@ namespace fatpound::automata
     {
         for (const auto& tree : m_trees_)
         {
-            if (std::any_of(str.cbegin(), str.cend(), [&](const auto& ch) -> bool { return ch == (tree->item_[0]); }))
+            if (std::any_of(str.cbegin(), str.cend(), [&](const auto& ch) -> bool { return ch == (tree->m_item[0]); }))
             {
                 return false;
             }
@@ -154,7 +154,7 @@ namespace fatpound::automata
 
                 nodes.pop_back();
 
-                for (auto& leaf : node->leaves_)
+                for (auto& leaf : node->m_leaves)
                 {
                     nodes.push_back(leaf);
                 }
@@ -169,18 +169,18 @@ namespace fatpound::automata
 
     TLT_v2::Node_::Node_(const pair<string, vector<string>>& tree)
         :
-        item_(tree.first)
+        m_item(tree.first)
     {
-        leaves_.reserve(tree.second.size());
+        m_leaves.reserve(tree.second.size());
 
         for (const auto& str : tree.second)
         {
-            leaves_.push_back(new Node_(str));
+            m_leaves.push_back(new Node_(str));
         }
     }
     TLT_v2::Node_::Node_(const string& str)
         :
-        item_(str)
+        m_item(str)
     {
 
     }

@@ -23,14 +23,14 @@ namespace fatpound::automata
         ReadSecondLine_(inputFile, alphabet);
     }
 
-    auto CFG::GetGrammar() const noexcept -> decltype(m_grammar_)
+    auto CFG::GetGrammar() const noexcept -> GrammarType
     {
         return m_grammar_;
     }
     
     void CFG::ReadFirstLine_(std::ifstream& inputFile, vector<char>& alphabet)
     {
-        // düzelt
+        // duzelt?
         {
             string str;
 

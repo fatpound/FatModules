@@ -10,7 +10,9 @@ export namespace fatpound::automata
 {
     class CFG final
     {
+    public:
         using GrammarType = std::vector<std::pair<std::string, std::vector<std::string>>>;
+
 
     public:
         // The input file should be in the following format:
