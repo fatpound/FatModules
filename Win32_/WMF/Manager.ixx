@@ -19,7 +19,7 @@ export namespace fatpound::win32::wmf
 
             if (FAILED(hr))
             {
-                throw std::runtime_error("Failed to initialize Media Foundation.");
+                throw std::runtime_error("Failed to initialize Media Foundation!");
             }
         }
         Manager(const Manager& src) = delete;

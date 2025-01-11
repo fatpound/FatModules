@@ -6,6 +6,8 @@ module;
 
 #include <gdiplus.h>
 
+#undef FATPOUND_FULL_WIN_TARGETED
+
 #pragma comment(lib, "gdiplus")
 
 export module FatPound.Win32.GDI_Plus.Manager;

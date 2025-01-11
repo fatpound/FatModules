@@ -19,7 +19,7 @@ export namespace fatpound::win32::com
 
             if (FAILED(hr))
             {
-                throw std::runtime_error("Failed to initialize Media Foundation.");
+                throw std::runtime_error("Failed to initialize COM!");
             }
         }
 
@@ -32,7 +32,6 @@ export namespace fatpound::win32::com
         ~Manager() noexcept
         {
             ::CoUninitialize();
-
         }
 
 
