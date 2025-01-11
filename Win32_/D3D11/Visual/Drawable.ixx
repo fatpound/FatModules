@@ -21,7 +21,7 @@ export namespace fatpound::win32::d3d11::visual
     class Drawable
     {
     public:
-        using bind_vec_t = std::vector<std::unique_ptr<FATSPACE_PIPELINE::Bindable>>;
+        using BindableVec_t = std::vector<std::unique_ptr<FATSPACE_PIPELINE::Bindable>>;
 
 
     public:
@@ -56,13 +56,13 @@ export namespace fatpound::win32::d3d11::visual
 
         
     protected:
-        virtual void AddBind_(std::unique_ptr<FATSPACE_PIPELINE::Bindable> bind) noexcept(IN_RELEASE)final
+        virtual void AddBind_(std::unique_ptr<FATSPACE_PIPELINE::Bindable> bind) noexcept(IN_RELEASE) final
         {
             assert((typeid(*bind) not_eq typeid(FATSPACE_PIPELINE_ELEMENT::IndexBuffer)) && "*Must* use AddIndexBuffer_() method to bind it!");
 
             m_binds_.push_back(std::move(bind));
         }
-        virtual void AddIndexBuffer_(std::unique_ptr<FATSPACE_PIPELINE_ELEMENT::IndexBuffer> idxbuf) noexcept(IN_RELEASE)final
+        virtual void AddIndexBuffer_(std::unique_ptr<FATSPACE_PIPELINE_ELEMENT::IndexBuffer> idxbuf) noexcept(IN_RELEASE) final
         {
             assert((m_pCIndexBuffer_ == nullptr) && "Attempting to add index buffer a second time");
 
@@ -77,11 +77,11 @@ export namespace fatpound::win32::d3d11::visual
 
 
     private:
-        virtual auto GetStaticBinds_() const noexcept(IN_RELEASE) -> const bind_vec_t& = 0;
+        virtual auto GetStaticBinds_() const noexcept(IN_RELEASE) -> const BindableVec_t & = 0;
 
 
     private:
-        bind_vec_t m_binds_;
+        BindableVec_t m_binds_;
     };
 }
 

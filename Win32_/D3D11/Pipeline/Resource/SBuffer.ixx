@@ -20,8 +20,6 @@ export namespace fatpound::win32::d3d11::pipeline::resource
     public:
         explicit SBuffer(ID3D11Device* const pDevice, ID3D11DeviceContext* const pImmediateContext, const std::vector<T>& structures)
         {
-            // I will refactor this
-
             D3D11_BUFFER_DESC sbd{};
             sbd.BindFlags = D3D11_BIND_SHADER_RESOURCE;
             sbd.Usage = D3D11_USAGE_DEFAULT;
@@ -38,7 +36,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
 
                 if (FAILED(hr))
                 {
-                    throw std::runtime_error{ "Could NOT Create Direct3D Buffer in function: " __FUNCSIG__ };
+                    throw std::runtime_error("Could NOT Create Direct3D SBuffer in function: " __FUNCSIG__);
                 }
             }
 
@@ -52,7 +50,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
 
                 if (FAILED(hr))
                 {
-                    throw std::runtime_error{ "Could NOT Create Direct3D ShaderResourceView in function: " __FUNCSIG__ };
+                    throw std::runtime_error("Could NOT Create Direct3D ShaderResourceView in function: " __FUNCSIG__);
                 }
             }
 

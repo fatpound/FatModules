@@ -145,7 +145,7 @@ export namespace fatpound::win32::d3d11
 
             if (FAILED(hr)) [[unlikely]]
             {
-                throw std::exception("SwapChain could NOT Present!");;
+                throw std::runtime_error("SwapChain could NOT Present!");;
             }
         }
 
@@ -391,7 +391,7 @@ export namespace fatpound::win32::d3d11
 
             if (FAILED(hr)) [[unlikely]]
             {
-                throw std::exception("Could NOT Map the ImmediateContext!");
+                throw std::runtime_error("Could NOT Map the ImmediateContext!");
             }
         }
         void CopySysbufferToMappedSubresource_() requires(Framework)

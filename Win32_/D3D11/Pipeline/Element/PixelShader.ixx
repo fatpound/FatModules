@@ -24,12 +24,17 @@ export namespace fatpound::win32::d3d11::pipeline::element
 
             ::D3DReadFileToBlob(path.c_str(), &pBlob);
 
-            pDevice->CreatePixelShader(
+            const auto& hr = pDevice->CreatePixelShader(
                 pBlob->GetBufferPointer(),
                 pBlob->GetBufferSize(),
                 nullptr,
                 &m_pPixelShader_
             );
+
+            if (FAILED(hr))
+            {
+                throw std::runtime_error("Could NOT Create Direct3D PixelShader in function: " __FUNCSIG__);
+            }
         }
 
         explicit PixelShader() = delete;

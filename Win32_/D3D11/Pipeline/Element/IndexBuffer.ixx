@@ -32,7 +32,12 @@ export namespace fatpound::win32::d3d11::pipeline::element
             D3D11_SUBRESOURCE_DATA sd{};
             sd.pSysMem = indices.data();
 
-            pDevice->CreateBuffer(&bd, &sd, &m_pIndexBuffer_);
+            const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pIndexBuffer_);
+
+            if (FAILED(hr))
+            {
+                throw std::runtime_error("Could NOT Create Direct3D IndexBuffer in function: " __FUNCSIG__);
+            }
         }
 
         explicit IndexBuffer() = delete;
