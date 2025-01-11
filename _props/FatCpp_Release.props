@@ -8,14 +8,11 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <StringPooling>true</StringPooling>
-      <FloatingPointModel>Fast</FloatingPointModel>
       <PreprocessorDefinitions>IN_DEBUG=false;IN_RELEASE=true;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalOptions>/Qvec-report:2 %(AdditionalOptions)</AdditionalOptions>
-      <DebugInformationFormat>None</DebugInformationFormat>
+      <AdditionalOptions>/Qvec-report:2 /Qpar-report:2 %(AdditionalOptions)</AdditionalOptions>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
       <SuppressStartupBanner>false</SuppressStartupBanner>
     </Link>
   </ItemDefinitionGroup>

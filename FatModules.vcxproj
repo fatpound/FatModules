@@ -19,14 +19,14 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <None Include="FatCpp.props" />
-    <None Include="FatCppM.props" />
-    <None Include="FatCppM_Debug.props" />
-    <None Include="FatCppM_Release.props" />
-    <None Include="FatCpp_Debug.props" />
-    <None Include="FatCpp_Release.props" />
-    <None Include="FatLibrary.props" />
-    <None Include="FatLibraryM.props" />
+    <None Include="_props\FatCpp.props" />
+    <None Include="_props\FatCppM.props" />
+    <None Include="_props\FatCppM_Debug.props" />
+    <None Include="_props\FatCppM_Release.props" />
+    <None Include="_props\FatCpp_Debug.props" />
+    <None Include="_props\FatCpp_Release.props" />
+    <None Include="_props\FatLibrary.props" />
+    <None Include="_props\FatLibraryM.props" />
     <None Include="FatRules.ruleset" />
   </ItemGroup>
   <ItemGroup>
@@ -199,23 +199,23 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="FatCppM_Debug.props" />
-    <Import Project="FatLibraryM.props" />
+    <Import Project="_props\FatCppM_Debug.props" />
+    <Import Project="_props\FatLibraryM.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="FatCppM_Release.props" />
-    <Import Project="FatLibraryM.props" />
+    <Import Project="_props\FatCppM_Release.props" />
+    <Import Project="_props\FatLibraryM.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="FatCppM_Debug.props" />
-    <Import Project="FatLibraryM.props" />
+    <Import Project="_props\FatCppM_Debug.props" />
+    <Import Project="_props\FatLibraryM.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="FatCppM_Release.props" />
-    <Import Project="FatLibraryM.props" />
+    <Import Project="_props\FatCppM_Release.props" />
+    <Import Project="_props\FatLibraryM.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

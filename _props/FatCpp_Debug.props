@@ -7,8 +7,6 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <ClCompile>
-      <TreatWarningAsError>true</TreatWarningAsError>
-      <DiagnosticsFormat>Caret</DiagnosticsFormat>
       <PreprocessorDefinitions>IN_DEBUG=true;IN_RELEASE=false;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
