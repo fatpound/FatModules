@@ -21,7 +21,6 @@ import FatPound.Win32.D3D11.Visual;
 import FatPound.Win32.D3D11.Factory;
 
 import FatPound.Math;
-
 import FatPound.Util;
 
 import std;

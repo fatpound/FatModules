@@ -25,11 +25,8 @@ export namespace fatpound::concurrency
 
 
     public:
-        template <
-            typename F,
-            typename... Args
-        >
-        requires(std::invocable<F, Args...>)
+        template <typename F, typename... Args>
+        requires std::invocable<F, Args...>
         auto Push(F&& function, Args&&... args) -> auto
         {
             using T = std::invoke_result_t<F, Args...>;
