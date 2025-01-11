@@ -20,7 +20,6 @@
 #define NODRAWTEXT
 #define NOKERNEL
 #define NOMEMMGR
-#define NOMETAFILE
 #define NOOPENFILE
 #define NOSCROLL
 #define NOSERVICE
@@ -37,6 +36,7 @@
 #define NOPROXYSTUB
 #define NOIMAGE
 #define NOTAPE
+#define NOMETAFILE
 // #define NOSYSMETRICS
 // #define NOSYSCOMMANDS
 // #define NOATOM
