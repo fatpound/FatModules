@@ -4,8 +4,6 @@ module;
 
 module FatPound.Automata.TLT;
 
-using std::vector, std::string, std::pair;
-
 namespace fatpound::automata
 {
     // TLT
@@ -29,7 +27,7 @@ namespace fatpound::automata
 
         CreateTree_(m_tree_);
     }
-    TLT::TLT(const string& inputFilename)
+    TLT::TLT(const std::string& inputFilename)
         :
         TLT(CFG{ inputFilename })
     {
@@ -40,15 +38,15 @@ namespace fatpound::automata
         Clear_();
     }
 
-    auto TLT::GetWords() const noexcept -> vector<string>
+    auto TLT::GetWords() const noexcept -> std::vector<std::string>
     {
         return m_results_;
     }
 
     void TLT::PrintWords() const
     {
-        vector<string> finals;
-        vector<string> repeaters;
+        std::vector<std::string> finals;
+        std::vector<std::string> repeaters;
 
         for (const auto& str : m_results_)
         {
@@ -117,8 +115,8 @@ namespace fatpound::automata
 
             const auto& cfg_it = std::ranges::find_if(m_cfgrammar_, [&](const auto& pair) { return pair.first[0] == ch; });
 
-            string leftstr(node->m_item.cbegin(), node->m_item.cbegin() + static_cast<std::ptrdiff_t>(i));
-            string rightstr(node->m_item.cbegin() + static_cast<std::ptrdiff_t>(i + 1u), node->m_item.cend());
+            std::string leftstr(node->m_item.cbegin(), node->m_item.cbegin() + static_cast<std::ptrdiff_t>(i));
+            std::string rightstr(node->m_item.cbegin() + static_cast<std::ptrdiff_t>(i + 1u), node->m_item.cend());
 
             const std::size_t index = static_cast<std::size_t>(cfg_it - m_cfgrammar_.cbegin());
 
@@ -146,7 +144,7 @@ namespace fatpound::automata
                     ++m_recursers_[index];
                 }
 
-                const string& newstr = leftstr + cfgstr + rightstr;
+                const std::string& newstr = leftstr + cfgstr + rightstr;
 
                 Node_* newnode = new Node_(newstr);
 

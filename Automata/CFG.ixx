@@ -4,8 +4,6 @@ export module FatPound.Automata.CFG;
 
 import std;
 
-using std::vector, std::string, std::pair;
-
 export namespace fatpound::automata
 {
     class CFG final

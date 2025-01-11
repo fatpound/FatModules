@@ -166,11 +166,11 @@ export namespace fatpound::win32
 
 
     public:
-        template <FATSPACE_MATH::number_set::Rational Q> __forceinline auto GetClientWidth()  const noexcept
+        template <FATSPACE_MATH::numset::Rational Q> __forceinline auto GetClientWidth()  const noexcept
         {
             return static_cast<Q>(mc_client_size_.m_width);
         }
-        template <FATSPACE_MATH::number_set::Rational Q> __forceinline auto GetClientHeight() const noexcept
+        template <FATSPACE_MATH::numset::Rational Q> __forceinline auto GetClientHeight() const noexcept
         {
             return static_cast<Q>(mc_client_size_.m_height);
         }
@@ -185,12 +185,8 @@ export namespace fatpound::win32
 
 
     private:
-        template <
-            bool Notify = true,
-            typename F,
-            typename... Args
-        >
-        requires(std::invocable<F, Args...>)
+        template <bool Notify = true, typename F, typename... Args>
+        requires std::invocable<F, Args...>
         auto DispatchTaskToQueue_(F&& function, Args&&... args) -> auto
         {
             auto future = m_tasks_.Push(std::forward<F>(function), std::forward<Args>(args)...);

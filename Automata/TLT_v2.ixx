@@ -12,6 +12,12 @@ export namespace fatpound::automata
 {
     class TLT_v2 final
     {
+        static constexpr auto scx_RecurseLimit_ = 1u;
+
+    public:
+        using Result_t = std::vector<std::pair<std::string, bool>>;
+
+
     public:
         explicit TLT_v2(const CFG& cfgs);
         explicit TLT_v2(const std::string& inputFilename);
@@ -27,7 +33,7 @@ export namespace fatpound::automata
 
     public:
         [[nodiscard]]
-        auto GetWords() const noexcept -> std::vector<std::pair<std::string, bool>>;
+        auto GetWords() const noexcept -> Result_t;
 
         void PrintWords() const;
 
@@ -49,7 +55,7 @@ export namespace fatpound::automata
 
     private:
         [[nodiscard]]
-        auto GenerateResults_(std::string init_str = "", std::size_t index = 0u, std::size_t recursed = 0u) const -> std::vector<std::pair<std::string, bool>>;
+        auto GenerateResults_(std::string init_str = "", std::size_t index = 0u, std::size_t recursed = 0u) const -> Result_t;
 
         [[nodiscard]]
         auto IsTerminal_(const std::string& str) const -> bool;
@@ -58,11 +64,7 @@ export namespace fatpound::automata
 
 
     private:
-        static constexpr auto scx_recurse_limit_ = 1u;
-
-
-    private:
-        std::vector<std::pair<std::string, bool>> m_results_;
+        Result_t m_results_;
 
         std::vector<Node_*> m_trees_;
     };

@@ -51,23 +51,23 @@ export namespace fatpound::util
 
 
     public:
-        template <FATSPACE_MATH::number_set::Rational Q = int_t> __forceinline auto GetWidth()      const noexcept -> Q
+        template <FATSPACE_MATH::numset::Rational Q = int_t> __forceinline auto GetWidth()      const noexcept -> Q
         {
             return static_cast<Q>(m_width_);
         }
-        template <FATSPACE_MATH::number_set::Rational Q = int_t> __forceinline auto GetHeight()     const noexcept -> Q
+        template <FATSPACE_MATH::numset::Rational Q = int_t> __forceinline auto GetHeight()     const noexcept -> Q
         {
             return static_cast<Q>(m_height_);
         }
-        template <FATSPACE_MATH::number_set::Rational Q = int_t> __forceinline auto GetAlignment()  const noexcept -> Q
+        template <FATSPACE_MATH::numset::Rational Q = int_t> __forceinline auto GetAlignment()  const noexcept -> Q
         {
             return static_cast<Q>(m_align_byte_);
         }
-        template <FATSPACE_MATH::number_set::Rational Q = int_t> __forceinline auto GetPixelPitch() const noexcept -> Q
+        template <FATSPACE_MATH::numset::Rational Q = int_t> __forceinline auto GetPixelPitch() const noexcept -> Q
         {
             return static_cast<Q>(m_pixel_pitch_);
         }
-        template <FATSPACE_MATH::number_set::Rational Q = int_t> __forceinline auto GetPitch()      const noexcept -> Q
+        template <FATSPACE_MATH::numset::Rational Q = int_t> __forceinline auto GetPitch()      const noexcept -> Q
         {
             return static_cast<Q>(m_pixel_pitch_ * sizeof(Color));
         }

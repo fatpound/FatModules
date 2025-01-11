@@ -6,7 +6,7 @@ export module FatPound.Math;
 
 export import FatPound.Math.RectF;
 export import FatPound.Math.Multiplicable;
-export import FatPound.Math.Number_Set;
+export import FatPound.Math.Numset;
 
 import std;
 

@@ -212,9 +212,6 @@
     <ClCompile Include="Math\RectF.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\RectF.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\D3D11\Core\Device.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -233,10 +230,10 @@
     <ClCompile Include="Concurrency\TaskQueue.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Number_Set\Number_Set.ixx">
+    <ClCompile Include="Math\Numset\Numset.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Number_Set\Rational.ixx">
+    <ClCompile Include="Math\Numset\Rational.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Math\Multiplicable.ixx">

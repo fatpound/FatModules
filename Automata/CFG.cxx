@@ -4,11 +4,9 @@ module;
 
 module FatPound.Automata.CFG;
 
-using std::vector, std::string, std::pair;
-
 namespace fatpound::automata
 {
-    CFG::CFG(const string& inputFilename)
+    CFG::CFG(const std::string& inputFilename)
     {
         std::ifstream inputFile(inputFilename);
 
@@ -17,7 +15,7 @@ namespace fatpound::automata
             throw std::runtime_error("Input file cannot be opened for [InputtingCFG]!");
         }
 
-        vector<char> alphabet;
+        std::vector<char> alphabet;
 
         ReadFirstLine_(inputFile, alphabet);
         ReadSecondLine_(inputFile, alphabet);
@@ -28,11 +26,11 @@ namespace fatpound::automata
         return m_grammar_;
     }
     
-    void CFG::ReadFirstLine_(std::ifstream& inputFile, vector<char>& alphabet)
+    void CFG::ReadFirstLine_(std::ifstream& inputFile, std::vector<char>& alphabet)
     {
         // duzelt?
         {
-            string str;
+            std::string str;
 
             std::getline(inputFile, str);
 
@@ -56,9 +54,9 @@ namespace fatpound::automata
 
         alphabet.erase(it.begin(), it.end());
     }
-    void CFG::ReadSecondLine_(std::ifstream& inputFile, vector<char>& alphabet)
+    void CFG::ReadSecondLine_(std::ifstream& inputFile, std::vector<char>& alphabet)
     {
-        string str;
+        std::string str;
 
         while (std::getline(inputFile, str, scx_language_seperator_))
         {
@@ -70,17 +68,17 @@ namespace fatpound::automata
 
             const auto& index = str.find(scx_language_content_seperator_);
 
-            if (index not_eq string::npos)
+            if (index not_eq std::string::npos)
             {
-                string word(str.cbegin(), str.cbegin() + static_cast<std::ptrdiff_t>(index));
+                std::string word(str.cbegin(), str.cbegin() + static_cast<std::ptrdiff_t>(index));
 
                 str.erase(0, index + std::strlen(scx_language_content_seperator_));
 
-                vector<string> leaves;
+                std::vector<std::string> leaves;
 
                 std::istringstream iss(str);
 
-                string tempstr;
+                std::string tempstr;
 
                 while (std::getline(iss, tempstr, scx_language_word_seperator_))
                 {
@@ -90,7 +88,7 @@ namespace fatpound::automata
                         {
                             if (std::islower(ch) && std::ranges::find(alphabet, ch) == alphabet.cend())
                             {
-                                throw std::runtime_error("The letter " + string{ ch } + " is not in the alphabet!");
+                                throw std::runtime_error("The letter " + std::string{ ch } + " is not in the alphabet!");
                             }
                         }
 
