@@ -273,7 +273,6 @@
       <ProgramDataBaseFileName>$(IntDir)vc\$(TargetName).pdb</ProgramDataBaseFileName>
       <XMLDocumentationFileName>$(IntDir)%(RelativeDir)</XMLDocumentationFileName>
       <SourceDependenciesFile>$(IntDir)%(RelativeDir)</SourceDependenciesFile>
-      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
     <Link>
       <SubSystem>
