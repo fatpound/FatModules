@@ -338,7 +338,7 @@ export namespace fatpound::win32
             m_pMouse->OnWheelDelta_(delta);
         }
 
-        __forceinline void Process_WM_KILLFOCUS_ ()
+        __forceinline void Process_WM_KILLFOCUS_ () noexcept
         {
             m_pKeyboard->ClearKeyStateBitset_();
         }
@@ -365,7 +365,7 @@ export namespace fatpound::win32
         {
             m_pKeyboard->OnChar_(static_cast<unsigned char>(wParam));
         }
-        __forceinline void Process_WM_SYSCOMMAND_(const WPARAM wParam)
+        __forceinline void Process_WM_SYSCOMMAND_(const WPARAM wParam) noexcept
         {
             if ((wParam bitand 0xFFF0u) == SC_CLOSE)
             {
