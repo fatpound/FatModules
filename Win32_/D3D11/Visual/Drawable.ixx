@@ -77,7 +77,7 @@ export namespace fatpound::win32::d3d11::visual
 
 
     private:
-        virtual auto GetStaticBinds_() const noexcept(IN_RELEASE) -> const BindableVec_t & = 0;
+        virtual auto GetStaticBinds_() const noexcept(IN_RELEASE) -> const BindableVec_t& = 0;
 
 
     private:

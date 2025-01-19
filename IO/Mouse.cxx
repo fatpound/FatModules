@@ -56,7 +56,7 @@ namespace fatpound::io
         return m_wheel_is_pressed_;
     }
 
-    void Mouse::OnMouseMove_(int x, int y)
+    void Mouse::OnMouseMove_(const int x, const int y)
     {
         m_pos_x_ = x;
         m_pos_y_ = y;
@@ -142,7 +142,7 @@ namespace fatpound::io
 
         TrimBuffer_();
     }
-    void Mouse::OnWheelDelta_(int delta)
+    void Mouse::OnWheelDelta_(const int delta)
     {
         m_wheel_delta_carry_ += delta;
 

@@ -21,14 +21,14 @@ import std;
 
 export namespace fatpound::win32
 {
-    class WindowEx final : public IWindow
+    class WindowEx : public IWindow
     {
     public:
         explicit WindowEx(
-            std::shared_ptr<WndClassEx> pWndClassEx,
-            const std::wstring title,
-            const FATSPACE_UTIL::ScreenSizeInfo clientDimensions,
-            std::shared_ptr<FATSPACE_IO::Mouse> pMouse       = std::make_shared<FATSPACE_IO::Mouse>(),
+            std::shared_ptr<WndClassEx>            pWndClassEx,
+            const std::wstring                     title,
+            const FATSPACE_UTIL::ScreenSizeInfo    clientDimensions,
+            std::shared_ptr<FATSPACE_IO::Mouse>    pMouse    = std::make_shared<FATSPACE_IO::Mouse>(),
             std::shared_ptr<FATSPACE_IO::Keyboard> pKeyboard = std::make_shared<FATSPACE_IO::Keyboard>(),
             const std::optional<::DirectX::XMINT2> position  = std::nullopt)
             :
@@ -74,7 +74,7 @@ export namespace fatpound::win32
                     }
 #else
                         bitor WS_POPUP
-                };
+                    };
 
 #endif // IN_DEBUG or IS_FRAMEWORK
 
@@ -127,10 +127,10 @@ export namespace fatpound::win32
 
         auto operator = (const WindowEx& src) -> WindowEx& = delete;
         auto operator = (WindowEx&& src)      -> WindowEx& = delete;
-        virtual ~WindowEx() noexcept(false) final
+        virtual ~WindowEx() noexcept(false)
         {
             [[maybe_unused]]
-            auto future = DispatchTaskToQueue_(
+            auto future = DispatchTaskToQueue_<>(
                 [this]() noexcept -> void
                 {
                     [[maybe_unused]]
@@ -143,7 +143,7 @@ export namespace fatpound::win32
     public:
         virtual auto SetTitle(const std::wstring& title) -> std::future<void> override final
         {
-            auto future = DispatchTaskToQueue_(
+            auto future = DispatchTaskToQueue_<>(
                 [=, this]() noexcept -> void
                 {
                     [[maybe_unused]]
@@ -182,14 +182,11 @@ export namespace fatpound::win32
 
 
     protected:
-
-
-    private:
         template <bool Notify = true, typename F, typename... Args>
         requires std::invocable<F, Args...>
         auto DispatchTaskToQueue_(F&& function, Args&&... args) -> auto
         {
-            auto future = m_tasks_.Push(std::forward<F>(function), std::forward<Args>(args)...);
+            auto future = m_tasks_.Push<>(std::forward<F>(function), std::forward<Args>(args)...);
 
             if constexpr (Notify)
             {
@@ -200,103 +197,59 @@ export namespace fatpound::win32
         }
 
 
-    private:
-        virtual auto HandleMessage_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT override final
+    protected:
+        virtual auto HandleMessage_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT override
         {
             switch (msg)
             {
             case WM_MOUSEMOVE:
-            {
-                const POINTS pt = MAKEPOINTS(lParam);
-
-                if (pt.x >= 0
-                    and pt.x < static_cast<SHORT>(mc_client_size_.m_width)
-                    and pt.y >= 0
-                    and pt.y < static_cast<SHORT>(mc_client_size_.m_height)
-                    )
-                {
-                    m_pMouse->OnMouseMove_(pt.x, pt.y);
-
-                    if (not m_pMouse->IsInWindow())
-                    {
-                        ::SetCapture(hWnd);
-                        m_pMouse->OnMouseEnter_();
-                    }
-                }
-                else
-                {
-                    if (wParam bitand (MK_LBUTTON bitor MK_RBUTTON))
-                    {
-                        m_pMouse->OnMouseMove_(pt.x, pt.y);
-                    }
-                    else
-                    {
-                        ::ReleaseCapture();
-                        m_pMouse->OnMouseLeave_();
-                    }
-                }
-            }
+                Process_WM_MOUSEMOVE_(wParam, lParam);
                 return 0;
 
             case WM_LBUTTONDOWN:
-                m_pMouse->OnLeftPressed_();
+                Process_WM_LBUTTONDOWN_();
                 return 0;
 
             case WM_LBUTTONUP:
-                m_pMouse->OnLeftReleased_();
+                Process_WM_LBUTTONUP_();
                 return 0;
 
             case WM_RBUTTONDOWN:
-                m_pMouse->OnRightPressed_();
+                Process_WM_RBUTTONDOWN_();
                 return 0;
 
             case WM_RBUTTONUP:
-                m_pMouse->OnRightReleased_();
+                Process_WM_RBUTTONUP_();
                 return 0;
 
             case WM_MBUTTONDOWN:
-                m_pMouse->OnWheelPressed_();
+                Process_WM_MBUTTONDOWN_();
                 return 0;
 
             case WM_MBUTTONUP:
-                m_pMouse->OnWheelReleased_();
+                Process_WM_MBUTTONUP_();
                 return 0;
 
             case WM_MOUSEWHEEL:
-                m_pMouse->OnWheelDelta_(GET_WHEEL_DELTA_WPARAM(wParam));
+                Process_WM_MOUSEWHEEL_(GET_WHEEL_DELTA_WPARAM(wParam));
                 return 0;
 
             case WM_KILLFOCUS:
-                m_pKeyboard->ClearKeyStateBitset_();
+                Process_WM_KILLFOCUS_();
                 return 0;
 
             case WM_KEYDOWN: [[fallthrough]];
             case WM_SYSKEYDOWN:
-                if ((not (lParam bitand 0x40000000)) or m_pKeyboard->AutoRepeatIsEnabled())
-                {
-                    m_pKeyboard->OnKeyPressed_(static_cast<unsigned char>(wParam));
-                }
+                Process_WM_SYSKEYDOWN_(wParam, lParam);
                 break;
 
             case WM_KEYUP: [[fallthrough]];
             case WM_SYSKEYUP:
-                m_pKeyboard->OnKeyReleased_(static_cast<unsigned char>(wParam));
+                Process_WM_SYSKEYUP_(wParam);
                 break;
 
             case WM_CHAR:
-                m_pKeyboard->OnChar_(static_cast<unsigned char>(wParam));
-                break;
-
-            case scx_customTaskMsgId_:
-                m_tasks_.ExecuteFirstAndPopOff();
-                return 0;
-
-                // also controls window movement
-            case WM_SYSCOMMAND:
-                if ((wParam bitand 0xFFF0u) == SC_CLOSE)
-                {
-                    ::PostMessage(m_hWnd_, WM_CLOSE, 0, 0);
-                }
+                Process_WM_CHAR_(wParam);
                 break;
 
             case WM_CLOSE:
@@ -308,12 +261,136 @@ export namespace fatpound::win32
                 ::PostQuitMessage(0);
                 return 0;
 
+            case scx_customTaskMsgId_:
+                m_tasks_.ExecuteFirstAndPopOff();
+                return 0;
+
+            case WM_SYSCOMMAND: // also controls window movement
+                Process_WM_SYSCOMMAND_(wParam);
+                break;
+
             default:
                 break;
             }
 
             return ::DefWindowProc(hWnd, msg, wParam, lParam);
         }
+
+
+    protected:
+        __forceinline void Process_WM_MOUSEMOVE_ (const WPARAM wParam, const LPARAM lParam)
+        {
+            const POINTS pt = MAKEPOINTS(lParam);
+
+            if (pt.x >= 0
+                and pt.x < GetClientWidth<SHORT>()
+                and pt.y >= 0
+                and pt.y < GetClientHeight<SHORT>()
+                )
+            {
+                m_pMouse->OnMouseMove_(pt.x, pt.y);
+
+                if (not m_pMouse->IsInWindow())
+                {
+                    ::SetCapture(m_hWnd_);
+                    m_pMouse->OnMouseEnter_();
+                }
+            }
+            else
+            {
+                if (wParam bitand (MK_LBUTTON bitor MK_RBUTTON))
+                {
+                    m_pMouse->OnMouseMove_(pt.x, pt.y);
+                }
+                else
+                {
+                    ::ReleaseCapture();
+                    m_pMouse->OnMouseLeave_();
+                }
+            }
+        }
+        __forceinline void Process_WM_LBUTTONDOWN_()
+        {
+            m_pMouse->OnLeftPressed_();
+        }
+        __forceinline void Process_WM_LBUTTONUP_  ()
+        {
+            m_pMouse->OnLeftReleased_();
+        }
+        __forceinline void Process_WM_RBUTTONDOWN_()
+        {
+            m_pMouse->OnRightPressed_();
+        }
+        __forceinline void Process_WM_RBUTTONUP_  ()
+        {
+            m_pMouse->OnRightReleased_();
+        }
+        __forceinline void Process_WM_MBUTTONDOWN_()
+        {
+            m_pMouse->OnWheelPressed_();
+        }
+        __forceinline void Process_WM_MBUTTONUP_  ()
+        {
+            m_pMouse->OnWheelReleased_();
+        }
+        __forceinline void Process_WM_MOUSEWHEEL_(const int delta)
+        {
+            m_pMouse->OnWheelDelta_(delta);
+        }
+
+        __forceinline void Process_WM_KILLFOCUS_ ()
+        {
+            m_pKeyboard->ClearKeyStateBitset_();
+        }
+        __forceinline void Process_WM_KEYDOWN_   (const WPARAM wParam, const LPARAM lParam)
+        {
+            Process_WM_SYSKEYDOWN_(wParam, lParam);
+        }
+        __forceinline void Process_WM_SYSKEYDOWN_(const WPARAM wParam, const LPARAM lParam)
+        {
+            if ((not (lParam bitand 0x40000000)) or m_pKeyboard->AutoRepeatIsEnabled())
+            {
+                m_pKeyboard->OnKeyPressed_(static_cast<unsigned char>(wParam));
+            }
+        }
+        __forceinline void Process_WM_KEYUP_     (const WPARAM wParam)
+        {
+            Process_WM_SYSKEYUP_(wParam);
+        }
+        __forceinline void Process_WM_SYSKEYUP_  (const WPARAM wParam)
+        {
+            m_pKeyboard->OnKeyReleased_(static_cast<unsigned char>(wParam));
+        }
+        __forceinline void Process_WM_CHAR_      (const WPARAM wParam)
+        {
+            m_pKeyboard->OnChar_(static_cast<unsigned char>(wParam));
+        }
+        __forceinline void Process_WM_SYSCOMMAND_(const WPARAM wParam)
+        {
+            if ((wParam bitand 0xFFF0u) == SC_CLOSE)
+            {
+                ::PostMessage(m_hWnd_, WM_CLOSE, 0, 0);
+            }
+        }
+
+
+    protected:
+        static constexpr UINT scx_customTaskMsgId_ = WM_USER;
+
+
+    protected:
+        FATSPACE_CONCURRENCY::TaskQueue m_tasks_;
+
+        std::shared_ptr<WndClassEx> m_pWndClassEx_;
+
+        const FATSPACE_UTIL::ScreenSizeInfo mc_client_size_;
+
+        HWND m_hWnd_{};
+
+        std::atomic_bool m_is_closing_{};
+        std::binary_semaphore m_start_signal_{ 0 };
+
+        std::jthread m_msg_jthread_;
 
 
     private:
@@ -339,25 +416,6 @@ export namespace fatpound::win32
                 ::DispatchMessage(&msg);
             }
         }
-
-
-    private:
-        static constexpr UINT scx_customTaskMsgId_ = WM_USER;
-
-
-    private:
-        FATSPACE_CONCURRENCY::TaskQueue m_tasks_;
-
-        std::shared_ptr<WndClassEx> m_pWndClassEx_;
-
-        const FATSPACE_UTIL::ScreenSizeInfo mc_client_size_;
-
-        HWND m_hWnd_{};
-
-        std::atomic_bool m_is_closing_{};
-        std::binary_semaphore m_start_signal_{ 0 };
-
-        std::jthread m_msg_jthread_;
     };
 }
 
