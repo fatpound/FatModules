@@ -258,6 +258,8 @@ export namespace fatpound::win32::d3d11
         }
         void InitFramework_() requires(Framework)
         {
+            InitFrameworkBackbuffer_();
+
             std::vector<std::unique_ptr<FATSPACE_PIPELINE::Bindable>> binds;
 
             {
@@ -268,8 +270,6 @@ export namespace fatpound::win32::d3d11
                 binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::PixelShader>(GetDevice(), L"..\\FatModules\\PSFrameBuffer.cso"));
                 binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::VertexBuffer>(GetDevice(), FATSPACE_UTIL_GFX::FullScreenQuad::sc_vertices));
                 binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
-                binds.push_back(std::make_unique<FATSPACE_PIPELINE_RESOURCE::Texture2D>(GetDevice(), GetWidth<UINT>(), GetHeight<UINT>(), m_msaa_count_, m_msaa_quality_));
-                binds.push_back(std::make_unique<FATSPACE_PIPELINE_RESOURCE::Sampler>(GetDevice()));
 
                 const std::vector<D3D11_INPUT_ELEMENT_DESC> iedesc =
                 {
@@ -287,6 +287,70 @@ export namespace fatpound::win32::d3d11
             for (auto& bindable : binds)
             {
                 bindable->Bind(pImmediateContext);
+            }
+        }
+        void InitFrameworkBackbuffer_() requires(Framework)
+        {
+			D3D11_TEXTURE2D_DESC texDesc{};
+			texDesc.Width = GetWidth<UINT>();
+			texDesc.Height = GetHeight<UINT>();
+			texDesc.MipLevels = 1u;
+			texDesc.ArraySize = 1u;
+			texDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+			texDesc.SampleDesc.Count = 1u;
+			texDesc.SampleDesc.Quality = 0u;
+			texDesc.Usage = D3D11_USAGE_DYNAMIC;
+			texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+			texDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+			texDesc.MiscFlags = 0u;
+
+            {
+                const auto& hr = GetDevice()->CreateTexture2D(&texDesc, nullptr, m_res_pack_.m_pSysbufferTex2d.GetAddressOf());
+
+                if (FAILED(hr)) [[unlikely]]
+                {
+                    throw std::runtime_error("Could NOT create Texture2D!");
+                }
+            }
+
+			::wrl::ComPtr<ID3D11ShaderResourceView> pSRV;
+
+			D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+			srvDesc.Format = texDesc.Format;
+			srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+			srvDesc.Texture2D.MipLevels = texDesc.MipLevels;
+
+            {
+                const auto& hr = GetDevice()->CreateShaderResourceView(GetSysbufferTexture(), &srvDesc, pSRV.GetAddressOf());
+
+                if (FAILED(hr)) [[unlikely]]
+                {
+                    throw std::runtime_error("Could NOT create ShaderResourceView!");
+                }
+            }
+
+			GetImmediateContext()->PSSetShaderResources(0u, 1u, pSRV.GetAddressOf());
+
+            {
+                ::wrl::ComPtr<ID3D11SamplerState> pSS;
+
+                D3D11_SAMPLER_DESC sDesc{};
+                sDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+                sDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
+                sDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+                sDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+                sDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+                sDesc.MinLOD = 0.0f;
+                sDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+                const auto& hr = GetDevice()->CreateSamplerState(&sDesc, pSS.GetAddressOf());
+
+                if (FAILED(hr)) [[unlikely]]
+                {
+                    throw std::runtime_error("Could NOT create SamplerState");
+                }
+
+				GetImmediateContext()->PSSetSamplers(0, 1, pSS.GetAddressOf());
             }
         }
         void InitDevice_()
@@ -512,7 +576,7 @@ export namespace fatpound::win32::d3d11
                 0u,
                 D3D11_MAP_WRITE_DISCARD,
                 0u,
-                &m_res_pack_.m_mappedSysBufferTexture
+                &m_res_pack_.m_mappedSysbufferTex2d
             );
 
             if (FAILED(hr)) [[unlikely]]
@@ -522,9 +586,9 @@ export namespace fatpound::win32::d3d11
         }
         void CopySysbufferToMappedSubresource_() requires(Framework)
         {
-            Color* const pDst = static_cast<Color*>(m_res_pack_.m_mappedSysBufferTexture.pData);
+            Color* const pDst = static_cast<Color*>(m_res_pack_.m_mappedSysbufferTex2d.pData);
 
-            const auto dstPitch = m_res_pack_.m_mappedSysBufferTexture.RowPitch / sizeof(Color);
+            const auto dstPitch = m_res_pack_.m_mappedSysbufferTex2d.RowPitch / sizeof(Color);
             const auto srcPitch = mc_dimensions_.m_width;
             const auto rowBytes = srcPitch * sizeof(Color);
 
