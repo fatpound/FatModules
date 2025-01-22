@@ -287,9 +287,6 @@
     <ClCompile Include="Win32_\D3D11\Pipeline\Resource\Sampler.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Pipeline\Resource\Texture2D_SRV.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\D3D11\Pipeline\Resource\Texture2D.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>

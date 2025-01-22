@@ -14,33 +14,11 @@ import std;
 
 export namespace fatpound::win32::d3d11::pipeline::resource
 {
-    template <bool ForFramework>
     class Sampler final : public Bindable
     {
     public:
-        Sampler(ID3D11Device* const pDevice)
+        Sampler(ID3D11Device* const pDevice, const D3D11_SAMPLER_DESC& sDesc)
         {
-            D3D11_SAMPLER_DESC sDesc{};
-
-            if constexpr (ForFramework)
-            {
-                sDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-                sDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-                sDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-                sDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
-                sDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-            }
-            else
-            {
-                sDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-                sDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-                sDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-                sDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-            }
-
-            sDesc.MinLOD = 0.0f;
-            sDesc.MaxLOD = D3D11_FLOAT32_MAX;
-
             const auto& hr = pDevice->CreateSamplerState(&sDesc, &m_pSamplerState_);
 
             if (FAILED(hr)) [[unlikely]]

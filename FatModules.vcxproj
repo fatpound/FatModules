@@ -101,7 +101,6 @@
     <ClCompile Include="Win32_\D3D11\Pipeline\Resource\Resource.ixx" />
     <ClCompile Include="Win32_\D3D11\Pipeline\Resource\Sampler.ixx" />
     <ClCompile Include="Win32_\D3D11\Pipeline\Resource\SBuffer.ixx" />
-    <ClCompile Include="Win32_\D3D11\Pipeline\Resource\Texture2D_SRV.ixx" />
     <ClCompile Include="Win32_\D3D11\Pipeline\Resource\Texture2D.ixx" />
     <ClCompile Include="Win32_\D3D11\Pipeline\Resource\TransformCBuffer.ixx" />
     <ClCompile Include="Win32_\D3D11\Pipeline\Resource\VertexCBuffer.ixx" />

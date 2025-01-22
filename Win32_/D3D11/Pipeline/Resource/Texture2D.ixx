@@ -16,36 +16,11 @@ import std;
 
 export namespace fatpound::win32::d3d11::pipeline::resource
 {
-    template <bool ForFramework>
-    class Texture2D final
+	class Texture2D final : public Bindable
     {
     public:
-        Texture2D(ID3D11Device* const pDevice, const UINT width, const UINT height, const UINT msaaCount, const UINT msaaQuality, std::shared_ptr<FATSPACE_UTIL::Surface> pSurface = {})
+        Texture2D(ID3D11Device* const pDevice, const D3D11_TEXTURE2D_DESC& tex2dDesc, const D3D11_SHADER_RESOURCE_VIEW_DESC& srvDesc, std::shared_ptr<FATSPACE_UTIL::Surface> pSurface = {})
         {
-            D3D11_TEXTURE2D_DESC texDesc{};
-            texDesc.Width = width;
-            texDesc.Height = height;
-            texDesc.MipLevels = 1u;
-            texDesc.ArraySize = 1u;
-
-            if constexpr (ForFramework)
-            {
-                texDesc.SampleDesc.Count = 1;
-                texDesc.SampleDesc.Quality = 0;
-                texDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-                texDesc.Usage = D3D11_USAGE_DYNAMIC;
-                texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-                texDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-            }
-            else
-            {
-                texDesc.SampleDesc.Count = msaaCount;
-                texDesc.SampleDesc.Quality = msaaQuality - 1u;
-                texDesc.Format = DXGI_FORMAT_D32_FLOAT;
-                texDesc.Usage = D3D11_USAGE_DEFAULT;
-                texDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
-            }
-
             ::Microsoft::WRL::ComPtr<ID3D11Texture2D> pTexture;
 
             const D3D11_SUBRESOURCE_DATA* pSubresourceData{};
@@ -59,19 +34,30 @@ export namespace fatpound::win32::d3d11::pipeline::resource
                 pSubresourceData = &sd;
             }
 
-            const auto& hr = pDevice->CreateTexture2D(&texDesc, pSubresourceData, &m_pTexture2D_);
-
-            if (FAILED(hr)) [[unlikely]]
             {
-                throw std::runtime_error("Could NOT create Texture2D!");
+                const auto& hr = pDevice->CreateTexture2D(&tex2dDesc, pSubresourceData, &pTexture);
+
+                if (FAILED(hr)) [[unlikely]]
+                {
+                    throw std::runtime_error("Could NOT create Texture2D!");
+                }
+            }
+
+            {
+                const auto& hr = pDevice->CreateShaderResourceView(pTexture.Get(), &srvDesc, &m_pSRV_);
+
+                if (FAILED(hr)) [[unlikely]]
+                {
+                    throw std::runtime_error("Could NOT create ShaderResourceView!");
+                }
             }
         }
 
 
     public:
-        auto Get() const -> ID3D11Texture2D*
+        virtual void Bind(ID3D11DeviceContext* pImmediateContext) override final
         {
-            return m_pTexture2D_.Get();
+            pImmediateContext->PSSetShaderResources(0, 1, m_pSRV_.GetAddressOf());
         }
 
 
@@ -79,7 +65,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
 
 
     private:
-        ::Microsoft::WRL::ComPtr<ID3D11Texture2D> m_pTexture2D_;
+        ::Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_pSRV_;
     };
 }
 

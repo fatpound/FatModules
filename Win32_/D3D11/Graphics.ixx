@@ -201,6 +201,15 @@ export namespace fatpound::win32::d3d11
             return m_res_pack_.m_pSysbufferTex2d.Get();
         }
 
+        auto GetMSAACount() const noexcept
+        {
+            return m_msaa_count_;
+        }
+        auto GetMSAAQuality() const noexcept
+        {
+            return m_msaa_quality_;
+        }
+
         void BindSurface(std::unique_ptr<Surface> pSurface) requires(Framework)
         {
             if (m_pSurface_ not_eq nullptr)
@@ -229,7 +238,7 @@ export namespace fatpound::win32::d3d11
             assert(y >= 0);
             assert(y < GetHeight<int>());
 
-            m_res_pack_.m_surface[GetWidth<UINT>() * y + x] = color;
+            m_res_pack_.m_surface.PutPixel(x, y, color);
         }
 
 
@@ -259,8 +268,8 @@ export namespace fatpound::win32::d3d11
                 binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::PixelShader>(GetDevice(), L"..\\FatModules\\PSFrameBuffer.cso"));
                 binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::VertexBuffer>(GetDevice(), FATSPACE_UTIL_GFX::FullScreenQuad::sc_vertices));
                 binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
-                binds.push_back(std::make_unique<FATSPACE_PIPELINE_RESOURCE::Texture2D_SRV<Framework>>(GetDevice(), GetWidth<UINT>(), GetHeight<UINT>(), m_msaa_count_, m_msaa_quality_));
-                binds.push_back(std::make_unique<FATSPACE_PIPELINE_RESOURCE::Sampler<Framework>>(GetDevice()));
+                binds.push_back(std::make_unique<FATSPACE_PIPELINE_RESOURCE::Texture2D>(GetDevice(), GetWidth<UINT>(), GetHeight<UINT>(), m_msaa_count_, m_msaa_quality_));
+                binds.push_back(std::make_unique<FATSPACE_PIPELINE_RESOURCE::Sampler>(GetDevice()));
 
                 const std::vector<D3D11_INPUT_ELEMENT_DESC> iedesc =
                 {
@@ -410,7 +419,18 @@ export namespace fatpound::win32::d3d11
 
             if constexpr (NotFramework)
             {
-                FATSPACE_PIPELINE_RESOURCE::Texture2D<Framework> tx2d(GetDevice(), GetWidth<UINT>(), GetHeight<UINT>(), m_msaa_count_, m_msaa_quality_);
+                ::wrl::ComPtr<ID3D11Texture2D> pTexture2d;
+
+                D3D11_TEXTURE2D_DESC tex2dDesc{};
+                tex2dDesc.Width = GetWidth<UINT>();
+                tex2dDesc.Height = GetHeight<UINT>();
+                tex2dDesc.MipLevels = 1u;
+                tex2dDesc.ArraySize = 1u;
+                tex2dDesc.SampleDesc.Count = GetMSAACount();
+                tex2dDesc.SampleDesc.Quality = GetMSAAQuality() - 1u;
+                tex2dDesc.Format = DXGI_FORMAT_D32_FLOAT;
+                tex2dDesc.Usage = D3D11_USAGE_DEFAULT;
+                tex2dDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 
                 D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc{};
                 dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
@@ -426,11 +446,22 @@ export namespace fatpound::win32::d3d11
                     dsvDesc.Texture2D.MipSlice = 1u;
                 }
 
-                const auto& hr = GetDevice()->CreateDepthStencilView(tx2d.Get(), &dsvDesc, &m_res_pack_.m_pDSV);
-
-                if (FAILED(hr)) [[unlikely]]
                 {
-                    throw std::runtime_error("Could NOT create DepthStencilView!");
+                    const auto& hr = GetDevice()->CreateTexture2D(&tex2dDesc, nullptr, pTexture2d.GetAddressOf());
+
+                    if (FAILED(hr)) [[unlikely]]
+                    {
+                        throw std::runtime_error("Could NOT create Texture2D!");
+                    }
+                }
+
+                {
+                    const auto& hr = GetDevice()->CreateDepthStencilView(pTexture2d.Get(), &dsvDesc, &m_res_pack_.m_pDSV);
+
+                    if (FAILED(hr)) [[unlikely]]
+                    {
+                        throw std::runtime_error("Could NOT create DepthStencilView!");
+                    }
                 }
             }
 
