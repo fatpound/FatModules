@@ -390,20 +390,22 @@ export namespace fatpound::win32::d3d11
         {
             ::Microsoft::WRL::ComPtr<ID3D11Texture2D> pBackBufferTexture2D{};
 
-            HRESULT hr;
-
-            hr = GetSwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), &pBackBufferTexture2D);
-
-            if (FAILED(hr)) [[unlikely]]
             {
-                throw std::runtime_error("Could NOT get the buffer from SwapChain!");
+                const auto& hr = GetSwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), &pBackBufferTexture2D);
+
+                if (FAILED(hr)) [[unlikely]]
+                {
+                    throw std::runtime_error("Could NOT get the buffer from SwapChain!");
+                }
             }
 
-            hr = GetDevice()->CreateRenderTargetView(pBackBufferTexture2D.Get(), nullptr, &m_res_pack_.m_pRTV);
-
-            if (FAILED(hr)) [[unlikely]]
             {
-                throw std::runtime_error("Could NOT create RenderTargetView!");
+                const auto& hr = GetDevice()->CreateRenderTargetView(pBackBufferTexture2D.Get(), nullptr, &m_res_pack_.m_pRTV);
+
+                if (FAILED(hr)) [[unlikely]]
+                {
+                    throw std::runtime_error("Could NOT create RenderTargetView!");
+                }
             }
 
             if constexpr (NotFramework)

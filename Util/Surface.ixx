@@ -23,8 +23,6 @@ export namespace fatpound::util
 {
     class Surface final
     {
-        using int_t = ::std::size_t;
-
     public:
         explicit Surface(const std::wstring& filename, const unsigned int alignBytes = FAT_DEFAULT_ALIGNMENT);
         explicit Surface(const ScreenSizeInfo dimensions, const unsigned int alignBytes = FAT_DEFAULT_ALIGNMENT);
@@ -51,28 +49,28 @@ export namespace fatpound::util
 
 
     public:
-        template <FATSPACE_MATH::numset::Rational Q = int_t> __forceinline auto GetWidth()      const noexcept -> Q
+        template <FATSPACE_MATH::numset::Rational Q> __forceinline auto GetWidth()      const noexcept -> Q
         {
             return static_cast<Q>(m_width_);
         }
-        template <FATSPACE_MATH::numset::Rational Q = int_t> __forceinline auto GetHeight()     const noexcept -> Q
+        template <FATSPACE_MATH::numset::Rational Q> __forceinline auto GetHeight()     const noexcept -> Q
         {
             return static_cast<Q>(m_height_);
         }
-        template <FATSPACE_MATH::numset::Rational Q = int_t> __forceinline auto GetAlignment()  const noexcept -> Q
+        template <FATSPACE_MATH::numset::Rational Q> __forceinline auto GetAlignment()  const noexcept -> Q
         {
             return static_cast<Q>(m_align_byte_);
         }
-        template <FATSPACE_MATH::numset::Rational Q = int_t> __forceinline auto GetPixelPitch() const noexcept -> Q
+        template <FATSPACE_MATH::numset::Rational Q> __forceinline auto GetPixelPitch() const noexcept -> Q
         {
             return static_cast<Q>(m_pixel_pitch_);
         }
-        template <FATSPACE_MATH::numset::Rational Q = int_t> __forceinline auto GetPitch()      const noexcept -> Q
+        template <FATSPACE_MATH::numset::Rational Q> __forceinline auto GetPitch()      const noexcept -> Q
         {
             return static_cast<Q>(m_pixel_pitch_ * sizeof(Color));
         }
 
-        template <std::integral N = int_t> __forceinline auto GetPixel(const N x, const N y) const -> Color
+        template <std::integral N> __forceinline auto GetPixel(const N x, const N y) const -> Color
         {
             if constexpr (std::signed_integral<N>)
             {
@@ -85,7 +83,7 @@ export namespace fatpound::util
 
             return m_pBuffer_[y * m_pixel_pitch_ + x];
         }
-        template <std::integral N = int_t> __forceinline void PutPixel(const N x, const N y, const Color color)
+        template <std::integral N> __forceinline void PutPixel(const N x, const N y, const Color color)
         {
             if constexpr (std::signed_integral<N>)
             {

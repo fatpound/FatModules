@@ -54,7 +54,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
             {
                 D3D11_SUBRESOURCE_DATA sd{};
                 sd.pSysMem = *pSurface;
-                sd.SysMemPitch = pSurface->GetPitch<>();
+                sd.SysMemPitch = pSurface->GetPitch<UINT>();
 
                 pSubresourceData = &sd;
             }
