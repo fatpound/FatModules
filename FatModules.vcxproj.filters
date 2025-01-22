@@ -80,30 +80,6 @@
     <ClCompile Include="Util\Util.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Factory\DepthStencilView.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Factory\SwapChain.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Factory\Factory.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Factory\RasterizerState.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Factory\RenderTargetView.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Factory\SamplerState.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Factory\ShaderResourceView.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Factory\Texture2D.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\D3D11\Pipeline\Element\Element.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -212,12 +188,6 @@
     <ClCompile Include="Math\RectF.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Core\Device.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Core\Core.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Util\ViewXM.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -312,6 +282,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Util\Gfx\ResourcePack.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32_\D3D11\Pipeline\Resource\Sampler.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32_\D3D11\Pipeline\Resource\Texture2D_SRV.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32_\D3D11\Pipeline\Resource\Texture2D.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
