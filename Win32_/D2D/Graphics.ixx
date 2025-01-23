@@ -16,6 +16,7 @@ module;
 
 export module FatPound.Win32.D2D.Graphics;
 
+import FatPound.Math;
 import FatPound.Util;
 
 import std;
@@ -29,23 +30,23 @@ export namespace fatpound::win32::d2d
     public:
         explicit Graphics(const HWND hWnd, const FATSPACE_UTIL::ScreenSizeInfo& dimensions)
             :
-            mc_width(dimensions.m_width),
-            mc_height(dimensions.m_height)
+            mc_dimensions_(dimensions)
         {
             ::Microsoft::WRL::ComPtr<ID2D1Factory> pFactory;
+
             {
                 const auto& hr = ::D2D1CreateFactory<ID2D1Factory>(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pFactory);
 
                 if (FAILED(hr)) [[unlikely]]
                 {
-                    throw std::runtime_error("A problem occured when creating the Factory!");
+                    throw std::runtime_error("A problem occured when creating the D2D1 factory!");
                 }
             }
-            
-            RECT rect{};
-            ::GetClientRect(hWnd, &rect);
 
             {
+                RECT rect{};
+                ::GetClientRect(hWnd, &rect);
+
                 const auto& hr = pFactory->CreateHwndRenderTarget(
                     ::D2D1::RenderTargetProperties(),
                     ::D2D1::HwndRenderTargetProperties(hWnd, ::D2D1::SizeU(static_cast<UINT32>(rect.right), static_cast<UINT32>(rect.bottom))),
@@ -69,6 +70,15 @@ export namespace fatpound::win32::d2d
 
 
     public:
+        template <FATSPACE_MATH::numset::Rational Q> constexpr auto GetWidth()  const noexcept
+        {
+            return static_cast<Q>(mc_dimensions_.m_width);
+        }
+        template <FATSPACE_MATH::numset::Rational Q> constexpr auto GetHeight() const noexcept
+        {
+            return static_cast<Q>(mc_dimensions_.m_height);
+        }
+
         template <bool Clear = true>
         void BeginFrame() noexcept
         {
@@ -145,17 +155,14 @@ export namespace fatpound::win32::d2d
         }
 
 
-    public:
-        const std::size_t mc_width;
-        const std::size_t mc_height;
-
-
     protected:
         
         
     private:
         ::Microsoft::WRL::ComPtr<ID2D1HwndRenderTarget> m_pRenderTarget_;
         ::Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>  m_pBrush_;
+
+        const FATSPACE_UTIL::ScreenSizeInfo             mc_dimensions_;
     };
 }
 
