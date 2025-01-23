@@ -291,18 +291,18 @@ export namespace fatpound::win32::d3d11
         }
         void InitFrameworkBackbuffer_() requires(Framework)
         {
-			D3D11_TEXTURE2D_DESC texDesc{};
-			texDesc.Width = GetWidth<UINT>();
-			texDesc.Height = GetHeight<UINT>();
-			texDesc.MipLevels = 1u;
-			texDesc.ArraySize = 1u;
-			texDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-			texDesc.SampleDesc.Count = 1u;
-			texDesc.SampleDesc.Quality = 0u;
-			texDesc.Usage = D3D11_USAGE_DYNAMIC;
-			texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-			texDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-			texDesc.MiscFlags = 0u;
+            D3D11_TEXTURE2D_DESC texDesc{};
+            texDesc.Width = GetWidth<UINT>();
+            texDesc.Height = GetHeight<UINT>();
+            texDesc.MipLevels = 1u;
+            texDesc.ArraySize = 1u;
+            texDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
+            texDesc.SampleDesc.Count = 1u;
+            texDesc.SampleDesc.Quality = 0u;
+            texDesc.Usage = D3D11_USAGE_DYNAMIC;
+            texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+            texDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+            texDesc.MiscFlags = 0u;
 
             {
                 const auto& hr = GetDevice()->CreateTexture2D(&texDesc, nullptr, m_res_pack_.m_pSysbufferTex2d.GetAddressOf());
@@ -313,12 +313,12 @@ export namespace fatpound::win32::d3d11
                 }
             }
 
-			::wrl::ComPtr<ID3D11ShaderResourceView> pSRV;
+            ::wrl::ComPtr<ID3D11ShaderResourceView> pSRV;
 
-			D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-			srvDesc.Format = texDesc.Format;
-			srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-			srvDesc.Texture2D.MipLevels = texDesc.MipLevels;
+            D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+            srvDesc.Format = texDesc.Format;
+            srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+            srvDesc.Texture2D.MipLevels = texDesc.MipLevels;
 
             {
                 const auto& hr = GetDevice()->CreateShaderResourceView(GetSysbufferTexture(), &srvDesc, pSRV.GetAddressOf());
@@ -329,7 +329,7 @@ export namespace fatpound::win32::d3d11
                 }
             }
 
-			GetImmediateContext()->PSSetShaderResources(0u, 1u, pSRV.GetAddressOf());
+            GetImmediateContext()->PSSetShaderResources(0u, 1u, pSRV.GetAddressOf());
 
             {
                 ::wrl::ComPtr<ID3D11SamplerState> pSS;
@@ -350,7 +350,7 @@ export namespace fatpound::win32::d3d11
                     throw std::runtime_error("Could NOT create SamplerState");
                 }
 
-				GetImmediateContext()->PSSetSamplers(0, 1, pSS.GetAddressOf());
+                GetImmediateContext()->PSSetSamplers(0, 1, pSS.GetAddressOf());
             }
         }
         void InitDevice_()

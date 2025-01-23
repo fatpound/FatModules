@@ -16,7 +16,7 @@ import std;
 
 export namespace fatpound::win32::d3d11::pipeline::resource
 {
-	class Texture2D final : public Bindable
+    class Texture2D final : public Bindable
     {
     public:
         Texture2D(ID3D11Device* const pDevice, const D3D11_TEXTURE2D_DESC& tex2dDesc, const D3D11_SHADER_RESOURCE_VIEW_DESC& srvDesc, std::shared_ptr<FATSPACE_UTIL::Surface> pSurface = {})
