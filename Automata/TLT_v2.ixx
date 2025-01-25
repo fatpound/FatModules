@@ -6,13 +6,13 @@ import FatPound.Automata.CFG;
 
 import std;
 
-using std::vector, std::string, std::pair;
+using std::literals::string_literals::operator ""s;
 
 export namespace fatpound::automata
 {
     class TLT_v2 final
     {
-        static constexpr auto scx_RecurseLimit_ = 1u;
+        static constexpr auto scx_RecursionLimit_ = 1u;
 
     public:
         using Result_t = std::vector<std::pair<std::string, bool>>;
@@ -55,7 +55,7 @@ export namespace fatpound::automata
 
     private:
         [[nodiscard]]
-        auto GenerateResults_(std::string init_str = "", std::size_t index = 0u, std::size_t recursed = 0u) const -> Result_t;
+        auto GenerateResults_(std::string init_str = ""s, std::size_t index = 0u, std::size_t recursed = 0u) const -> Result_t;
 
         [[nodiscard]]
         auto IsTerminal_(const std::string& str) const -> bool;

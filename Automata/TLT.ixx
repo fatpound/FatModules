@@ -10,6 +10,8 @@ export namespace fatpound::automata
 {
     class TLT final
     {
+        static constexpr auto scx_recurse_limit_ = 1u;
+
     public:
         explicit TLT(const CFG& cfgs);
         explicit TLT(const std::string& inputFilename);
@@ -49,24 +51,20 @@ export namespace fatpound::automata
 
 
     private:
-        void CreateTree_(Node_* node);
+        void CreateTree_     (Node_* node);
         void CreateInnerTree_(Node_* node);
 
         void Clear_();
 
 
     private:
-        static constexpr auto scx_recurse_limit_ = 1u;
-
-
-    private:
-        const CFG::GrammarType m_cfgrammar_;
+        const CFG::Grammar_t mc_cfgrammar_;
 
         std::vector<std::string> m_results_;
 
         std::vector<std::size_t> m_recursers_;
 
-        Node_* m_tree_ = nullptr;
+        Node_* m_pTree_ = nullptr;
     };
 }
 

@@ -15,18 +15,18 @@ namespace fatpound::automata
             throw std::runtime_error("Input file cannot be opened for [InputtingCFG]!");
         }
 
-        std::vector<char> alphabet;
+        Alphabet_t alphabet;
 
-        ReadFirstLine_(inputFile, alphabet);
+        ReadFirstLine_ (inputFile, alphabet);
         ReadSecondLine_(inputFile, alphabet);
     }
 
-    auto CFG::GetGrammar() const noexcept -> GrammarType
+    auto CFG::GetGrammar() const noexcept -> Grammar_t
     {
         return m_grammar_;
     }
     
-    void CFG::ReadFirstLine_(std::ifstream& inputFile, std::vector<char>& alphabet)
+    void CFG::ReadFirstLine_ (std::ifstream& inputFile, Alphabet_t& alphabet)
     {
         // duzelt?
         {
@@ -54,11 +54,11 @@ namespace fatpound::automata
 
         alphabet.erase(it.begin(), it.end());
     }
-    void CFG::ReadSecondLine_(std::ifstream& inputFile, std::vector<char>& alphabet)
+    void CFG::ReadSecondLine_(std::ifstream& inputFile, Alphabet_t& alphabet)
     {
         std::string str;
 
-        while (std::getline(inputFile, str, scx_language_seperator_))
+        while (std::getline(inputFile, str, scx_LanguageDelimiter_))
         {
             {
                 const auto& it = std::ranges::remove_if(str, [](const auto& ch) noexcept -> bool { return std::isspace(ch) not_eq 0; });
@@ -66,13 +66,13 @@ namespace fatpound::automata
                 str.erase(it.begin(), it.end());
             }
 
-            const auto& index = str.find(scx_language_content_seperator_);
+            const auto& index = str.find(scx_LanguageContentIndicator_);
 
             if (index not_eq std::string::npos)
             {
                 std::string word(str.cbegin(), str.cbegin() + static_cast<std::ptrdiff_t>(index));
 
-                str.erase(0, index + std::strlen(scx_language_content_seperator_));
+                str.erase(0, index + std::strlen(scx_LanguageContentIndicator_));
 
                 std::vector<std::string> leaves;
 
@@ -80,7 +80,7 @@ namespace fatpound::automata
 
                 std::string tempstr;
 
-                while (std::getline(iss, tempstr, scx_language_word_seperator_))
+                while (std::getline(iss, tempstr, scx_SymbolDelimiter_))
                 {
                     if (std::ranges::find(leaves, tempstr) == leaves.cend())
                     {

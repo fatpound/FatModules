@@ -11,7 +11,7 @@ export namespace fatpound::concurrency
         using WrappedTask = std::move_only_function<void()>;
 
     public:
-        explicit TaskQueue() noexcept = default;
+        explicit TaskQueue() = default;
         explicit TaskQueue(const TaskQueue& src) = delete;
         explicit TaskQueue(TaskQueue&& src) = delete;
 

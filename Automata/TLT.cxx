@@ -10,22 +10,22 @@ namespace fatpound::automata
 
     TLT::TLT(const CFG& cfg)
         :
-        m_cfgrammar_(cfg.GetGrammar()),
-        m_recursers_(m_cfgrammar_.size(), 0)
+        mc_cfgrammar_(cfg.GetGrammar()),
+        m_recursers_(mc_cfgrammar_.size(), 0)
     {
-        if (m_cfgrammar_.size() < 1)
+        if (mc_cfgrammar_.size() < 1)
         {
             throw std::runtime_error("There is no input!");
         }
 
-        m_tree_ = new Node_(m_cfgrammar_[0].first);
-
-        for (const auto& leaf_str : m_cfgrammar_[0].second)
+        m_pTree_ = new Node_(mc_cfgrammar_[0].first);
+        
+        for (const auto& leaf_str : mc_cfgrammar_[0].second)
         {
-            m_tree_->m_leaves.push_back(new Node_(leaf_str));
+            m_pTree_->m_leaves.push_back(new Node_(leaf_str));
         }
 
-        CreateTree_(m_tree_);
+        CreateTree_(m_pTree_);
     }
     TLT::TLT(const std::string& inputFilename)
         :
@@ -113,12 +113,12 @@ namespace fatpound::automata
                 continue;
             }
 
-            const auto& cfg_it = std::ranges::find_if(m_cfgrammar_, [&](const auto& pair) { return pair.first[0] == ch; });
+            const auto& cfg_it = std::ranges::find_if(mc_cfgrammar_, [&](const auto& pair) { return pair.first[0] == ch; });
 
             std::string leftstr(node->m_item.cbegin(), node->m_item.cbegin() + static_cast<std::ptrdiff_t>(i));
             std::string rightstr(node->m_item.cbegin() + static_cast<std::ptrdiff_t>(i + 1u), node->m_item.cend());
 
-            const std::size_t index = static_cast<std::size_t>(cfg_it - m_cfgrammar_.cbegin());
+            const std::size_t index = static_cast<std::size_t>(cfg_it - mc_cfgrammar_.cbegin());
 
             node->m_leaves.reserve(node->m_leaves.size() + cfg_it->second.size());
 
@@ -169,14 +169,14 @@ namespace fatpound::automata
 
     void TLT::Clear_()
     {
-        if (m_tree_ == nullptr) [[unlikely]]
+        if (m_pTree_ == nullptr) [[unlikely]]
         {
             return;
         }
 
         std::deque<Node_*> nodes;
 
-        nodes.push_back(m_tree_);
+        nodes.push_back(m_pTree_);
 
         while (nodes.size() > 0u)
         {
