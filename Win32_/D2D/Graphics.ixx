@@ -44,12 +44,9 @@ export namespace fatpound::win32::d2d
             }
 
             {
-                RECT rect{};
-                ::GetClientRect(hWnd, &rect);
-
                 const auto& hr = pFactory->CreateHwndRenderTarget(
                     ::D2D1::RenderTargetProperties(),
-                    ::D2D1::HwndRenderTargetProperties(hWnd, ::D2D1::SizeU(static_cast<UINT32>(rect.right), static_cast<UINT32>(rect.bottom))),
+                    ::D2D1::HwndRenderTargetProperties(hWnd, ::D2D1::SizeU(GetWidth<UINT32>(), GetHeight<UINT32>())),
                     &m_pRenderTarget_
                 );
 
