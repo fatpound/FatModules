@@ -52,6 +52,7 @@
     <ClCompile Include="Math\Multiplicable.ixx" />
     <ClCompile Include="Math\Numset\Numset.ixx" />
     <ClCompile Include="Math\Numset\Rational.ixx" />
+    <ClCompile Include="Math\Primes.ixx" />
     <ClCompile Include="Math\RectF.ixx" />
     <ClCompile Include="Util\Color.ixx" />
     <ClCompile Include="Util\Gfx\FullScreenQuad.ixx" />
