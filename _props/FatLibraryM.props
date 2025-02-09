@@ -8,7 +8,7 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)FatModules\;$(SolutionDir)FatModules\Win32_;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)FatModules\;$(SolutionDir)FatModules\Win32_; %(AdditionalLibraryDirectories);</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />
