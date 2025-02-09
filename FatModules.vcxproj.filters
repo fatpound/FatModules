@@ -16,14 +16,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="FatRules.ruleset" />
-    <None Include="_props\FatCpp.props" />
-    <None Include="_props\FatCppM.props" />
-    <None Include="_props\FatCppM_Debug.props" />
-    <None Include="_props\FatCppM_Release.props" />
-    <None Include="_props\FatCpp_Debug.props" />
-    <None Include="_props\FatCpp_Release.props" />
-    <None Include="_props\FatLibrary.props" />
-    <None Include="_props\FatLibraryM.props" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Automata\Automata.ixx">
