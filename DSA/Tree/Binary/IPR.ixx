@@ -23,11 +23,11 @@ export namespace fatpound::dsa::tree::binary
     public:
         virtual void Insert(const T new_item) override final
         {
-            [[maybe_unused]] Node_* new_node = AVL<T>::Insert_(nullptr, this->m_root_, new_item);
+            [[maybe_unused]] Node_* const new_node = AVL<T>::Insert_(nullptr, this->m_pRoot_, new_item);
 
-            if (this->m_root_ == nullptr)
+            if (this->m_pRoot_ == nullptr)
             {
-                this->m_root_ = new_node;
+                this->m_pRoot_ = new_node;
             }
             else
             {
@@ -43,6 +43,7 @@ export namespace fatpound::dsa::tree::binary
 
     private:
         // NOLINTBEGIN(readability-identifier-length)
+
         virtual void Balance_(Node_* const latest) override final
         {
             if (latest == nullptr)
@@ -117,6 +118,7 @@ export namespace fatpound::dsa::tree::binary
                 last = last->parent;
             }
         }
+
         // NOLINTEND(readability-identifier-length)
     };
 }

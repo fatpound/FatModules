@@ -180,7 +180,7 @@ namespace fatpound::automata
 
         while (nodes.size() > 0u)
         {
-            Node_* node = nodes.back();
+            Node_* const node = nodes.back();
 
             nodes.pop_back();
 

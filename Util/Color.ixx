@@ -32,7 +32,7 @@ export namespace fatpound
             {
 
             }
-            constexpr explicit Color(const Color col, unsigned char alpha)
+            constexpr explicit Color(const Color& col, unsigned char alpha)
                 :
                 Color((static_cast<::std::uint32_t>(alpha) << 24u) bitor col.dword)
             {

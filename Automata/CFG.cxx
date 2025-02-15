@@ -48,22 +48,22 @@ namespace fatpound::automata
             }
         }
 
-        std::ranges::sort(alphabet);
+        std::sort(alphabet.begin(), alphabet.end());
 
-        const auto it = std::ranges::unique(alphabet);
+        const auto it = std::unique(alphabet.begin(), alphabet.end());
 
-        alphabet.erase(it.begin(), it.end());
+        alphabet.erase(it, alphabet.end());
     }
-    void CFG::ReadSecondLine_(std::ifstream& inputFile, Alphabet_t& alphabet)
+    void CFG::ReadSecondLine_(std::ifstream& inputFile, const Alphabet_t& alphabet)
     {
         std::string str;
 
         while (std::getline(inputFile, str, scx_LanguageDelimiter_))
         {
             {
-                const auto& it = std::ranges::remove_if(str, [](const auto& ch) noexcept -> bool { return std::isspace(ch) not_eq 0; });
+                const auto& it = std::remove_if(str.begin(), str.end(), [](const auto& ch) noexcept -> bool { return std::isspace(ch) not_eq 0; });
 
-                str.erase(it.begin(), it.end());
+                str.erase(it, str.end());
             }
 
             const auto& index = str.find(scx_LanguageContentIndicator_);
@@ -72,7 +72,11 @@ namespace fatpound::automata
             {
                 std::string word(str.cbegin(), str.cbegin() + static_cast<std::ptrdiff_t>(index));
 
-                str.erase(0, index + std::strlen(scx_LanguageContentIndicator_));
+                {
+                    constexpr auto lciLen = std::string_view{scx_LanguageContentIndicator_}.size();
+
+                    str.erase(0, index + lciLen);
+                }
 
                 std::vector<std::string> leaves;
 
@@ -82,11 +86,11 @@ namespace fatpound::automata
 
                 while (std::getline(iss, tempstr, scx_SymbolDelimiter_))
                 {
-                    if (std::ranges::find(leaves, tempstr) == leaves.cend())
+                    if (std::find(leaves.begin(), leaves.end(), tempstr) == leaves.cend())
                     {
                         for (const auto& ch : tempstr)
                         {
-                            if (std::islower(ch) && std::ranges::find(alphabet, ch) == alphabet.cend())
+                            if (std::islower(ch) and std::find(alphabet.cbegin(), alphabet.cend(), ch) == alphabet.cend())
                             {
                                 throw std::runtime_error("The letter " + std::string{ ch } + " is not in the alphabet!");
                             }

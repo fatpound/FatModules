@@ -25,7 +25,7 @@ export namespace fatpound::util
     {
     public:
         explicit Surface(const std::wstring& filename, const unsigned int alignBytes = FAT_DEFAULT_ALIGNMENT);
-        explicit Surface(const ScreenSizeInfo dimensions, const unsigned int alignBytes = FAT_DEFAULT_ALIGNMENT);
+        explicit Surface(const ScreenSizeInfo& dimensions, const unsigned int alignBytes = FAT_DEFAULT_ALIGNMENT);
         explicit Surface(const unsigned int width, const unsigned int height, const unsigned int alignBytes = FAT_DEFAULT_ALIGNMENT);
 
         explicit Surface() noexcept;
@@ -45,7 +45,7 @@ export namespace fatpound::util
 
 
     public:
-        static auto CalculatePixelPitch(const unsigned int width, const unsigned int alignBytes) -> unsigned int;
+        static auto CalculatePixelPitch(const unsigned int width, const unsigned int alignBytes) noexcept -> unsigned int;
 
 
     public:
@@ -83,7 +83,7 @@ export namespace fatpound::util
 
             return m_pBuffer_[y * m_pixel_pitch_ + x];
         }
-        template <std::integral N> __forceinline void PutPixel(const N x, const N y, const Color color)
+        template <std::integral N> __forceinline void PutPixel(const N x, const N y, const Color color) noexcept
         {
             if constexpr (std::signed_integral<N>)
             {
@@ -99,21 +99,21 @@ export namespace fatpound::util
 
 
     public:
-        auto ReleaseBuffer() -> Color*;
+        auto ReleaseBuffer() noexcept -> Color*;
 
         auto GetScreenSizeInfo() const noexcept -> ScreenSizeInfo;
 
         auto IsEmpty() const noexcept -> bool;
 
-        void Fill(const Color& color);
-        void Clear();
+        void Fill(const Color& color) noexcept;
+        void Clear() noexcept;
 
 
     protected:
 
 
     private:
-        void DeepCopyFrom_(const Surface& src);
+        void DeepCopyFrom_(const Surface& src) noexcept;
 
 
     private:

@@ -31,14 +31,15 @@ export namespace fatpound::io
 
         Type type{ Type::Invalid };
 
-        int pos_x{};
-        int pos_y{};
-
-        int wheel_delta_carry{};
-
         bool left_is_pressed{};
         bool right_is_pressed{};
         bool wheel_is_pressed{};
+
+        // ints are below for alignment
+
+        int pos_x{};
+        int pos_y{};
+        int wheel_delta_carry{};
     };
 }
 

@@ -50,7 +50,7 @@ namespace fatpound::util
 
         *this = std::move(surf);
     }
-    Surface::Surface(const ScreenSizeInfo dimensions, const unsigned int alignBytes)
+    Surface::Surface(const ScreenSizeInfo& dimensions, const unsigned int alignBytes)
         :
         Surface(dimensions.m_width, dimensions.m_height, alignBytes)
     {
@@ -148,7 +148,7 @@ namespace fatpound::util
         );
     }
 
-    auto Surface::CalculatePixelPitch(const unsigned int width, const unsigned int alignBytes) -> unsigned int
+    auto Surface::CalculatePixelPitch(const unsigned int width, const unsigned int alignBytes) noexcept -> unsigned int
     {
         assert(alignBytes % 4 == 0);
         assert(alignBytes >= sizeof(Color));
@@ -160,7 +160,7 @@ namespace fatpound::util
         return width + (pixelsPerAlign - overrunCount) % pixelsPerAlign;
     }
 
-    auto Surface::ReleaseBuffer() -> Color*
+    auto Surface::ReleaseBuffer() noexcept -> Color*
     {
         return m_pBuffer_.release();
     }
@@ -175,11 +175,11 @@ namespace fatpound::util
         return m_pBuffer_ == nullptr;
     }
 
-    void Surface::Fill(const Color& color)
+    void Surface::Fill(const Color& color) noexcept
     {
         ::std::memset(m_pBuffer_.get(), static_cast<int>(color), GetWidth<::std::size_t>() * GetHeight<::std::size_t>() * sizeof(Color));
     }
-    void Surface::Clear()
+    void Surface::Clear() noexcept
     {
         if (m_pBuffer_ not_eq nullptr)
         {
@@ -193,7 +193,7 @@ namespace fatpound::util
         }
     }
 
-    void Surface::DeepCopyFrom_(const Surface& src)
+    void Surface::DeepCopyFrom_(const Surface& src) noexcept
     {
               auto* const pDest =     m_pBuffer_.get();
         const auto* const pSrc  = src.m_pBuffer_.get();
