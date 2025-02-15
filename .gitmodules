@@ -1,3 +1,4 @@
 [submodule "_misc/FatProps"]
 	path = _misc/FatProps
 	url = https://github.com/fatpound/FatProps
+	update = rebase
