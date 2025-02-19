@@ -21,18 +21,18 @@ export namespace fatpound::win32
         {
             const WNDCLASSEX wcx
             {
-                .cbSize = sizeof(wcx),
-                .style = CS_OWNDC,
-                .lpfnWndProc = &WndClassEx::HandleMsgSetup_,
-                .cbClsExtra = 0,
-                .cbWndExtra = 0,
-                .hInstance = m_hInstance_,
-                .hIcon = nullptr,
-                .hCursor = ::LoadCursor(nullptr, IDC_ARROW),
+                .cbSize        = sizeof(wcx),
+                .style         = CS_OWNDC,
+                .lpfnWndProc   = &WndClassEx::HandleMsgSetup_,
+                .cbClsExtra    = 0,
+                .cbWndExtra    = 0,
+                .hInstance     = m_hInstance_,
+                .hIcon         = nullptr,
+                .hCursor       = ::LoadCursor(nullptr, IDC_ARROW),
                 .hbrBackground = nullptr,
-                .lpszMenuName = nullptr,
+                .lpszMenuName  = nullptr,
                 .lpszClassName = clsName.c_str(),
-                .hIconSm = nullptr
+                .hIconSm       = nullptr
             };
 
             m_atom_ = ::RegisterClassEx(&wcx);
