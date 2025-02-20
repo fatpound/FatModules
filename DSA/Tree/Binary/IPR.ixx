@@ -44,12 +44,13 @@ export namespace fatpound::dsa::tree::binary
     private:
         // NOLINTBEGIN(readability-identifier-length)
 
-        virtual void Balance_(Node_* const latest) override final
+        virtual void Balance_(Node_* const latest) noexcept override final
         {
             if (latest == nullptr)
             {
                 return;
             }
+
             Node_* last = latest; // Y
 
             while (last->parent not_eq nullptr) // Going up
