@@ -117,7 +117,7 @@ export namespace fatpound::util
 
 
     private:
-        FATSPACE_MEMORY::unique_ptr_aligned_array<Color> m_pBuffer_;
+        FATSPACE_MEMORY::AlignedUniquePtr_t<Color[]> m_pBuffer_;
 
         unsigned int m_width_{};
         unsigned int m_height_{};

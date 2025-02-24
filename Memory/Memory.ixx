@@ -8,34 +8,43 @@ import std;
 
 export namespace fatpound::memory
 {
-    template <typename T> using unique_ptr_aligned       = ::std::unique_ptr<T,   decltype(&::_aligned_free)>;
-    template <typename T> using unique_ptr_aligned_array = ::std::unique_ptr<T[], decltype(&::_aligned_free)>;
-
     template <typename T>
-    auto make_unique_aligned(const std::size_t alignBytes) -> unique_ptr_aligned<T>
+    auto AlignedAlloc(const std::size_t alignBytes, const std::size_t size) -> T*
     {
-        auto* const ptr = static_cast<T*>(::_aligned_malloc(sizeof(T), alignBytes));
-
-        if (ptr == nullptr)
+        if (auto* const ptr = static_cast<T*>(::_aligned_malloc(size * sizeof(T), alignBytes)); ptr == nullptr)
         {
-            throw std::bad_alloc();
+            throw std::runtime_error{"::_aligned_malloc failed!"};
         }
-
-        return unique_ptr_aligned<T>(ptr, &::_aligned_free);
+        else
+        {
+            return ptr;
+        }
     }
 
     template <typename T>
-    auto make_unique_aligned_array(const std::size_t size, const std::size_t alignBytes) -> unique_ptr_aligned_array<T>
+    struct AlignedUniquePtr
     {
-        auto* const ptr = static_cast<T*>(::_aligned_malloc(size * sizeof(T), alignBytes));
+        using ptr_type = std::unique_ptr<T, decltype(&::_aligned_free)>;
 
-        if (ptr == nullptr)
+        static auto Make(const std::size_t alignBytes) -> ptr_type
         {
-            throw std::bad_alloc();
+            return ptr_type{ AlignedAlloc<T>(alignBytes, 1z), &::_aligned_free };
         }
+    };
 
-        return unique_ptr_aligned_array<T>(ptr, &::_aligned_free);
-    }
+    template <typename T>
+    struct AlignedUniquePtr<T[]>
+    {
+        using ptr_type = std::unique_ptr<T[], decltype(&::_aligned_free)>;
+
+        static auto Make(const std::size_t alignBytes, const std::size_t size) -> ptr_type
+        {
+            return ptr_type{ AlignedAlloc<T>(alignBytes, size), &::_aligned_free };
+        }
+    };
+
+    template <typename T>
+    using AlignedUniquePtr_t = AlignedUniquePtr<T>::ptr_type;
 }
 
 module : private;
