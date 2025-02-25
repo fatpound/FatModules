@@ -285,6 +285,9 @@
     <ClCompile Include="Math\Primes.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Util\Random.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32_\FatWin32.hpp">
