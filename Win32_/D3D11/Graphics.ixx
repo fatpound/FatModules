@@ -291,18 +291,21 @@ export namespace fatpound::win32::d3d11
         }
         void InitFrameworkBackbuffer_() requires(Framework)
         {
-            D3D11_TEXTURE2D_DESC texDesc{};
-            texDesc.Width = GetWidth<UINT>();
-            texDesc.Height = GetHeight<UINT>();
-            texDesc.MipLevels = 1u;
-            texDesc.ArraySize = 1u;
-            texDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-            texDesc.SampleDesc.Count = 1u;
-            texDesc.SampleDesc.Quality = 0u;
-            texDesc.Usage = D3D11_USAGE_DYNAMIC;
-            texDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-            texDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-            texDesc.MiscFlags = 0u;
+            D3D11_TEXTURE2D_DESC texDesc{
+                .Width              = GetWidth<UINT>(),
+                .Height             = GetHeight<UINT>(),
+                .MipLevels          = 1u,
+                .ArraySize          = 1u,
+                .Format             = DXGI_FORMAT_B8G8R8A8_UNORM,
+                .SampleDesc         = {
+                                        .Count = 1u,
+                                        .Quality = 0u 
+                                    },
+                .Usage              = D3D11_USAGE_DYNAMIC,
+                .BindFlags          = D3D11_BIND_SHADER_RESOURCE,
+                .CPUAccessFlags     = D3D11_CPU_ACCESS_WRITE,
+                .MiscFlags          = 0u
+            };
 
             {
                 const auto& hr = GetDevice()->CreateTexture2D(&texDesc, nullptr, m_res_pack_.m_pSysbufferTex2d.GetAddressOf());
@@ -315,10 +318,11 @@ export namespace fatpound::win32::d3d11
 
             ::wrl::ComPtr<ID3D11ShaderResourceView> pSRV;
 
-            D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-            srvDesc.Format = texDesc.Format;
-            srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-            srvDesc.Texture2D.MipLevels = texDesc.MipLevels;
+            D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{
+                .Format              = texDesc.Format,
+                .ViewDimension       = D3D11_SRV_DIMENSION_TEXTURE2D,
+                .Texture2D           = { .MipLevels = texDesc.MipLevels }
+            };
 
             {
                 const auto& hr = GetDevice()->CreateShaderResourceView(GetSysbufferTexture(), &srvDesc, pSRV.GetAddressOf());
@@ -334,14 +338,15 @@ export namespace fatpound::win32::d3d11
             {
                 ::wrl::ComPtr<ID3D11SamplerState> pSS;
 
-                D3D11_SAMPLER_DESC sDesc{};
-                sDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
-                sDesc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-                sDesc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-                sDesc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
-                sDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-                sDesc.MinLOD = 0.0f;
-                sDesc.MaxLOD = D3D11_FLOAT32_MAX;
+                D3D11_SAMPLER_DESC sDesc{
+                    .Filter = D3D11_FILTER_MIN_MAG_MIP_POINT,
+                    .AddressU = D3D11_TEXTURE_ADDRESS_CLAMP,
+                    .AddressV = D3D11_TEXTURE_ADDRESS_CLAMP,
+                    .AddressW = D3D11_TEXTURE_ADDRESS_CLAMP,
+                    .ComparisonFunc = D3D11_COMPARISON_NEVER,
+                    .MinLOD = 0.0f,
+                    .MaxLOD = D3D11_FLOAT32_MAX
+                };
 
                 const auto& hr = GetDevice()->CreateSamplerState(&sDesc, pSS.GetAddressOf());
 
@@ -414,28 +419,33 @@ export namespace fatpound::win32::d3d11
         }
         void InitSwapChain_()
         {
-            DXGI_SWAP_CHAIN_DESC scDesc{};
-            scDesc.BufferDesc.Width  = GetWidth<UINT>();
-            scDesc.BufferDesc.Height = GetHeight<UINT>();
-            scDesc.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-            scDesc.BufferDesc.RefreshRate.Numerator = 0u;
-            scDesc.BufferDesc.RefreshRate.Denominator = 0u;
-            scDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
-            scDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
-            scDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-            scDesc.BufferCount = 1u;
-            scDesc.OutputWindow = GetHwnd();
-            scDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-            scDesc.Flags = 0u;
+            DXGI_SWAP_CHAIN_DESC scDesc{
+                .BufferDesc   = {
+                                 .Width            = GetWidth<UINT>(),
+                                 .Height           = GetHeight<UINT>(),
+                                 .RefreshRate      = {
+                                                      .Numerator = 0u,
+                                                      .Denominator = 0u,
+                                                   },
+                                 .Format           = DXGI_FORMAT_B8G8R8A8_UNORM,
+                                 .ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED,
+                                 .Scaling          = DXGI_MODE_SCALING_UNSPECIFIED,
+                              },
+                .BufferUsage  = DXGI_USAGE_RENDER_TARGET_OUTPUT,
+                .BufferCount  = 1u,
+                .OutputWindow = GetHwnd(),
+                .SwapEffect   = DXGI_SWAP_EFFECT_DISCARD,
+                .Flags        = 0u
+            };
 
             if constexpr (Framework)
             {
-                scDesc.SampleDesc.Count = 1u;
+                scDesc.SampleDesc.Count   = 1u;
                 scDesc.SampleDesc.Quality = 0u;
             }
             else
             {
-                scDesc.SampleDesc.Count = m_msaa_count_;
+                scDesc.SampleDesc.Count   = m_msaa_count_;
                 scDesc.SampleDesc.Quality = m_msaa_quality_ - 1u;
             }
 
@@ -485,28 +495,30 @@ export namespace fatpound::win32::d3d11
             {
                 ::wrl::ComPtr<ID3D11Texture2D> pTexture2d;
 
-                D3D11_TEXTURE2D_DESC tex2dDesc{};
-                tex2dDesc.Width = GetWidth<UINT>();
-                tex2dDesc.Height = GetHeight<UINT>();
-                tex2dDesc.MipLevels = 1u;
-                tex2dDesc.ArraySize = 1u;
-                tex2dDesc.SampleDesc.Count = GetMSAACount();
-                tex2dDesc.SampleDesc.Quality = GetMSAAQuality() - 1u;
-                tex2dDesc.Format = DXGI_FORMAT_D32_FLOAT;
-                tex2dDesc.Usage = D3D11_USAGE_DEFAULT;
-                tex2dDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+                D3D11_TEXTURE2D_DESC tex2dDesc{
+                    .Width      = GetWidth<UINT>(),
+                    .Height     = GetHeight<UINT>(),
+                    .MipLevels  = 1u,
+                    .ArraySize  = 1u,
+                    .Format     = DXGI_FORMAT_D32_FLOAT,
+                    .SampleDesc = {
+                                    .Count   = GetMSAACount(),
+                                    .Quality = GetMSAAQuality() - 1u
+                                },
+                    .Usage      = D3D11_USAGE_DEFAULT,
+                    .BindFlags  = D3D11_BIND_DEPTH_STENCIL
+                };
 
-                D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc{};
-                dsvDesc.Format = DXGI_FORMAT_D32_FLOAT;
+                D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc{ .Format = DXGI_FORMAT_D32_FLOAT };
 
                 if (m_msaa_count_ == 1u)
                 {
-                    dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+                    dsvDesc.ViewDimension      = D3D11_DSV_DIMENSION_TEXTURE2D;
                     dsvDesc.Texture2D.MipSlice = 0u;
                 }
                 else
                 {
-                    dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
+                    dsvDesc.ViewDimension      = D3D11_DSV_DIMENSION_TEXTURE2DMS;
                     dsvDesc.Texture2D.MipSlice = 1u;
                 }
 
@@ -533,37 +545,41 @@ export namespace fatpound::win32::d3d11
         }
         void InitViewport_()
         {
-            D3D11_VIEWPORT vp{};
-            vp.Width  = GetWidth<FLOAT>();
-            vp.Height = GetHeight<FLOAT>();
-            vp.MinDepth = 0.0f;
-            vp.MaxDepth = 1.0f;
-            vp.TopLeftX = 0.0f;
-            vp.TopLeftY = 0.0f;
+            const D3D11_VIEWPORT vp{
+                .TopLeftX = 0.0f,
+                .TopLeftY = 0.0f,
+                .Width    = GetWidth<FLOAT>(),
+                .Height   = GetHeight<FLOAT>(),
+                .MinDepth = 0.0f,
+                .MaxDepth = 1.0f
+            };
 
             GetImmediateContext()->RSSetViewports(1u, &vp);
         }
         void InitRasterizer_() requires(NotFramework)
         {
-            D3D11_RASTERIZER_DESC rDesc{};
-            rDesc.FillMode = D3D11_FILL_SOLID;
-            rDesc.CullMode = D3D11_CULL_BACK;
-            rDesc.FrontCounterClockwise = false;
-            rDesc.DepthBias = 0;
-            rDesc.DepthBiasClamp = 0.0f;
-            rDesc.SlopeScaledDepthBias = 0.0f;
-            rDesc.DepthClipEnable = true;
-            rDesc.ScissorEnable = false;
-            rDesc.MultisampleEnable = true;
-            rDesc.AntialiasedLineEnable = true;
+            D3D11_RASTERIZER_DESC rDesc{
+                .FillMode              = D3D11_FILL_SOLID,
+                .CullMode              = D3D11_CULL_BACK,
+                .FrontCounterClockwise = false,
+                .DepthBias             = 0,
+                .DepthBiasClamp        = 0.0f,
+                .SlopeScaledDepthBias  = 0.0f,
+                .DepthClipEnable       = true,
+                .ScissorEnable         = false,
+                .MultisampleEnable     = true,
+                .AntialiasedLineEnable = true
+            };
 
             ::wrl::ComPtr<ID3D11RasterizerState> m_pRasterizerState_;
 
-            const auto& hr = GetDevice()->CreateRasterizerState(&rDesc, &m_pRasterizerState_);
-
-            if (FAILED(hr)) [[unlikely]]
             {
-                throw std::runtime_error("Could NOT create RasterizerState!");
+                const auto& hr = GetDevice()->CreateRasterizerState(&rDesc, &m_pRasterizerState_);
+
+                if (FAILED(hr)) [[unlikely]]
+                {
+                    throw std::runtime_error("Could NOT create RasterizerState!");
+                }
             }
 
             GetImmediateContext()->RSSetState(m_pRasterizerState_.Get());
