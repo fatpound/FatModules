@@ -96,7 +96,7 @@ namespace fatpound::util
         {
             Clear();
 
-            m_pBuffer_ = FATSPACE_MEMORY::AlignedUniquePtr<Color[]>::Make(src.m_align_byte_, src.m_width_ * src.m_height_);
+            m_pBuffer_     = FATSPACE_MEMORY::AlignedUniquePtr<Color[]>::Make(src.m_align_byte_, src.m_width_ * src.m_height_);
 
             m_width_       = src.m_width_;
             m_height_      = src.m_height_;
@@ -114,7 +114,7 @@ namespace fatpound::util
         {
             Clear();
 
-            m_pBuffer_ = ::std::move(src.m_pBuffer_);
+            m_pBuffer_     = ::std::move(src.m_pBuffer_);
 
             m_width_       = src.m_width_;
             m_height_      = src.m_height_;
@@ -183,8 +183,7 @@ namespace fatpound::util
     {
         if (m_pBuffer_ not_eq nullptr)
         {
-            m_pBuffer_.get_deleter()(m_pBuffer_.get());
-            m_pBuffer_.release();
+            m_pBuffer_.reset();
 
             m_width_       = 0u;
             m_height_      = 0u;
