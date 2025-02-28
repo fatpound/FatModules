@@ -24,12 +24,12 @@ export namespace fatpound::io
 
 
     public:
-        explicit Keyboard() = default;
-        explicit Keyboard(const Keyboard& src) = delete;
-        explicit Keyboard(Keyboard&& src) = delete;
+        explicit Keyboard()                = default;
+        explicit Keyboard(const Keyboard&) = delete;
+        explicit Keyboard(Keyboard&&)      = delete;
 
-        auto operator = (const Keyboard& src) -> Keyboard& = delete;
-        auto operator = (Keyboard&& src)      -> Keyboard& = delete;
+        auto operator = (const Keyboard&) -> Keyboard& = delete;
+        auto operator = (Keyboard&&)      -> Keyboard& = delete;
         ~Keyboard() noexcept = default;
 
 

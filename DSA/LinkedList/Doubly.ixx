@@ -10,8 +10,8 @@ export namespace fatpound::dsa::linkedlist
     class Doubly
     {
     public:
-        explicit Doubly() = default;
-        explicit Doubly(const Doubly& src) = delete;
+        explicit Doubly()              = default;
+        explicit Doubly(const Doubly&) = delete;
         Doubly(Doubly&& src) noexcept
             :
             m_list_(std::exchange(src.m_list_, nullptr)),
@@ -21,7 +21,7 @@ export namespace fatpound::dsa::linkedlist
 
         }
 
-        auto operator = (const Doubly& src) -> Doubly& = delete;
+        auto operator = (const Doubly&) -> Doubly& = delete;
         auto operator = (Doubly&& src) noexcept -> Doubly&
         {
             if ((this not_eq std::addressof(src)) and (typeid(src) == typeid(*this)) and (src.m_list_ not_eq nullptr))

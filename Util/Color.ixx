@@ -39,18 +39,18 @@ export namespace fatpound
 
             }
 
-            constexpr explicit Color() = default;
-            constexpr Color(const Color& src) = default;
-            constexpr Color(Color&& src) noexcept = default;
+            constexpr explicit Color()        = default;
+            constexpr Color(const Color&)     = default;
+            constexpr Color(Color&&) noexcept = default;
 
-            constexpr auto operator = (const Color& src)     -> Color& = default;
-            constexpr auto operator = (Color&& src) noexcept -> Color& = default;
+            constexpr auto operator = (const Color&)     -> Color& = default;
+            constexpr auto operator = (Color&&) noexcept -> Color& = default;
             constexpr ~Color() noexcept = default;
 
 
         public:
-            auto operator <=> (const Color& src) const -> bool = delete;
-            auto operator ==  (const Color& src) const -> bool = default;
+            auto operator <=> (const Color&) const -> bool = delete;
+            auto operator ==  (const Color&) const -> bool = default;
 
             operator ::std::uint32_t () const noexcept
             {

@@ -11,12 +11,12 @@ export namespace fatpound::util
     class Timer final
     {
     public:
-        explicit Timer() = default;
-        explicit Timer(const Timer& src) = delete;
-        explicit Timer(Timer&& src) = delete;
+        explicit Timer()             = default;
+        explicit Timer(const Timer&) = delete;
+        explicit Timer(Timer&&)      = delete;
 
-        auto operator = (const Timer& src) -> Timer& = delete;
-        auto operator = (Timer&& src)      -> Timer& = delete;
+        auto operator = (const Timer&) -> Timer& = delete;
+        auto operator = (Timer&&)      -> Timer& = delete;
         ~Timer() noexcept = default;
 
 

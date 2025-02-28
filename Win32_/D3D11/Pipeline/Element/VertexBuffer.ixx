@@ -41,12 +41,12 @@ export namespace fatpound::win32::d3d11::pipeline::element
             }
         }
 
-        explicit VertexBuffer() = delete;
-        explicit VertexBuffer(const VertexBuffer& src) = delete;
-        explicit VertexBuffer(VertexBuffer&& src) = delete;
+        explicit VertexBuffer()                    = delete;
+        explicit VertexBuffer(const VertexBuffer&) = delete;
+        explicit VertexBuffer(VertexBuffer&&)      = delete;
 
-        auto operator = (const VertexBuffer& src) -> VertexBuffer& = delete;
-        auto operator = (VertexBuffer&& src)      -> VertexBuffer& = delete;
+        auto operator = (const VertexBuffer&) -> VertexBuffer& = delete;
+        auto operator = (VertexBuffer&&)      -> VertexBuffer& = delete;
         virtual ~VertexBuffer() noexcept final = default;
 
 

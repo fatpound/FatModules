@@ -37,12 +37,12 @@ export namespace fatpound::win32::d3d11::pipeline::element
             }
         }
 
-        explicit PixelShader() = delete;
-        explicit PixelShader(const PixelShader& src) = delete;
-        explicit PixelShader(PixelShader&& src) = delete;
+        explicit PixelShader()                   = delete;
+        explicit PixelShader(const PixelShader&) = delete;
+        explicit PixelShader(PixelShader&&)      = delete;
 
-        auto operator = (const PixelShader& src) -> PixelShader& = delete;
-        auto operator = (PixelShader&& src)      -> PixelShader& = delete;
+        auto operator = (const PixelShader&) -> PixelShader& = delete;
+        auto operator = (PixelShader&&)      -> PixelShader& = delete;
         virtual ~PixelShader() noexcept final = default;
 
 

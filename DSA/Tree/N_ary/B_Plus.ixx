@@ -12,12 +12,12 @@ export namespace fatpound::dsa::tree::n_ary
         using SizeType = std::size_t;
         
     public:
-        explicit B_Plus() = default;
-        explicit B_Plus(const B_Plus& src) = delete;
-        explicit B_Plus(B_Plus&& src) = delete;
+        explicit B_Plus()              = default;
+        explicit B_Plus(const B_Plus&) = delete;
+        explicit B_Plus(B_Plus&&)      = delete;
 
-        auto operator = (const B_Plus& src) -> B_Plus& = delete;
-        auto operator = (B_Plus&& src)      -> B_Plus& = delete;
+        auto operator = (const B_Plus&) -> B_Plus& = delete;
+        auto operator = (B_Plus&&)      -> B_Plus& = delete;
         ~B_Plus() noexcept
         {
             Clear_();

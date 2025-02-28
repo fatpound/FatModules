@@ -33,12 +33,12 @@ export namespace fatpound::win32::d3d11::pipeline::element
             }
         }
 
-        explicit InputLayout() = delete;
-        explicit InputLayout(const InputLayout& src) = delete;
-        explicit InputLayout(InputLayout&& src) = delete;
+        explicit InputLayout()                   = delete;
+        explicit InputLayout(const InputLayout&) = delete;
+        explicit InputLayout(InputLayout&&)      = delete;
 
-        auto operator = (const InputLayout& src) -> InputLayout& = delete;
-        auto operator = (InputLayout&& src)      -> InputLayout& = delete;
+        auto operator = (const InputLayout&) -> InputLayout& = delete;
+        auto operator = (InputLayout&&)      -> InputLayout& = delete;
         virtual ~InputLayout() noexcept final = default;
 
 

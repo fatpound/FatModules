@@ -17,12 +17,12 @@ export namespace fatpound::win32::d3d11::visual
     class DrawableBase : public Drawable, public FATSPACE_PIPELINE::StaticBindableVec<DrawableBase<T>>
     {
     public:
-        explicit DrawableBase() = default;
-        explicit DrawableBase(const DrawableBase& src) = delete;
-        explicit DrawableBase(DrawableBase&& src) = delete;
+        explicit DrawableBase()                    = default;
+        explicit DrawableBase(const DrawableBase&) = delete;
+        explicit DrawableBase(DrawableBase&&)      = delete;
 
-        auto operator = (const DrawableBase& src) -> DrawableBase& = delete;
-        auto operator = (DrawableBase&& src)      -> DrawableBase& = delete;
+        auto operator = (const DrawableBase&) -> DrawableBase& = delete;
+        auto operator = (DrawableBase&&)      -> DrawableBase& = delete;
         virtual ~DrawableBase() noexcept = default;
 
 

@@ -13,12 +13,12 @@ export namespace fatpound::win32::d3d11::pipeline
     class Bindable
     {
     public:
-        explicit Bindable() = default;
-        explicit Bindable(const Bindable& src) = default;
-        explicit Bindable(Bindable&& src) = default;
+        explicit Bindable()                = default;
+        explicit Bindable(const Bindable&) = default;
+        explicit Bindable(Bindable&&)      = default;
 
-        auto operator = (const Bindable& src) -> Bindable& = default;
-        auto operator = (Bindable&& src)      -> Bindable& = default;
+        auto operator = (const Bindable&) -> Bindable& = default;
+        auto operator = (Bindable&&)      -> Bindable& = default;
         virtual ~Bindable() noexcept = default;
         
 

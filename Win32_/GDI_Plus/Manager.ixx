@@ -27,11 +27,11 @@ export namespace fatpound::win32::gdi_plus
 
             ++s_ref_count_;
         }
-        Manager(const Manager& src) = delete;
-        Manager(Manager&& src) = delete;
+        Manager(const Manager&) = delete;
+        Manager(Manager&&)      = delete;
 
-        auto operator = (const Manager& src) -> Manager& = delete;
-        auto operator = (Manager&& src)      -> Manager& = delete;
+        auto operator = (const Manager&) -> Manager& = delete;
+        auto operator = (Manager&&)      -> Manager& = delete;
         ~Manager() noexcept
         {
             --s_ref_count_;

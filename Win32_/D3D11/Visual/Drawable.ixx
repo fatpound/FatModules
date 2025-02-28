@@ -25,12 +25,12 @@ export namespace fatpound::win32::d3d11::visual
 
 
     public:
-        explicit Drawable() = default;
-        explicit Drawable(const Drawable& src) = delete;
-        explicit Drawable(Drawable&& src) = delete;
+        explicit Drawable()                = default;
+        explicit Drawable(const Drawable&) = delete;
+        explicit Drawable(Drawable&&)      = delete;
 
-        auto operator = (const Drawable& src) -> Drawable& = delete;
-        auto operator = (Drawable&& src)      -> Drawable& = delete;
+        auto operator = (const Drawable&) -> Drawable& = delete;
+        auto operator = (Drawable&&)      -> Drawable& = delete;
         virtual ~Drawable() noexcept = default;
 
 

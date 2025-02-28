@@ -40,12 +40,12 @@ export namespace fatpound::math
 
         }
 
-        explicit RectF() = delete;
-        explicit RectF(const RectF& src) = default;
-        explicit RectF(RectF&& src) = default;
+        explicit RectF()             = delete;
+        explicit RectF(const RectF&) = default;
+        explicit RectF(RectF&&)      = default;
 
-        auto operator = (const RectF& src) -> RectF& = default;
-        auto operator = (RectF&& src)      -> RectF& = default;
+        auto operator = (const RectF&) -> RectF& = default;
+        auto operator = (RectF&&)      -> RectF& = default;
         ~RectF() noexcept = default;
 
 

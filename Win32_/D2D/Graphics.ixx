@@ -57,12 +57,12 @@ export namespace fatpound::win32::d2d
             }
         }
 
-        explicit Graphics() = delete;
-        explicit Graphics(const Graphics& src) = delete;
-        explicit Graphics(Graphics&& src) = delete;
+        explicit Graphics()                = delete;
+        explicit Graphics(const Graphics&) = delete;
+        explicit Graphics(Graphics&&)      = delete;
 
-        auto operator = (const Graphics& src) -> Graphics& = delete;
-        auto operator = (Graphics&& src)      -> Graphics& = delete;
+        auto operator = (const Graphics&) -> Graphics& = delete;
+        auto operator = (Graphics&&)      -> Graphics& = delete;
         ~Graphics() noexcept = default;
 
 

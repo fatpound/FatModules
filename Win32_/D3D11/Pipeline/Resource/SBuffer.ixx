@@ -57,12 +57,12 @@ export namespace fatpound::win32::d3d11::pipeline::resource
             pImmediateContext->VSSetShaderResources(0u, 1u, m_pShaderResourceView_.GetAddressOf());
         }
 
-        explicit SBuffer() = delete;
-        explicit SBuffer(const SBuffer& src) = delete;
-        explicit SBuffer(SBuffer&& src) = delete;
+        explicit SBuffer()               = delete;
+        explicit SBuffer(const SBuffer&) = delete;
+        explicit SBuffer(SBuffer&&)      = delete;
 
-        auto operator = (const SBuffer& src) -> SBuffer& = delete;
-        auto operator = (SBuffer&& src)      -> SBuffer& = delete;
+        auto operator = (const SBuffer&) -> SBuffer& = delete;
+        auto operator = (SBuffer&&)      -> SBuffer& = delete;
         virtual ~SBuffer() noexcept = default;
 
 

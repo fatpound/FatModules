@@ -14,8 +14,8 @@ export namespace fatpound::dsa::linkedlist
         using typename Singly<T>::Node_;
 
     public:
-        explicit SinglyCircular() = default;
-        explicit SinglyCircular(const SinglyCircular& src) = delete;
+        explicit SinglyCircular()                      = default;
+        explicit SinglyCircular(const SinglyCircular&) = delete;
         SinglyCircular(SinglyCircular&& src) noexcept
             :
             Singly<T>(std::move(src))
@@ -23,7 +23,7 @@ export namespace fatpound::dsa::linkedlist
 
         }
 
-        auto operator = (const SinglyCircular& src) -> SinglyCircular& = delete;
+        auto operator = (const SinglyCircular&) -> SinglyCircular& = delete;
         auto operator = (SinglyCircular&& src) noexcept -> SinglyCircular&
         {
             if ((this not_eq std::addressof(src)) and (typeid(src) == typeid(*this)) and (src.m_list_ not_eq nullptr))

@@ -33,12 +33,12 @@ export namespace fatpound::win32::d3d11::pipeline::resource
             
         }
 
-        explicit TransformCBuffer() = delete;
-        explicit TransformCBuffer(const TransformCBuffer& src) = delete;
-        explicit TransformCBuffer(TransformCBuffer&& src) = delete;
+        explicit TransformCBuffer()                        = delete;
+        explicit TransformCBuffer(const TransformCBuffer&) = delete;
+        explicit TransformCBuffer(TransformCBuffer&&)      = delete;
 
-        auto operator = (const TransformCBuffer& src) -> TransformCBuffer& = delete;
-        auto operator = (TransformCBuffer&& src)      -> TransformCBuffer& = delete;
+        auto operator = (const TransformCBuffer&) -> TransformCBuffer& = delete;
+        auto operator = (TransformCBuffer&&)      -> TransformCBuffer& = delete;
         virtual ~TransformCBuffer() noexcept final = default;
 
 

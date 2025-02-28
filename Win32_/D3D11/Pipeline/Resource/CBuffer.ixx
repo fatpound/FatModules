@@ -56,12 +56,12 @@ export namespace fatpound::win32::d3d11::pipeline::resource
             }
         }
 
-        explicit CBuffer() = delete;
-        explicit CBuffer(const CBuffer& src) = delete;
-        explicit CBuffer(CBuffer&& src) = delete;
+        explicit CBuffer()               = delete;
+        explicit CBuffer(const CBuffer&) = delete;
+        explicit CBuffer(CBuffer&&)      = delete;
 
-        auto operator = (const CBuffer& src) -> CBuffer& = delete;
-        auto operator = (CBuffer&& src)      -> CBuffer& = delete;
+        auto operator = (const CBuffer&) -> CBuffer& = delete;
+        auto operator = (CBuffer&&)      -> CBuffer& = delete;
         virtual ~CBuffer() noexcept = default;
 
 

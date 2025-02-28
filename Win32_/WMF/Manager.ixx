@@ -22,11 +22,11 @@ export namespace fatpound::win32::wmf
                 throw std::runtime_error("Failed to initialize Media Foundation!");
             }
         }
-        Manager(const Manager& src) = delete;
-        Manager(Manager&& src) = delete;
+        Manager(const Manager&) = delete;
+        Manager(Manager&&)      = delete;
 
-        auto operator = (const Manager& src) -> Manager& = delete;
-        auto operator = (Manager&& src)      -> Manager& = delete;
+        auto operator = (const Manager&) -> Manager& = delete;
+        auto operator = (Manager&&)      -> Manager& = delete;
         ~Manager() noexcept
         {
             ::MFShutdown();

@@ -16,12 +16,12 @@ export namespace fatpound::automata
         explicit TLT(const CFG& cfgs);
         explicit TLT(const std::string& inputFilename);
 
-        explicit TLT() = delete;
-        explicit TLT(const TLT& src) = delete;
-        explicit TLT(TLT&& src) = delete;
+        explicit TLT()           = delete;
+        explicit TLT(const TLT&) = delete;
+        explicit TLT(TLT&&)      = delete;
 
-        auto operator = (const TLT& src) -> TLT& = delete;
-        auto operator = (TLT&& src)      -> TLT& = delete;
+        auto operator = (const TLT&) -> TLT& = delete;
+        auto operator = (TLT&&)      -> TLT& = delete;
         ~TLT() noexcept(false);
 
 
