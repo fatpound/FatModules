@@ -23,19 +23,17 @@ export namespace fatpound::win32::d3d11::pipeline::resource
         {
             ::Microsoft::WRL::ComPtr<ID3D11Texture2D> pTexture;
 
-            const D3D11_SUBRESOURCE_DATA* pSubresourceData{};
-
-            if (pSurface not_eq nullptr)
             {
-                D3D11_SUBRESOURCE_DATA sd{};
-                sd.pSysMem = *pSurface;
-                sd.SysMemPitch = pSurface->GetPitch<UINT>();
+                const D3D11_SUBRESOURCE_DATA sd{
+                    .pSysMem     = *pSurface,
+                    .SysMemPitch =  pSurface->GetPitch<UINT>()
+                };
 
-                pSubresourceData = &sd;
-            }
-
-            {
-                const auto& hr = pDevice->CreateTexture2D(&tex2dDesc, pSubresourceData, &pTexture);
+                const auto& hr = pDevice->CreateTexture2D(
+                    &tex2dDesc,
+                    sd.pSysMem not_eq nullptr ? &sd : nullptr,
+                    &pTexture
+                );
 
                 if (FAILED(hr)) [[unlikely]]
                 {
