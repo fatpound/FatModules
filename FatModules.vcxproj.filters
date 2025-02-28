@@ -120,13 +120,7 @@
     <ClCompile Include="Win32_\D3D11\Pipeline\Pipeline.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Pipeline\StaticBindableVec.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\D3D11\Visual\Drawable.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Visual\DrawableBase.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Util\ViewXM.ixx">

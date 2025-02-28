@@ -21,7 +21,8 @@ export namespace fatpound::win32::d3d11::visual
     class Drawable
     {
     public:
-        using BindableVec_t = std::vector<std::unique_ptr<FATSPACE_PIPELINE::Bindable>>;
+        using BindablePtr_t = std::unique_ptr<FATSPACE_PIPELINE::Bindable>;
+        using BindableVec_t = std::vector<BindablePtr_t>;
 
 
     public:
