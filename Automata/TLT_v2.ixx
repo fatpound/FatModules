@@ -22,12 +22,12 @@ export namespace fatpound::automata
         explicit TLT_v2(const CFG& cfgs);
         explicit TLT_v2(const std::string& inputFilename);
 
-        explicit TLT_v2()              = delete;
-        explicit TLT_v2(const TLT_v2&) = delete;
-        explicit TLT_v2(TLT_v2&&)      = delete;
+        explicit TLT_v2()                  = delete;
+        explicit TLT_v2(const TLT_v2&)     = delete;
+        explicit TLT_v2(TLT_v2&&) noexcept = delete;
 
-        auto operator = (const TLT_v2&) -> TLT_v2& = delete;
-        auto operator = (TLT_v2&&)      -> TLT_v2& = delete;
+        auto operator = (const TLT_v2&)     -> TLT_v2& = delete;
+        auto operator = (TLT_v2&&) noexcept -> TLT_v2& = delete;
         ~TLT_v2() noexcept(false);
 
 

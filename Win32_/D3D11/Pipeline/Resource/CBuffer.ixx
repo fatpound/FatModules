@@ -20,16 +20,16 @@ export namespace fatpound::win32::d3d11::pipeline::resource
     public:
         explicit CBuffer(ID3D11Device* const pDevice, const T& consts)
         {
-            D3D11_BUFFER_DESC cbd{};
-            cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-            cbd.Usage = D3D11_USAGE_DYNAMIC;
-            cbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-            cbd.MiscFlags = 0u;
-            cbd.ByteWidth = sizeof(consts);
-            cbd.StructureByteStride = 0u;
+            const D3D11_BUFFER_DESC cbd{
+                .ByteWidth           = sizeof(T),
+                .Usage               = D3D11_USAGE_DYNAMIC,
+                .BindFlags           = D3D11_BIND_CONSTANT_BUFFER,
+                .CPUAccessFlags      = D3D11_CPU_ACCESS_WRITE,
+                .MiscFlags           = 0u,
+                .StructureByteStride = 0u
+            };
 
-            D3D11_SUBRESOURCE_DATA csd{};
-            csd.pSysMem = &consts;
+            const D3D11_SUBRESOURCE_DATA csd{ .pSysMem = &consts };
 
             const auto& hr = pDevice->CreateBuffer(&cbd, &csd, &m_pConstantBuffer_);
 
@@ -40,13 +40,14 @@ export namespace fatpound::win32::d3d11::pipeline::resource
         }
         explicit CBuffer(ID3D11Device* const pDevice)
         {
-            D3D11_BUFFER_DESC cbd{};
-            cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-            cbd.Usage = D3D11_USAGE_DYNAMIC;
-            cbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-            cbd.MiscFlags = 0u;
-            cbd.ByteWidth = sizeof(T);
-            cbd.StructureByteStride = 0u;
+            const D3D11_BUFFER_DESC cbd{
+                .ByteWidth           = sizeof(T),
+                .Usage               = D3D11_USAGE_DYNAMIC,
+                .BindFlags           = D3D11_BIND_CONSTANT_BUFFER,
+                .CPUAccessFlags      = D3D11_CPU_ACCESS_WRITE,
+                .MiscFlags           = 0u,
+                .StructureByteStride = 0u
+            };
 
             const auto& hr = pDevice->CreateBuffer(&cbd, nullptr, &m_pConstantBuffer_);
 
@@ -56,13 +57,13 @@ export namespace fatpound::win32::d3d11::pipeline::resource
             }
         }
 
-        explicit CBuffer()               = delete;
-        explicit CBuffer(const CBuffer&) = delete;
-        explicit CBuffer(CBuffer&&)      = delete;
+        explicit CBuffer()                   = delete;
+        explicit CBuffer(const CBuffer&)     = delete;
+        explicit CBuffer(CBuffer&&) noexcept = delete;
 
-        auto operator = (const CBuffer&) -> CBuffer& = delete;
-        auto operator = (CBuffer&&)      -> CBuffer& = delete;
-        virtual ~CBuffer() noexcept = default;
+        auto operator = (const CBuffer&)     -> CBuffer& = delete;
+        auto operator = (CBuffer&&) noexcept -> CBuffer& = delete;
+        virtual ~CBuffer() noexcept                      = default;
 
 
     public:

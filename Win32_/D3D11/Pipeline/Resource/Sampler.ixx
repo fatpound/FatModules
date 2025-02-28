@@ -17,7 +17,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
     class Sampler final : public Bindable
     {
     public:
-        Sampler(ID3D11Device* const pDevice, const D3D11_SAMPLER_DESC& sDesc)
+        explicit Sampler(ID3D11Device* const pDevice, const D3D11_SAMPLER_DESC& sDesc)
         {
             const auto& hr = pDevice->CreateSamplerState(&sDesc, &m_pSamplerState_);
 
@@ -26,6 +26,14 @@ export namespace fatpound::win32::d3d11::pipeline::resource
                 throw std::runtime_error("Could NOT create SamplerState");
             }
         }
+
+        explicit Sampler()                   = delete;
+        explicit Sampler(const Sampler&)     = delete;
+        explicit Sampler(Sampler&&) noexcept = delete;
+
+        auto operator = (const Sampler&)     -> Sampler& = delete;
+        auto operator = (Sampler&&) noexcept -> Sampler& = delete;
+        virtual ~Sampler() noexcept final                = default;
 
 
     public:

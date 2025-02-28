@@ -45,7 +45,7 @@ export namespace fatpound
 
             constexpr auto operator = (const Color&)     -> Color& = default;
             constexpr auto operator = (Color&&) noexcept -> Color& = default;
-            constexpr ~Color() noexcept = default;
+            constexpr ~Color() noexcept                            = default;
 
 
         public:

@@ -13,7 +13,7 @@ export namespace fatpound::win32::com
     class Manager final
     {
     public:
-        Manager(const DWORD initFlags = COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)
+        explicit Manager(const DWORD initFlags = COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)
         {
             const auto hr = ::CoInitializeEx(nullptr, initFlags);
 
@@ -23,12 +23,12 @@ export namespace fatpound::win32::com
             }
         }
 
-        Manager()               = delete;
-        Manager(const Manager&) = delete;
-        Manager(Manager&&)      = delete;
+        explicit Manager()                   = delete;
+        explicit Manager(const Manager&)     = delete;
+        explicit Manager(Manager&&) noexcept = delete;
 
-        auto operator = (const Manager&) -> Manager& = delete;
-        auto operator = (Manager&&)      -> Manager& = delete;
+        auto operator = (const Manager&)     -> Manager& = delete;
+        auto operator = (Manager&&) noexcept -> Manager& = delete;
         ~Manager() noexcept
         {
             ::CoUninitialize();

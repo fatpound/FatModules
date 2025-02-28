@@ -20,13 +20,13 @@ export namespace fatpound::win32::d3d11::pipeline::resource
         using CBuffer<T>::CBuffer;
 
     public:
-        explicit PixelCBuffer()                    = delete;
-        explicit PixelCBuffer(const PixelCBuffer&) = delete;
-        explicit PixelCBuffer(PixelCBuffer&&)      = delete;
+        explicit PixelCBuffer()                        = delete;
+        explicit PixelCBuffer(const PixelCBuffer&)     = delete;
+        explicit PixelCBuffer(PixelCBuffer&&) noexcept = delete;
 
-        auto operator = (const PixelCBuffer&) -> PixelCBuffer& = delete;
-        auto operator = (PixelCBuffer&&)      -> PixelCBuffer& = delete;
-        virtual ~PixelCBuffer() noexcept final = default;
+        auto operator = (const PixelCBuffer&)     -> PixelCBuffer& = delete;
+        auto operator = (PixelCBuffer&&) noexcept -> PixelCBuffer& = delete;
+        virtual ~PixelCBuffer() noexcept final                     = default;
 
 
     public:

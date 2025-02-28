@@ -21,16 +21,16 @@ export namespace fatpound::win32::d3d11::pipeline::element
             :
             m_count_(static_cast<UINT>(indices.size()))
         {
-            D3D11_BUFFER_DESC bd{};
-            bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-            bd.Usage = D3D11_USAGE_DEFAULT;
-            bd.CPUAccessFlags = 0u;
-            bd.MiscFlags = 0u;
-            bd.ByteWidth = m_count_ * sizeof(unsigned short int);
-            bd.StructureByteStride = sizeof(unsigned short int);
+            const D3D11_BUFFER_DESC bd{
+                .ByteWidth           = m_count_ * sizeof(unsigned short int),
+                .Usage               = D3D11_USAGE_DEFAULT,
+                .BindFlags           = D3D11_BIND_INDEX_BUFFER,
+                .CPUAccessFlags      = 0u,
+                .MiscFlags           = 0u,
+                .StructureByteStride = sizeof(unsigned short int)
+            };
 
-            D3D11_SUBRESOURCE_DATA sd{};
-            sd.pSysMem = indices.data();
+            const D3D11_SUBRESOURCE_DATA sd{ .pSysMem = indices.data() };
 
             const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pIndexBuffer_);
 
@@ -40,13 +40,13 @@ export namespace fatpound::win32::d3d11::pipeline::element
             }
         }
 
-        explicit IndexBuffer()                   = delete;
-        explicit IndexBuffer(const IndexBuffer&) = delete;
-        explicit IndexBuffer(IndexBuffer&&)      = delete;
+        explicit IndexBuffer()                       = delete;
+        explicit IndexBuffer(const IndexBuffer&)     = delete;
+        explicit IndexBuffer(IndexBuffer&&) noexcept = delete;
 
-        auto operator = (const IndexBuffer&) -> IndexBuffer& = delete;
-        auto operator = (IndexBuffer&&)      -> IndexBuffer& = delete;
-        virtual ~IndexBuffer() noexcept final = default;
+        auto operator = (const IndexBuffer&)     -> IndexBuffer& = delete;
+        auto operator = (IndexBuffer&&) noexcept -> IndexBuffer& = delete;
+        virtual ~IndexBuffer() noexcept final                    = default;
 
 
     public:

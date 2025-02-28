@@ -202,12 +202,12 @@ export namespace fatpound::win32
         {
 
         }
-        explicit MessageMap(const MessageMap&) = delete;
-        explicit MessageMap(MessageMap&&)      = delete;
+        explicit MessageMap(const MessageMap&)     = delete;
+        explicit MessageMap(MessageMap&&) noexcept = delete;
 
-        auto operator = (const MessageMap&) -> MessageMap& = delete;
-        auto operator = (MessageMap&&)      -> MessageMap& = delete;
-        ~MessageMap() noexcept = default;
+        auto operator = (const MessageMap&)     -> MessageMap& = delete;
+        auto operator = (MessageMap&&) noexcept -> MessageMap& = delete;
+        ~MessageMap() noexcept                                 = default;
 
 
     public:

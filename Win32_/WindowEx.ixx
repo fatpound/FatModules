@@ -122,12 +122,12 @@ export namespace fatpound::win32
             future.get();
         }
 
-        explicit WindowEx()                = delete;
-        explicit WindowEx(const WindowEx&) = delete;
-        explicit WindowEx(WindowEx&&)      = delete;
+        explicit WindowEx()                    = delete;
+        explicit WindowEx(const WindowEx&)     = delete;
+        explicit WindowEx(WindowEx&&) noexcept = delete;
 
-        auto operator = (const WindowEx&) -> WindowEx& = delete;
-        auto operator = (WindowEx&&)      -> WindowEx& = delete;
+        auto operator = (const WindowEx&)     -> WindowEx& = delete;
+        auto operator = (WindowEx&&) noexcept -> WindowEx& = delete;
         virtual ~WindowEx() noexcept(false)
         {
             [[maybe_unused]]

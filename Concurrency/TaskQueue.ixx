@@ -11,13 +11,13 @@ export namespace fatpound::concurrency
         using WrappedTask = std::move_only_function<void()>;
 
     public:
-        explicit TaskQueue()                 = default;
-        explicit TaskQueue(const TaskQueue&) = delete;
-        explicit TaskQueue(TaskQueue&&)      = delete;
+        explicit TaskQueue()                     = default;
+        explicit TaskQueue(const TaskQueue&)     = delete;
+        explicit TaskQueue(TaskQueue&&) noexcept = delete;
 
-        auto operator = (const TaskQueue&) -> TaskQueue& = delete;
-        auto operator = (TaskQueue&&)      -> TaskQueue& = delete;
-        ~TaskQueue() noexcept = default;
+        auto operator = (const TaskQueue&)     -> TaskQueue& = delete;
+        auto operator = (TaskQueue&&) noexcept -> TaskQueue& = delete;
+        ~TaskQueue() noexcept                                = default;
 
 
     public:

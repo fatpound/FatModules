@@ -20,13 +20,13 @@ export namespace fatpound::win32::d3d11::pipeline::resource
         using CBuffer<T>::CBuffer;
 
     public:
-        explicit VertexCBuffer()                     = delete;
-        explicit VertexCBuffer(const VertexCBuffer&) = delete;
-        explicit VertexCBuffer(VertexCBuffer&&)      = delete;
+        explicit VertexCBuffer()                         = delete;
+        explicit VertexCBuffer(const VertexCBuffer&)     = delete;
+        explicit VertexCBuffer(VertexCBuffer&&) noexcept = delete;
 
-        auto operator = (const VertexCBuffer&) -> VertexCBuffer& = delete;
-        auto operator = (VertexCBuffer&&)      -> VertexCBuffer& = delete;
-        virtual ~VertexCBuffer() noexcept final = default;
+        auto operator = (const VertexCBuffer&)     -> VertexCBuffer& = delete;
+        auto operator = (VertexCBuffer&&) noexcept -> VertexCBuffer& = delete;
+        virtual ~VertexCBuffer() noexcept final                      = default;
 
 
     public:

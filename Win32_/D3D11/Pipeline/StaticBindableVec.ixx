@@ -15,13 +15,13 @@ export namespace fatpound::win32::d3d11::pipeline
     class StaticBindableVec
     {
     public:
-        explicit StaticBindableVec() = default;
-        explicit StaticBindableVec(const StaticBindableVec&) = delete;
-        explicit StaticBindableVec(StaticBindableVec&&) = delete;
+        explicit StaticBindableVec()                             = default;
+        explicit StaticBindableVec(const StaticBindableVec&)     = delete;
+        explicit StaticBindableVec(StaticBindableVec&&) noexcept = delete;
 
-        auto operator = (const StaticBindableVec&) -> StaticBindableVec& = delete;
-        auto operator = (StaticBindableVec&&)      -> StaticBindableVec& = delete;
-        ~StaticBindableVec() noexcept = default;
+        auto operator = (const StaticBindableVec&)     -> StaticBindableVec& = delete;
+        auto operator = (StaticBindableVec&&) noexcept -> StaticBindableVec& = delete;
+        ~StaticBindableVec() noexcept                                        = default;
 
 
     protected:

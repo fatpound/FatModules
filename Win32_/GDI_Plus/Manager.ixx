@@ -17,7 +17,7 @@ export namespace fatpound::win32::gdi_plus
     class Manager final
     {
     public:
-        Manager() noexcept
+        explicit Manager() noexcept
         {
             if (s_ref_count_ == 0)
             {
@@ -27,11 +27,11 @@ export namespace fatpound::win32::gdi_plus
 
             ++s_ref_count_;
         }
-        Manager(const Manager&) = delete;
-        Manager(Manager&&)      = delete;
+        explicit Manager(const Manager&)     = delete;
+        explicit Manager(Manager&&) noexcept = delete;
 
-        auto operator = (const Manager&) -> Manager& = delete;
-        auto operator = (Manager&&)      -> Manager& = delete;
+        auto operator = (const Manager&)     -> Manager& = delete;
+        auto operator = (Manager&&) noexcept -> Manager& = delete;
         ~Manager() noexcept
         {
             --s_ref_count_;

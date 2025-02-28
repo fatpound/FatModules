@@ -34,13 +34,13 @@ export namespace fatpound::automata
         //
         explicit CFG(const std::string& inputFilename);
 
-        explicit CFG()           = delete;
-        explicit CFG(const CFG&) = delete;
-        explicit CFG(CFG&&)      = delete;
+        explicit CFG()               = delete;
+        explicit CFG(const CFG&)     = delete;
+        explicit CFG(CFG&&) noexcept = delete;
 
-        auto operator = (const CFG&) -> CFG& = delete;
-        auto operator = (CFG&&)      -> CFG& = delete;
-        ~CFG() noexcept = default;
+        auto operator = (const CFG&)     -> CFG& = delete;
+        auto operator = (CFG&&) noexcept -> CFG& = delete;
+        ~CFG() noexcept                          = default;
 
 
     public:
