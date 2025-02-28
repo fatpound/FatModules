@@ -33,12 +33,6 @@
     <ClCompile Include="Automata\TLT.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Automata\TLT_v2.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Automata\TLT_v2.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DSA\LinkedList\Doubly.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
