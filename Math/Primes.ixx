@@ -118,7 +118,7 @@ export namespace fatpound::math
         const auto prev = PrevPrime<>(num);
         const auto next = NextPrime<>(num);
 
-        return (num - prev) < (next - num) and num not_eq 0 ? prev : next;
+        return (num not_eq 0) and ((num - prev) < (next - num)) ? prev : next;
     }
 }
 

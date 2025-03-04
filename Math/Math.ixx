@@ -13,6 +13,12 @@ import std;
 
 export namespace fatpound::math
 {
+    template <std::unsigned_integral N>
+    constexpr bool IsPowerOf2(const N& num) noexcept
+    {
+        return (num not_eq 0) and (not (num bitand (num - 1)));
+    }
+
     template <Squarable T>
     constexpr auto Square(const T& x) noexcept(Squarable_NX<T>)
     {
