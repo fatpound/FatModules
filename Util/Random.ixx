@@ -33,6 +33,14 @@ export namespace fatpound::util
 
         return 0;
     }
+
+    template <std::unsigned_integral N = std::size_t>
+    auto RollDice() -> N
+    {
+        std::minstd_rand rng{ std::random_device{}() };
+
+        return std::uniform_int_distribution<N>{ 1uz, 6uz }(rng);
+    }
 }
 
 module : private;

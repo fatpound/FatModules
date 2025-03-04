@@ -14,13 +14,13 @@ import std;
 export namespace fatpound::math
 {
     template <Squarable T>
-    inline constexpr auto Square(const T& x) noexcept(Squarable_NX<T>)
+    constexpr auto Square(const T& x) noexcept(Squarable_NX<T>)
     {
         return x * x;
     }
 
     template <std::floating_point N>
-    inline constexpr auto Gaussian(const N x, const N rho)
+    constexpr auto Gaussian(const N x, const N rho)
     {
         const auto rhoSq2 = Square<>(rho) * 2.0;
 

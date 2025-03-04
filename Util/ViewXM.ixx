@@ -17,7 +17,7 @@ export namespace fatpound::util
 
         auto operator = (const ViewXM&) -> ViewXM& = delete;
         auto operator = (ViewXM&&)      -> ViewXM& = delete;
-        ~ViewXM() noexcept = default;
+        ~ViewXM() noexcept                         = default;
 
 
     public:

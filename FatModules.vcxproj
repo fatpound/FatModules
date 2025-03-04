@@ -45,6 +45,8 @@
     <ClCompile Include="DSA\Tree\N_ary\N_ary.ixx" />
     <ClCompile Include="DSA\Tree\Tree.ixx" />
     <ClCompile Include="FatPound.ixx" />
+    <ClCompile Include="File\File.cxx" />
+    <ClCompile Include="File\File.ixx" />
     <ClCompile Include="Math\Math.cxx" />
     <ClCompile Include="Math\Math.ixx" />
     <ClCompile Include="Math\Multiplicable.ixx" />
