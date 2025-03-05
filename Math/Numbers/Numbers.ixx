@@ -9,10 +9,32 @@ import std;
 
 export namespace fatpound::math::numbers
 {
-    using namespace primes;
+    template <Rational Q>
+    constexpr auto twoPi = std::numbers::pi_v<Q> * static_cast<Q>(2.0);
 
-    template <typename T>
-    constexpr auto two_pi = std::numbers::pi_v<T> * static_cast<T>(2.0);
+    template <std::integral N>
+    constexpr auto IsOdd(const N& num) noexcept -> bool
+    {
+        return num bitand static_cast<N>(1);
+    }
+
+    template <std::integral N>
+    constexpr auto IsEven(const N& num) noexcept -> bool
+    {
+        return not IsOdd<>(num);
+    }
+
+    template <Natural N>
+    constexpr auto IsPowerOf2(const N& num) noexcept -> bool
+    {
+        return (num not_eq 0) and (not (num bitand (num - 1)));
+    }
+
+    template <Natural N>
+    constexpr auto IsPerfectSquare(const N& num) noexcept -> bool
+    {
+        return Square<>([](const N& x) constexpr noexcept -> N { return static_cast<N>(std::sqrt(x)); }(num)) == num;
+    }
 }
 
 module : private;

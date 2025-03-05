@@ -4,9 +4,9 @@ export module FatPound.Math.Numbers.Primes;
 
 export import FatPound.Math.Numbers.Sets;
 
-export namespace fatpound::math::inline primes
+export namespace fatpound::math::numbers
 {
-    template <numbers::Natural N> constexpr auto IsPrime      (const N& num) noexcept -> bool
+    template <Natural N> constexpr auto IsPrime      (const N& num) noexcept -> bool
     {
         if (num < 4)
         {
@@ -28,7 +28,7 @@ export namespace fatpound::math::inline primes
 
         return true;
     }
-    template <numbers::Natural N> constexpr auto NextPrime    (const N& num) noexcept -> N
+    template <Natural N> constexpr auto NextPrime    (const N& num) noexcept -> N
     {
         if (num < 5)
         {
@@ -57,7 +57,7 @@ export namespace fatpound::math::inline primes
 
         return x;
     }
-    template <numbers::Natural N> constexpr auto PrevPrime    (const N& num) noexcept -> N
+    template <Natural N> constexpr auto PrevPrime    (const N& num) noexcept -> N
     {
         if (num < 5)
         {
@@ -86,7 +86,7 @@ export namespace fatpound::math::inline primes
 
         return x;
     }
-    template <numbers::Natural N> constexpr auto NthPrime     (const N& num) noexcept -> N
+    template <Natural N> constexpr auto NthPrime     (const N& num) noexcept -> N
     {
         if (num < 2)
         {
@@ -113,7 +113,7 @@ export namespace fatpound::math::inline primes
 
         return i;
     }
-    template <numbers::Natural N> constexpr auto ClosestPrime (const N& num) noexcept -> N
+    template <Natural N> constexpr auto ClosestPrime (const N& num) noexcept -> N
     {
         const auto prev = PrevPrime<>(num);
         const auto next = NextPrime<>(num);

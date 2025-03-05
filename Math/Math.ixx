@@ -4,34 +4,17 @@ module;
 
 export module FatPound.Math;
 
+export import FatPound.Math.Geometry;
+export import FatPound.Math.Multiplicative;
 export import FatPound.Math.Numbers;
-export import FatPound.Math.Multiplicable;
 export import FatPound.Math.RectF;
 
 import std;
 
 export namespace fatpound::math
 {
-    template <std::unsigned_integral N>
-    constexpr bool IsPowerOf2(const N& num) noexcept
-    {
-        return (num not_eq 0) and (not (num bitand (num - 1)));
-    }
-
-    template <Squarable T>
-    constexpr auto Square(const T& x) noexcept(Squarable_NX<T>)
-    {
-        return x * x;
-    }
-
     template <numbers::Natural N>
-    constexpr auto IsPerfectSquare(const N& num) noexcept -> bool
-    {
-        return Square<>([](const N& x) constexpr noexcept -> N { return static_cast<N>(std::sqrt(x)); }(num)) == num;
-    }
-
-    template <numbers::Natural N>
-    constexpr auto DigitSum(N num) -> N
+    constexpr auto DigitSum(N num) noexcept -> N
     {
         N sum{};
 
@@ -45,14 +28,14 @@ export namespace fatpound::math
     }
 
     template <std::integral N>
-    constexpr auto DigitSum(N num) -> N
+    constexpr auto DigitSum(N num) noexcept -> N
     {
         if (num < 0)
         {
             num = -num;
         }
 
-        return DigitSum<>(static_cast<std::make_unsigned_t<N>>(num));
+        return DigitSum<std::make_unsigned_t<N>>(num);
     }
 
     template <std::floating_point N>

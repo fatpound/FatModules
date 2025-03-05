@@ -180,7 +180,7 @@
     <ClCompile Include="Concurrency\TaskQueue.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Multiplicable.ixx">
+    <ClCompile Include="Math\Multiplicative.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IO\IO.ixx">
@@ -280,6 +280,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Math\Numbers\Sets.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Geometry\Geometry.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

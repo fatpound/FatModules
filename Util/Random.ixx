@@ -16,17 +16,17 @@ export namespace fatpound::util
         std::minstd_rand rng{ std::random_device{}() };
         const auto& rand_num = std::uniform_int_distribution<N>{min, max}(rng);
 
-        if (FATSPACE_MATH::IsPrime<>(rand_num))
+        if (FATSPACE_NUMBERS::IsPrime<>(rand_num))
         {
             return rand_num;
         }
 
-        if (const auto& next = FATSPACE_MATH::NextPrime<>(rand_num); next <= max)
+        if (const auto& next = FATSPACE_NUMBERS::NextPrime<>(rand_num); next <= max)
         {
             return next;
         }
 
-        if (const auto& prev = FATSPACE_MATH::PrevPrime<>(rand_num); min <= prev)
+        if (const auto& prev = FATSPACE_NUMBERS::PrevPrime<>(rand_num); min <= prev)
         {
             return prev;
         }
