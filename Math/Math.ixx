@@ -4,9 +4,8 @@ module;
 
 export module FatPound.Math;
 
-export import FatPound.Math.Numset;
+export import FatPound.Math.Numbers;
 export import FatPound.Math.Multiplicable;
-export import FatPound.Math.Primes;
 export import FatPound.Math.RectF;
 
 import std;
@@ -23,6 +22,37 @@ export namespace fatpound::math
     constexpr auto Square(const T& x) noexcept(Squarable_NX<T>)
     {
         return x * x;
+    }
+
+    template <numbers::Natural N>
+    constexpr auto IsPerfectSquare(const N& num) noexcept -> bool
+    {
+        return Square<>([](const N& x) constexpr noexcept -> N { return static_cast<N>(std::sqrt(x)); }(num)) == num;
+    }
+
+    template <numbers::Natural N>
+    constexpr auto DigitSum(N num) -> N
+    {
+        N sum{};
+
+        while (num not_eq 0)
+        {
+            sum += num % 10;
+            num /= 10;
+        }
+
+        return sum;
+    }
+
+    template <std::integral N>
+    constexpr auto DigitSum(N num) -> N
+    {
+        if (num < 0)
+        {
+            num = -num;
+        }
+
+        return DigitSum<>(static_cast<std::make_unsigned_t<N>>(num));
     }
 
     template <std::floating_point N>

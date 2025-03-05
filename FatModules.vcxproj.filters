@@ -180,12 +180,6 @@
     <ClCompile Include="Concurrency\TaskQueue.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Numset\Numset.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Numset\Rational.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Math\Multiplicable.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -270,7 +264,7 @@
     <ClCompile Include="Win32_\D3D11\Pipeline\Resource\Texture2D.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Primes.ixx">
+    <ClCompile Include="Math\Numbers\Primes.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Util\Random.ixx">
@@ -280,6 +274,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="File\File.cxx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Numbers\Numbers.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Numbers\Sets.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

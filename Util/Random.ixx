@@ -4,7 +4,7 @@ module;
 
 export module FatPound.Util.Random;
 
-import FatPound.Math.Primes;
+import FatPound.Math;
 
 import std;
 

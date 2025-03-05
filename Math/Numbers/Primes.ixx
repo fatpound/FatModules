@@ -1,12 +1,12 @@
 module;
 
-export module FatPound.Math.Primes;
+export module FatPound.Math.Numbers.Primes;
 
-import std;
+export import FatPound.Math.Numbers.Sets;
 
-export namespace fatpound::math
+export namespace fatpound::math::inline primes
 {
-    template <std::unsigned_integral N> constexpr auto IsPrime      (const N& num) noexcept -> bool
+    template <numbers::Natural N> constexpr auto IsPrime      (const N& num) noexcept -> bool
     {
         if (num < 4)
         {
@@ -28,7 +28,7 @@ export namespace fatpound::math
 
         return true;
     }
-    template <std::unsigned_integral N> constexpr auto NextPrime    (const N& num) noexcept -> N
+    template <numbers::Natural N> constexpr auto NextPrime    (const N& num) noexcept -> N
     {
         if (num < 5)
         {
@@ -57,7 +57,7 @@ export namespace fatpound::math
 
         return x;
     }
-    template <std::unsigned_integral N> constexpr auto PrevPrime    (const N& num) noexcept -> N
+    template <numbers::Natural N> constexpr auto PrevPrime    (const N& num) noexcept -> N
     {
         if (num < 5)
         {
@@ -86,7 +86,7 @@ export namespace fatpound::math
 
         return x;
     }
-    template <std::unsigned_integral N> constexpr auto NthPrime     (const N& num) noexcept -> N
+    template <numbers::Natural N> constexpr auto NthPrime     (const N& num) noexcept -> N
     {
         if (num < 2)
         {
@@ -113,7 +113,7 @@ export namespace fatpound::math
 
         return i;
     }
-    template <std::unsigned_integral N> constexpr auto ClosestPrime (const N& num) noexcept -> N
+    template <numbers::Natural N> constexpr auto ClosestPrime (const N& num) noexcept -> N
     {
         const auto prev = PrevPrime<>(num);
         const auto next = NextPrime<>(num);
@@ -121,5 +121,3 @@ export namespace fatpound::math
         return (num not_eq 0) and ((num - prev) < (next - num)) ? prev : next;
     }
 }
-
-module : private;
