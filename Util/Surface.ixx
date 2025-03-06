@@ -10,11 +10,8 @@ export module FatPound.Util.Surface;
 
 import FatPound.Util.Color;
 import FatPound.Util.ScreenSizeInfo;
-
-import FatPound.Math;
-
+import FatPound.Math.Numbers.Sets;
 import FatPound.Memory;
-
 import FatPound.Win32.GDI_Plus;
 
 import std;

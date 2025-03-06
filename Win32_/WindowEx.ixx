@@ -14,7 +14,7 @@ import FatPound.Win32.WndClassEx;
 
 import FatPound.Concurrency;
 import FatPound.IO;
-import FatPound.Math;
+import FatPound.Math.Numbers.Sets;
 import FatPound.Util;
 
 import std;

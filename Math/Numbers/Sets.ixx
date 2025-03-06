@@ -6,11 +6,10 @@ import std;
 
 export namespace fatpound::math::numbers
 {
-    template <typename N>
-    concept Rational = ::std::integral<N> or ::std::floating_point<N>;
-
-    template <typename N>
-    concept Natural = ::std::unsigned_integral<N>;
+    template <typename T> concept Floating = ::std::floating_point<T>;
+    template <typename T> concept Natural  = ::std::unsigned_integral<T>;
+    template <typename T> concept Integer  = ::std::integral<T>;
+    template <typename T> concept Rational = Integer<T> or Floating<T>;
 }
 
 module : private;

@@ -47,6 +47,7 @@
     <ClCompile Include="FatPound.ixx" />
     <ClCompile Include="File\File.cxx" />
     <ClCompile Include="File\File.ixx" />
+    <ClCompile Include="Math\Common.ixx" />
     <ClCompile Include="Math\Geometry\Geometry.ixx" />
     <ClCompile Include="Math\Math.cxx" />
     <ClCompile Include="Math\Math.ixx" />
@@ -54,10 +55,10 @@
     <ClCompile Include="Math\Numbers\Numbers.ixx" />
     <ClCompile Include="Math\Numbers\Sets.ixx" />
     <ClCompile Include="Math\Numbers\Primes.ixx" />
-    <ClCompile Include="Math\RectF.ixx" />
+    <ClCompile Include="Math\Rect.ixx" />
+    <ClCompile Include="Random\Random.ixx" />
     <ClCompile Include="Util\Color.ixx" />
     <ClCompile Include="Util\Gfx\FullScreenQuad.ixx" />
-    <ClCompile Include="Util\Gfx\Gfx.cxx" />
     <ClCompile Include="Util\Gfx\Gfx.ixx" />
     <ClCompile Include="IO\IO.ixx" />
     <ClCompile Include="IO\Keyboard.cxx" />
@@ -68,7 +69,6 @@
     <ClCompile Include="IO\MouseEvent.ixx" />
     <ClCompile Include="Memory\Memory.ixx" />
     <ClCompile Include="Util\Gfx\ResourcePack.ixx" />
-    <ClCompile Include="Util\Random.ixx" />
     <ClCompile Include="Util\ScreenSizeInfo.ixx" />
     <ClCompile Include="Util\Surface.cxx" />
     <ClCompile Include="Util\Surface.ixx" />

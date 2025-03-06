@@ -16,7 +16,7 @@ module;
 
 export module FatPound.Win32.D2D.Graphics;
 
-import FatPound.Math;
+import FatPound.Math.Numbers.Sets;
 import FatPound.Util;
 
 import std;

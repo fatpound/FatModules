@@ -18,7 +18,7 @@ export module FatPound.Win32.D3D11.Graphics;
 import FatPound.Win32.D3D11.Pipeline;
 import FatPound.Win32.D3D11.Visual;
 
-import FatPound.Math;
+import FatPound.Math.Numbers.Sets;
 import FatPound.Util;
 
 import std;

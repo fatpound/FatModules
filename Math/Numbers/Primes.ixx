@@ -2,11 +2,11 @@ module;
 
 export module FatPound.Math.Numbers.Primes;
 
-export import FatPound.Math.Numbers.Sets;
+import FatPound.Math.Numbers.Sets;
 
 export namespace fatpound::math::numbers
 {
-    template <Natural N> constexpr auto IsPrime      (const N& num) noexcept -> bool
+    template <Natural N> constexpr auto IsPrime       (const N& num) noexcept -> bool
     {
         if (num < 4)
         {
@@ -28,7 +28,7 @@ export namespace fatpound::math::numbers
 
         return true;
     }
-    template <Natural N> constexpr auto NextPrime    (const N& num) noexcept -> N
+    template <Natural N> constexpr auto NextPrime     (const N& num) noexcept -> N
     {
         if (num < 5)
         {
@@ -57,7 +57,7 @@ export namespace fatpound::math::numbers
 
         return x;
     }
-    template <Natural N> constexpr auto PrevPrime    (const N& num) noexcept -> N
+    template <Natural N> constexpr auto PrevPrime     (const N& num) noexcept -> N
     {
         if (num < 5)
         {
@@ -86,11 +86,18 @@ export namespace fatpound::math::numbers
 
         return x;
     }
-    template <Natural N> constexpr auto NthPrime     (const N& num) noexcept -> N
+    template <Natural N> constexpr auto ClosestPrime  (const N& num) noexcept -> N
     {
-        if (num < 2)
+        const auto prev = PrevPrime<>(num);
+        const auto next = NextPrime<>(num);
+
+        return (num not_eq 0) and ((num - prev) < (next - num)) ? prev : next;
+    }
+    template <Natural N> constexpr auto NthPrime      (const N& idx) noexcept -> N
+    {
+        if (idx < 2)
         {
-            return (num == 1) ? 2 : 0;
+            return (idx == 1) ? 2 : 0;
         }
 
         N i = 3;
@@ -102,7 +109,7 @@ export namespace fatpound::math::numbers
             {
                 ++counter;
 
-                if (counter == num)
+                if (counter == idx)
                 {
                     break;
                 }
@@ -113,11 +120,33 @@ export namespace fatpound::math::numbers
 
         return i;
     }
-    template <Natural N> constexpr auto ClosestPrime (const N& num) noexcept -> N
+    template <Natural N> constexpr auto NthSuperPrime (const N& idx) noexcept -> N
     {
-        const auto prev = PrevPrime<>(num);
-        const auto next = NextPrime<>(num);
-
-        return (num not_eq 0) and ((num - prev) < (next - num)) ? prev : next;
+        return idx == 0 ? 0 : NthPrime<>(NthPrime<>(idx));
+    }
+    
+    template <Integer Z> constexpr auto IsPrime       (const Z& num) noexcept -> bool
+    {
+        return num < 0 ? false : IsPrime<::std::make_unsigned_t<Z>>(num);
+    }
+    template <Integer Z> constexpr auto NextPrime     (const Z& num) noexcept -> Z
+    {
+        return num < 0 ? 2 : NextPrime<::std::make_unsigned_t<Z>>(num);
+    }
+    template <Integer Z> constexpr auto PrevPrime     (const Z& num) noexcept -> Z
+    {
+        return num < 0 ? 0 : PrevPrime<::std::make_unsigned_t<Z>>(num);
+    }
+    template <Integer Z> constexpr auto ClosestPrime  (const Z& num) noexcept -> Z
+    {
+        return num < 0 ? 2 : ClosestPrime<::std::make_unsigned_t<Z>>(num);
+    }
+    template <Integer Z> constexpr auto NthPrime      (const Z& idx) noexcept -> Z
+    {
+        return idx < 0 ? 0 : NthPrime<::std::make_unsigned_t<Z>>(idx);
+    }
+    template <Integer Z> constexpr auto NthSuperPrime (const Z& idx) noexcept -> Z
+    {
+        return idx < 0 ? 0 : NthSuperPrime<::std::make_unsigned_t<Z>>(idx);
     }
 }

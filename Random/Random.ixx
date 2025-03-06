@@ -2,13 +2,13 @@ module;
 
 #include <FatNamespaces.hpp>
 
-export module FatPound.Util.Random;
+export module FatPound.Random;
 
-import FatPound.Math;
+import FatPound.Math.Numbers.Primes;
 
 import std;
 
-export namespace fatpound::util
+export namespace fatpound::random
 {
     template <std::unsigned_integral N>
     auto RandomPrime(const N& min, const N& max) -> N

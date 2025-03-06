@@ -165,9 +165,6 @@
     <ClCompile Include="Win32_\D2D\Graphics.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\RectF.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Util\ViewXM.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -228,9 +225,6 @@
     <ClCompile Include="Memory\Memory.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Gfx\Gfx.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\GDI_Plus\Manager.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -267,9 +261,6 @@
     <ClCompile Include="Math\Numbers\Primes.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Random.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="File\File.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -283,6 +274,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Math\Geometry\Geometry.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Random\Random.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Common.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Rect.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
