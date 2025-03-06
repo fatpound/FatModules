@@ -124,6 +124,10 @@ export namespace fatpound::math::numbers
     {
         return idx == 0 ? 0 : NthPrime<>(NthPrime<>(idx));
     }
+    template <Natural N> constexpr auto IsStrongPrime (const N& num) -> bool
+    {
+        return (num > 2) and IsPrime<>(num) and (num > ((PrevPrime<>(num) + NextPrime<>(num)) / 2));
+    }
     
     template <Integer Z> constexpr auto IsPrime       (const Z& num) noexcept -> bool
     {
@@ -148,5 +152,9 @@ export namespace fatpound::math::numbers
     template <Integer Z> constexpr auto NthSuperPrime (const Z& idx) noexcept -> Z
     {
         return idx < 0 ? 0 : NthSuperPrime<::std::make_unsigned_t<Z>>(idx);
+    }
+    template <Integer Z> constexpr auto IsStrongPrime (const Z& num) -> bool
+    {
+        return num < 0 ? false : IsStrongPrime<std::make_unsigned_t<Z>>(num);
     }
 }
