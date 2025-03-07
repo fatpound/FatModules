@@ -131,30 +131,30 @@ export namespace fatpound::math::numbers
     
     template <Integer Z> constexpr auto IsPrime       (const Z& num) noexcept -> bool
     {
-        return num < 0 ? false : IsPrime<::std::make_unsigned_t<Z>>(num);
+        return num < 2 ? false : IsPrime<::std::make_unsigned_t<Z>>(num);
     }
     template <Integer Z> constexpr auto NextPrime     (const Z& num) noexcept -> Z
     {
-        return num < 0 ? 2 : NextPrime<::std::make_unsigned_t<Z>>(num);
+        return num < 2 ? 2 : NextPrime<::std::make_unsigned_t<Z>>(num);
     }
     template <Integer Z> constexpr auto PrevPrime     (const Z& num) noexcept -> Z
     {
-        return num < 0 ? 0 : PrevPrime<::std::make_unsigned_t<Z>>(num);
+        return num < 3 ? 0 : PrevPrime<::std::make_unsigned_t<Z>>(num);
     }
     template <Integer Z> constexpr auto ClosestPrime  (const Z& num) noexcept -> Z
     {
-        return num < 0 ? 2 : ClosestPrime<::std::make_unsigned_t<Z>>(num);
+        return num < 2 ? 2 : ClosestPrime<::std::make_unsigned_t<Z>>(num);
     }
     template <Integer Z> constexpr auto NthPrime      (const Z& idx) noexcept -> Z
     {
-        return idx < 0 ? 0 : NthPrime<::std::make_unsigned_t<Z>>(idx);
+        return idx < 1 ? 0 : NthPrime<::std::make_unsigned_t<Z>>(idx);
     }
     template <Integer Z> constexpr auto NthSuperPrime (const Z& idx) noexcept -> Z
     {
-        return idx < 0 ? 0 : NthSuperPrime<::std::make_unsigned_t<Z>>(idx);
+        return idx < 1 ? 0 : NthSuperPrime<::std::make_unsigned_t<Z>>(idx);
     }
     template <Integer Z> constexpr auto IsStrongPrime (const Z& num) -> bool
     {
-        return num < 0 ? false : IsStrongPrime<std::make_unsigned_t<Z>>(num);
+        return num < 3 ? false : IsStrongPrime<std::make_unsigned_t<Z>>(num);
     }
 }

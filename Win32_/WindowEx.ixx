@@ -167,11 +167,11 @@ export namespace fatpound::win32
 
 
     public:
-        template <FATSPACE_MATH::numbers::Rational Q> __forceinline auto GetClientWidth()  const noexcept
+        template <FATSPACE_NUMBERS::Rational Q> __forceinline auto GetClientWidth()  const noexcept
         {
             return static_cast<Q>(mc_client_size_.m_width);
         }
-        template <FATSPACE_MATH::numbers::Rational Q> __forceinline auto GetClientHeight() const noexcept
+        template <FATSPACE_NUMBERS::Rational Q> __forceinline auto GetClientHeight() const noexcept
         {
             return static_cast<Q>(mc_client_size_.m_height);
         }

@@ -46,23 +46,23 @@ export namespace fatpound::util
 
 
     public:
-        template <FATSPACE_MATH::numbers::Rational Q> __forceinline auto GetWidth      () const noexcept -> Q
+        template <FATSPACE_NUMBERS::Rational Q> __forceinline auto GetWidth      () const noexcept -> Q
         {
             return static_cast<Q>(m_width_);
         }
-        template <FATSPACE_MATH::numbers::Rational Q> __forceinline auto GetHeight     () const noexcept -> Q
+        template <FATSPACE_NUMBERS::Rational Q> __forceinline auto GetHeight     () const noexcept -> Q
         {
             return static_cast<Q>(m_height_);
         }
-        template <FATSPACE_MATH::numbers::Rational Q> __forceinline auto GetAlignment  () const noexcept -> Q
+        template <FATSPACE_NUMBERS::Rational Q> __forceinline auto GetAlignment  () const noexcept -> Q
         {
             return static_cast<Q>(m_align_byte_);
         }
-        template <FATSPACE_MATH::numbers::Rational Q> __forceinline auto GetPixelPitch () const noexcept -> Q
+        template <FATSPACE_NUMBERS::Rational Q> __forceinline auto GetPixelPitch () const noexcept -> Q
         {
             return static_cast<Q>(m_pixel_pitch_);
         }
-        template <FATSPACE_MATH::numbers::Rational Q> __forceinline auto GetPitch      () const noexcept -> Q
+        template <FATSPACE_NUMBERS::Rational Q> __forceinline auto GetPitch      () const noexcept -> Q
         {
             return static_cast<Q>(m_pixel_pitch_ * sizeof(Color));
         }

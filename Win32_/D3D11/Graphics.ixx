@@ -94,11 +94,11 @@ export namespace fatpound::win32::d3d11
 
 
     public:
-        template <FATSPACE_MATH::numbers::Rational Q> constexpr auto GetWidth()  const noexcept
+        template <FATSPACE_NUMBERS::Rational Q> constexpr auto GetWidth()  const noexcept
         {
             return static_cast<Q>(mc_dimensions_.m_width);
         }
-        template <FATSPACE_MATH::numbers::Rational Q> constexpr auto GetHeight() const noexcept
+        template <FATSPACE_NUMBERS::Rational Q> constexpr auto GetHeight() const noexcept
         {
             return static_cast<Q>(mc_dimensions_.m_height);
         }

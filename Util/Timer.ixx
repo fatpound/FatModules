@@ -1,7 +1,5 @@
 module;
 
-#include <chrono> // to fix IntelliSense errors
-
 export module FatPound.Util.Timer;
 
 import std;
