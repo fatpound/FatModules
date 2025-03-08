@@ -134,9 +134,7 @@ export namespace fatpound::win32::d3d11
             {
                 MapSubresource_();
                 CopySysbufferToMappedSubresource_();
-
-                GetImmediateContext()->Unmap(GetSysbufferTexture(), 0u);
-                GetImmediateContext()->Draw(6u, 0u);
+                UnMapSubresourceAndDraw_();
             }
 
             const auto& hr = GetSwapChain()->Present(static_cast<UINT>(VSynced), 0u);
@@ -172,40 +170,40 @@ export namespace fatpound::win32::d3d11
             return m_pSurface_.get();
         }
 
-        auto GetHwnd() const noexcept -> HWND
+        auto GetHwnd             () const noexcept -> HWND
         {
             return mc_hWnd_;
         }
-        auto GetDevice() const noexcept -> ID3D11Device*
+        auto GetDevice           () const noexcept -> ID3D11Device*
         {
             return m_res_pack_.m_pDevice.Get();
         }
-        auto GetSwapChain() const -> IDXGISwapChain*
+        auto GetSwapChain        () const -> IDXGISwapChain*
         {
             return m_res_pack_.m_pSwapChain.Get();
         }
-        auto GetImmediateContext() const noexcept -> ID3D11DeviceContext*
+        auto GetImmediateContext () const noexcept -> ID3D11DeviceContext*
         {
             return m_res_pack_.m_pImmediateContext.Get();
         }
-        auto GetRenderTargetView() const noexcept -> ID3D11RenderTargetView*
+        auto GetRenderTargetView () const noexcept -> ID3D11RenderTargetView*
         {
             return m_res_pack_.m_pRTV.Get();
         }
-        auto GetDepthStencilView() const noexcept -> ID3D11DepthStencilView*
+        auto GetDepthStencilView () const noexcept -> ID3D11DepthStencilView*
         {
             return m_res_pack_.m_pDSV.Get();
         }
-        auto GetSysbufferTexture() const noexcept -> ID3D11Texture2D* requires(Framework)
+        auto GetSysbufferTexture () const noexcept -> ID3D11Texture2D* requires(Framework)
         {
             return m_res_pack_.m_pSysbufferTex2d.Get();
         }
 
-        auto GetMSAACount() const noexcept
+        auto GetMSAACount        () const noexcept
         {
             return m_msaa_count_;
         }
-        auto GetMSAAQuality() const noexcept
+        auto GetMSAAQuality      () const noexcept
         {
             return m_msaa_quality_;
         }
@@ -219,7 +217,7 @@ export namespace fatpound::win32::d3d11
 
             m_pSurface_ = std::move(pSurface);
         }
-        void CopySurfaceToSysbuffer() requires(Framework)
+        void CopySurfaceToSysbuffer()                       requires(Framework)
         {
             if (const void* const pSrc = *m_pSurface_)
             {
@@ -238,7 +236,7 @@ export namespace fatpound::win32::d3d11
             assert(y >= 0);
             assert(y < GetHeight<int>());
 
-            m_res_pack_.m_surface.PutPixel(x, y, color);
+            m_res_pack_.m_surface.PutPixel<>(x, y, color);
         }
 
 
@@ -246,7 +244,7 @@ export namespace fatpound::win32::d3d11
 
 
     private:
-        void InitCommon_()
+        void InitCommon_              ()
         {
             InitDevice_();
             InitMSAA_Settings_();
@@ -256,7 +254,7 @@ export namespace fatpound::win32::d3d11
 
             ToggleAltEnterMode_();
         }
-        void InitFramework_() requires(Framework)
+        void InitFramework_           () requires(Framework)
         {
             InitFrameworkBackbuffer_();
 
@@ -289,7 +287,7 @@ export namespace fatpound::win32::d3d11
                 bindable->Bind(pImmediateContext);
             }
         }
-        void InitFrameworkBackbuffer_() requires(Framework)
+        void InitFrameworkBackbuffer_ () requires(Framework)
         {
             D3D11_TEXTURE2D_DESC texDesc{
                 .Width              = GetWidth<UINT>(),
@@ -358,7 +356,7 @@ export namespace fatpound::win32::d3d11
                 GetImmediateContext()->PSSetSamplers(0, 1, pSS.GetAddressOf());
             }
         }
-        void InitDevice_()
+        void InitDevice_              ()
         {
             static constinit UINT swapCreateFlags;
 
@@ -396,7 +394,7 @@ export namespace fatpound::win32::d3d11
                 throw std::runtime_error("Direct3D Feature Level 11 is unsupported!");
             }
         }
-        void InitMSAA_Settings_()
+        void InitMSAA_Settings_       ()
         {
             constexpr std::array<const UINT, 4> msaa_counts{ 32u, 16u, 8u, 4u };
 
@@ -417,7 +415,7 @@ export namespace fatpound::win32::d3d11
                 throw std::runtime_error{ "MSAA Quality is NOT valid!" };
             }
         }
-        void InitSwapChain_()
+        void InitSwapChain_           ()
         {
             DXGI_SWAP_CHAIN_DESC scDesc{
                 .BufferDesc   = {
@@ -469,7 +467,7 @@ export namespace fatpound::win32::d3d11
                 throw std::runtime_error("Could NOT create Direct3D SwapChain!");
             }
         }
-        void InitRenderTarget_()
+        void InitRenderTarget_        ()
         {
             ::Microsoft::WRL::ComPtr<ID3D11Texture2D> pBackBufferTexture2D{};
 
@@ -543,7 +541,7 @@ export namespace fatpound::win32::d3d11
 
             GetImmediateContext()->OMSetRenderTargets(1u, m_res_pack_.m_pRTV.GetAddressOf(), GetDepthStencilView());
         }
-        void InitViewport_()
+        void InitViewport_            ()
         {
             const D3D11_VIEWPORT vp{
                 .TopLeftX = 0.0f,
@@ -556,7 +554,7 @@ export namespace fatpound::win32::d3d11
 
             GetImmediateContext()->RSSetViewports(1u, &vp);
         }
-        void InitRasterizer_() requires(NotFramework)
+        void InitRasterizer_          () requires(NotFramework)
         {
             D3D11_RASTERIZER_DESC rDesc{
                 .FillMode              = D3D11_FILL_SOLID,
@@ -585,7 +583,7 @@ export namespace fatpound::win32::d3d11
             GetImmediateContext()->RSSetState(m_pRasterizerState_.Get());
         }
 
-        void MapSubresource_() requires(Framework)
+        void MapSubresource_                   () requires(Framework)
         {
             const auto& hr = GetImmediateContext()->Map(
                 GetSysbufferTexture(),
@@ -600,7 +598,7 @@ export namespace fatpound::win32::d3d11
                 throw std::runtime_error("Could NOT Map the ImmediateContext!");
             }
         }
-        void CopySysbufferToMappedSubresource_() requires(Framework)
+        void CopySysbufferToMappedSubresource_ () requires(Framework)
         {
             Color* const pDst = static_cast<Color*>(m_res_pack_.m_mappedSysbufferTex2d.pData);
 
@@ -616,6 +614,11 @@ export namespace fatpound::win32::d3d11
                     rowBytes
                 );
             }
+        }
+        void UnMapSubresourceAndDraw_          () requires(Framework)
+        {
+            GetImmediateContext()->Unmap(GetSysbufferTexture(), 0u);
+            GetImmediateContext()->Draw(6u, 0u);
         }
 
         void ToggleAltEnterMode_()
@@ -633,7 +636,6 @@ export namespace fatpound::win32::d3d11
 
         UINT m_msaa_count_{};
         UINT m_msaa_quality_{};
-
         UINT m_dxgi_mode_{};
 
         std::unique_ptr<Surface> m_pSurface_;
