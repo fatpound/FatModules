@@ -1,5 +1,7 @@
 module;
 
+#include <FatMacros.hpp>
+
 export module FatPound.Math.Numbers;
 
 export import FatPound.Math.Numbers.Primes;
@@ -33,9 +35,27 @@ export namespace fatpound::math::numbers
     }
 
     template <Natural N>
+    FAT_CMATH_CONSTEXPR23 auto IsSquare(const N& num) noexcept -> bool
+    {
+        return Square<N>(std::sqrt(num)) == num;
+    }
+
+    template <Natural N>
+    FAT_CMATH_CONSTEXPR23 auto IsCube(const N& num) noexcept -> bool
+    {
+        return Cube<N>(std::cbrt(num)) == num;
+    }
+
+    template <Natural N>
     constexpr auto IsPerfectSquare(const N& num) noexcept -> bool
     {
-        return Square<>([](const N& x) constexpr noexcept -> N { return static_cast<N>(std::sqrt(x)); }(num)) == num;
+        return IsSquare<>(num);
+    }
+
+    template <Natural N>
+    constexpr auto IsPerfectCube(const N& num) noexcept -> bool
+    {
+        return IsCube<>(num);
     }
 
     template <Natural N>

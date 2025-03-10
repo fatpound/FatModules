@@ -16,7 +16,7 @@ export import FatPound.Win32.D3D11.Pipeline.Resource.VertexCBuffer;
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 
-import FatPound.Util;
+import FatPound.Util.ViewXM;
 
 export namespace fatpound::win32::d3d11::pipeline::resource
 {

@@ -11,7 +11,7 @@ module;
 export module FatPound.Util.Gfx.ResourcePack;
 
 import FatPound.Util.Color;
-import FatPound.Util.ScreenSizeInfo;
+import FatPound.Util.Gfx.SizePack;
 import FatPound.Util.Surface;
 
 export namespace fatpound::util::gfx
@@ -29,9 +29,9 @@ export namespace fatpound::util::gfx
     {
         ::Microsoft::WRL::ComPtr<::ID3D11Texture2D> m_pSysbufferTex2d;
         ::D3D11_MAPPED_SUBRESOURCE                  m_mappedSysbufferTex2d{};
-        FATSPACE_UTIL::Surface                      m_surface;
+        Surface                                     m_surface;
 
-        FrameworkResourcePack(const FATSPACE_UTIL::ScreenSizeInfo& dimensions)
+        FrameworkResourcePack(const SizePack& dimensions)
             :
             m_surface(dimensions)
         {

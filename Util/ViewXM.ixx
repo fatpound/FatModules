@@ -21,11 +21,23 @@ export namespace fatpound::util
 
 
     public:
-        auto GetCameraXM()     const noexcept -> ::DirectX::XMMATRIX;
-        auto GetProjectionXM() const noexcept -> ::DirectX::XMMATRIX;
+        auto GetCameraXM     () const noexcept -> ::DirectX::XMMATRIX
+        {
+            return m_camera_;
+        }
+        auto GetProjectionXM () const noexcept -> ::DirectX::XMMATRIX
+        {
+            return m_projection_;
+        }
 
-        void SetCameraXM(const ::DirectX::XMMATRIX& camera) noexcept;
-        void SetProjectionXM(const ::DirectX::XMMATRIX& projection) noexcept;
+        void SetCameraXM     (const ::DirectX::XMMATRIX& camera)     noexcept
+        {
+            m_camera_ = camera;
+        }
+        void SetProjectionXM (const ::DirectX::XMMATRIX& projection) noexcept
+        {
+            m_projection_ = projection;
+        }
 
 
     protected:

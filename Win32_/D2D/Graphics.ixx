@@ -17,7 +17,7 @@ module;
 export module FatPound.Win32.D2D.Graphics;
 
 import FatPound.Math.Numbers.Sets;
-import FatPound.Util;
+import FatPound.Util.Gfx.SizePack;
 
 import std;
 
@@ -28,7 +28,7 @@ export namespace fatpound::win32::d2d
     class Graphics final
     {
     public:
-        explicit Graphics(const HWND hWnd, const FATSPACE_UTIL::ScreenSizeInfo& dimensions)
+        explicit Graphics(const HWND hWnd, const FATSPACE_UTIL_GFX::SizePack& dimensions)
             :
             mc_dimensions_(dimensions)
         {
@@ -110,7 +110,7 @@ export namespace fatpound::win32::d2d
 
             m_pRenderTarget_->DrawLine(p0, p1, m_pBrush_.Get());
         }
-        void DrawClosedPolyLine(const std::vector<::DirectX::XMFLOAT2>& vertices, const D2D1_COLOR_F color) noexcept
+        void DrawClosedPolyLine(const std::vector<::dx::XMFLOAT2>& vertices, const D2D1_COLOR_F color) noexcept
         {
             m_pRenderTarget_->CreateSolidColorBrush(color, &m_pBrush_);
 
@@ -125,7 +125,7 @@ export namespace fatpound::win32::d2d
                 );
             }
         }
-        void DrawClosedPolyLine(const std::vector<::DirectX::XMFLOAT2>& vertices, const D2D1_COLOR_F color, ::DirectX::XMMATRIX transform) noexcept
+        void DrawClosedPolyLine(const std::vector<::dx::XMFLOAT2>& vertices, const D2D1_COLOR_F color, ::dx::XMMATRIX transform) noexcept
         {
             m_pRenderTarget_->CreateSolidColorBrush(color, &m_pBrush_);
 
@@ -159,7 +159,7 @@ export namespace fatpound::win32::d2d
         ::Microsoft::WRL::ComPtr<ID2D1HwndRenderTarget> m_pRenderTarget_;
         ::Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>  m_pBrush_;
 
-        const FATSPACE_UTIL::ScreenSizeInfo             mc_dimensions_;
+        const FATSPACE_UTIL_GFX::SizePack               mc_dimensions_;
     };
 }
 

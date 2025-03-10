@@ -49,7 +49,6 @@
     <ClCompile Include="File\File.ixx" />
     <ClCompile Include="Math\Common.ixx" />
     <ClCompile Include="Math\Geometry\Geometry.ixx" />
-    <ClCompile Include="Math\Math.cxx" />
     <ClCompile Include="Math\Math.ixx" />
     <ClCompile Include="Math\Multiplicative.ixx" />
     <ClCompile Include="Math\Numbers\Numbers.ixx" />
@@ -58,6 +57,7 @@
     <ClCompile Include="Math\Rect.ixx" />
     <ClCompile Include="Random\Random.ixx" />
     <ClCompile Include="Util\Color.ixx" />
+    <ClCompile Include="Util\Common.ixx" />
     <ClCompile Include="Util\Gfx\FullScreenQuad.ixx" />
     <ClCompile Include="Util\Gfx\Gfx.ixx" />
     <ClCompile Include="IO\IO.ixx" />
@@ -69,12 +69,10 @@
     <ClCompile Include="IO\MouseEvent.ixx" />
     <ClCompile Include="Memory\Memory.ixx" />
     <ClCompile Include="Util\Gfx\ResourcePack.ixx" />
-    <ClCompile Include="Util\ScreenSizeInfo.ixx" />
-    <ClCompile Include="Util\Surface.cxx" />
+    <ClCompile Include="Util\Gfx\SizePack.ixx" />
     <ClCompile Include="Util\Surface.ixx" />
     <ClCompile Include="Util\Timer.ixx" />
     <ClCompile Include="Util\Util.ixx" />
-    <ClCompile Include="Util\ViewXM.cxx" />
     <ClCompile Include="Win32_\COM\COM.ixx" />
     <ClCompile Include="Win32_\COM\Manager.ixx" />
     <ClCompile Include="Win32_\D2D\D2D.ixx" />
@@ -113,7 +111,7 @@
     <ClCompile Include="Win32_\WndClassEx.ixx" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FatFrameworkMacros.hpp" />
+    <ClInclude Include="FatMacros.hpp" />
     <ClInclude Include="FatNamespaces.hpp" />
     <ClInclude Include="Win32_\FatWin32.hpp" />
     <ClInclude Include="Win32_\FatWin32_Settings.hpp" />

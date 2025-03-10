@@ -51,16 +51,13 @@
     <ClCompile Include="DSA\DSA.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Math.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Math\Math.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Util\Color.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\ScreenSizeInfo.ixx">
+    <ClCompile Include="Util\Gfx\SizePack.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Util\Util.ixx">
@@ -165,9 +162,6 @@
     <ClCompile Include="Win32_\D2D\Graphics.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\ViewXM.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Concurrency\Concurrency.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -234,9 +228,6 @@
     <ClCompile Include="Util\Surface.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Surface.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\WMF\WMF.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -285,6 +276,9 @@
     <ClCompile Include="Math\Rect.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Util\Common.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32_\FatWin32.hpp">
@@ -296,7 +290,7 @@
     <ClInclude Include="FatNamespaces.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FatFrameworkMacros.hpp">
+    <ClInclude Include="FatMacros.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

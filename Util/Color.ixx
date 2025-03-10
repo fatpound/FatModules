@@ -11,30 +11,39 @@ export namespace fatpound
         class Color final
         {
         public:
-            constexpr explicit Color(unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha = 0xFFu)
+            constexpr explicit Color(const ::std::uint8_t&  red, const ::std::uint8_t&  green, const ::std::uint8_t&  blue, const ::std::uint8_t&  alpha = 0xFFu)
                 :
-                dword{(static_cast<::std::uint32_t>(alpha) << 24u)
-                    bitor (static_cast<::std::uint32_t>(red) << 16u)
-                    bitor (static_cast<::std::uint32_t>(green) << 8u)
-                    bitor (static_cast<::std::uint32_t>(blue))}
+                Color(static_cast<::std::uint32_t>(red), static_cast<::std::uint32_t>(green), static_cast<::std::uint32_t>(blue), static_cast<::std::uint32_t>(alpha))
             {
                 
             }
-            constexpr explicit Color(int red, int green, int blue)
+            constexpr explicit Color(const ::std::uint32_t& red, const ::std::uint32_t& green, const ::std::uint32_t& blue, const ::std::uint32_t& alpha = 0xFFu)
                 :
-                Color(static_cast<unsigned char>(red), static_cast<unsigned char>(green), static_cast<unsigned char>(blue))
+                m_dword{ (alpha << 24u) bitor (red << 16u) bitor (green << 8u) bitor blue }
             {
 
             }
-            constexpr explicit Color(::std::uint32_t num)
+            constexpr explicit Color(const ::std::uint32_t& num, const ::std::uint8_t& alpha)
                 :
-                dword(num bitor 0xFF'00'00'00u)
+                Color(num, static_cast<::std::uint32_t>(alpha))
             {
 
             }
-            constexpr explicit Color(const Color& col, unsigned char alpha)
+            constexpr explicit Color(const ::std::uint32_t& num, const ::std::uint32_t& alpha)
                 :
-                Color((static_cast<::std::uint32_t>(alpha) << 24u) bitor col.dword)
+                Color(num bitor (alpha << 24u))
+            {
+
+            }
+            constexpr explicit Color(const ::std::uint32_t& num)
+                :
+                m_dword(num)
+            {
+
+            }
+            constexpr explicit Color(const Color& col, const ::std::uint8_t& alpha)
+                :
+                Color(col.m_dword, alpha)
             {
 
             }
@@ -54,48 +63,48 @@ export namespace fatpound
 
             operator ::std::uint32_t () const noexcept
             {
-                return dword;
+                return m_dword;
             }
 
 
         public:
-            [[nodiscard]] __forceinline constexpr auto GetA() const -> unsigned char
+            [[nodiscard]] __forceinline constexpr auto GetA() const -> ::std::uint8_t
             {
-                return dword >> 24u;
+                return m_dword >> 24u;
             }
-            [[nodiscard]] __forceinline constexpr auto GetR() const -> unsigned char
+            [[nodiscard]] __forceinline constexpr auto GetR() const -> ::std::uint8_t
             {
-                return (dword >> 16u) bitand 0xFFu;
+                return (m_dword >> 16u) bitand 0xFFu;
             }
-            [[nodiscard]] __forceinline constexpr auto GetG() const -> unsigned char
+            [[nodiscard]] __forceinline constexpr auto GetG() const -> ::std::uint8_t
             {
-                return (dword >> 8u) bitand 0xFFu;
+                return (m_dword >> 8u) bitand 0xFFu;
             }
-            [[nodiscard]] __forceinline constexpr auto GetB() const -> unsigned char
+            [[nodiscard]] __forceinline constexpr auto GetB() const -> ::std::uint8_t
             {
-                return dword bitand 0xFFu;
+                return m_dword bitand 0xFFu;
             }
 
-            __forceinline void SetA(unsigned char alpha) noexcept
+            __forceinline void SetA(const ::std::uint8_t& alpha) noexcept
             {
-                dword = ((dword bitand 0x00'FF'FF'FFu) bitor (static_cast<::std::uint32_t>(alpha) << 24u));
+                m_dword = ((m_dword bitand 0x00'FF'FF'FFu) bitor (static_cast<::std::uint32_t>(alpha) << 24u));
             }
-            __forceinline void SetR(unsigned char red) noexcept
+            __forceinline void SetR(const ::std::uint8_t&   red) noexcept
             {
-                dword = ((dword bitand 0xFF'00'FF'FFu) bitor (static_cast<::std::uint32_t>(red) << 16u));
+                m_dword = ((m_dword bitand 0xFF'00'FF'FFu) bitor (static_cast<::std::uint32_t>(red) << 16u));
             }
-            __forceinline void SetG(unsigned char green) noexcept
+            __forceinline void SetG(const ::std::uint8_t& green) noexcept
             {
-                dword = ((dword bitand 0xFF'FF'00'FFu) bitor (static_cast<::std::uint32_t>(green) << 8u));
+                m_dword = ((m_dword bitand 0xFF'FF'00'FFu) bitor (static_cast<::std::uint32_t>(green) << 8u));
             }
-            __forceinline void SetB(unsigned char blue) noexcept
+            __forceinline void SetB(const ::std::uint8_t&  blue) noexcept
             {
-                dword = ((dword bitand 0xFF'FF'FF'00u) bitor static_cast<::std::uint32_t>(blue));
+                m_dword = ((m_dword bitand 0xFF'FF'FF'00u) bitor static_cast<::std::uint32_t>(blue));
             }
 
 
         public:
-            ::std::uint32_t dword = 0xFF'FF'FF'FFu;
+            ::std::uint32_t m_dword = 0xFF'FF'FF'FFu;
 
 
         protected:
@@ -107,12 +116,12 @@ export namespace fatpound
 
     namespace colors
     {
-        constexpr auto MakeRGB(unsigned char red, unsigned char green, unsigned char blue) -> util::Color
+        constexpr auto MakeRGB(const ::std::uint8_t& red, const ::std::uint8_t& green, const ::std::uint8_t& blue) -> util::Color
         {
             return util::Color{
-                (static_cast<::std::uint32_t>(red) << 16u) bitor
-                (static_cast<::std::uint32_t>(green) << 8u) bitor
-                static_cast<::std::uint32_t>(blue)
+                (static_cast<::std::uint32_t>(red)   << 16u) bitor
+                (static_cast<::std::uint32_t>(green) <<  8u) bitor
+                 static_cast<::std::uint32_t>(blue)
             };
         }
 

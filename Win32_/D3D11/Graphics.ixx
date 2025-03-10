@@ -19,7 +19,10 @@ import FatPound.Win32.D3D11.Pipeline;
 import FatPound.Win32.D3D11.Visual;
 
 import FatPound.Math.Numbers.Sets;
-import FatPound.Util;
+import FatPound.Util.Color;
+import FatPound.Util.Surface;
+import FatPound.Util.Gfx.SizePack;
+import FatPound.Util.Gfx;
 
 import std;
 
@@ -28,7 +31,7 @@ namespace wrl = Microsoft::WRL;
 
 using FATSPACE_UTIL::Color;
 using FATSPACE_UTIL::Surface;
-using FATSPACE_UTIL::ScreenSizeInfo;
+using FATSPACE_UTIL_GFX::SizePack;
 
 export namespace fatpound::win32::d3d11
 {
@@ -42,7 +45,7 @@ export namespace fatpound::win32::d3d11
         using float_t = float;
 
     public:
-        explicit Graphics(const HWND hWnd, const ScreenSizeInfo& dimensions)
+        explicit Graphics(const HWND hWnd, const SizePack& dimensions)
             :
             mc_hWnd_(hWnd),
             mc_dimensions_{ dimensions }
@@ -54,7 +57,7 @@ export namespace fatpound::win32::d3d11
                 InitRasterizer_();
             }
         }
-        explicit Graphics(const HWND hWnd, const ScreenSizeInfo& dimensions)  requires(Framework)
+        explicit Graphics(const HWND hWnd, const SizePack& dimensions)  requires(Framework)
             :
             m_res_pack_(dimensions),
             mc_hWnd_(hWnd),
@@ -65,7 +68,7 @@ export namespace fatpound::win32::d3d11
         }
         explicit Graphics(const HWND hWnd, std::unique_ptr<Surface> pSurface) requires(Framework)
             :
-            Graphics(hWnd, pSurface->GetScreenSizeInfo())
+            Graphics(hWnd, pSurface->GetSizePack())
         {
             BindSurface(std::move(pSurface));
         }
@@ -212,7 +215,7 @@ export namespace fatpound::win32::d3d11
         {
             if (m_pSurface_ not_eq nullptr)
             {
-                m_pSurface_->Clear();
+                m_pSurface_->Reset();
             }
 
             m_pSurface_ = std::move(pSurface);
@@ -632,7 +635,7 @@ export namespace fatpound::win32::d3d11
 
         const HWND mc_hWnd_;
         
-        const ScreenSizeInfo mc_dimensions_;
+        const SizePack mc_dimensions_;
 
         UINT m_msaa_count_{};
         UINT m_msaa_quality_{};
