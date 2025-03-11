@@ -20,9 +20,13 @@ import std;
 
 export namespace fatpound::util
 {
-    template <FATSPACE_NUMBERS::Natural N, FATSPACE_NUMBERS::Floating F = float>
+    template
+    <
+        ::std::unsigned_integral U,
+        ::std::floating_point    F = float
+    >
     FAT_CMATH_CONSTEXPR23
-    auto HourMinuteHandAngle(N hours, N minutes) -> F
+    auto HourMinuteHandAngle(U hours, U minutes) -> F
     {
         hours   %= 12;
         minutes %= 60;

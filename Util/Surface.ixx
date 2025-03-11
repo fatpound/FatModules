@@ -39,13 +39,19 @@ export namespace fatpound::util
 
 
     public:
-        explicit Surface(const std::string&  filename,            const Size_t alignBytes = scx_DefaultAlignment)
+        explicit Surface(const std::filesystem::path& path,         const Size_t& alignBytes = scx_DefaultAlignment)
+            :
+            Surface(path.wstring(), alignBytes)
+        {
+
+        }
+        explicit Surface(const std::string& filename,               const Size_t& alignBytes = scx_DefaultAlignment)
             :
             Surface(ToWString(filename), alignBytes)
         {
 
         }
-        explicit Surface(const std::wstring& filename,            const Size_t alignBytes = scx_DefaultAlignment)
+        explicit Surface(const std::wstring& filename,              const Size_t& alignBytes = scx_DefaultAlignment)
             :
             m_pBuffer_(nullptr, nullptr)
         {
@@ -76,18 +82,18 @@ export namespace fatpound::util
 
             *this = std::move(surf);
         }
-        explicit Surface(const gfx::SizePack& dimensions,         const Size_t alignBytes = scx_DefaultAlignment)
+        explicit Surface(const gfx::SizePack& dimensions,           const Size_t& alignBytes = scx_DefaultAlignment)
             :
-            Surface(dimensions.m_width, dimensions.m_height, alignBytes)
+            m_pBuffer_((assert(dimensions.m_width > 0u), assert(dimensions.m_height > 0), FATSPACE_MEMORY::AlignedUniquePtr<Color[]>::Make(alignBytes, dimensions.m_width * dimensions.m_height))),
+            m_size_pack_(dimensions),
+            m_align_byte_(alignBytes),
+            m_pixel_pitch_(CalculatePixelPitch(GetWidth<>(), GetAlignment<>()))
         {
 
         }
-        explicit Surface(const Size_t width, const Size_t height, const Size_t alignBytes = scx_DefaultAlignment)
+        explicit Surface(const Size_t& width, const Size_t& height, const Size_t& alignBytes = scx_DefaultAlignment)
             :
-            m_pBuffer_((assert(width > 0u), assert(height > 0), FATSPACE_MEMORY::AlignedUniquePtr<Color[]>::Make(alignBytes, width * height))),
-            m_size_pack_(width, height),
-            m_align_byte_(alignBytes),
-            m_pixel_pitch_(CalculatePixelPitch(GetWidth<>(), GetAlignment<>()))
+            Surface(gfx::SizePack{ width, height }, alignBytes)
         {
 
         }
@@ -168,7 +174,7 @@ export namespace fatpound::util
 
         
     public:
-        static auto CalculatePixelPitch(const Size_t width, const Size_t alignBytes) noexcept -> Size_t
+        static auto CalculatePixelPitch(const Size_t& width, const Size_t& alignBytes) noexcept -> Size_t
         {
             assert(alignBytes % 4 == 0);
             assert(alignBytes >= sizeof(Color));
