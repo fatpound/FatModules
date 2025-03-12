@@ -4,6 +4,8 @@ export module FatPound.Math.Common;
 
 import FatPound.Math.Numbers.Sets;
 
+import std;
+
 export namespace fatpound::math
 {
     template <std::unsigned_integral N>
