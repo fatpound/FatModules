@@ -234,3 +234,5 @@ export namespace fatpound::math::numbers
         return IsStrongPrime_GT10<std::make_unsigned_t<Z>>(num);
     }
 }
+
+module : private;
