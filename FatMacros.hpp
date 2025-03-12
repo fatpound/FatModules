@@ -10,4 +10,5 @@
 #endif // __cpp_lib_constexpr_cmath
 #endif // FAT_CMATH_CONSTEXPR23
 
-#define IS_FRAMEWORK false
+#define IS_GFX_FRAMEWORK  false
+#define WITH_EXPERIMENTAL false

@@ -54,7 +54,7 @@ export namespace fatpound::win32
                     {
                         WS_VISIBLE
 
-#if IN_DEBUG or IS_FRAMEWORK
+#if IN_DEBUG or IS_GFX_FRAMEWORK
 
                         bitor WS_CAPTION
                         bitor WS_MINIMIZEBOX
@@ -77,7 +77,7 @@ export namespace fatpound::win32
                         bitor WS_POPUP
                     };
 
-#endif // IN_DEBUG or IS_FRAMEWORK
+#endif // IN_DEBUG or IS_GFX_FRAMEWORK
 
                     const auto hModule = ::GetModuleHandle(nullptr);
 
@@ -94,7 +94,7 @@ export namespace fatpound::win32
                         position.has_value() ? position->x : CW_USEDEFAULT,
                         position.has_value() ? position->y : CW_USEDEFAULT,
 
-#if IN_DEBUG or IS_FRAMEWORK
+#if IN_DEBUG or IS_GFX_FRAMEWORK
 
                         rect.right - rect.left,
                         rect.bottom - rect.top,
@@ -102,7 +102,7 @@ export namespace fatpound::win32
                         static_cast<LONG>(mc_client_size_.m_width),
                         static_cast<LONG>(mc_client_size_.m_height),
 
-#endif // IN_DEBUG or IS_FRAMEWORK
+#endif // IN_DEBUG or IS_GFX_FRAMEWORK
 
                         nullptr,
                         nullptr,
