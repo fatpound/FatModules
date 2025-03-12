@@ -6,6 +6,12 @@ import FatPound.Math.Numbers.Sets;
 
 export namespace fatpound::math
 {
+    template <std::unsigned_integral N>
+    constexpr bool IsPowerOf2(const N& num) noexcept
+    {
+        return (num not_eq 0) and (not (num bitand (num - 1)));
+    }
+
     template <numbers::Natural N>
     constexpr auto Factorial(N num) noexcept -> N
     {

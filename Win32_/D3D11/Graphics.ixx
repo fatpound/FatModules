@@ -21,7 +21,6 @@ import FatPound.Win32.D3D11.Visual;
 import FatPound.Math.Numbers.Sets;
 import FatPound.Util.Color;
 import FatPound.Util.Surface;
-import FatPound.Util.Gfx.SizePack;
 import FatPound.Util.Gfx;
 
 import std;

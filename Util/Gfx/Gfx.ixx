@@ -10,6 +10,7 @@ export module FatPound.Util.Gfx;
 
 export import FatPound.Util.Gfx.FullScreenQuad;
 export import FatPound.Util.Gfx.ResourcePack;
+export import FatPound.Util.Gfx.SizePack;
 
 import std;
 

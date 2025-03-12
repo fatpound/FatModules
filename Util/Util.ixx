@@ -10,7 +10,6 @@ export import FatPound.Util.Gfx;
 export import FatPound.Util.Color;
 export import FatPound.Util.Common;
 export import FatPound.Util.Surface;
-export import FatPound.Util.Gfx.SizePack;
 export import FatPound.Util.Timer;
 export import FatPound.Util.ViewXM;
 
