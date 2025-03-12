@@ -4,7 +4,7 @@ module FatPound.Automata.TLT;
 
 namespace fatpound::automata
 {
-    namespace tlt_v1
+    namespace details_v1
     {
         // TLT
 
@@ -204,7 +204,7 @@ namespace fatpound::automata
         }
     }
 
-    namespace tlt_v2
+    namespace details_v2
     {
         TLT::TLT(const CFG& cfg)
         {

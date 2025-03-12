@@ -5,7 +5,7 @@ export module FatPound.Automata;
 export import FatPound.Automata.CFG;
 export import FatPound.Automata.TLT;
 
-export namespace fatpound::automata::inline version_control
+export namespace fatpound::automata
 {
-    using namespace tlt_v1;
+    using namespace details_v1;
 }

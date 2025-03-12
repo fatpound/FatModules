@@ -6,11 +6,9 @@ import FatPound.Automata.CFG;
 
 import std;
 
-using std::literals::string_literals::operator ""s;
-
 export namespace fatpound::automata
 {
-    namespace tlt_v1
+    namespace details_v1
     {
         class TLT final
         {
@@ -72,7 +70,7 @@ export namespace fatpound::automata
         };
     }
 
-    namespace tlt_v2
+    namespace details_v2
     {
         class TLT final
         {
@@ -119,7 +117,7 @@ export namespace fatpound::automata
 
         private:
             [[nodiscard]]
-            auto GenerateResults_(std::string init_str = ""s, std::size_t index = 0u, std::size_t recursed = 0u) const -> Result_t;
+            auto GenerateResults_(std::string init_str = "", std::size_t index = 0u, std::size_t recursed = 0u) const -> Result_t;
 
             [[nodiscard]]
             auto IsTerminal_(const std::string& str) const -> bool;
