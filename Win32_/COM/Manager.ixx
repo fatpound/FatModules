@@ -23,7 +23,6 @@ export namespace fatpound::win32::com
             }
         }
 
-        explicit Manager()                   = delete;
         explicit Manager(const Manager&)     = delete;
         explicit Manager(Manager&&) noexcept = delete;
 
