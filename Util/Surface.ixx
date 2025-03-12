@@ -209,29 +209,29 @@ export namespace fatpound::util
             return static_cast<Q>(m_pixel_pitch_ * sizeof(Color));
         }
 
-        template <FATSPACE_NUMBERS::Integer Z> __forceinline auto GetPixel(const Z& x, const Z& y) const -> Color
+        template <std::integral I> __forceinline auto GetPixel(const I& x, const I& y) const -> Color
         {
-            if constexpr (::std::signed_integral<Z>)
+            if constexpr (::std::signed_integral<I>)
             {
                 assert(x >= 0);
                 assert(y >= 0);
             }
 
-            assert(x < GetWidth<Z>());
-            assert(y < GetHeight<Z>());
+            assert(x < GetWidth<I>());
+            assert(y < GetHeight<I>());
 
             return m_pBuffer_[y * m_pixel_pitch_ + x];
         }
-        template <FATSPACE_NUMBERS::Integer Z> __forceinline void PutPixel(const Z& x, const Z& y, const Color& color) noexcept
+        template <std::integral I> __forceinline void PutPixel(const I& x, const I& y, const Color& color) noexcept
         {
-            if constexpr (::std::signed_integral<Z>)
+            if constexpr (::std::signed_integral<I>)
             {
                 assert(x >= 0);
                 assert(y >= 0);
             }
             
-            assert(x < GetWidth<Z>());
-            assert(y < GetHeight<Z>());
+            assert(x < GetWidth<I>());
+            assert(y < GetHeight<I>());
 
             m_pBuffer_[y * m_pixel_pitch_ + x] = color;
         }

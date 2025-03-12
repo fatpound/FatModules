@@ -1,7 +1,7 @@
 module;
 
 #include <FatNamespaces.hpp>
-#include <FatMacros.hpp>
+#include <FatDefines.hpp>
 
 export module FatPound.Util;
 

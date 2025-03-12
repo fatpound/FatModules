@@ -41,7 +41,10 @@ export namespace fatpound::win32::d3d11
         static constexpr auto RasterizationEnabled = NotFramework;
 
         using ResourcePack_t = ::std::conditional_t<Framework, FATSPACE_UTIL_GFX::FrameworkResourcePack, FATSPACE_UTIL_GFX::ResourcePack>;
+
+    public:
         using float_t = float;
+
 
     public:
         explicit Graphics(const HWND hWnd, const SizePack& dimensions)
@@ -56,7 +59,7 @@ export namespace fatpound::win32::d3d11
                 InitRasterizer_();
             }
         }
-        explicit Graphics(const HWND hWnd, const SizePack& dimensions)  requires(Framework)
+        explicit Graphics(const HWND hWnd, const SizePack& dimensions)        requires(Framework)
             :
             m_res_pack_(dimensions),
             mc_hWnd_(hWnd),
@@ -103,6 +106,15 @@ export namespace fatpound::win32::d3d11
         template <FATSPACE_NUMBERS::Rational Q> constexpr auto GetHeight() const noexcept
         {
             return static_cast<Q>(mc_dimensions_.m_height);
+        }
+
+        template <std::integral I> __forceinline auto GetPixel(const I& x, const I& y) const -> Color               requires(Framework)
+        {
+            return m_res_pack_.m_surface.GetPixel<>(x, y);
+        }
+        template <std::integral I> __forceinline void PutPixel(const I& x, const I& y, const Color& color) noexcept requires(Framework)
+        {
+            m_res_pack_.m_surface.PutPixel<>(x, y, color);
         }
 
         template <bool FullBlack = true, float_t red = 1.0f, float_t green = 1.0f, float_t blue = 1.0f, float_t alpha = 1.0f>
@@ -231,16 +243,6 @@ export namespace fatpound::win32::d3d11
             }
         }
 
-        void PutPixel(const int x, const int y, const Color color) noexcept requires(Framework)
-        {
-            assert(x >= 0);
-            assert(x < GetWidth<int>());
-            assert(y >= 0);
-            assert(y < GetHeight<int>());
-
-            m_res_pack_.m_surface.PutPixel<>(x, y, color);
-        }
-
 
     protected:
 
@@ -282,11 +284,9 @@ export namespace fatpound::win32::d3d11
                 binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::InputLayout>(GetDevice(), iedesc, pBlob));
             }
 
-            auto* const pImmediateContext = GetImmediateContext();
-
             for (auto& bindable : binds)
             {
-                bindable->Bind(pImmediateContext);
+                bindable->Bind(GetImmediateContext());
             }
         }
         void InitFrameworkBackbuffer_ () requires(Framework)
@@ -339,13 +339,13 @@ export namespace fatpound::win32::d3d11
                 ::wrl::ComPtr<ID3D11SamplerState> pSS;
 
                 D3D11_SAMPLER_DESC sDesc{
-                    .Filter = D3D11_FILTER_MIN_MAG_MIP_POINT,
-                    .AddressU = D3D11_TEXTURE_ADDRESS_CLAMP,
-                    .AddressV = D3D11_TEXTURE_ADDRESS_CLAMP,
-                    .AddressW = D3D11_TEXTURE_ADDRESS_CLAMP,
+                    .Filter         = D3D11_FILTER_MIN_MAG_MIP_POINT,
+                    .AddressU       = D3D11_TEXTURE_ADDRESS_CLAMP,
+                    .AddressV       = D3D11_TEXTURE_ADDRESS_CLAMP,
+                    .AddressW       = D3D11_TEXTURE_ADDRESS_CLAMP,
                     .ComparisonFunc = D3D11_COMPARISON_NEVER,
-                    .MinLOD = 0.0f,
-                    .MaxLOD = D3D11_FLOAT32_MAX
+                    .MinLOD         = 0.0f,
+                    .MaxLOD         = D3D11_FLOAT32_MAX
                 };
 
                 const auto& hr = GetDevice()->CreateSamplerState(&sDesc, pSS.GetAddressOf());

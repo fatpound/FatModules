@@ -1,6 +1,6 @@
 module;
 
-#include <FatMacros.hpp>
+#include <FatDefines.hpp>
 
 export module FatPound.Math.Numbers;
 
@@ -35,13 +35,15 @@ export namespace fatpound::math::numbers
     }
 
     template <Natural N>
-    FAT_CMATH_CONSTEXPR23 auto IsSquare(const N& num) noexcept -> bool
+    FAT_CMATH_CONSTEXPR23
+    auto IsSquare(const N& num) noexcept -> bool
     {
         return Square<N>(std::sqrt(num)) == num;
     }
 
     template <Natural N>
-    FAT_CMATH_CONSTEXPR23 auto IsCube(const N& num) noexcept -> bool
+    FAT_CMATH_CONSTEXPR23 
+    auto IsCube(const N& num) noexcept -> bool
     {
         return Cube<N>(std::cbrt(num)) == num;
     }

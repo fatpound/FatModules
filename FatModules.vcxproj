@@ -112,7 +112,7 @@
     <ClCompile Include="Win32_\WndClassEx.ixx" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FatMacros.hpp" />
+    <ClInclude Include="FatDefines.hpp" />
     <ClInclude Include="FatNamespaces.hpp" />
     <ClInclude Include="Win32_\FatWin32.hpp" />
     <ClInclude Include="Win32_\FatWin32_Settings.hpp" />
