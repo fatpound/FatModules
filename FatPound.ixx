@@ -3,6 +3,7 @@ module;
 export module FatPound;
 
 export import FatPound.Automata;
+export import FatPound.Bitwise;
 export import FatPound.Concurrency;
 export import FatPound.DSA;
 export import FatPound.File;

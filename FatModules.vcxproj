@@ -27,6 +27,7 @@
     <ClCompile Include="Automata\CFG.ixx" />
     <ClCompile Include="Automata\TLT.cxx" />
     <ClCompile Include="Automata\TLT.ixx" />
+    <ClCompile Include="Bitwise\Bitwise.ixx" />
     <ClCompile Include="Concurrency\Concurrency.ixx" />
     <ClCompile Include="Concurrency\TaskQueue.cxx" />
     <ClCompile Include="Concurrency\TaskQueue.ixx" />
@@ -47,10 +48,12 @@
     <ClCompile Include="FatPound.ixx" />
     <ClCompile Include="File\File.cxx" />
     <ClCompile Include="File\File.ixx" />
+    <ClCompile Include="Math\AngularConv.ixx" />
     <ClCompile Include="Math\Common.ixx" />
-    <ClCompile Include="Math\Geometry\Geometry.ixx" />
+    <ClCompile Include="Math\Geometry.ixx" />
     <ClCompile Include="Math\Math.ixx" />
     <ClCompile Include="Math\Multiplicative.ixx" />
+    <ClCompile Include="Bitwise\Concepts.ixx" />
     <ClCompile Include="Math\Numbers\Numbers.ixx" />
     <ClCompile Include="Math\Numbers\Sets.ixx" />
     <ClCompile Include="Math\Numbers\Primes.ixx" />

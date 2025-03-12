@@ -16,6 +16,7 @@ module;
 
 export module FatPound.Win32.D2D.Graphics;
 
+import FatPound.Bitwise.Concepts;
 import FatPound.Math.Numbers.Sets;
 import FatPound.Util.Gfx.SizePack;
 
@@ -67,13 +68,13 @@ export namespace fatpound::win32::d2d
 
 
     public:
-        template <FATSPACE_NUMBERS::Rational Q> constexpr auto GetWidth()  const noexcept
+        template <bitwise::Integral_Or_Floating T> constexpr auto GetWidth()  const noexcept -> T
         {
-            return static_cast<Q>(mc_dimensions_.m_width);
+            return static_cast<T>(mc_dimensions_.m_width);
         }
-        template <FATSPACE_NUMBERS::Rational Q> constexpr auto GetHeight() const noexcept
+        template <bitwise::Integral_Or_Floating T> constexpr auto GetHeight() const noexcept -> T
         {
-            return static_cast<Q>(mc_dimensions_.m_height);
+            return static_cast<T>(mc_dimensions_.m_height);
         }
 
         template <bool Clear = true>

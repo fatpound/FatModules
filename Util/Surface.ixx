@@ -3,11 +3,8 @@ module;
 #include <FatNamespaces.hpp>
 
 #define FATPOUND_FULL_WIN_TARGETED
-
 #include <FatWin32.hpp>
-
 #include <gdiplus.h>
-
 #undef FATPOUND_FULL_WIN_TARGETED
 
 #include <cassert>
@@ -20,6 +17,8 @@ export module FatPound.Util.Surface;
 import FatPound.Util.Color;
 import FatPound.Util.Common;
 import FatPound.Util.Gfx.SizePack;
+
+import FatPound.Bitwise.Concepts;
 import FatPound.Math.Numbers.Sets;
 import FatPound.Memory;
 import FatPound.Win32.GDI_Plus;
@@ -188,50 +187,50 @@ export namespace fatpound::util
 
 
     public:
-        template <FATSPACE_NUMBERS::Rational Q = Size_t> __forceinline auto GetWidth      () const noexcept -> Q
+        template <bitwise::Integral_Or_Floating T = Size_t> __forceinline auto GetWidth      () const noexcept -> T
         {
-            return static_cast<Q>(m_size_pack_.m_width);
+            return static_cast<T>(m_size_pack_.m_width);
         }
-        template <FATSPACE_NUMBERS::Rational Q = Size_t> __forceinline auto GetHeight     () const noexcept -> Q
+        template <bitwise::Integral_Or_Floating T = Size_t> __forceinline auto GetHeight     () const noexcept -> T
         {
-            return static_cast<Q>(m_size_pack_.m_height);
+            return static_cast<T>(m_size_pack_.m_height);
         }
-        template <FATSPACE_NUMBERS::Rational Q = Size_t> __forceinline auto GetAlignment  () const noexcept -> Q
+        template <bitwise::Integral_Or_Floating T = Size_t> __forceinline auto GetAlignment  () const noexcept -> T
         {
-            return static_cast<Q>(m_align_byte_);
+            return static_cast<T>(m_align_byte_);
         }
-        template <FATSPACE_NUMBERS::Rational Q = Size_t> __forceinline auto GetPixelPitch () const noexcept -> Q
+        template <bitwise::Integral_Or_Floating T = Size_t> __forceinline auto GetPixelPitch () const noexcept -> T
         {
-            return static_cast<Q>(m_pixel_pitch_);
+            return static_cast<T>(m_pixel_pitch_);
         }
-        template <FATSPACE_NUMBERS::Rational Q = Size_t> __forceinline auto GetPitch      () const noexcept -> Q
+        template <bitwise::Integral_Or_Floating T = Size_t> __forceinline auto GetPitch      () const noexcept -> T
         {
-            return static_cast<Q>(m_pixel_pitch_ * sizeof(Color));
+            return static_cast<T>(m_pixel_pitch_ * sizeof(Color));
         }
 
-        template <std::integral I> __forceinline auto GetPixel(const I& x, const I& y) const -> Color
+        template <::std::integral T> __forceinline auto GetPixel(const T& x, const T& y) const -> Color
         {
-            if constexpr (::std::signed_integral<I>)
+            if constexpr (::std::signed_integral<T>)
             {
                 assert(x >= 0);
                 assert(y >= 0);
             }
 
-            assert(x < GetWidth<I>());
-            assert(y < GetHeight<I>());
+            assert(x < GetWidth<T>());
+            assert(y < GetHeight<T>());
 
             return m_pBuffer_[y * m_pixel_pitch_ + x];
         }
-        template <std::integral I> __forceinline void PutPixel(const I& x, const I& y, const Color& color) noexcept
+        template <::std::integral T> __forceinline void PutPixel(const T& x, const T& y, const Color& color) noexcept
         {
-            if constexpr (::std::signed_integral<I>)
+            if constexpr (::std::signed_integral<T>)
             {
                 assert(x >= 0);
                 assert(y >= 0);
             }
             
-            assert(x < GetWidth<I>());
-            assert(y < GetHeight<I>());
+            assert(x < GetWidth<T>());
+            assert(y < GetHeight<T>());
 
             m_pBuffer_[y * m_pixel_pitch_ + x] = color;
         }

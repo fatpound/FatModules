@@ -264,9 +264,6 @@
     <ClCompile Include="Math\Numbers\Sets.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Geometry\Geometry.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Random\Random.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -280,6 +277,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\D3D11\Visual\DrawableBase.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\AngularConv.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Geometry.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bitwise\Concepts.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bitwise\Bitwise.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

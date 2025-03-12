@@ -5,6 +5,7 @@
 #define FATSPACE                      NAMESPACE_FATPOUND
 
 #define FATSPACE_AUTOMATA             NAMESPACE_FATPOUND::automata
+#define FATSPACE_BITWISE              NAMESPACE_FATPOUND::bitwise
 #define FATSPACE_COLORS               NAMESPACE_FATPOUND::colors
 #define FATSPACE_CONCURRENCY          NAMESPACE_FATPOUND::concurrency
 #define FATSPACE_IO                   NAMESPACE_FATPOUND::io

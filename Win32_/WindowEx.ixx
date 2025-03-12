@@ -12,6 +12,7 @@ export module FatPound.Win32.WindowEx;
 import FatPound.Win32.IWindow;
 import FatPound.Win32.WndClassEx;
 
+import FatPound.Bitwise.Concepts;
 import FatPound.Concurrency;
 import FatPound.IO;
 import FatPound.Math.Numbers.Sets;
@@ -167,13 +168,13 @@ export namespace fatpound::win32
 
 
     public:
-        template <FATSPACE_NUMBERS::Rational Q> __forceinline auto GetClientWidth()  const noexcept
+        template <bitwise::Integral_Or_Floating T> __forceinline auto GetClientWidth()  const noexcept -> T
         {
-            return static_cast<Q>(mc_client_size_.m_width);
+            return static_cast<T>(mc_client_size_.m_width);
         }
-        template <FATSPACE_NUMBERS::Rational Q> __forceinline auto GetClientHeight() const noexcept
+        template <bitwise::Integral_Or_Floating T> __forceinline auto GetClientHeight() const noexcept -> T
         {
-            return static_cast<Q>(mc_client_size_.m_height);
+            return static_cast<T>(mc_client_size_.m_height);
         }
 
 
