@@ -1,5 +1,7 @@
 module;
 
+#include <FatDefines.hpp>
+
 export module FatPound.Util.Color;
 
 import std;
@@ -68,36 +70,36 @@ export namespace fatpound
 
 
         public:
-            [[nodiscard]] __forceinline constexpr auto GetA() const -> ::std::uint8_t
+            [[nodiscard]] FAT_FORCEINLINE constexpr auto GetA() const -> ::std::uint8_t
             {
                 return m_dword >> 24u;
             }
-            [[nodiscard]] __forceinline constexpr auto GetR() const -> ::std::uint8_t
+            [[nodiscard]] FAT_FORCEINLINE constexpr auto GetR() const -> ::std::uint8_t
             {
                 return (m_dword >> 16u) bitand 0xFFu;
             }
-            [[nodiscard]] __forceinline constexpr auto GetG() const -> ::std::uint8_t
+            [[nodiscard]] FAT_FORCEINLINE constexpr auto GetG() const -> ::std::uint8_t
             {
                 return (m_dword >> 8u) bitand 0xFFu;
             }
-            [[nodiscard]] __forceinline constexpr auto GetB() const -> ::std::uint8_t
+            [[nodiscard]] FAT_FORCEINLINE constexpr auto GetB() const -> ::std::uint8_t
             {
                 return m_dword bitand 0xFFu;
             }
 
-            __forceinline void SetA(const ::std::uint8_t& alpha) noexcept
+            FAT_FORCEINLINE void SetA(const ::std::uint8_t& alpha) noexcept
             {
                 m_dword = ((m_dword bitand 0x00'FF'FF'FFu) bitor (static_cast<::std::uint32_t>(alpha) << 24u));
             }
-            __forceinline void SetR(const ::std::uint8_t&   red) noexcept
+            FAT_FORCEINLINE void SetR(const ::std::uint8_t&   red) noexcept
             {
                 m_dword = ((m_dword bitand 0xFF'00'FF'FFu) bitor (static_cast<::std::uint32_t>(red) << 16u));
             }
-            __forceinline void SetG(const ::std::uint8_t& green) noexcept
+            FAT_FORCEINLINE void SetG(const ::std::uint8_t& green) noexcept
             {
                 m_dword = ((m_dword bitand 0xFF'FF'00'FFu) bitor (static_cast<::std::uint32_t>(green) << 8u));
             }
-            __forceinline void SetB(const ::std::uint8_t&  blue) noexcept
+            FAT_FORCEINLINE void SetB(const ::std::uint8_t&  blue) noexcept
             {
                 m_dword = ((m_dword bitand 0xFF'FF'FF'00u) bitor static_cast<::std::uint32_t>(blue));
             }

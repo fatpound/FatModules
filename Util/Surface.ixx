@@ -1,6 +1,7 @@
 module;
 
 #include <FatNamespaces.hpp>
+#include <FatDefines.hpp>
 
 #define FATPOUND_FULL_WIN_TARGETED
 #include <FatWin32.hpp>
@@ -186,28 +187,28 @@ export namespace fatpound::util
 
 
     public:
-        template <bitwise::Integral_Or_Floating T = Size_t> __forceinline auto GetWidth      () const noexcept -> T
+        template <bitwise::Integral_Or_Floating T = Size_t> FAT_FORCEINLINE auto GetWidth      () const noexcept -> T
         {
             return static_cast<T>(m_size_pack_.m_width);
         }
-        template <bitwise::Integral_Or_Floating T = Size_t> __forceinline auto GetHeight     () const noexcept -> T
+        template <bitwise::Integral_Or_Floating T = Size_t> FAT_FORCEINLINE auto GetHeight     () const noexcept -> T
         {
             return static_cast<T>(m_size_pack_.m_height);
         }
-        template <bitwise::Integral_Or_Floating T = Size_t> __forceinline auto GetAlignment  () const noexcept -> T
+        template <bitwise::Integral_Or_Floating T = Size_t> FAT_FORCEINLINE auto GetAlignment  () const noexcept -> T
         {
             return static_cast<T>(m_align_byte_);
         }
-        template <bitwise::Integral_Or_Floating T = Size_t> __forceinline auto GetPixelPitch () const noexcept -> T
+        template <bitwise::Integral_Or_Floating T = Size_t> FAT_FORCEINLINE auto GetPixelPitch () const noexcept -> T
         {
             return static_cast<T>(m_pixel_pitch_);
         }
-        template <bitwise::Integral_Or_Floating T = Size_t> __forceinline auto GetPitch      () const noexcept -> T
+        template <bitwise::Integral_Or_Floating T = Size_t> FAT_FORCEINLINE auto GetPitch      () const noexcept -> T
         {
             return static_cast<T>(m_pixel_pitch_ * sizeof(Color));
         }
 
-        template <::std::integral T> __forceinline auto GetPixel(const T& x, const T& y) const -> Color
+        template <::std::integral T> FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
         {
             if constexpr (::std::signed_integral<T>)
             {
@@ -220,7 +221,7 @@ export namespace fatpound::util
 
             return m_pBuffer_[y * m_pixel_pitch_ + x];
         }
-        template <::std::integral T> __forceinline void PutPixel(const T& x, const T& y, const Color& color) noexcept
+        template <::std::integral T> FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
         {
             if constexpr (::std::signed_integral<T>)
             {

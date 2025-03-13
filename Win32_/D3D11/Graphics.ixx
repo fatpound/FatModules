@@ -1,6 +1,7 @@
 module;
 
 #include <FatNamespaces.hpp>
+#include <FatDefines.hpp>
 
 #include <FatWin32.hpp>
 
@@ -108,11 +109,11 @@ export namespace fatpound::win32::d3d11
             return static_cast<T>(mc_dimensions_.m_height);
         }
 
-        template <::std::integral T> __forceinline auto GetPixel(const T& x, const T& y) const -> Color               requires(Framework)
+        template <::std::integral T> FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color               requires(Framework)
         {
             return m_res_pack_.m_surface.GetPixel<>(x, y);
         }
-        template <::std::integral T> __forceinline void PutPixel(const T& x, const T& y, const Color& color) noexcept requires(Framework)
+        template <::std::integral T> FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept requires(Framework)
         {
             m_res_pack_.m_surface.PutPixel<>(x, y, color);
         }

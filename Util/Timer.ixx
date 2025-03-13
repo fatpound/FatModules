@@ -1,5 +1,7 @@
 module;
 
+#include <FatDefines.hpp>
+
 export module FatPound.Util.Timer;
 
 import std;
@@ -19,20 +21,20 @@ export namespace fatpound::util
 
 
     public:
-        __forceinline auto GetElapsed_ms() const noexcept -> float
+        FAT_FORCEINLINE auto GetElapsed_ms() const noexcept -> float
         {
             return std::chrono::duration<float, std::milli>(m_last_ - m_start_).count();
         }
-        __forceinline auto GetElapsed_s()  const noexcept -> float
+        FAT_FORCEINLINE auto GetElapsed_s()  const noexcept -> float
         {
             return GetElapsed_ms() / 1000.0f;
         }
 
-        __forceinline void Start() noexcept
+        FAT_FORCEINLINE void Start() noexcept
         {
             m_start_ = ::std::chrono::steady_clock::now();
         }
-        __forceinline void Stop() noexcept
+        FAT_FORCEINLINE void Stop() noexcept
         {
             m_last_ = ::std::chrono::steady_clock::now();
         }
