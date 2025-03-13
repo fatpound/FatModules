@@ -19,7 +19,6 @@ import FatPound.Util.Common;
 import FatPound.Util.Gfx.SizePack;
 
 import FatPound.Bitwise.Concepts;
-import FatPound.Math.Numbers.Sets;
 import FatPound.Memory;
 import FatPound.Win32.GDI_Plus;
 

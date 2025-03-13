@@ -15,7 +15,6 @@ import FatPound.Win32.WndClassEx;
 import FatPound.Bitwise.Concepts;
 import FatPound.Concurrency;
 import FatPound.IO;
-import FatPound.Math.Numbers.Sets;
 import FatPound.Util.Gfx.SizePack;
 
 import std;

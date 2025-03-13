@@ -19,7 +19,6 @@ import FatPound.Win32.D3D11.Pipeline;
 import FatPound.Win32.D3D11.Visual;
 
 import FatPound.Bitwise.Concepts;
-import FatPound.Math.Numbers.Sets;
 import FatPound.Util.Color;
 import FatPound.Util.Surface;
 import FatPound.Util.Gfx;

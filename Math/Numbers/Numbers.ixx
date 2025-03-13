@@ -13,69 +13,45 @@ import std;
 
 export namespace fatpound::math::numbers
 {
-    template <Rational Q>
-    constexpr auto twoPi = std::numbers::pi_v<Q> * static_cast<Q>(2.0);
+    template <::std::floating_point FP> constexpr auto    Pi = std::numbers::pi_v<FP>;
+    template <::std::floating_point FP> constexpr auto twoPi = std::numbers::pi_v<FP> * static_cast<FP>(2.0);
 
-    template <Integer Z>
-    constexpr auto IsOdd(const Z& num) noexcept -> bool
+    template <::std::unsigned_integral T> FAT_CMATH_CONSTEXPR23 auto IsSquare        (const T& num) noexcept -> bool
     {
-        return num bitand static_cast<Z>(1);
+        return Square<T>(std::sqrt(num)) == num;
     }
-
-    template <Integer Z>
-    constexpr auto IsEven(const Z& num) noexcept -> bool
+    template <::std::unsigned_integral T> FAT_CMATH_CONSTEXPR23 auto IsCube          (const T& num) noexcept -> bool
     {
-        return not IsOdd<>(num);
+        return Cube<T>(std::cbrt(num)) == num;
     }
-
-    template <Natural N>
-    constexpr auto IsPowerOf2(const N& num) noexcept -> bool
-    {
-        return (num not_eq 0) and (not (num bitand (num - 1)));
-    }
-
-    template <Natural N>
-    FAT_CMATH_CONSTEXPR23
-    auto IsSquare(const N& num) noexcept -> bool
-    {
-        return Square<N>(std::sqrt(num)) == num;
-    }
-
-    template <Natural N>
-    FAT_CMATH_CONSTEXPR23 
-    auto IsCube(const N& num) noexcept -> bool
-    {
-        return Cube<N>(std::cbrt(num)) == num;
-    }
-
-    template <Natural N>
-    constexpr auto IsPerfectSquare(const N& num) noexcept -> bool
+    template <::std::unsigned_integral T>             constexpr auto IsPerfectSquare (const T& num) noexcept -> bool
     {
         return IsSquare<>(num);
     }
-
-    template <Natural N>
-    constexpr auto IsPerfectCube(const N& num) noexcept -> bool
+    template <::std::unsigned_integral T>             constexpr auto IsPerfectCube   (const T& num) noexcept -> bool
     {
         return IsCube<>(num);
     }
-
-    template <Natural N>
-    constexpr auto IsHarshad(const N& num) noexcept -> bool
+    template <::std::unsigned_integral T>             constexpr auto IsHarshad       (const T& num) noexcept -> bool
     {
         return num % DigitSum<>(num) == 0;
     }
-
-    template <Natural N>
-    constexpr auto IsNiven(const N& num) noexcept -> bool
+    template <::std::unsigned_integral T>             constexpr auto IsNiven         (const T& num) noexcept -> bool
+    {
+        return IsHarshad<>(num);
+    }
+    template <::std::unsigned_integral T>             constexpr auto IsMultidigital  (const T& num) noexcept -> bool
     {
         return IsHarshad<>(num);
     }
 
-    template <Natural N>
-    constexpr auto IsMultidigital(const N& num) noexcept -> bool
+    template <::std::integral T>                      constexpr auto IsOdd           (const T& num) noexcept -> bool
     {
-        return IsHarshad<>(num);
+        return num bitand static_cast<T>(1);
+    }
+    template <::std::integral T>                      constexpr auto IsEven          (const T& num) noexcept -> bool
+    {
+        return not IsOdd<>(num);
     }
 }
 

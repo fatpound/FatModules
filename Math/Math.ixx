@@ -12,8 +12,6 @@ export import FatPound.Math.Geometry;
 export import FatPound.Math.Multiplicative;
 export import FatPound.Math.Rect;
 
-import std;
-
 namespace dx = DirectX;
 
 export namespace fatpound::math

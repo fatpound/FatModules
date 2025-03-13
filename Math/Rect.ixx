@@ -1,20 +1,16 @@
 module;
 
-#include <FatWin32_Settings.hpp>
-
 export module FatPound.Math.Rect;
 
-import FatPound.Math.Numbers.Sets;
-
-import std;
+import FatPound.Bitwise.Concepts;
 
 export namespace fatpound::math
 {
-    template <numbers::Rational Q>
+    template <bitwise::Integral_Or_Floating T>
     class Rect final
     {
     public:
-        explicit Rect(const Q left, const Q top, const Q right, const Q bottom) noexcept
+        explicit Rect(const T& left, const T& top, const T& right, const T& bottom) noexcept
             :
             m_left(left),
             m_top(top),
@@ -34,22 +30,22 @@ export namespace fatpound::math
 
 
     public:
-        static auto FromCenter(const Q centerX, const Q centerY, const Q halfWidth, const Q halfHeight) noexcept -> Rect
+        static auto FromCenter(const T& centerX, const T& centerY, const T& halfWidth, const T& halfHeight) noexcept -> Rect
         {
             return Rect(centerX - halfWidth, centerY - halfHeight, centerX + halfWidth, centerY + halfHeight);
         }
 
 
     public:
-        auto GetCenter() const noexcept -> std::pair<Q, Q>
+        auto GetCenter() const noexcept -> std::pair<T, T>
         {
             return {
-                (m_left + m_right) / static_cast<Q>(2.0),
-                (m_top + m_bottom) / static_cast<Q>(2.0)
+                (m_left + m_right) / static_cast<T>(2.0),
+                (m_top + m_bottom) / static_cast<T>(2.0)
             };
         }
 
-        auto GetExpanded(const float offset) const noexcept -> Rect
+        auto GetExpanded(const T& offset) const noexcept -> Rect
         {
             return Rect(m_left - offset, m_top - offset, m_right + offset, m_bottom + offset);
         }
@@ -77,10 +73,10 @@ export namespace fatpound::math
 
 
     public:
-        Q m_left;
-        Q m_top;
-        Q m_right;
-        Q m_bottom;
+        T m_left;
+        T m_top;
+        T m_right;
+        T m_bottom;
 
 
     protected:

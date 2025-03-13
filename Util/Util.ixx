@@ -13,8 +13,6 @@ export import FatPound.Util.Surface;
 export import FatPound.Util.Timer;
 export import FatPound.Util.ViewXM;
 
-import FatPound.Math.Numbers.Sets;
-
 import std;
 
 export namespace fatpound::util
@@ -22,10 +20,10 @@ export namespace fatpound::util
     template
     <
         ::std::unsigned_integral U,
-        ::std::floating_point    F = float
+        ::std::floating_point    FP = float
     >
     FAT_CMATH_CONSTEXPR23
-    auto HourMinuteHandAngle(U hours, U minutes) -> F
+    auto HourMinuteHandAngle(U hours, U minutes) -> FP
     {
         hours   %= 12;
         minutes %= 60;
