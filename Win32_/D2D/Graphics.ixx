@@ -1,6 +1,7 @@
 module;
 
 #include <FatNamespaces.hpp>
+#include <FatDefines.hpp>
 
 #include <FatWin32.hpp>
 
@@ -67,11 +68,11 @@ export namespace fatpound::win32::d2d
 
 
     public:
-        template <bitwise::Integral_Or_Floating T> constexpr auto GetWidth()  const noexcept -> T
+        template <bitwise::Integral_Or_Floating T> FAT_FORCEINLINE constexpr auto GetWidth()  const noexcept -> T
         {
             return static_cast<T>(mc_dimensions_.m_width);
         }
-        template <bitwise::Integral_Or_Floating T> constexpr auto GetHeight() const noexcept -> T
+        template <bitwise::Integral_Or_Floating T> FAT_FORCEINLINE constexpr auto GetHeight() const noexcept -> T
         {
             return static_cast<T>(mc_dimensions_.m_height);
         }
