@@ -1,5 +1,7 @@
 module;
 
+#if defined(_MSC_VER)
+
 #include <FatNamespaces.hpp>
 #include <FatDefines.hpp>
 
@@ -15,7 +17,11 @@ module;
 
 #pragma comment(lib, "d2d1")
 
+#endif
+
 export module FatPound.Win32.D2D.Graphics;
+
+#if defined(_MSC_VER)
 
 import FatPound.Bitwise.Concepts;
 import FatPound.Util.Gfx.SizePack;
@@ -163,5 +169,7 @@ export namespace fatpound::win32::d2d
         const FATSPACE_UTIL_GFX::SizePack               mc_dimensions_;
     };
 }
+
+#endif
 
 module : private;

@@ -1,10 +1,16 @@
 module;
 
+#if defined(_MSC_VER)
+
 #include <FatNamespaces.hpp>
 
 #include <cassert>
 
+#endif
+
 export module FatPound.Win32.D3D11.Visual.DrawableBase;
+
+#if defined(_MSC_VER)
 
 import FatPound.Win32.D3D11.Visual.Drawable;
 import FatPound.Win32.D3D11.Pipeline;
@@ -66,5 +72,7 @@ export namespace fatpound::win32::d3d11::visual
         inline static thread_local std::vector<BindablePtr_t> tl_bindable_vec_;
     };
 }
+
+#endif
 
 module : private;

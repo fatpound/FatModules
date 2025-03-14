@@ -1,10 +1,14 @@
 module;
 
+#if defined(_MSC_VER)
 #include <FatWin32.hpp>
 
 #include <mfapi.h>
+#endif
 
 export module FatPound.Win32.WMF.Manager;
+
+#if defined(_MSC_VER)
 
 import std;
 
@@ -39,5 +43,7 @@ export namespace fatpound::win32::wmf
     private:
     };
 }
+
+#endif
 
 module : private;

@@ -1,12 +1,14 @@
 module;
 
+#if defined(_MSC_VER)
 #include <FatWin32.hpp>
-
 #include <d3d11.h>
-
 #include <wrl.h>
+#endif
 
 export module FatPound.Win32.D3D11.Pipeline.Resource.Sampler;
+
+#if defined(_MSC_VER)
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 
@@ -50,5 +52,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
         ::Microsoft::WRL::ComPtr<ID3D11SamplerState> m_pSamplerState_;
     };
 }
+
+#endif
 
 module : private;

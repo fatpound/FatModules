@@ -1,8 +1,12 @@
 module;
 
+#if defined(_MSC_VER)
 #include <FatWin32.hpp>
+#endif
 
 export module FatPound.Win32.WndClassEx;
+
+#if defined(_MSC_VER)
 
 import FatPound.Win32.IWindow;
 
@@ -118,5 +122,7 @@ export namespace fatpound::win32
         ATOM m_atom_;
     };
 }
+
+#endif
 
 module : private;

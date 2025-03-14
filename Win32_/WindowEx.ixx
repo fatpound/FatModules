@@ -1,13 +1,18 @@
 module;
 
+#if defined(_MSC_VER)
+
 #include <FatNamespaces.hpp>
 #include <FatDefines.hpp>
 
 #include <FatWin32.hpp>
 
 #include <DirectXMath.h>
+#endif
 
 export module FatPound.Win32.WindowEx;
+
+#if defined(_MSC_VER)
 
 import FatPound.Win32.IWindow;
 import FatPound.Win32.WndClassEx;
@@ -419,5 +424,7 @@ export namespace fatpound::win32
         }
     };
 }
+
+#endif
 
 module : private;

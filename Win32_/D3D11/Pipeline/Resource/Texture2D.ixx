@@ -1,13 +1,16 @@
 module;
 
+#if defined(_MSC_VER)
 #include <FatNamespaces.hpp>
+
 #include <FatWin32.hpp>
-
 #include <d3d11.h>
-
 #include <wrl.h>
+#endif
 
 export module FatPound.Win32.D3D11.Pipeline.Resource.Texture2D;
+
+#if defined(_MSC_VER)
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 import FatPound.Util.Surface;
@@ -74,5 +77,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
         ::Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_pSRV_;
     };
 }
+
+#endif
 
 module : private;

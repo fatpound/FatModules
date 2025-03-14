@@ -1,16 +1,16 @@
 module;
 
+#if defined(_MSC_VER)
 #include <FatNamespaces.hpp>
-
 #include <FatWin32.hpp>
-
-#include <DirectXMath.h>
-
 #include <d3d11.h>
-
 #include <wrl.h>
+#include <DirectXMath.h>
+#endif
 
 export module FatPound.Win32.D3D11.Pipeline.Resource.TransformCBuffer;
+
+#if defined(_MSC_VER)
 
 export import FatPound.Win32.D3D11.Pipeline.Resource.VertexCBuffer;
 
@@ -69,5 +69,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
         FATSPACE_UTIL::ViewXM& m_viewXM_;
     };
 }
+
+#endif
 
 module : private;

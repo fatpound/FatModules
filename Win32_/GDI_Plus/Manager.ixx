@@ -1,16 +1,16 @@
 module;
 
+#if defined(_MSC_VER)
 #define FATPOUND_FULL_WIN_TARGETED
-
 #include <FatWin32.hpp>
-
 #include <gdiplus.h>
-
 #undef FATPOUND_FULL_WIN_TARGETED
-
 #pragma comment(lib, "gdiplus")
+#endif
 
 export module FatPound.Win32.GDI_Plus.Manager;
+
+#if defined(_MSC_VER)
 
 export namespace fatpound::win32::gdi_plus
 {
@@ -52,5 +52,7 @@ export namespace fatpound::win32::gdi_plus
         inline static int s_ref_count_{};
     };
 }
+
+#endif
 
 module : private;

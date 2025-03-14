@@ -1,16 +1,22 @@
 module;
 
+#if defined(_MSC_VER)
+
 #include <FatNamespaces.hpp>
 
 #include <FatWin32.hpp>
 
-#include <DirectXMath.h>
-
 #include <d3d11.h>
+
+#include <DirectXMath.h>
 
 #include <cassert>
 
+#endif
+
 export module FatPound.Win32.D3D11.Visual.Drawable;
+
+#if defined(_MSC_VER)
 
 import FatPound.Win32.D3D11.Pipeline;
 
@@ -85,5 +91,7 @@ export namespace fatpound::win32::d3d11::visual
         BindableVec_t m_binds_;
     };
 }
+
+#endif
 
 module : private;

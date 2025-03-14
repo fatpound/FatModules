@@ -1,5 +1,7 @@
 module;
 
+#if defined(_MSC_VER)
+
 #include <FatNamespaces.hpp>
 #include <FatDefines.hpp>
 
@@ -14,7 +16,11 @@ module;
 #pragma comment(lib, "d3d11")
 #pragma comment(lib, "D3DCompiler")
 
+#endif
+
 export module FatPound.Win32.D3D11.Graphics;
+
+#if defined(_MSC_VER)
 
 import FatPound.Win32.D3D11.Pipeline;
 import FatPound.Win32.D3D11.Visual;
@@ -644,5 +650,7 @@ export namespace fatpound::win32::d3d11
         std::unique_ptr<Surface> m_pSurface_;
     };
 }
+
+#endif
 
 module : private;

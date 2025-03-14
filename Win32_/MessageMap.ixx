@@ -1,5 +1,7 @@
 module;
 
+#if defined(_MSC_VER)
+
 #include <FatWin32.hpp>
 
 // some secret messages
@@ -15,7 +17,11 @@ module;
 
 #define REGISTER_MESSAGE(msg) { static_cast<DWORD>(msg), WIDEN(#msg) }
 
+#endif
+
 export module FatPound.Win32.MessageMap;
+
+#if defined(_MSC_VER)
 
 import std;
 
@@ -244,5 +250,7 @@ export namespace fatpound::win32
         std::unordered_map<DWORD, std::wstring> m_map_;
     };
 }
+
+#endif
 
 module : private;

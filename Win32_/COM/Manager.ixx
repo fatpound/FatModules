@@ -1,10 +1,14 @@
 module;
 
+#if defined(_MSC_VER)
 #include <FatWin32.hpp>
 
 #include <combaseapi.h>
+#endif
 
 export module FatPound.Win32.COM.Manager;
+
+#if defined(_MSC_VER)
 
 import std;
 
@@ -40,5 +44,7 @@ export namespace fatpound::win32::com
     private:
     };
 }
+
+#endif
 
 module : private;
