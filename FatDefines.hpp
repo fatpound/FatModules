@@ -10,7 +10,7 @@
 #elif defined(__INTEL_LLVM_COMPILER)
     #define FAT_FORCEINLINE __inline
 #elif defined(__clang__)
-    #define FAT_FORCEINLINE [[gnu::always_inline]] [[gnu::gnu_inline]] inline
+    #define FAT_FORCEINLINE [[clang::always_inline]] inline
 #elif defined(__GNUC__)
     #define FAT_FORCEINLINE [[gnu::always_inline]] inline
 #else

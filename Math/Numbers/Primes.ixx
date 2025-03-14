@@ -145,7 +145,7 @@ export namespace fatpound::math::numbers
     {
         if (idx < 3)
         {
-            return (idx == 0) ? 0 : (2 + static_cast<T>(idx == 3));
+            return (idx == 0) ? 0 : (2 + static_cast<T>(idx == 2));
         }
 
         return NthPrime_GT2<>(idx);
