@@ -1,8 +1,8 @@
 module;
 
+#if defined(_MSC_VER)
 #include <FatNamespaces.hpp>
 
-#if defined(_MSC_VER)
 #include <FatWin32.hpp>
 #else
 #ifndef WHEEL_DELTA
@@ -16,12 +16,20 @@ export import FatPound.IO.MouseEvent;
 
 import std;
 
+#if defined(_MSC_VER)
+namespace fatpound::win32
+{
+    class WindowEx;
+}
+#endif
+
 export namespace fatpound::io
 {
-    template <typename T>
     class Mouse final
     {
-        friend T;
+#if defined(_MSC_VER)
+        friend FATSPACE_WIN32::WindowEx;
+#endif
 
         static constexpr auto scx_bufferSize_ = 16u;
 

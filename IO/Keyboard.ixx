@@ -1,6 +1,8 @@
 module;
 
+#if defined(_MSC_VER)
 #include <FatNamespaces.hpp>
+#endif
 
 export module FatPound.IO.Keyboard;
 
@@ -8,12 +10,20 @@ export import FatPound.IO.KeyEvent;
 
 import std;
 
+#if defined(_MSC_VER)
+namespace fatpound::win32
+{
+    class WindowEx;
+}
+#endif
+
 export namespace fatpound::io
 {
-    template <typename T>
     class Keyboard final
     {
-        friend T;
+#if defined(_MSC_VER)
+        friend FATSPACE_WIN32::WindowEx;
+#endif
 
         static constexpr unsigned int scx_bufferSize_ = 16u;
 

@@ -33,8 +33,8 @@ export namespace fatpound::win32
             std::shared_ptr<WndClassEx>            pWndClassEx,
             const std::wstring                     title,
             const FATSPACE_UTIL_GFX::SizePack      clientDimensions,
-            std::shared_ptr<FATSPACE_IO::Mouse<WindowEx>>    pMouse    = std::make_shared<FATSPACE_IO::Mouse<WindowEx>>(),
-            std::shared_ptr<FATSPACE_IO::Keyboard<WindowEx>> pKeyboard = std::make_shared<FATSPACE_IO::Keyboard<WindowEx>>(),
+            std::shared_ptr<FATSPACE_IO::Mouse>    pMouse    = std::make_shared<FATSPACE_IO::Mouse>(),
+            std::shared_ptr<FATSPACE_IO::Keyboard> pKeyboard = std::make_shared<FATSPACE_IO::Keyboard>(),
             const std::optional<::DirectX::XMINT2> position  = std::nullopt)
             :
             m_pMouse{ std::move(pMouse) },
@@ -183,8 +183,8 @@ export namespace fatpound::win32
 
 
     public:
-        std::shared_ptr<FATSPACE_IO::Mouse<WindowEx>>    m_pMouse;
-        std::shared_ptr<FATSPACE_IO::Keyboard<WindowEx>> m_pKeyboard;
+        std::shared_ptr<FATSPACE_IO::Mouse>    m_pMouse;
+        std::shared_ptr<FATSPACE_IO::Keyboard> m_pKeyboard;
 
 
     protected:
