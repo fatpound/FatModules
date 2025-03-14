@@ -1,17 +1,19 @@
 module;
 
+#if defined(_MSC_VER)
 #include <FatNamespaces.hpp>
 
 #include <FatWin32.hpp>
-
 #include <d3d11.h>
-
 #include <wrl.h>
+#endif
 
 export module FatPound.Util.Gfx.ResourcePack;
 
-import FatPound.Util.Color;
+#if defined(_MSC_VER)
+
 import FatPound.Util.Gfx.SizePack;
+
 import FatPound.Util.Surface;
 
 export namespace fatpound::util::gfx
@@ -39,5 +41,7 @@ export namespace fatpound::util::gfx
         }
     };
 }
+
+#endif
 
 module : private;

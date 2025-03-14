@@ -1,10 +1,12 @@
 module;
 
+#if defined(_MSC_VER)
 #include <DirectXMath.h>
+#endif
 
 export module FatPound.Util.ViewXM;
 
-import std;
+#if defined(_MSC_VER)
 
 export namespace fatpound::util
 {
@@ -48,5 +50,7 @@ export namespace fatpound::util
         ::DirectX::XMMATRIX m_projection_{};
     };
 }
+
+#endif
 
 module : private;

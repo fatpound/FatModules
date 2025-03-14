@@ -4,6 +4,8 @@ export module FatPound.Math.Rect;
 
 import FatPound.Bitwise.Concepts;
 
+import std;
+
 export namespace fatpound::math
 {
     template <bitwise::Integral_Or_Floating T>

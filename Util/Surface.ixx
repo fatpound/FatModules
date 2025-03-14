@@ -3,15 +3,16 @@ module;
 #include <FatNamespaces.hpp>
 #include <FatDefines.hpp>
 
+#if defined(_MSC_VER)
 #define FATPOUND_FULL_WIN_TARGETED
 #include <FatWin32.hpp>
 #include <gdiplus.h>
 #undef FATPOUND_FULL_WIN_TARGETED
+#pragma comment(lib, "gdiplus")
+#endif
 
 #include <cassert>
 #include <cstdlib>
-
-#pragma comment(lib, "gdiplus")
 
 export module FatPound.Util.Surface;
 
@@ -21,7 +22,10 @@ import FatPound.Util.Gfx.SizePack;
 
 import FatPound.Bitwise.Concepts;
 import FatPound.Memory;
+
+#if defined(_MSC_VER)
 import FatPound.Win32.GDI_Plus;
+#endif
 
 import std;
 
@@ -38,6 +42,7 @@ export namespace fatpound::util
 
 
     public:
+#if defined(_MSC_VER)
         explicit Surface(const std::filesystem::path& path,         const Size_t& alignBytes = scx_DefaultAlignment)
             :
             Surface(path.wstring(), alignBytes)
@@ -81,6 +86,7 @@ export namespace fatpound::util
 
             *this = std::move(surf);
         }
+#endif
         explicit Surface(const gfx::SizePack& dimensions,           const Size_t& alignBytes = scx_DefaultAlignment)
             :
             m_pBuffer_((assert(dimensions.m_width > 0u), assert(dimensions.m_height > 0), FATSPACE_MEMORY::AlignedUniquePtr<Color[]>::Make(alignBytes, dimensions.m_width * dimensions.m_height))),

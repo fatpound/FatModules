@@ -1,6 +1,8 @@
 module;
 
+#if defined(_MSC_VER)
 #include <DirectXMath.h>
+#endif
 
 export module FatPound.Math;
 
@@ -11,6 +13,8 @@ export import FatPound.Math.Common;
 export import FatPound.Math.Geometry;
 export import FatPound.Math.Multiplicative;
 export import FatPound.Math.Rect;
+
+#if defined(_MSC_VER)
 
 namespace dx = DirectX;
 
@@ -44,5 +48,7 @@ export namespace fatpound::math
         );
     }
 }
+
+#endif
 
 module : private;

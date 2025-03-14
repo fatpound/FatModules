@@ -8,16 +8,14 @@ export import FatPound.IO.KeyEvent;
 
 import std;
 
-namespace fatpound::win32
-{
-    class WindowEx;
-}
-
 export namespace fatpound::io
 {
+    template <typename T>
     class Keyboard final
     {
-        friend FATSPACE_WIN32::WindowEx;
+        friend T;
+
+        static constexpr unsigned int scx_bufferSize_ = 16u;
 
     public:
         using keycode_t = decltype(KeyEvent::code);
@@ -34,25 +32,58 @@ export namespace fatpound::io
 
 
     public:
-        auto GetEvent() noexcept -> std::optional<KeyEvent>;
-        auto GetChar()  noexcept -> std::optional<unsigned char>;
+        auto GetEvent() noexcept -> std::optional<KeyEvent>
+        {
+            if (m_key_event_queue_.empty())
+            {
+                return std::nullopt;
+            }
 
-        auto KeyIsPressed(keycode_t code) const noexcept -> bool;
-        auto AutoRepeatIsEnabled() const noexcept -> bool;
+            auto keyE = m_key_event_queue_.front();
 
-        auto KeyBufferIsEmpty()  const noexcept -> bool;
-        auto CharBufferIsEmpty() const noexcept -> bool;
+            m_key_event_queue_.pop();
 
-        void EnableAutoRepeat()  noexcept;
-        void DisableAutoRepeat() noexcept;
+            return keyE;
+        }
+        auto GetChar()  noexcept -> std::optional<unsigned char>
+        {
+            return std::optional<unsigned char>();
+        }
+
+        auto KeyIsPressed(keycode_t code) const noexcept -> bool
+        {
+            return m_key_states_[code];
+        }
+        auto AutoRepeatIsEnabled() const noexcept -> bool
+        {
+            return m_auto_repeat_enabled_;
+        }
+
+        auto KeyBufferIsEmpty()  const noexcept -> bool
+        {
+            return false;
+        }
+        auto CharBufferIsEmpty() const noexcept -> bool
+        {
+            return false;
+        }
+
+        void EnableAutoRepeat()  noexcept
+        {
+            m_auto_repeat_enabled_ = true;
+        }
+        void DisableAutoRepeat() noexcept
+        {
+            m_auto_repeat_enabled_ = false;
+        }
 
 
     protected:
 
 
     private:
-        template <typename T>
-        static void TrimBuffer_(std::queue<T>& buffer) noexcept
+        template <typename U>
+        static void TrimBuffer_(std::queue<U>& buffer) noexcept
         {
             while (buffer.size() > scx_bufferSize_)
             {
@@ -62,15 +93,33 @@ export namespace fatpound::io
 
 
     private:
-        void OnKeyPressed_(unsigned char keycode);
-        void OnKeyReleased_(unsigned char keycode);
-        void OnChar_(unsigned char character);
+        void OnKeyPressed_(unsigned char keycode)
+        {
+            m_key_states_[keycode] = true;
 
-        void ClearKeyStateBitset_() noexcept;
+            m_key_event_queue_.push(KeyEvent{ KeyEvent::Type::Press, keycode });
 
+            TrimBuffer_(m_key_event_queue_);
+        }
+        void OnKeyReleased_(unsigned char keycode)
+        {
+            m_key_states_[keycode] = false;
 
-    private:
-        static constexpr unsigned int scx_bufferSize_ = 16u;
+            m_key_event_queue_.push(KeyEvent{ KeyEvent::Type::Release, keycode });
+
+            TrimBuffer_(m_key_event_queue_);
+        }
+        void OnChar_(unsigned char character)
+        {
+            m_char_buffer_.push(character);
+
+            TrimBuffer_(m_char_buffer_);
+        }
+
+        void ClearKeyStateBitset_() noexcept
+        {
+            m_key_states_.reset();
+        }
 
 
     private:

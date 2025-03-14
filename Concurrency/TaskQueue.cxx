@@ -2,6 +2,8 @@ module;
 
 module FatPound.Concurrency.TaskQueue;
 
+#if defined(_MSC_VER)
+
 namespace fatpound::concurrency
 {
     void TaskQueue::ExecuteFirstAndPopOff()
@@ -26,3 +28,5 @@ namespace fatpound::concurrency
         m_tasks_.push_back(std::move(wtask));
     }
 }
+
+#endif

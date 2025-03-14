@@ -177,16 +177,10 @@
     <ClCompile Include="IO\IO.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IO\Keyboard.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="IO\Keyboard.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IO\KeyEvent.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IO\Mouse.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IO\Mouse.ixx">

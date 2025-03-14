@@ -33,7 +33,7 @@ namespace fatpound::file
                 std::ostreambuf_iterator<char>(outputFile),
                 [&rng](const char& ch) noexcept -> char
                 {
-                    return static_cast<char>(ch xor rng());
+                    return static_cast<char>(static_cast<decltype(rng)::result_type>(ch) xor rng());
                 }
             );
         }

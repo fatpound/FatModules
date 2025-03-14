@@ -12,6 +12,9 @@ export import FatPound.Math;
 export import FatPound.Memory;
 export import FatPound.Random;
 export import FatPound.Util;
+
+#if defined(_MSC_VER)
 export import FatPound.Win32;
+#endif
 
 module : private;

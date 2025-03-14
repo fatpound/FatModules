@@ -1,10 +1,10 @@
 module;
 
+#if defined(_MSC_VER)
 #include <FatWin32.hpp>
-
 #include <d3d11.h>
-
 #include <wrl.h>
+#endif
 
 export module FatPound.Util.Gfx;
 
@@ -12,7 +12,7 @@ export import FatPound.Util.Gfx.FullScreenQuad;
 export import FatPound.Util.Gfx.ResourcePack;
 export import FatPound.Util.Gfx.SizePack;
 
-import std;
+#if defined(_MSC_VER)
 
 namespace wrl = Microsoft::WRL;
 
@@ -48,5 +48,7 @@ export namespace fatpound::util::gfx
         GetDXGIFactory(pDevice)->MakeWindowAssociation(hWnd, flag);
     }
 }
+
+#endif
 
 module : private;

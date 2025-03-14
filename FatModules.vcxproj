@@ -64,10 +64,8 @@
     <ClCompile Include="Util\Gfx\FullScreenQuad.ixx" />
     <ClCompile Include="Util\Gfx\Gfx.ixx" />
     <ClCompile Include="IO\IO.ixx" />
-    <ClCompile Include="IO\Keyboard.cxx" />
     <ClCompile Include="IO\Keyboard.ixx" />
     <ClCompile Include="IO\KeyEvent.ixx" />
-    <ClCompile Include="IO\Mouse.cxx" />
     <ClCompile Include="IO\Mouse.ixx" />
     <ClCompile Include="IO\MouseEvent.ixx" />
     <ClCompile Include="Memory\Memory.ixx" />

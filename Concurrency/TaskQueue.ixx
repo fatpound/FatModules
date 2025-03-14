@@ -2,6 +2,8 @@ module;
 
 export module FatPound.Concurrency.TaskQueue;
 
+#if defined(_MSC_VER)
+
 import std;
 
 export namespace fatpound::concurrency
@@ -53,5 +55,7 @@ export namespace fatpound::concurrency
         std::mutex m_mtx_;
     };
 }
+
+#endif
 
 module : private;

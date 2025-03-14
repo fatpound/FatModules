@@ -8,6 +8,7 @@ export import FatPound.Math.Numbers.Primes;
 export import FatPound.Math.Numbers.Sets;
 
 import FatPound.Math.Common;
+import FatPound.Math.Multiplicative;
 
 import std;
 
