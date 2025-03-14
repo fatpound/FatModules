@@ -43,7 +43,7 @@ export namespace fatpound::memory
 
         static auto Make(const std::size_t& alignBytes) -> ptr_type
         {
-            return ptr_type{ AlignedAlloc<T>(alignBytes, 1), &std::free };
+            return ptr_type{ AlignedAlloc<T>(alignBytes, 1), &FAT_MEMORY_ALIGNED_FREER };
         }
     };
     
@@ -54,7 +54,7 @@ export namespace fatpound::memory
 
         static auto Make(const std::size_t& alignBytes, const std::size_t& size) -> ptr_type
         {
-            return ptr_type{ AlignedAlloc<T>(alignBytes, size), &std::free };
+            return ptr_type{ AlignedAlloc<T>(alignBytes, size), &FAT_MEMORY_ALIGNED_FREER };
         }
     };
 
