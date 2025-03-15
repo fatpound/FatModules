@@ -1,5 +1,7 @@
 #pragma once
 
+#if defined(_MSC_VER)
+
 // target Windows 7 or later
 #define _WIN32_WINNT 0x0601
 
@@ -46,3 +48,5 @@
 
 
 // #define _CRTDBG_MAP_ALLOC
+
+#endif

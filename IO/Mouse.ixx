@@ -25,15 +25,10 @@ namespace fatpound::win32
 
 export namespace fatpound::io
 {
-#if defined(__clang__)
-    template <typename T>
-#endif // 0
     class Mouse final
     {
-#if   defined(_MSC_VER)
+#if defined(_MSC_VER)
         friend FATSPACE_WIN32::WindowEx;
-#elif defined(__clang__)
-        friend T;
 #endif
 
         static constexpr auto scx_bufferSize_ = 16u;

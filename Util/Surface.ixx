@@ -12,7 +12,6 @@ module;
 #endif
 
 #include <cassert>
-#include <cstdlib>
 
 export module FatPound.Util.Surface;
 
@@ -89,7 +88,7 @@ export namespace fatpound::util
 #endif
         explicit Surface(const gfx::SizePack& dimensions,           const Size_t& alignBytes = scx_DefaultAlignment)
             :
-            m_pBuffer_((assert(dimensions.m_width > 0u), assert(dimensions.m_height > 0), FATSPACE_MEMORY::AlignedUniquePtr<Color[]>::Make(alignBytes, dimensions.m_width * dimensions.m_height))),
+            m_pBuffer_(FATSPACE_MEMORY::AlignedUniquePtr<Color[]>::Make(alignBytes, dimensions.m_width * dimensions.m_height)),
             m_size_pack_(dimensions),
             m_align_byte_(alignBytes),
             m_pixel_pitch_(CalculatePixelPitch(GetWidth<>(), GetAlignment<>()))
