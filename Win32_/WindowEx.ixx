@@ -8,6 +8,7 @@ module;
 #include <FatWin32.hpp>
 
 #include <DirectXMath.h>
+
 #endif
 
 export module FatPound.Win32.WindowEx;

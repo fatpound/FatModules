@@ -19,13 +19,18 @@ namespace fatpound::win32
 
 export namespace fatpound::io
 {
+#if defined(__clang__)
+    template <typename T>
+#endif // 0
     class Keyboard final
     {
-#if defined(_MSC_VER)
+#if   defined(_MSC_VER)
         friend FATSPACE_WIN32::WindowEx;
+#elif defined(__clang__)
+        friend T;
 #endif
 
-        static constexpr unsigned int scx_bufferSize_ = 16u;
+        static constexpr auto scx_bufferSize_ = 16u;
 
     public:
         using keycode_t = decltype(KeyEvent::code);
