@@ -24,7 +24,7 @@ import std;
 export namespace fatpound::memory
 {
     template <typename T>
-    auto AlignedAlloc(const std::size_t& alignBytes, const std::size_t& size) -> T*
+    auto AlignedAlloc(const ::std::size_t& alignBytes, const ::std::size_t& size) -> T*
     {
         if (auto* const ptr = static_cast<T*>(FAT_MEMORY_ALIGNED_ALLOCATE_WITH(alignBytes, (size * sizeof(T)))))
         {
@@ -32,34 +32,40 @@ export namespace fatpound::memory
         }
         else
         {
-            throw std::runtime_error{ "Aligned allocation failed!" };
+            throw ::std::runtime_error{ "Aligned allocation failed!" };
         }
     }
 
-    template <typename T>
-    struct AlignedUniquePtr
+    namespace details
     {
-        using ptr_type = std::unique_ptr<T, decltype(&FAT_MEMORY_ALIGNED_FREER)>;
-
-        static auto Make(const std::size_t& alignBytes) -> ptr_type
+        template <typename T>
+        struct AlignedUPtr
         {
-            return ptr_type{ AlignedAlloc<T>(alignBytes, 1), &FAT_MEMORY_ALIGNED_FREER };
-        }
-    };
-    
+            using ptr_type = ::std::unique_ptr<T,   decltype(&FAT_MEMORY_ALIGNED_FREER)>;
+        };
+
+        template <typename T>
+        struct AlignedUPtr<T[]>
+        {
+            using ptr_type = ::std::unique_ptr<T[], decltype(&FAT_MEMORY_ALIGNED_FREER)>;
+        };
+    }
+
     template <typename T>
-    struct AlignedUniquePtr<T[]>
+    using AlignedUniquePtr = details::AlignedUPtr<T>::ptr_type;
+
+    template <typename T>
+    auto MakeAlignedUniquePtr(const ::std::size_t& alignBytes, [[maybe_unused]] const ::std::size_t& size)
     {
-        using ptr_type = std::unique_ptr<T[], decltype(&FAT_MEMORY_ALIGNED_FREER)>;
-
-        static auto Make(const std::size_t& alignBytes, const std::size_t& size) -> ptr_type
+        if constexpr (::std::is_array_v<T>)
         {
-            return ptr_type{ AlignedAlloc<T>(alignBytes, size), &FAT_MEMORY_ALIGNED_FREER };
+            return AlignedUniquePtr<T>(AlignedAlloc<::std::remove_all_extents_t<T>>(alignBytes, size), &FAT_MEMORY_ALIGNED_FREER);
         }
-    };
-
-    template <typename T>
-    using AlignedUniquePtr_t = AlignedUniquePtr<T>::ptr_type;
+        else
+        {
+            return AlignedUniquePtr<T>(AlignedAlloc<T>(alignBytes, 1u), &FAT_MEMORY_ALIGNED_FREER);
+        }
+    }
 }
 
 module : private;

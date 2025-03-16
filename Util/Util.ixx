@@ -17,18 +17,27 @@ import std;
 
 export namespace fatpound::util
 {
-    template
-    <
-        ::std::unsigned_integral U,
-        ::std::floating_point    FP = float
-    >
+    template <::std::floating_point FP = float, ::std::integral I>
     FAT_CMATH_CONSTEXPR23
-    auto HourMinuteHandAngle(U hours, U minutes) -> FP
+    auto HourMinuteHandAngle(I hours, I minutes) -> FP
     {
+        if constexpr (::std::signed_integral<I>)
+        {
+            if (hours < 0)
+            {
+                hours = -hours;
+            }
+
+            if (minutes < 0)
+            {
+                minutes = -minutes;
+            }
+        }
+
         hours   %= 12;
         minutes %= 60;
 
-        const auto angle = std::fabs((11 * minutes - 60 * hours) / 2);
+        const auto angle = ::std::fabs((11 * minutes - 60 * hours) / 2);
 
         return (angle > 180) ? (360 - angle) : angle;
     }
