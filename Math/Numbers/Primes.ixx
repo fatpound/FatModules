@@ -93,7 +93,7 @@ export namespace fatpound::math::numbers
     {
         if (num < 5)
         {
-            return 2 + (num > 2 ? 3 : static_cast<int>(num == 2));
+            return 2 + (num > 2 ? 3 : static_cast<T>(num == 2));
         }
 
         return NextPrime_GT4<>(num);

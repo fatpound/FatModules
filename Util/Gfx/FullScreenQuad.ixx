@@ -18,15 +18,18 @@ export namespace fatpound::util::gfx
             float v;
         };
 
-        inline static const std::vector<Vertex> sc_vertices =
+        static auto GenerateVertices() -> ::std::vector<Vertex>
         {
-            Vertex{ -1.0f,  1.0f,  0.5f,  0.0f,  0.0f },
-            Vertex{  1.0f,  1.0f,  0.5f,  1.0f,  0.0f },
-            Vertex{  1.0f, -1.0f,  0.5f,  1.0f,  1.0f },
-            Vertex{ -1.0f,  1.0f,  0.5f,  0.0f,  0.0f },
-            Vertex{  1.0f, -1.0f,  0.5f,  1.0f,  1.0f },
-            Vertex{ -1.0f, -1.0f,  0.5f,  0.0f,  1.0f }
-        };
+            return ::std::vector<Vertex>
+            {
+                Vertex{ -1.0f,  1.0f,  0.5f,  0.0f,  0.0f },
+                Vertex{  1.0f,  1.0f,  0.5f,  1.0f,  0.0f },
+                Vertex{  1.0f, -1.0f,  0.5f,  1.0f,  1.0f },
+                Vertex{ -1.0f,  1.0f,  0.5f,  0.0f,  0.0f },
+                Vertex{  1.0f, -1.0f,  0.5f,  1.0f,  1.0f },
+                Vertex{ -1.0f, -1.0f,  0.5f,  0.0f,  1.0f }
+            };
+        }
     };
 }
 
