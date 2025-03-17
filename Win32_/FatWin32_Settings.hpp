@@ -1,6 +1,6 @@
 #pragma once
 
-#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
+#if FAT_BUILD_ONLY_WITH_MSVC
 
 // target Windows 7 or later
 #define _WIN32_WINNT 0x0601

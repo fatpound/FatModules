@@ -1,6 +1,6 @@
 module;
 
-#if FAT_BUILD_WINDOWS or (defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__))
+#if FAT_BUILD_ONLY_WITH_MSVC or FAT_BUILDING_ON_WINDOWS
 #include <cstdlib>
 #ifndef FAT_MEMORY_ALIGNED_ALLOCATE_WITH
     // NOLINTBEGIN(cppcoreguidelines-macro-usage)

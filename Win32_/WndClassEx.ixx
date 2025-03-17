@@ -1,12 +1,12 @@
 module;
 
-#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
+#if FAT_BUILD_ONLY_WITH_MSVC
 #include <FatWin32.hpp>
 #endif
 
 export module FatPound.Win32.WndClassEx;
 
-#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
+#if FAT_BUILD_ONLY_WITH_MSVC
 
 import FatPound.Win32.IWindow;
 

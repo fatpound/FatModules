@@ -1,6 +1,6 @@
 module;
 
-#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
+#if FAT_BUILD_ONLY_WITH_MSVC
 #include <FatNamespaces.hpp>
 #include <FatWin32.hpp>
 #include <d3d11.h>
@@ -10,7 +10,7 @@ module;
 
 export module FatPound.Win32.D3D11.Pipeline.Resource.TransformCBuffer;
 
-#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
+#if FAT_BUILD_ONLY_WITH_MSVC
 
 export import FatPound.Win32.D3D11.Pipeline.Resource.VertexCBuffer;
 

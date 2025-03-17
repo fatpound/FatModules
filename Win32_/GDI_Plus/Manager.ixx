@@ -1,6 +1,6 @@
 module;
 
-#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
+#if FAT_BUILD_ONLY_WITH_MSVC
 #define FATPOUND_FULL_WIN_TARGETED
 #include <FatWin32.hpp>
 #include <gdiplus.h>
@@ -10,7 +10,7 @@ module;
 
 export module FatPound.Win32.GDI_Plus.Manager;
 
-#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
+#if FAT_BUILD_ONLY_WITH_MSVC
 
 export namespace fatpound::win32::gdi_plus
 {

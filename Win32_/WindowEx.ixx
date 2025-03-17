@@ -1,6 +1,6 @@
 module;
 
-#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
+#if FAT_BUILD_ONLY_WITH_MSVC
 
 #include <FatNamespaces.hpp>
 #include <FatDefines.hpp>
@@ -13,7 +13,7 @@ module;
 
 export module FatPound.Win32.WindowEx;
 
-#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
+#if FAT_BUILD_ONLY_WITH_MSVC
 
 import FatPound.Win32.IWindow;
 import FatPound.Win32.WndClassEx;

@@ -1,6 +1,6 @@
 module;
 
-#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
+#if FAT_BUILD_ONLY_WITH_MSVC
 #include <FatNamespaces.hpp>
 
 #include <FatWin32.hpp>
@@ -18,7 +18,7 @@ export import FatPound.IO.MouseEvent;
 
 import std;
 
-#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
+#if FAT_BUILD_ONLY_WITH_MSVC
 namespace fatpound::win32
 {
     class WindowEx;
@@ -29,7 +29,7 @@ export namespace fatpound::io
 {
     class Mouse final
     {
-#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
+#if FAT_BUILD_ONLY_WITH_MSVC
         friend FATSPACE_WIN32::WindowEx;
 #endif
 
