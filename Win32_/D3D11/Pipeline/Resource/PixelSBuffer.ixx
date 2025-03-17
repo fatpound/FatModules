@@ -1,6 +1,6 @@
 module;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
 #include <FatWin32.hpp>
 #include <d3d11.h>
 #include <wrl.h>
@@ -8,7 +8,7 @@ module;
 
 export module FatPound.Win32.D3D11.Pipeline.Resource.PixelSBuffer;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
 
 export import FatPound.Win32.D3D11.Pipeline.Resource.SBuffer;
 

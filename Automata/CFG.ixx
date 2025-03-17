@@ -45,14 +45,17 @@ export namespace fatpound::automata
 
     public:
         [[nodiscard]]
-        auto GetGrammar() const noexcept -> Grammar_t;
+        auto GetGrammar() const -> Grammar_t;
 
 
     protected:
 
 
     private:
-        void ReadFirstLine_ (std::ifstream& inputFile,       Alphabet_t& alphabet);
+        static void ReadFirstLine_(std::ifstream& inputFile, Alphabet_t& alphabet);
+
+
+    private:
         void ReadSecondLine_(std::ifstream& inputFile, const Alphabet_t& alphabet);
 
 

@@ -33,7 +33,7 @@ export namespace fatpound::dsa::linkedlist
                 this->m_list_ = std::exchange(src.m_list_, nullptr);
                 this->m_end_  = std::exchange(src.m_end_,  nullptr);
 
-                this->m_item_count_ = std::exchange(src.m_item_count_, 0u);
+                this->m_item_count_ = std::exchange(src.m_item_count_, 0U);
             }
 
             return *this;
@@ -127,7 +127,7 @@ export namespace fatpound::dsa::linkedlist
                 return;
             }
 
-            if (this->m_item_count_ < 2u)
+            if (this->m_item_count_ < 2U)
             {
                 return;
             }
@@ -194,7 +194,7 @@ export namespace fatpound::dsa::linkedlist
             this->m_list_ = nullptr;
             this->m_end_  = nullptr;
 
-            this->m_item_count_ = 0u;
+            this->m_item_count_ = 0U;
         }
 
 

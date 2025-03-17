@@ -2,7 +2,7 @@ module;
 
 module FatPound.Concurrency.TaskQueue;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
 
 namespace fatpound::concurrency
 {
@@ -11,9 +11,9 @@ namespace fatpound::concurrency
         WrappedTask wtask{};
 
         {
-            std::lock_guard lck{ m_mtx_ };
+            const std::lock_guard lck{ m_mtx_ };
 
-            wtask = std::move(m_tasks_.front());
+            wtask = std::move<>(m_tasks_.front());
 
             m_tasks_.pop_front();
         }
@@ -23,9 +23,9 @@ namespace fatpound::concurrency
 
     void TaskQueue::Push_(WrappedTask wtask)
     {
-        std::lock_guard lck{ m_mtx_ };
+        const std::lock_guard lck{ m_mtx_ };
 
-        m_tasks_.push_back(std::move(wtask));
+        m_tasks_.push_back(std::move<>(wtask));
     }
 }
 

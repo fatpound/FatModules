@@ -1,16 +1,20 @@
 module;
 
-#if defined(_MSC_VER)
+#if FAT_BUILD_WINDOWS or (defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__))
 #include <cstdlib>
 #ifndef FAT_MEMORY_ALIGNED_ALLOCATE_WITH
+    // NOLINTBEGIN(cppcoreguidelines-macro-usage)
     #define FAT_MEMORY_ALIGNED_ALLOCATE_WITH(align, size) (::_aligned_malloc(size, align))
+    // NOLINTEND(cppcoreguidelines-macro-usage)
 #endif
 #ifndef FAT_MEMORY_ALIGNED_FREER
     #define FAT_MEMORY_ALIGNED_FREER ::_aligned_free
 #endif
 #else
 #ifndef FAT_MEMORY_ALIGNED_ALLOCATE_WITH
+    // NOLINTBEGIN(cppcoreguidelines-macro-usage)
     #define FAT_MEMORY_ALIGNED_ALLOCATE_WITH(align, size) (::std::aligned_alloc(align, size))
+    // NOLINTEND(cppcoreguidelines-macro-usage)
 #endif
 #ifndef FAT_MEMORY_ALIGNED_FREER
     #define FAT_MEMORY_ALIGNED_FREER ::std::free
@@ -30,10 +34,8 @@ export namespace fatpound::memory
         {
             return ptr;
         }
-        else
-        {
-            throw ::std::runtime_error{ "Aligned allocation failed!" };
-        }
+
+        throw ::std::runtime_error{ "Aligned allocation failed!" };
     }
 
     namespace details
@@ -44,11 +46,13 @@ export namespace fatpound::memory
             using ptr_type = ::std::unique_ptr<T,   decltype(&FAT_MEMORY_ALIGNED_FREER)>;
         };
 
+        // NOLINTBEGIN(cppcoreguidelines-avoid-c-arrays, hicpp-avoid-c-arrays, modernize-avoid-c-arrays)
         template <typename T>
         struct AlignedUPtr<T[]>
         {
             using ptr_type = ::std::unique_ptr<T[], decltype(&FAT_MEMORY_ALIGNED_FREER)>;
         };
+        // NOLINTEND(cppcoreguidelines-avoid-c-arrays, hicpp-avoid-c-arrays, modernize-avoid-c-arrays)
     }
 
     template <typename T>
@@ -63,7 +67,7 @@ export namespace fatpound::memory
         }
         else
         {
-            return AlignedUniquePtr<T>(AlignedAlloc<T>(alignBytes, 1u), &FAT_MEMORY_ALIGNED_FREER);
+            return AlignedUniquePtr<T>(AlignedAlloc<T>(alignBytes, 1U), &FAT_MEMORY_ALIGNED_FREER);
         }
     }
 }

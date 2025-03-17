@@ -1,6 +1,6 @@
 module;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
 #include <FatNamespaces.hpp>
 #endif
 
@@ -10,7 +10,7 @@ export import FatPound.IO.KeyEvent;
 
 import std;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
 namespace fatpound::win32
 {
     class WindowEx;
@@ -21,11 +21,11 @@ export namespace fatpound::io
 {
     class Keyboard final
     {
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
         friend FATSPACE_WIN32::WindowEx;
 #endif
 
-        static constexpr auto scx_bufferSize_ = 16u;
+        static constexpr auto scx_bufferSize_ = 16U;
 
     public:
         using keycode_t = decltype(KeyEvent::code);
@@ -116,7 +116,7 @@ export namespace fatpound::io
         {
             m_key_states_[keycode] = true;
 
-            m_key_event_queue_.push(KeyEvent{ KeyEvent::Type::Press, keycode });
+            m_key_event_queue_.push(KeyEvent{ .type = KeyEvent::Type::Press, .code = keycode });
 
             TrimBuffer_(m_key_event_queue_);
         }
@@ -124,7 +124,7 @@ export namespace fatpound::io
         {
             m_key_states_[keycode] = false;
 
-            m_key_event_queue_.push(KeyEvent{ KeyEvent::Type::Release, keycode });
+            m_key_event_queue_.push(KeyEvent{ .type = KeyEvent::Type::Release, .code = keycode });
 
             TrimBuffer_(m_key_event_queue_);
         }
@@ -142,12 +142,12 @@ export namespace fatpound::io
 
 
     private:
-        std::queue<KeyEvent> m_key_event_queue_{};
-        std::queue<unsigned char> m_char_buffer_{};
+        std::queue<KeyEvent> m_key_event_queue_;
+        std::queue<unsigned char> m_char_buffer_;
 
-        std::bitset<std::numeric_limits<keycode_t>::max()> m_key_states_{};
+        std::bitset<std::numeric_limits<keycode_t>::max()> m_key_states_;
 
-        std::atomic<bool> m_auto_repeat_enabled_{};
+        std::atomic_bool m_auto_repeat_enabled_;
     };
 }
 

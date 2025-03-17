@@ -6,7 +6,7 @@ import std;
 
 export namespace fatpound::io
 {
-    struct MouseEvent final
+    struct alignas(16) MouseEvent final
     {
         enum struct Type : ::std::uint8_t
         {

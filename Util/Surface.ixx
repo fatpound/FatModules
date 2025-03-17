@@ -3,7 +3,7 @@ module;
 #include <FatNamespaces.hpp>
 #include <FatDefines.hpp>
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
 #define FATPOUND_FULL_WIN_TARGETED
 #include <FatWin32.hpp>
 #include <gdiplus.h>
@@ -22,7 +22,7 @@ import FatPound.Util.Gfx.SizePack;
 import FatPound.Bitwise.Concepts;
 import FatPound.Memory;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
 import FatPound.Win32.GDI_Plus;
 #endif
 
@@ -32,7 +32,9 @@ export namespace fatpound::util
 {
     class Surface final
     {
+        // NOLINTBEGIN(cppcoreguidelines-avoid-c-arrays, hicpp-avoid-c-arrays, modernize-avoid-c-arrays)
         using Color_t = Color[];
+        // NOLINTEND(cppcoreguidelines-avoid-c-arrays, hicpp-avoid-c-arrays, modernize-avoid-c-arrays)
         using Ptr_t = memory::AlignedUniquePtr<Color_t>;
 
     public:
@@ -40,11 +42,11 @@ export namespace fatpound::util
 
 
     public:
-        static constexpr Size_t scx_DefaultAlignment = 16u;
+        static constexpr Size_t scx_DefaultAlignment = 16U;
 
 
     public:
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
         explicit Surface(const std::filesystem::path& path,         const Size_t& alignBytes = scx_DefaultAlignment)
             :
             Surface(path.wstring(), alignBytes)
@@ -91,7 +93,7 @@ export namespace fatpound::util
 #endif
         explicit Surface(const gfx::SizePack& dimensions,           const Size_t& alignBytes = scx_DefaultAlignment)
             :
-            m_pBuffer_(memory::MakeAlignedUniquePtr<Color_t>(alignBytes, dimensions.m_width * dimensions.m_height)),
+            m_pBuffer_(memory::MakeAlignedUniquePtr<Color_t>(alignBytes, static_cast<::std::size_t>(dimensions.m_width * dimensions.m_height))),
             m_size_pack_(dimensions),
             m_align_byte_(alignBytes),
             m_pixel_pitch_(CalculatePixelPitch(GetWidth<>(), GetAlignment<>()))
@@ -100,7 +102,7 @@ export namespace fatpound::util
         }
         explicit Surface(const Size_t& width, const Size_t& height, const Size_t& alignBytes = scx_DefaultAlignment)
             :
-            Surface(gfx::SizePack{ width, height }, alignBytes)
+            Surface(gfx::SizePack{ .m_width = width, .m_height = height }, alignBytes)
         {
 
         }
@@ -133,7 +135,7 @@ export namespace fatpound::util
             {
                 Reset();
 
-                m_pBuffer_     = memory::MakeAlignedUniquePtr<Color_t>(src.GetAlignment(), src.GetWidth<>() * src.GetHeight<>());
+                m_pBuffer_     = memory::MakeAlignedUniquePtr<Color_t>(src.GetAlignment(), static_cast<::std::size_t>(src.GetWidth<>() * src.GetHeight<>()));
 
                 m_size_pack_   = src.GetSizePack();
                 m_align_byte_  = src.GetAlignment<>();
@@ -165,6 +167,7 @@ export namespace fatpound::util
 
 
     public:
+        // NOLINTBEGIN(google-explicit-constructor, hicpp-explicit-conversions)
         operator const Color* () const & noexcept
         {
             return m_pBuffer_.get();
@@ -173,8 +176,9 @@ export namespace fatpound::util
         {
             return m_pBuffer_.get();
         }
+        // NOLINTEND(google-explicit-constructor, hicpp-explicit-conversions)
 
-        operator bool () const noexcept
+        explicit operator bool () const noexcept
         {
             return IsEmpty();
         }
@@ -187,60 +191,70 @@ export namespace fatpound::util
             assert(alignBytes >= sizeof(Color));
             assert(alignBytes <= width);
 
-            const auto pixelsPerAlign = alignBytes / static_cast<Size_t>(sizeof(Color));
-            const auto overrunCount   = width % pixelsPerAlign;
+            const auto& pixelsPerAlign = alignBytes / static_cast<Size_t>(sizeof(Color));
+            const auto& overrunCount   = width % pixelsPerAlign;
 
-            return width + (pixelsPerAlign - overrunCount) % pixelsPerAlign;
+            return width + ((pixelsPerAlign - overrunCount) % pixelsPerAlign);
         }
 
 
     public:
-        template <bitwise::Integral_Or_Floating T = Size_t> FAT_FORCEINLINE auto GetWidth      () const noexcept -> T
+        template <bitwise::Integral_Or_Floating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetWidth      () const noexcept -> T
         {
             return static_cast<T>(m_size_pack_.m_width);
         }
-        template <bitwise::Integral_Or_Floating T = Size_t> FAT_FORCEINLINE auto GetHeight     () const noexcept -> T
+        template <bitwise::Integral_Or_Floating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetHeight     () const noexcept -> T
         {
             return static_cast<T>(m_size_pack_.m_height);
         }
-        template <bitwise::Integral_Or_Floating T = Size_t> FAT_FORCEINLINE auto GetAlignment  () const noexcept -> T
+        template <bitwise::Integral_Or_Floating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetAlignment  () const noexcept -> T
         {
             return static_cast<T>(m_align_byte_);
         }
-        template <bitwise::Integral_Or_Floating T = Size_t> FAT_FORCEINLINE auto GetPixelPitch () const noexcept -> T
+        template <bitwise::Integral_Or_Floating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetPixelPitch () const noexcept -> T
         {
             return static_cast<T>(m_pixel_pitch_);
         }
-        template <bitwise::Integral_Or_Floating T = Size_t> FAT_FORCEINLINE auto GetPitch      () const noexcept -> T
+        template <bitwise::Integral_Or_Floating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetPitch      () const noexcept -> T
         {
             return static_cast<T>(m_pixel_pitch_ * sizeof(Color));
         }
 
-        template <::std::integral T> FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
+        template <::std::unsigned_integral T> FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
         {
-            if constexpr (::std::signed_integral<T>)
-            {
-                assert(x >= 0);
-                assert(y >= 0);
-            }
-
             assert(x < GetWidth<T>());
             assert(y < GetHeight<T>());
 
-            return m_pBuffer_[y * m_pixel_pitch_ + x];
+            return m_pBuffer_[(y * m_pixel_pitch_) + x];
         }
-        template <::std::integral T> FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
+        template <::std::unsigned_integral T> FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
         {
-            if constexpr (::std::signed_integral<T>)
-            {
-                assert(x >= 0);
-                assert(y >= 0);
-            }
-            
             assert(x < GetWidth<T>());
             assert(y < GetHeight<T>());
 
-            m_pBuffer_[y * m_pixel_pitch_ + x] = color;
+            m_pBuffer_[(y * m_pixel_pitch_) + x] = color;
+        }
+
+        template <::std::signed_integral   T> FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
+        {
+            assert(x >= 0);
+            assert(y >= 0);
+
+            return GetPixel<>(
+                static_cast<::std::make_unsigned_t<T>>(x),
+                static_cast<::std::make_unsigned_t<T>>(y)
+            );
+        }
+        template <::std::signed_integral   T> FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
+        {
+            assert(x >= 0);
+            assert(y >= 0);
+
+            PutPixel<>(
+                static_cast<::std::make_unsigned_t<T>>(x),
+                static_cast<::std::make_unsigned_t<T>>(y),
+                color
+            );
         }
 
 
@@ -254,16 +268,16 @@ export namespace fatpound::util
             return ptr;
         }
 
-        auto GetSizePack() const noexcept -> gfx::SizePack
+        [[nodiscard]] auto GetSizePack() const noexcept -> gfx::SizePack
         {
             return m_size_pack_;
         }
 
-        auto IsEmpty() const noexcept -> bool
+        [[nodiscard]] auto IsEmpty() const noexcept -> bool
         {
             return m_pBuffer_ == nullptr;
         }
-        auto IsNotEmpty() const noexcept -> bool
+        [[nodiscard]] auto IsNotEmpty() const noexcept -> bool
         {
             return not IsEmpty();
         }
@@ -273,7 +287,7 @@ export namespace fatpound::util
             ::std::memset(
                 *this,
                 static_cast<int>(color),
-                GetWidth<>() * GetHeight<>() * sizeof(Color)
+                GetWidth<::std::size_t>() * GetHeight<::std::size_t>() * sizeof(Color)
             );
         }
         void Reset() noexcept
@@ -305,13 +319,15 @@ export namespace fatpound::util
 
             const auto srcPitch = src.GetPitch<>();
 
-            for (auto y = 0u; y < src.GetHeight<>(); ++y)
+            for (auto y = 0U; y < src.GetHeight<>(); ++y)
             {
+                // NOLINTBEGIN(cppcoreguidelines-pro-bounds-pointer-arithmetic)
                 ::std::memcpy(
-                    &pDest[y * GetPixelPitch<>()],
-                    &pSrc[y * src.GetPixelPitch<>()],
+                    &pDest[y * GetPixelPitch<::std::size_t>()],
+                    &pSrc[y * src.GetPixelPitch<::std::size_t>()],
                     srcPitch
                 );
+                // NOLINTEND(cppcoreguidelines-pro-bounds-pointer-arithmetic)
             }
 #if defined(__clang__)
 #pragma clang diagnostic pop

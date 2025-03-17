@@ -1,12 +1,12 @@
 module;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
 #include <DirectXMath.h>
 #endif
 
 export module FatPound.Util.ViewXM;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
 
 export namespace fatpound::util
 {
@@ -23,11 +23,11 @@ export namespace fatpound::util
 
 
     public:
-        auto GetCameraXM     () const noexcept -> ::DirectX::XMMATRIX
+        [[nodiscard]] auto GetCameraXM     () const noexcept -> ::DirectX::XMMATRIX
         {
             return m_camera_;
         }
-        auto GetProjectionXM () const noexcept -> ::DirectX::XMMATRIX
+        [[nodiscard]] auto GetProjectionXM () const noexcept -> ::DirectX::XMMATRIX
         {
             return m_projection_;
         }

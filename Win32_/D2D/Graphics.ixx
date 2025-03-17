@@ -1,6 +1,6 @@
 module;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
 
 #include <FatNamespaces.hpp>
 #include <FatDefines.hpp>
@@ -21,7 +21,7 @@ module;
 
 export module FatPound.Win32.D2D.Graphics;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
 
 import FatPound.Bitwise.Concepts;
 import FatPound.Util.Gfx.SizePack;

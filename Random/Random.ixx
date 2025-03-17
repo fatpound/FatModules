@@ -39,7 +39,7 @@ export namespace fatpound::random
     {
         std::minstd_rand rng{ std::random_device{}() };
 
-        return std::uniform_int_distribution<N>{ 1uz, 6uz }(rng);
+        return std::uniform_int_distribution<N>{ 1U, 6U }(rng);
     }
 }
 

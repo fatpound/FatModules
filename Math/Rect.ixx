@@ -22,9 +22,9 @@ export namespace fatpound::math
 
         }
 
-        explicit Rect()                = delete;
-        explicit Rect(const Rect&)     = default;
-        explicit Rect(Rect&&) noexcept = default;
+        explicit Rect()       = delete;
+        Rect(const Rect&)     = default;
+        Rect(Rect&&) noexcept = default;
 
         auto operator = (const Rect&)     -> Rect& = default;
         auto operator = (Rect&&) noexcept -> Rect& = default;

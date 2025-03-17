@@ -1,6 +1,6 @@
 module;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
 #include <FatNamespaces.hpp>
 
 #include <FatWin32.hpp>
@@ -10,7 +10,7 @@ module;
 
 export module FatPound.Win32.D3D11.Pipeline.Resource.Texture2D;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 import FatPound.Util.Surface;

@@ -8,11 +8,11 @@ import std;
 
 export namespace fatpound::automata
 {
-    namespace details_v1
+    inline namespace details_v1
     {
         class TLT final
         {
-            static constexpr auto scx_recurse_limit_ = 1u;
+            static constexpr auto scx_recurse_limit_ = 1U;
 
         public:
             explicit TLT(const CFG& cfgs);
@@ -29,7 +29,7 @@ export namespace fatpound::automata
 
         public:
             [[nodiscard]]
-            auto GetWords() const noexcept -> std::vector<std::string>;
+            auto GetWords() const -> std::vector<std::string>;
 
             void PrintWords() const;
 
@@ -38,9 +38,9 @@ export namespace fatpound::automata
 
 
         private:
-            struct alignas(64) Node_ final
+            struct alignas(128) Node_ final
             {
-                explicit Node_(const std::string& item);
+                explicit Node_(std::string item);
 
                 std::vector<Node_*> m_leaves;
 
@@ -66,7 +66,7 @@ export namespace fatpound::automata
 
             std::vector<std::size_t> m_recursers_;
 
-            Node_* m_pTree_ = nullptr;
+            Node_* m_pTree_{};
         };
     }
 
@@ -74,7 +74,7 @@ export namespace fatpound::automata
     {
         class TLT final
         {
-            static constexpr auto scx_RecursionLimit_ = 1u;
+            static constexpr auto scx_RecursionLimit_ = 1U;
 
         public:
             using Result_t = std::vector<std::pair<std::string, bool>>;
@@ -95,7 +95,7 @@ export namespace fatpound::automata
 
         public:
             [[nodiscard]]
-            auto GetWords() const noexcept -> Result_t;
+            auto GetWords() const -> Result_t;
 
             void PrintWords() const;
 
@@ -104,10 +104,10 @@ export namespace fatpound::automata
 
 
         private:
-            struct alignas(64) Node_ final
+            struct alignas(128) Node_ final
             {
                 explicit Node_(const std::pair<std::string, std::vector<std::string>>& tree);
-                explicit Node_(const std::string& str);
+                explicit Node_(std::string item);
 
                 std::vector<Node_*> m_leaves;
 
@@ -117,7 +117,7 @@ export namespace fatpound::automata
 
         private:
             [[nodiscard]]
-            auto GenerateResults_(std::string init_str = "", std::size_t index = 0u, std::size_t recursed = 0u) const -> Result_t;
+            auto GenerateResults_(const std::string& init_str = "", const std::size_t& index = {}, const std::size_t& recursed = {}) const -> Result_t;
 
             [[nodiscard]]
             auto IsTerminal_(const std::string& str) const -> bool;

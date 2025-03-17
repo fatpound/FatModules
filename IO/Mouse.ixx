@@ -1,12 +1,14 @@
 module;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
 #include <FatNamespaces.hpp>
 
 #include <FatWin32.hpp>
 #else
 #ifndef WHEEL_DELTA
+// NOLINTBEGIN(cppcoreguidelines-macro-usage)
 #define WHEEL_DELTA 120
+// NOLINTEND(cppcoreguidelines-macro-usage)
 #endif
 #endif
 
@@ -16,7 +18,7 @@ export import FatPound.IO.MouseEvent;
 
 import std;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
 namespace fatpound::win32
 {
     class WindowEx;
@@ -27,11 +29,11 @@ export namespace fatpound::io
 {
     class Mouse final
     {
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
         friend FATSPACE_WIN32::WindowEx;
 #endif
 
-        static constexpr auto scx_bufferSize_ = 16u;
+        static constexpr auto scx_bufferSize_ = 16U;
 
     public:
         using pos_t = decltype(MouseEvent::pos_x);
@@ -61,39 +63,39 @@ export namespace fatpound::io
             return mouseE;
         }
 
-        auto GetPos() const noexcept -> std::pair<pos_t, pos_t>
+        [[nodiscard]] auto GetPos() const noexcept -> std::pair<pos_t, pos_t>
         {
             return { m_pos_x_, m_pos_y_ };
         }
 
-        auto GetPosX() const noexcept -> pos_t
+        [[nodiscard]] auto GetPosX() const noexcept -> pos_t
         {
             return m_pos_x_;
         }
-        auto GetPosY() const noexcept -> pos_t
+        [[nodiscard]] auto GetPosY() const noexcept -> pos_t
         {
             return m_pos_y_;
         }
 
-        auto EventBufferIsEmpty() const noexcept -> bool
+        [[nodiscard]] auto EventBufferIsEmpty() const noexcept -> bool
         {
             return m_event_buffer_.empty();
         }
 
-        auto IsInWindow() const noexcept -> bool
+        [[nodiscard]] auto IsInWindow() const noexcept -> bool
         {
             return m_is_in_window_;
         }
 
-        auto LeftIsPressed()  const noexcept -> bool
+        [[nodiscard]] auto LeftIsPressed()  const noexcept -> bool
         {
             return m_left_is_pressed_;
         }
-        auto RightIsPressed() const noexcept -> bool
+        [[nodiscard]] auto RightIsPressed() const noexcept -> bool
         {
             return m_right_is_pressed_;
         }
-        auto WheelIsPressed() const noexcept -> bool
+        [[nodiscard]] auto WheelIsPressed() const noexcept -> bool
         {
             return m_wheel_is_pressed_;
         }
@@ -116,7 +118,7 @@ export namespace fatpound::io
         {
             m_is_in_window_ = true;
 
-            m_event_buffer_.push(MouseEvent{ MouseEvent::Type::Enter });
+            m_event_buffer_.push(MouseEvent{ .type = MouseEvent::Type::Enter });
 
             TrimBuffer_();
         }
@@ -124,7 +126,7 @@ export namespace fatpound::io
         {
             m_is_in_window_ = false;
 
-            m_event_buffer_.push(MouseEvent{ MouseEvent::Type::Leave });
+            m_event_buffer_.push(MouseEvent{ .type = MouseEvent::Type::Leave });
 
             TrimBuffer_();
         }
@@ -141,7 +143,7 @@ export namespace fatpound::io
         {
             m_left_is_pressed_ = false;
 
-            m_event_buffer_.push(MouseEvent{ MouseEvent::Type::LRelease });
+            m_event_buffer_.push(MouseEvent{ .type = MouseEvent::Type::LRelease });
 
             TrimBuffer_();
         }
@@ -149,7 +151,7 @@ export namespace fatpound::io
         {
             m_right_is_pressed_ = true;
 
-            m_event_buffer_.push(MouseEvent{ MouseEvent::Type::RPress });
+            m_event_buffer_.push(MouseEvent{ .type = MouseEvent::Type::RPress });
 
             TrimBuffer_();
         }
@@ -157,7 +159,7 @@ export namespace fatpound::io
         {
             m_right_is_pressed_ = false;
 
-            m_event_buffer_.push(MouseEvent{ MouseEvent::Type::RRelease });
+            m_event_buffer_.push(MouseEvent{ .type = MouseEvent::Type::RRelease });
 
             TrimBuffer_();
         }
@@ -165,7 +167,7 @@ export namespace fatpound::io
         {
             m_wheel_is_pressed_ = true;
 
-            m_event_buffer_.push(MouseEvent{ MouseEvent::Type::WheelPress });
+            m_event_buffer_.push(MouseEvent{ .type = MouseEvent::Type::WheelPress });
 
             TrimBuffer_();
         }
@@ -173,19 +175,19 @@ export namespace fatpound::io
         {
             m_wheel_is_pressed_ = false;
 
-            m_event_buffer_.push(MouseEvent{ MouseEvent::Type::WheelRelease });
+            m_event_buffer_.push(MouseEvent{ .type = MouseEvent::Type::WheelRelease });
 
             TrimBuffer_();
         }
         void OnWheelUp_()
         {
-            m_event_buffer_.push(MouseEvent{ MouseEvent::Type::WheelUp });
+            m_event_buffer_.push(MouseEvent{ .type = MouseEvent::Type::WheelUp });
 
             TrimBuffer_();
         }
         void OnWheelDown_()
         {
-            m_event_buffer_.push(MouseEvent{ MouseEvent::Type::WheelDown });
+            m_event_buffer_.push(MouseEvent{ .type = MouseEvent::Type::WheelDown });
 
             TrimBuffer_();
         }
@@ -206,6 +208,9 @@ export namespace fatpound::io
 
                 OnWheelDown_();
             }
+#if not (defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__))
+#undef WHEEL_DELTA
+#endif
         }
 
         void TrimBuffer_() noexcept

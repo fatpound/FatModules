@@ -13,7 +13,7 @@ export import FatPound.Memory;
 export import FatPound.Random;
 export import FatPound.Util;
 
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__)
 export import FatPound.Win32;
 #endif
 

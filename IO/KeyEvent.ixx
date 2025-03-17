@@ -6,7 +6,7 @@ import std;
 
 export namespace fatpound::io
 {
-    struct KeyEvent final
+    struct alignas(2) KeyEvent final
     {
         enum struct Type : ::std::uint8_t
         {

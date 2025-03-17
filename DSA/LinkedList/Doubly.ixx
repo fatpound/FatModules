@@ -16,7 +16,7 @@ export namespace fatpound::dsa::linkedlist
             :
             m_list_(std::exchange(src.m_list_, nullptr)),
             m_end_(std::exchange(src.m_end_, nullptr)),
-            m_item_count_(std::exchange(src.m_item_count_, 0u))
+            m_item_count_(std::exchange(src.m_item_count_, 0U))
         {
 
         }
@@ -31,7 +31,7 @@ export namespace fatpound::dsa::linkedlist
                 m_list_ = std::exchange(src.m_list_, nullptr);
                 m_end_  = std::exchange(src.m_end_,  nullptr);
 
-                m_item_count_ = std::exchange(src.m_item_count_, 0u);
+                m_item_count_ = std::exchange(src.m_item_count_, 0U);
             }
 
             return *this;
@@ -43,6 +43,7 @@ export namespace fatpound::dsa::linkedlist
 
 
     public:
+        [[nodiscard]]
         virtual auto Contains(const T& item) const -> bool final
         {
             return Find_(item) not_eq nullptr;
@@ -114,7 +115,7 @@ export namespace fatpound::dsa::linkedlist
                 return;
             }
 
-            if (this->m_item_count_ < 2u)
+            if (this->m_item_count_ < 2U)
             {
                 return;
             }
@@ -153,7 +154,7 @@ export namespace fatpound::dsa::linkedlist
 
 
     protected:
-        struct alignas(sizeof nullptr) Node_ final
+        struct alignas(32) Node_ final
         {
             explicit Node_(T new_item)
                 :
@@ -162,14 +163,15 @@ export namespace fatpound::dsa::linkedlist
 
             }
 
-            Node_* prev = nullptr;
-            Node_* next = nullptr;
+            Node_* prev{};
+            Node_* next{};
 
             T item;
         };
 
 
     protected:
+        [[nodiscard]]
         virtual auto Find_(const T& item) const -> Node_* final
         {
             if (m_item_count_ == 0u)
@@ -187,7 +189,7 @@ export namespace fatpound::dsa::linkedlist
 
             Node_* temp = m_list_;
 
-            for (std::size_t i = 0u; i < m_item_count_; ++i)
+            for (std::size_t i{}; i < m_item_count_; ++i)
             {
                 if (temp->item == item)
                 {
@@ -223,15 +225,15 @@ export namespace fatpound::dsa::linkedlist
             m_list_ = nullptr;
             m_end_  = nullptr;
 
-            m_item_count_ = 0u;
+            m_item_count_ = 0U;
         }
 
 
     protected:
-        Node_* m_list_ = nullptr;
-        Node_* m_end_  = nullptr;
+        Node_* m_list_{};
+        Node_* m_end_{};
 
-        std::size_t m_item_count_ = 0u;
+        std::size_t m_item_count_{};
 
 
     private:

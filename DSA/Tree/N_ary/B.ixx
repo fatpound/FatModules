@@ -16,13 +16,14 @@ export namespace fatpound::dsa::tree::n_ary
 
         auto operator = (const B&)     -> B& = delete;
         auto operator = (B&&) noexcept -> B& = delete;
-        ~B() noexcept
+        ~B() noexcept(false)
         {
             Clear_();
         }
 
 
     public:
+        // NOLINTBEGIN(clang-analyzer-cplusplus.NewDeleteLeaks)
         void Insert(const T& new_item)
         {
             auto new_pair = new std::pair<T, Node_*>(new_item, nullptr);
@@ -38,6 +39,7 @@ export namespace fatpound::dsa::tree::n_ary
 
             Insert_(m_root_, new_pair, true);
         }
+        // NOLINTEND(clang-analyzer-cplusplus.NewDeleteLeaks)
         void ListLevelorder() const
         {
             if (m_root_ == nullptr)
@@ -49,9 +51,9 @@ export namespace fatpound::dsa::tree::n_ary
 
             queue.push(m_root_);
 
-            while (queue.size() > 0u)
+            while (not queue.empty())
             {
-                Node_* node = queue.front();
+                auto* node = queue.front();
                 queue.pop();
 
                 if (node->lesser not_eq nullptr)
@@ -59,7 +61,7 @@ export namespace fatpound::dsa::tree::n_ary
                     queue.push(node->lesser);
                 }
 
-                for (std::size_t i = 0u; i < node->items.size(); ++i)
+                for (std::size_t i{}; i < node->items.size(); ++i)
                 {
                     std::cout << node->items[i]->first << ' ';
 
@@ -80,7 +82,7 @@ export namespace fatpound::dsa::tree::n_ary
 
 
     private:
-        struct Node_ final
+        struct alignas(64) Node_ final
         {
             explicit Node_(std::pair<T, Node_*>* new_item, Node_* new_parent = nullptr)
                 :
@@ -102,12 +104,13 @@ export namespace fatpound::dsa::tree::n_ary
 
             std::vector<std::pair<T, Node_*>*> items;
 
-            Node_* lesser = nullptr;
-            Node_* parent = nullptr;
+            Node_* lesser{};
+            Node_* parent{};
         };
 
 
     private:
+        // NOLINTBEGIN(readability-function-cognitive-complexity)
         void Insert_(Node_* node, std::pair<T, Node_*>* pair, const bool add_first_time)
         {
             if (node == nullptr)
@@ -117,14 +120,14 @@ export namespace fatpound::dsa::tree::n_ary
 
         label:
 
-            if (node->items.size() == C * 2u)
+            if (node->items.size() == C * 2U)
             {
                 if (add_first_time)
                 {
-                    std::size_t idx = 0u;
-                    bool flag = false;
+                    std::size_t idx{};
+                    bool flag{};
 
-                    for (std::size_t i = 0u; i < node->items.size(); ++i)
+                    for (std::size_t i{}; i < node->items.size(); ++i)
                     {
                         if ((pair->first > node->items[i]->first) and (node->items[i]->second not_eq nullptr))
                         {
@@ -153,17 +156,17 @@ export namespace fatpound::dsa::tree::n_ary
             }
             else
             {
-                if ((node->items.size() not_eq 0u) and add_first_time)
+                if ((node->items.size() not_eq 0U) and add_first_time)
                 {
-                    if ((pair->first < node->items[0u]->first) and (node->lesser not_eq nullptr))
+                    if ((pair->first < node->items[0U]->first) and (node->lesser not_eq nullptr))
                     {
                         node = node->lesser;
                         goto label;
                     }
 
-                    std::size_t index = 0u;
+                    std::size_t index{};
 
-                    for (std::size_t i = 0u; i < node->items.size(); ++i)
+                    for (std::size_t i{}; i < node->items.size(); ++i)
                     {
                         if (pair->first > node->items[i]->first)
                         {
@@ -180,43 +183,45 @@ export namespace fatpound::dsa::tree::n_ary
 
                 node->items.push_back(pair);
 
-                if (node->items.size() > 1u)
+                if (node->items.size() > 1U)
                 {
                     std::ranges::sort(node->items, [](const auto& pair1, const auto& pair2) -> bool { return pair1->first < pair2->first; });
                 }
             }
         }
+        // NOLINTEND(readability-function-cognitive-complexity)
+
         void Overflow_(Node_* node, std::pair<T, Node_*>* pair)
         {
             std::vector<std::pair<T, Node_*>*> temp_vec;
 
             temp_vec.push_back(pair);
 
-            for (std::size_t i = 0u; i < C * 2u; ++i)
+            for (std::size_t i{}; i < C * 2U; ++i)
             {
                 temp_vec.push_back(node->items[i]);
             }
 
             std::ranges::sort(temp_vec, [](const auto& pair1, const auto& pair2) -> bool { return pair1->first < pair2->first; });
 
-            std::size_t center = (C * 2u + 1u) / 2u;
+            const std::size_t center = (C * 2U + 1U) / 2U;
 
-            std::vector<std::pair<T, Node_*>*> temp_vec_less;
-            std::vector<std::pair<T, Node_*>*> temp_vec_more;
+            std::vector<std::pair<T, Node_*>*> temp_vec_less(center);
+            std::vector<std::pair<T, Node_*>*> temp_vec_more((C * 2U) - center + 1U);
 
-            for (std::size_t i = 0u; i < center; ++i)
+            for (std::size_t i{}; i < center; ++i)
             {
                 temp_vec_less.push_back(temp_vec[i]);
             }
 
-            for (std::size_t i = center + 1u; i <= C * 2u; ++i)
+            for (std::size_t i = center + 1U; i <= C * 2U; ++i)
             {
                 temp_vec_more.push_back(temp_vec[i]);
             }
 
             node->items.clear();
 
-            for (std::size_t i = 0u; i < temp_vec_less.size(); ++i)
+            for (std::size_t i{}; i < temp_vec_less.size(); ++i)
             {
                 node->items.push_back(temp_vec_less[i]);
             }
@@ -234,7 +239,7 @@ export namespace fatpound::dsa::tree::n_ary
             auto* const new_node = new Node_;
             new_node->parent = node->parent;
 
-            for (std::size_t i = 0u; i < temp_vec_more.size(); ++i)
+            for (std::size_t i{}; i < temp_vec_more.size(); ++i)
             {
                 new_node->items.push_back(temp_vec_more[i]);
             }
@@ -254,9 +259,9 @@ export namespace fatpound::dsa::tree::n_ary
 
             queue.push(m_root_);
 
-            while (queue.size() > 0u)
+            while (not queue.empty())
             {
-                Node_* node = queue.front();
+                auto* node = queue.front();
                 queue.pop();
 
                 if (node->lesser not_eq nullptr)
@@ -264,7 +269,7 @@ export namespace fatpound::dsa::tree::n_ary
                     queue.push(node->lesser);
                 }
 
-                for (std::size_t i = 0u; i < node->items.size(); ++i)
+                for (std::size_t i{}; i < node->items.size(); ++i)
                 {
                     if (node->items[i]->second not_eq nullptr)
                     {
@@ -282,9 +287,9 @@ export namespace fatpound::dsa::tree::n_ary
 
 
     private:
-        Node_* m_root_ = nullptr;
+        Node_* m_root_{};
 
-        std::size_t m_depth_ = 0u;
+        std::size_t m_depth_{};
     };
 }
 
