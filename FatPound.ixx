@@ -13,7 +13,7 @@ export import FatPound.Memory;
 export import FatPound.Random;
 export import FatPound.Util;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 export import FatPound.Win32;
 #endif
 

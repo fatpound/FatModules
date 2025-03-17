@@ -1,12 +1,12 @@
 module;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 #include <DirectXMath.h>
 #endif
 
 export module FatPound.Util.ViewXM;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 
 export namespace fatpound::util
 {

@@ -1,6 +1,6 @@
 module;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 #include <FatNamespaces.hpp>
 #endif
 
@@ -10,7 +10,7 @@ export import FatPound.IO.KeyEvent;
 
 import std;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 namespace fatpound::win32
 {
     class WindowEx;
@@ -21,7 +21,7 @@ export namespace fatpound::io
 {
     class Keyboard final
     {
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
         friend FATSPACE_WIN32::WindowEx;
 #endif
 

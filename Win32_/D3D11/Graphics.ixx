@@ -1,6 +1,6 @@
 module;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 
 #include <FatNamespaces.hpp>
 #include <FatDefines.hpp>
@@ -20,7 +20,7 @@ module;
 
 export module FatPound.Win32.D3D11.Graphics;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 
 import FatPound.Win32.D3D11.Pipeline;
 import FatPound.Win32.D3D11.Visual;

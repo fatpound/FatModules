@@ -2,7 +2,7 @@ module;
 
 module FatPound.Concurrency.TaskQueue;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 
 namespace fatpound::concurrency
 {

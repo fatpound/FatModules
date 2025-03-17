@@ -1,13 +1,13 @@
 module;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 #include <FatWin32.hpp>
 #include <d3d11.h>
 #endif
 
 export module FatPound.Win32.D3D11.Pipeline.Element.Topology;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 

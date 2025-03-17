@@ -1,6 +1,6 @@
 module;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 #include <FatWin32.hpp>
 
 #include <combaseapi.h>
@@ -8,7 +8,7 @@ module;
 
 export module FatPound.Win32.COM.Manager;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 
 import std;
 

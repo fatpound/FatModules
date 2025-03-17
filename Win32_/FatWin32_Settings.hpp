@@ -1,6 +1,6 @@
 #pragma once
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 
 // target Windows 7 or later
 #define _WIN32_WINNT 0x0601

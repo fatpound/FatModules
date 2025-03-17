@@ -1,12 +1,12 @@
 module;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 #include <FatWin32.hpp>
 #endif
 
 export module FatPound.Win32.IWindow;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 
 import std;
 

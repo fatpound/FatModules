@@ -1,6 +1,6 @@
 module;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 #include <FatWin32.hpp>
 #include <d3d11.h>
 #include <wrl.h>
@@ -8,7 +8,7 @@ module;
 
 export module FatPound.Win32.D3D11.Pipeline.Bindable;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 
 export namespace fatpound::win32::d3d11::pipeline
 {

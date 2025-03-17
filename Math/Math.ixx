@@ -1,6 +1,6 @@
 module;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 #include <DirectXMath.h>
 #endif
 
@@ -14,7 +14,7 @@ export import FatPound.Math.Geometry;
 export import FatPound.Math.Multiplicative;
 export import FatPound.Math.Rect;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 
 namespace dx = DirectX;
 

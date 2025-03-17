@@ -1,6 +1,6 @@
 module;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 #include <FatNamespaces.hpp>
 
 #include <FatWin32.hpp>
@@ -10,7 +10,7 @@ module;
 
 export module FatPound.Util.Gfx.ResourcePack;
 
-#if FAT_BUILD_ONLY_WITH_MSVC
+#if FAT_BUILDING_WITH_MSVC
 
 import FatPound.Util.Gfx.SizePack;
 

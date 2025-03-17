@@ -1,6 +1,6 @@
 module;
 
-#if FAT_BUILD_ONLY_WITH_MSVC or FAT_BUILDING_ON_WINDOWS
+#if FAT_BUILDING_WITH_MSVC or FAT_BUILDING_ON_WINDOWS
 #include <cstdlib>
 #ifndef FAT_MEMORY_ALIGNED_ALLOCATE_WITH
     // NOLINTBEGIN(cppcoreguidelines-macro-usage)
