@@ -57,7 +57,16 @@ export namespace fatpound::io
         }
         auto GetChar()  noexcept -> std::optional<unsigned char>
         {
-            return std::optional<unsigned char>();
+            if (m_char_buffer_.empty())
+            {
+                return std::nullopt;
+            }
+
+            auto ch = m_char_buffer_.front();
+
+            m_char_buffer_.pop();
+
+            return ch;
         }
 
         auto KeyIsPressed(keycode_t code) const noexcept -> bool
@@ -71,11 +80,11 @@ export namespace fatpound::io
 
         auto KeyBufferIsEmpty()  const noexcept -> bool
         {
-            return false;
+            return m_key_event_queue_.empty();
         }
         auto CharBufferIsEmpty() const noexcept -> bool
         {
-            return false;
+            return m_char_buffer_.empty();
         }
 
         void EnableAutoRepeat()  noexcept
