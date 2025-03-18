@@ -586,7 +586,7 @@ export namespace fatpound::win32::d3d11
 
         void ToggleAltEnterMode_()
         {
-            FATSPACE_UTIL::gfx::ToggleDXGI_AltEnterMode(GetDevice(), GetHwnd(), m_dxgi_mode_);
+            FATSPACE_UTIL_GFX::ToggleDXGI_AltEnterMode(GetDevice(), GetHwnd(), m_dxgi_mode_);
         }
 
 
