@@ -16,6 +16,7 @@ export namespace fatpound::dsa::tree::binary
 
 
     public:
+        // NOLINTBEGIN(clang-analyzer-cplusplus.NewDeleteLeaks)
         virtual void Insert(const T& new_item) override
         {
             [[maybe_unused]] Node_* new_node = Insert_(nullptr, this->m_pRoot_, new_item);
@@ -31,6 +32,8 @@ export namespace fatpound::dsa::tree::binary
 
             ++(this->m_node_count_);
         }
+        // NOLINTEND(clang-analyzer-cplusplus.NewDeleteLeaks)
+
         virtual void Delete(const T& old_item) noexcept override
         {
             Node_* node = BST<T>::Find_(this->m_pRoot_, old_item);

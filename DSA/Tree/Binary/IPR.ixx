@@ -19,6 +19,7 @@ export namespace fatpound::dsa::tree::binary
 
 
     public:
+        // NOLINTBEGIN(clang-analyzer-cplusplus.NewDeleteLeaks)
         virtual void Insert(const T& new_item) override final
         {
             [[maybe_unused]] Node_* const new_node = AVL<T>::Insert_(nullptr, this->m_pRoot_, new_item);
@@ -34,6 +35,7 @@ export namespace fatpound::dsa::tree::binary
 
             ++(this->m_node_count_);
         }
+        // NOLINTEND(clang-analyzer-cplusplus.NewDeleteLeaks)
 
 
     protected:

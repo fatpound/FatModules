@@ -220,14 +220,14 @@ export namespace fatpound::util
             return static_cast<T>(m_pixel_pitch_ * sizeof(Color));
         }
 
-        template <::std::unsigned_integral T> FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
+        template <::std::unsigned_integral T> [[nodiscard]] FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
         {
             assert(x < GetWidth<T>());
             assert(y < GetHeight<T>());
 
             return m_pBuffer_[(y * m_pixel_pitch_) + x];
         }
-        template <::std::unsigned_integral T> FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
+        template <::std::unsigned_integral T>               FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
         {
             assert(x < GetWidth<T>());
             assert(y < GetHeight<T>());
@@ -235,7 +235,7 @@ export namespace fatpound::util
             m_pBuffer_[(y * m_pixel_pitch_) + x] = color;
         }
 
-        template <::std::signed_integral   T> FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
+        template <::std::signed_integral   T> [[nodiscard]] FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
         {
             assert(x >= 0);
             assert(y >= 0);
@@ -245,7 +245,7 @@ export namespace fatpound::util
                 static_cast<::std::make_unsigned_t<T>>(y)
             );
         }
-        template <::std::signed_integral   T> FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
+        template <::std::signed_integral   T>               FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
         {
             assert(x >= 0);
             assert(y >= 0);

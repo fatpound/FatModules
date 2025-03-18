@@ -41,6 +41,8 @@ export namespace fatpound::dsa::linkedlist
         virtual ~SinglyCircular() noexcept override
         {
             Delete_();
+
+            this->m_cleared_from_derived_dtor_ = true;
         }
 
 
@@ -188,7 +190,7 @@ export namespace fatpound::dsa::linkedlist
 
 
     protected:
-        virtual void Delete_() override final
+        void Delete_()
         {
             if (this->m_list_ == nullptr)
             {

@@ -38,7 +38,10 @@ export namespace fatpound::dsa::linkedlist
         }
         virtual ~Doubly() noexcept
         {
-            Delete_();
+            if (not m_cleared_from_derived_dtor_)
+            {
+                Delete_();
+            }
         }
 
 
@@ -202,7 +205,9 @@ export namespace fatpound::dsa::linkedlist
             return nullptr;
         }
 
-        virtual void Delete_()
+
+    protected:
+        void Delete_()
         {
             if (m_list_ == nullptr)
             {
@@ -234,6 +239,8 @@ export namespace fatpound::dsa::linkedlist
         Node_* m_end_{};
 
         std::size_t m_item_count_{};
+
+        bool m_cleared_from_derived_dtor_{};
 
 
     private:

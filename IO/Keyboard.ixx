@@ -69,20 +69,20 @@ export namespace fatpound::io
             return ch;
         }
 
-        auto KeyIsPressed(keycode_t code) const noexcept -> bool
+        [[nodiscard]] auto KeyIsPressed(keycode_t code) const noexcept -> bool
         {
             return m_key_states_[code];
         }
-        auto AutoRepeatIsEnabled() const noexcept -> bool
+        [[nodiscard]] auto AutoRepeatIsEnabled() const noexcept -> bool
         {
             return m_auto_repeat_enabled_;
         }
 
-        auto KeyBufferIsEmpty()  const noexcept -> bool
+        [[nodiscard]] auto KeyBufferIsEmpty()  const noexcept -> bool
         {
             return m_key_event_queue_.empty();
         }
-        auto CharBufferIsEmpty() const noexcept -> bool
+        [[nodiscard]] auto CharBufferIsEmpty() const noexcept -> bool
         {
             return m_char_buffer_.empty();
         }
