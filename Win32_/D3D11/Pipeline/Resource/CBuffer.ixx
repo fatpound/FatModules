@@ -22,7 +22,8 @@ export namespace fatpound::win32::d3d11::pipeline::resource
     public:
         explicit CBuffer(ID3D11Device* const pDevice, const T& consts)
         {
-            const D3D11_BUFFER_DESC cbd{
+            const D3D11_BUFFER_DESC bd
+            {
                 .ByteWidth           = sizeof(T),
                 .Usage               = D3D11_USAGE_DYNAMIC,
                 .BindFlags           = D3D11_BIND_CONSTANT_BUFFER,
@@ -31,16 +32,17 @@ export namespace fatpound::win32::d3d11::pipeline::resource
                 .StructureByteStride = 0U
             };
 
-            const D3D11_SUBRESOURCE_DATA csd{ .pSysMem = &consts };
+            const D3D11_SUBRESOURCE_DATA sd{ .pSysMem = &consts };
 
-            if (const auto& hr = pDevice->CreateBuffer(&cbd, &csd, &m_pConstantBuffer_); FAILED(hr))
+            if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pConstantBuffer_); FAILED(hr))
             {
                 throw std::runtime_error("Could NOT Create Direct3D CBuffer in function: " __FUNCSIG__);
             }
         }
         explicit CBuffer(ID3D11Device* const pDevice)
         {
-            const D3D11_BUFFER_DESC cbd{
+            const D3D11_BUFFER_DESC bd
+            {
                 .ByteWidth           = sizeof(T),
                 .Usage               = D3D11_USAGE_DYNAMIC,
                 .BindFlags           = D3D11_BIND_CONSTANT_BUFFER,
@@ -49,7 +51,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
                 .StructureByteStride = 0U
             };
 
-            if (const auto& hr = pDevice->CreateBuffer(&cbd, nullptr, &m_pConstantBuffer_); FAILED(hr))
+            if (const auto& hr = pDevice->CreateBuffer(&bd, nullptr, &m_pConstantBuffer_); FAILED(hr))
             {
                 throw std::runtime_error("Could NOT Create Direct3D CBuffer in function: " __FUNCSIG__);
             }
@@ -67,6 +69,8 @@ export namespace fatpound::win32::d3d11::pipeline::resource
     public:
         virtual void Update(ID3D11DeviceContext* const pImmediateContext, const T& consts) final
         {
+            // refactor later
+
             D3D11_MAPPED_SUBRESOURCE msr;
 
             pImmediateContext->Map(

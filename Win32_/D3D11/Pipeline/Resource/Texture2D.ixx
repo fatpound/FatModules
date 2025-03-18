@@ -27,7 +27,8 @@ export namespace fatpound::win32::d3d11::pipeline::resource
             ::Microsoft::WRL::ComPtr<ID3D11Texture2D> pTexture;
 
             {
-                const D3D11_SUBRESOURCE_DATA sd{
+                const D3D11_SUBRESOURCE_DATA sd
+                {
                     .pSysMem     = *pSurface,
                     .SysMemPitch =  pSurface->GetPitch<UINT>()
                 };

@@ -39,7 +39,7 @@ export namespace fatpound::win32::d3d11::visual
 
             m_pCIndexBuffer_ = idxbuf.get();
 
-            tl_bindable_vec_.push_back(std::move(idxbuf));
+            tl_bindable_vec_.push_back(std::move<>(idxbuf));
         }
         virtual void SetIndexFromStatic_() noexcept(IN_RELEASE) final
         {

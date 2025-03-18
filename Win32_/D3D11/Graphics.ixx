@@ -282,7 +282,7 @@ export namespace fatpound::win32::d3d11
                 binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::VertexBuffer>(GetDevice(), FATSPACE_UTIL_GFX::FullScreenQuad::GenerateVertices()));
                 binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
 
-                const std::vector<D3D11_INPUT_ELEMENT_DESC> iedesc =
+                const std::vector<D3D11_INPUT_ELEMENT_DESC> iedesc
                 {
                     {
                         { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -581,7 +581,7 @@ export namespace fatpound::win32::d3d11
         void UnMapSubresourceAndDraw_          () requires(Framework)
         {
             GetImmediateContext()->Unmap(GetSysbufferTexture(), 0U);
-            GetImmediateContext()->Draw(FATSPACE_UTIL_GFX::FullScreenQuad::GenerateVertices().size(), 0U);
+            GetImmediateContext()->Draw(6U, 0U);
         }
 
         void ToggleAltEnterMode_()

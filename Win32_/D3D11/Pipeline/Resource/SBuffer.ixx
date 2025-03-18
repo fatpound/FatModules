@@ -23,7 +23,8 @@ export namespace fatpound::win32::d3d11::pipeline::resource
         explicit SBuffer(ID3D11Device* const pDevice, ID3D11DeviceContext* const pImmediateContext, const std::vector<T>& structures)
         {
             {
-                const D3D11_BUFFER_DESC sbd{
+                const D3D11_BUFFER_DESC sbd
+                {
                     .ByteWidth           = sizeof(T) * static_cast<UINT>(structures.size()),
                     .Usage               = D3D11_USAGE_DEFAULT,
                     .BindFlags           = D3D11_BIND_SHADER_RESOURCE,
@@ -41,7 +42,8 @@ export namespace fatpound::win32::d3d11::pipeline::resource
             }
 
             {
-                const D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{
+                const D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc
+                {
                     .Format        = DXGI_FORMAT_UNKNOWN,
                     .ViewDimension = D3D11_SRV_DIMENSION_BUFFER,
                     .Buffer        = { .ElementWidth = static_cast<UINT>(structures.size()) }

@@ -24,7 +24,8 @@ export namespace fatpound::win32::d3d11::pipeline::element
             :
             m_stride_(sizeof(T))
         {
-            const D3D11_BUFFER_DESC bd{
+            const D3D11_BUFFER_DESC bd
+            {
                 .ByteWidth           = static_cast<UINT>(m_stride_ * vertices.size()),
                 .Usage               = D3D11_USAGE_DEFAULT,
                 .BindFlags           = D3D11_BIND_VERTEX_BUFFER,
