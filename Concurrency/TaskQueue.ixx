@@ -33,10 +33,10 @@ export namespace fatpound::concurrency
             using F = decltype(func);
             using T = std::invoke_result_t<F, Args...>;
 
-            auto pkgTask = std::packaged_task<T(Args...)>{ std::bind(std::forward<F>(func), std::forward<Args>(args)...) };
+            auto pkgTask = std::packaged_task<T(Args...)>{ std::bind<>(std::forward<F>(func), std::forward<Args>(args)...) };
             auto future  = pkgTask.get_future();
 
-            Push_([&, task = std::move(pkgTask)]() mutable -> void { static_cast<void>(task(args...)); });
+            Push_([&, task = std::move<>(pkgTask)]() mutable -> void { static_cast<void>(task(args...)); });
 
             return future;
         }

@@ -105,7 +105,6 @@
     <ClCompile Include="Win32_\GDI_Plus\GDI_Plus.ixx" />
     <ClCompile Include="Win32_\GDI_Plus\Manager.ixx" />
     <ClCompile Include="Win32_\IWindow.ixx" />
-    <ClCompile Include="Win32_\MessageMap.ixx" />
     <ClCompile Include="Win32_\Win32.ixx" />
     <ClCompile Include="Win32_\WindowEx.ixx" />
     <ClCompile Include="Win32_\WMF\Manager.ixx" />

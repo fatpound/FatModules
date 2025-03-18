@@ -208,7 +208,7 @@ export namespace fatpound::io
 
                 OnWheelDown_();
             }
-#if not (defined(_MSC_VER) and not defined(__clang__) and not defined(__GNUC__))
+#if not FAT_BUILDING_WITH_MSVC
 #undef WHEEL_DELTA
 #endif
         }

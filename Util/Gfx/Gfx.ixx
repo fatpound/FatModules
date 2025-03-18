@@ -36,7 +36,7 @@ export namespace fatpound::util::gfx
     {
         static constexpr auto magicVal = static_cast<UINT>(DXGI_MWA_NO_ALT_ENTER);
 
-        if ((flag bitand magicVal) not_eq 0u)
+        if ((flag bitand magicVal) not_eq 0U)
         {
             flag and_eq (compl magicVal);
         }

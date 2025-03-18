@@ -58,7 +58,7 @@ export namespace fatpound::win32::d3d11::visual
                 static_bindable->Bind(pImmediateContext);
             }
 
-            pImmediateContext->DrawIndexed(m_pCIndexBuffer_->GetCount(), 0u, 0);
+            pImmediateContext->DrawIndexed(m_pCIndexBuffer_->GetCount(), 0U, 0);
         }
 
         

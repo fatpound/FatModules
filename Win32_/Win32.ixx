@@ -12,6 +12,4 @@ export import FatPound.Win32.WndClassEx;
 export import FatPound.Win32.IWindow;
 export import FatPound.Win32.WindowEx;
 
-export import FatPound.Win32.MessageMap;
-
 module : private;

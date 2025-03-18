@@ -6,12 +6,10 @@ module;
 #include <FatDefines.hpp>
 
 #include <FatWin32.hpp>
+#include <d3d11.h>
+#include <wrl.h>
 
 #include <DirectXMath.h>
-
-#include <d3d11.h>
-
-#include <wrl.h>
 
 #pragma comment(lib, "d3d11")
 #pragma comment(lib, "D3DCompiler")
@@ -44,7 +42,7 @@ export namespace fatpound::win32::d3d11
     template <bool Framework = false>
     class Graphics final
     {
-        static constexpr auto NotFramework = std::bool_constant<not Framework>::value;
+        static constexpr auto NotFramework = ::std::bool_constant<not Framework>::value;
         static constexpr auto RasterizationEnabled = NotFramework;
 
         using ResourcePack_t = ::std::conditional_t<Framework, FATSPACE_UTIL_GFX::FrameworkResourcePack, FATSPACE_UTIL_GFX::ResourcePack>;
@@ -79,7 +77,7 @@ export namespace fatpound::win32::d3d11
             :
             Graphics(hWnd, pSurface->GetSizePack())
         {
-            BindSurface(std::move(pSurface));
+            BindSurface(std::move<>(pSurface));
         }
 
         explicit Graphics()                    = delete;
@@ -91,7 +89,7 @@ export namespace fatpound::win32::d3d11
         ~Graphics() noexcept                               = default;
         ~Graphics() noexcept requires(Framework)
         {
-            if (GetImmediateContext() not_eq nullptr) [[likely]]
+            if (GetImmediateContext() not_eq nullptr)
             {
                 try
                 {
@@ -106,25 +104,25 @@ export namespace fatpound::win32::d3d11
 
 
     public:
-        template <bitwise::Integral_Or_Floating T> constexpr auto GetWidth () const noexcept -> T
+        template <bitwise::Integral_Or_Floating T> [[nodiscard]] constexpr auto GetWidth () const noexcept -> T
         {
             return static_cast<T>(mc_dimensions_.m_width);
         }
-        template <bitwise::Integral_Or_Floating T> constexpr auto GetHeight() const noexcept -> T
+        template <bitwise::Integral_Or_Floating T> [[nodiscard]] constexpr auto GetHeight() const noexcept -> T
         {
             return static_cast<T>(mc_dimensions_.m_height);
         }
 
-        template <::std::integral T> FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color               requires(Framework)
+        template <::std::integral T> [[nodiscard]] FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color               requires(Framework)
         {
             return m_res_pack_.m_surface.GetPixel<>(x, y);
         }
-        template <::std::integral T> FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept requires(Framework)
+        template <::std::integral T>               FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept requires(Framework)
         {
             m_res_pack_.m_surface.PutPixel<>(x, y, color);
         }
 
-        template <bool FullBlack = true, float_t red = 1.0f, float_t green = 1.0f, float_t blue = 1.0f, float_t alpha = 1.0f>
+        template <bool FullBlack = true, float_t red = 1.0F, float_t green = 1.0F, float_t blue = 1.0F, float_t alpha = 1.0F>
         void BeginFrame() requires(NotFramework)
         {
             if constexpr (FullBlack)
@@ -144,7 +142,7 @@ export namespace fatpound::win32::d3d11
             void* const ptr = ::std::memset(
                 m_res_pack_.m_surface,
                 GrayToneValue,
-                sizeof(Color) * GetWidth<UINT>() * GetHeight<UINT>()
+                GetWidth<UINT>() * GetHeight<UINT>() * sizeof(Color)
             );
         }
 
@@ -158,30 +156,34 @@ export namespace fatpound::win32::d3d11
                 UnMapSubresourceAndDraw_();
             }
 
-            const auto& hr = GetSwapChain()->Present(static_cast<UINT>(VSynced), 0u);
-
-            if (FAILED(hr)) [[unlikely]]
+            if (const auto& hr = GetSwapChain()->Present(static_cast<UINT>(VSynced), 0U); FAILED(hr))
             {
                 throw std::runtime_error("SwapChain could NOT Present!");;
             }
         }
 
-        template <float_t red = 0.0f, float_t green = 0.0f, float_t blue = 0.0f, float_t alpha = 1.0f>
+        template <float_t red = 0.0F, float_t green = 0.0F, float_t blue = 0.0F, float_t alpha = 1.0F>
         void FillWithSolidColor() requires(NotFramework)
         {
-            constexpr std::array<const float_t, 4> colors{ red, green, blue, alpha };
+            {
+                constexpr std::array<const float_t, 4> colors{ red, green, blue, alpha };
 
-            GetImmediateContext()->ClearRenderTargetView(GetRenderTargetView(), colors.data());
-            GetImmediateContext()->ClearDepthStencilView(GetDepthStencilView(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
+                GetImmediateContext()->ClearRenderTargetView(GetRenderTargetView(), colors.data());
+            }
+
+            GetImmediateContext()->ClearDepthStencilView(GetDepthStencilView(), D3D11_CLEAR_DEPTH, 1.0F, 0U);
         }
 
         template <std::floating_point T = float_t>
         void FillWithSolidColor(const T red, const T green, const T blue, const T alpha = static_cast<T>(1.0)) requires(NotFramework)
         {
-            const std::array<const T, 4> colors{ red, green, blue, alpha };
+            {
+                const std::array<const T, 4> colors{ red, green, blue, alpha };
 
-            GetImmediateContext()->ClearRenderTargetView(GetRenderTargetView(), colors.data());
-            GetImmediateContext()->ClearDepthStencilView(GetDepthStencilView(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
+                GetImmediateContext()->ClearRenderTargetView(GetRenderTargetView(), colors.data());
+            }
+
+            GetImmediateContext()->ClearDepthStencilView(GetDepthStencilView(), D3D11_CLEAR_DEPTH, 1.0F, 0U);
         }
 
 
@@ -229,18 +231,18 @@ export namespace fatpound::win32::d3d11
             return m_msaa_quality_;
         }
 
-        void BindSurface(std::unique_ptr<Surface> pSurface) requires(Framework)
+        void BindSurface(::std::unique_ptr<Surface> pSurface) requires(Framework)
         {
             if (m_pSurface_ not_eq nullptr)
             {
                 m_pSurface_->Reset();
             }
 
-            m_pSurface_ = std::move(pSurface);
+            m_pSurface_ = std::move<>(pSurface);
         }
-        void CopySurfaceToSysbuffer()                       requires(Framework)
+        void CopySurfaceToSysbuffer()                         requires(Framework)
         {
-            if (const void* const pSrc = *m_pSurface_)
+            if (const void* const pSrc = *m_pSurface_; pSrc not_eq nullptr)
             {
                 ::std::memcpy(
                     m_res_pack_.m_surface,
@@ -298,102 +300,85 @@ export namespace fatpound::win32::d3d11
         }
         void InitFrameworkBackbuffer_ () requires(Framework)
         {
-            D3D11_TEXTURE2D_DESC texDesc{
-                .Width              = GetWidth<UINT>(),
-                .Height             = GetHeight<UINT>(),
-                .MipLevels          = 1u,
-                .ArraySize          = 1u,
-                .Format             = DXGI_FORMAT_B8G8R8A8_UNORM,
-                .SampleDesc         = {
-                                        .Count = 1u,
-                                        .Quality = 0u 
-                                    },
-                .Usage              = D3D11_USAGE_DYNAMIC,
-                .BindFlags          = D3D11_BIND_SHADER_RESOURCE,
-                .CPUAccessFlags     = D3D11_CPU_ACCESS_WRITE,
-                .MiscFlags          = 0u
-            };
-
             {
-                const auto& hr = GetDevice()->CreateTexture2D(&texDesc, nullptr, m_res_pack_.m_pSysbufferTex2d.GetAddressOf());
+                ::wrl::ComPtr<ID3D11ShaderResourceView> pSRV;
 
-                if (FAILED(hr)) [[unlikely]]
                 {
-                    throw std::runtime_error("Could NOT create Texture2D!");
+                    const D3D11_TEXTURE2D_DESC texDesc
+                    {
+                        .Width          = GetWidth<UINT>(),
+                        .Height         = GetHeight<UINT>(),
+                        .MipLevels      = 1U,
+                        .ArraySize      = 1U,
+                        .Format         = DXGI_FORMAT_B8G8R8A8_UNORM,
+                        .SampleDesc     = {
+                                            .Count   = 1U,
+                                            .Quality = 0U 
+                                        },
+                        .Usage          = D3D11_USAGE_DYNAMIC,
+                        .BindFlags      = D3D11_BIND_SHADER_RESOURCE,
+                        .CPUAccessFlags = D3D11_CPU_ACCESS_WRITE,
+                        .MiscFlags      = 0U
+                    };
+
+                    if (const auto& hr = GetDevice()->CreateTexture2D(&texDesc, nullptr, m_res_pack_.m_pSysbufferTex2d.GetAddressOf()); FAILED(hr))
+                    {
+                        throw std::runtime_error("Could NOT create Texture2D!");
+                    }
+
+                    const D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc
+                    {
+                        .Format        = texDesc.Format,
+                        .ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D,
+                        .Texture2D     = { .MipLevels = texDesc.MipLevels }
+                    };
+
+                    if (const auto& hr = GetDevice()->CreateShaderResourceView(GetSysbufferTexture(), &srvDesc, pSRV.GetAddressOf()); FAILED(hr))
+                    {
+                        throw std::runtime_error("Could NOT create ShaderResourceView!");
+                    }
                 }
+
+                GetImmediateContext()->PSSetShaderResources(0U, 1U, pSRV.GetAddressOf());
             }
 
-            ::wrl::ComPtr<ID3D11ShaderResourceView> pSRV;
-
-            D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc{
-                .Format              = texDesc.Format,
-                .ViewDimension       = D3D11_SRV_DIMENSION_TEXTURE2D,
-                .Texture2D           = { .MipLevels = texDesc.MipLevels }
-            };
+            ::wrl::ComPtr<ID3D11SamplerState> pSS;
 
             {
-                const auto& hr = GetDevice()->CreateShaderResourceView(GetSysbufferTexture(), &srvDesc, pSRV.GetAddressOf());
-
-                if (FAILED(hr)) [[unlikely]]
+                const D3D11_SAMPLER_DESC sDesc
                 {
-                    throw std::runtime_error("Could NOT create ShaderResourceView!");
-                }
-            }
-
-            GetImmediateContext()->PSSetShaderResources(0u, 1u, pSRV.GetAddressOf());
-
-            {
-                ::wrl::ComPtr<ID3D11SamplerState> pSS;
-
-                D3D11_SAMPLER_DESC sDesc{
                     .Filter         = D3D11_FILTER_MIN_MAG_MIP_POINT,
                     .AddressU       = D3D11_TEXTURE_ADDRESS_CLAMP,
                     .AddressV       = D3D11_TEXTURE_ADDRESS_CLAMP,
                     .AddressW       = D3D11_TEXTURE_ADDRESS_CLAMP,
                     .ComparisonFunc = D3D11_COMPARISON_NEVER,
-                    .MinLOD         = 0.0f,
+                    .MinLOD         = 0.0F,
                     .MaxLOD         = D3D11_FLOAT32_MAX
                 };
 
-                const auto& hr = GetDevice()->CreateSamplerState(&sDesc, pSS.GetAddressOf());
-
-                if (FAILED(hr)) [[unlikely]]
+                if (const auto& hr = GetDevice()->CreateSamplerState(&sDesc, pSS.GetAddressOf()); FAILED(hr))
                 {
                     throw std::runtime_error("Could NOT create SamplerState");
                 }
-
-                GetImmediateContext()->PSSetSamplers(0, 1, pSS.GetAddressOf());
             }
+
+            GetImmediateContext()->PSSetSamplers(0, 1, pSS.GetAddressOf());
         }
         void InitDevice_              ()
         {
-            static constinit UINT swapCreateFlags;
-
-            if constexpr (IN_RELEASE)
-            {
-                swapCreateFlags = 0u;
-            }
-            else
-            {
-                swapCreateFlags = D3D11_CREATE_DEVICE_DEBUG;
-            }
-
             D3D_FEATURE_LEVEL featureLevel{};
 
-            const auto& hr = ::D3D11CreateDevice(
+            if (const auto& hr = ::D3D11CreateDevice(
                 nullptr,
                 D3D_DRIVER_TYPE_HARDWARE,
                 nullptr,
-                swapCreateFlags,
+                IN_RELEASE ? 0U : D3D11_CREATE_DEVICE_DEBUG,
                 nullptr,
-                0u,
+                0U,
                 D3D11_SDK_VERSION,
                 &m_res_pack_.m_pDevice,
                 &featureLevel,
-                &m_res_pack_.m_pImmediateContext
-            );
-
-            if (FAILED(hr)) [[unlikely]]
+                &m_res_pack_.m_pImmediateContext); FAILED(hr))
             {
                 throw std::runtime_error("Could NOT create Direct3D Device!");
             }
@@ -405,17 +390,19 @@ export namespace fatpound::win32::d3d11
         }
         void InitMSAA_Settings_       ()
         {
-            constexpr std::array<const UINT, 4> msaa_counts{ 32u, 16u, 8u, 4u };
-
-            for (const auto& count : msaa_counts)
             {
-                m_res_pack_.m_pDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_B8G8R8A8_UNORM, count, &m_msaa_quality_);
+                constexpr std::array<const UINT, 4> msaa_counts{ 32U, 16U, 8U, 4U };
 
-                if (m_msaa_quality_ > 0)
+                for (const auto& count : msaa_counts)
                 {
-                    m_msaa_count_ = count;
+                    m_res_pack_.m_pDevice->CheckMultisampleQualityLevels(DXGI_FORMAT_B8G8R8A8_UNORM, count, &m_msaa_quality_);
 
-                    break;
+                    if (m_msaa_quality_ > 0)
+                    {
+                        m_msaa_count_ = count;
+
+                        break;
+                    }
                 }
             }
 
@@ -426,73 +413,51 @@ export namespace fatpound::win32::d3d11
         }
         void InitSwapChain_           ()
         {
-            DXGI_SWAP_CHAIN_DESC scDesc{
+            DXGI_SWAP_CHAIN_DESC scDesc
+            {
                 .BufferDesc   = {
-                                 .Width            = GetWidth<UINT>(),
-                                 .Height           = GetHeight<UINT>(),
-                                 .RefreshRate      = {
-                                                      .Numerator = 0u,
-                                                      .Denominator = 0u,
-                                                   },
-                                 .Format           = DXGI_FORMAT_B8G8R8A8_UNORM,
-                                 .ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED,
-                                 .Scaling          = DXGI_MODE_SCALING_UNSPECIFIED,
+                                  .Width            = GetWidth<UINT>(),
+                                  .Height           = GetHeight<UINT>(),
+                                  .RefreshRate      = {
+                                                        .Numerator = 0U,
+                                                        .Denominator = 0U,
+                                                    },
+                                  .Format           = DXGI_FORMAT_B8G8R8A8_UNORM,
+                                  .ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED,
+                                  .Scaling          = DXGI_MODE_SCALING_UNSPECIFIED,
+                              },
+                .SampleDesc   = {
+                                  .Count   = (Framework ? 1U : m_msaa_count_),
+                                  .Quality = (Framework ? 0U : m_msaa_quality_ - 1U)
                               },
                 .BufferUsage  = DXGI_USAGE_RENDER_TARGET_OUTPUT,
-                .BufferCount  = 1u,
+                .BufferCount  = 1U,
                 .OutputWindow = GetHwnd(),
+                .Windowed     = not (IN_RELEASE and NotFramework),
                 .SwapEffect   = DXGI_SWAP_EFFECT_DISCARD,
-                .Flags        = 0u
+                .Flags        = 0U
             };
 
-            if constexpr (Framework)
-            {
-                scDesc.SampleDesc.Count   = 1u;
-                scDesc.SampleDesc.Quality = 0u;
-            }
-            else
-            {
-                scDesc.SampleDesc.Count   = m_msaa_count_;
-                scDesc.SampleDesc.Quality = m_msaa_quality_ - 1u;
-            }
-
-            if constexpr (IN_RELEASE and NotFramework)
-            {
-                scDesc.Windowed = false;
-            }
-            else
-            {
-                scDesc.Windowed = true;
-            }
-
-            const auto& hr = FATSPACE_UTIL::gfx::GetDXGIFactory(GetDevice())->CreateSwapChain(
+            if (const auto& hr = FATSPACE_UTIL_GFX::GetDXGIFactory(GetDevice())->CreateSwapChain(
                 GetDevice(),
                 &scDesc,
-                m_res_pack_.m_pSwapChain.GetAddressOf()
-            );
-
-            if (FAILED(hr)) [[unlikely]]
+                m_res_pack_.m_pSwapChain.GetAddressOf());
+                FAILED(hr))
             {
-                throw std::runtime_error("Could NOT create Direct3D SwapChain!");
+                throw std::runtime_error("Could NOT create DXGI SwapChain!");
             }
         }
         void InitRenderTarget_        ()
         {
-            ::Microsoft::WRL::ComPtr<ID3D11Texture2D> pBackBufferTexture2D{};
-
             {
-                const auto& hr = GetSwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), &pBackBufferTexture2D);
+                ::wrl::ComPtr<ID3D11Texture2D> pBackBufferTexture2D{};
 
-                if (FAILED(hr)) [[unlikely]]
+                if (const auto& hr = GetSwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), &pBackBufferTexture2D); FAILED(hr))
                 {
                     throw std::runtime_error("Could NOT get the buffer from SwapChain!");
                 }
-            }
 
-            {
-                const auto& hr = GetDevice()->CreateRenderTargetView(pBackBufferTexture2D.Get(), nullptr, &m_res_pack_.m_pRTV);
-
-                if (FAILED(hr)) [[unlikely]]
+                if (const auto& hr = GetDevice()->CreateRenderTargetView(pBackBufferTexture2D.Get(), nullptr, &m_res_pack_.m_pRTV); FAILED(hr))
                 {
                     throw std::runtime_error("Could NOT create RenderTargetView!");
                 }
@@ -502,88 +467,77 @@ export namespace fatpound::win32::d3d11
             {
                 ::wrl::ComPtr<ID3D11Texture2D> pTexture2d;
 
-                D3D11_TEXTURE2D_DESC tex2dDesc{
-                    .Width      = GetWidth<UINT>(),
-                    .Height     = GetHeight<UINT>(),
-                    .MipLevels  = 1u,
-                    .ArraySize  = 1u,
-                    .Format     = DXGI_FORMAT_D32_FLOAT,
-                    .SampleDesc = {
-                                    .Count   = GetMSAACount(),
-                                    .Quality = GetMSAAQuality() - 1u
-                                },
-                    .Usage      = D3D11_USAGE_DEFAULT,
-                    .BindFlags  = D3D11_BIND_DEPTH_STENCIL
-                };
-
-                D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc{ .Format = DXGI_FORMAT_D32_FLOAT };
-
-                if (m_msaa_count_ == 1u)
                 {
-                    dsvDesc.ViewDimension      = D3D11_DSV_DIMENSION_TEXTURE2D;
-                    dsvDesc.Texture2D.MipSlice = 0u;
-                }
-                else
-                {
-                    dsvDesc.ViewDimension      = D3D11_DSV_DIMENSION_TEXTURE2DMS;
-                    dsvDesc.Texture2D.MipSlice = 1u;
-                }
+                    D3D11_TEXTURE2D_DESC tex2dDesc
+                    {
+                        .Width      = GetWidth<UINT>(),
+                        .Height     = GetHeight<UINT>(),
+                        .MipLevels  = 1U,
+                        .ArraySize  = 1U,
+                        .Format     = DXGI_FORMAT_D32_FLOAT,
+                        .SampleDesc = {
+                                        .Count   = GetMSAACount(),
+                                        .Quality = GetMSAAQuality() - 1U
+                                    },
+                        .Usage      = D3D11_USAGE_DEFAULT,
+                        .BindFlags  = D3D11_BIND_DEPTH_STENCIL
+                    };
 
-                {
-                    const auto& hr = GetDevice()->CreateTexture2D(&tex2dDesc, nullptr, pTexture2d.GetAddressOf());
-
-                    if (FAILED(hr)) [[unlikely]]
+                    if (const auto& hr = GetDevice()->CreateTexture2D(&tex2dDesc, nullptr, pTexture2d.GetAddressOf()); FAILED(hr))
                     {
                         throw std::runtime_error("Could NOT create Texture2D!");
                     }
                 }
 
+                D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc
                 {
-                    const auto& hr = GetDevice()->CreateDepthStencilView(pTexture2d.Get(), &dsvDesc, &m_res_pack_.m_pDSV);
+                    .Format        = DXGI_FORMAT_D32_FLOAT,
+                    .ViewDimension = ((m_msaa_count_ == 1U) ? D3D11_DSV_DIMENSION_TEXTURE2D : D3D11_DSV_DIMENSION_TEXTURE2DMS),
+                    .Texture2D     = { .MipSlice = ((m_msaa_count_ == 1U) ? 0U : 1U) }
+                };
 
-                    if (FAILED(hr)) [[unlikely]]
-                    {
-                        throw std::runtime_error("Could NOT create DepthStencilView!");
-                    }
+                if (const auto& hr = GetDevice()->CreateDepthStencilView(pTexture2d.Get(), &dsvDesc, &m_res_pack_.m_pDSV); FAILED(hr))
+                {
+                    throw std::runtime_error("Could NOT create DepthStencilView!");
                 }
             }
 
-            GetImmediateContext()->OMSetRenderTargets(1u, m_res_pack_.m_pRTV.GetAddressOf(), GetDepthStencilView());
+            GetImmediateContext()->OMSetRenderTargets(1U, m_res_pack_.m_pRTV.GetAddressOf(), GetDepthStencilView());
         }
         void InitViewport_            ()
         {
-            const D3D11_VIEWPORT vp{
-                .TopLeftX = 0.0f,
-                .TopLeftY = 0.0f,
+            const D3D11_VIEWPORT vp
+            {
+                .TopLeftX = 0.0F,
+                .TopLeftY = 0.0F,
                 .Width    = GetWidth<FLOAT>(),
                 .Height   = GetHeight<FLOAT>(),
-                .MinDepth = 0.0f,
-                .MaxDepth = 1.0f
+                .MinDepth = 0.0F,
+                .MaxDepth = 1.0F
             };
 
-            GetImmediateContext()->RSSetViewports(1u, &vp);
+            GetImmediateContext()->RSSetViewports(1U, &vp);
         }
         void InitRasterizer_          () requires(NotFramework)
         {
-            D3D11_RASTERIZER_DESC rDesc{
-                .FillMode              = D3D11_FILL_SOLID,
-                .CullMode              = D3D11_CULL_BACK,
-                .FrontCounterClockwise = false,
-                .DepthBias             = 0,
-                .DepthBiasClamp        = 0.0f,
-                .SlopeScaledDepthBias  = 0.0f,
-                .DepthClipEnable       = true,
-                .ScissorEnable         = false,
-                .MultisampleEnable     = true,
-                .AntialiasedLineEnable = true
-            };
-
             ::wrl::ComPtr<ID3D11RasterizerState> m_pRasterizerState_;
 
             {
-                const auto& hr = GetDevice()->CreateRasterizerState(&rDesc, &m_pRasterizerState_);
+                D3D11_RASTERIZER_DESC rDesc
+                {
+                    .FillMode              = D3D11_FILL_SOLID,
+                    .CullMode              = D3D11_CULL_BACK,
+                    .FrontCounterClockwise = false,
+                    .DepthBias             = 0,
+                    .DepthBiasClamp        = 0.0F,
+                    .SlopeScaledDepthBias  = 0.0F,
+                    .DepthClipEnable       = true,
+                    .ScissorEnable         = false,
+                    .MultisampleEnable     = true,
+                    .AntialiasedLineEnable = true
+                };
 
-                if (FAILED(hr)) [[unlikely]]
+                if (const auto& hr = GetDevice()->CreateRasterizerState(&rDesc, &m_pRasterizerState_); FAILED(hr))
                 {
                     throw std::runtime_error("Could NOT create RasterizerState!");
                 }
@@ -596,28 +550,28 @@ export namespace fatpound::win32::d3d11
         {
             const auto& hr = GetImmediateContext()->Map(
                 GetSysbufferTexture(),
-                0u,
+                0U,
                 D3D11_MAP_WRITE_DISCARD,
-                0u,
+                0U,
                 &m_res_pack_.m_mappedSysbufferTex2d
             );
 
-            if (FAILED(hr)) [[unlikely]]
+            if (FAILED(hr))
             {
                 throw std::runtime_error("Could NOT Map the ImmediateContext!");
             }
         }
         void CopySysbufferToMappedSubresource_ () requires(Framework)
         {
-            Color* const pDst = static_cast<Color*>(m_res_pack_.m_mappedSysbufferTex2d.pData);
+            auto* const pDst = static_cast<Color*>(m_res_pack_.m_mappedSysbufferTex2d.pData);
 
             const auto dstPitch = m_res_pack_.m_mappedSysbufferTex2d.RowPitch / sizeof(Color);
             const auto srcPitch = mc_dimensions_.m_width;
             const auto rowBytes = srcPitch * sizeof(Color);
 
-            for (auto y = 0u; y < mc_dimensions_.m_height; ++y)
+            for (auto y = 0U; y < mc_dimensions_.m_height; ++y)
             {
-                std::memcpy(
+                ::std::memcpy(
                     static_cast<void*>(&pDst[y * dstPitch]),
                     static_cast<void*>(&m_res_pack_.m_surface[y * srcPitch]),
                     rowBytes
@@ -626,8 +580,8 @@ export namespace fatpound::win32::d3d11
         }
         void UnMapSubresourceAndDraw_          () requires(Framework)
         {
-            GetImmediateContext()->Unmap(GetSysbufferTexture(), 0u);
-            GetImmediateContext()->Draw(6u, 0u);
+            GetImmediateContext()->Unmap(GetSysbufferTexture(), 0U);
+            GetImmediateContext()->Draw(FATSPACE_UTIL_GFX::FullScreenQuad::GenerateVertices().size(), 0U);
         }
 
         void ToggleAltEnterMode_()
@@ -639,15 +593,15 @@ export namespace fatpound::win32::d3d11
     private:
         ResourcePack_t m_res_pack_{};
 
-        const HWND mc_hWnd_;
+        const ::HWND mc_hWnd_;
         
         const SizePack mc_dimensions_;
 
-        UINT m_msaa_count_{};
-        UINT m_msaa_quality_{};
-        UINT m_dxgi_mode_{};
+        ::UINT m_msaa_count_{};
+        ::UINT m_msaa_quality_{};
+        ::UINT m_dxgi_mode_{};
 
-        std::unique_ptr<Surface> m_pSurface_;
+        ::std::unique_ptr<Surface> m_pSurface_;
     };
 }
 

@@ -174,7 +174,7 @@ namespace fatpound::automata
 
         void TLT::Clear_()
         {
-            if (m_pTree_ == nullptr) [[unlikely]]
+            if (m_pTree_ == nullptr)
             {
                 return;
             }
@@ -314,7 +314,7 @@ namespace fatpound::automata
                         }
                     }
 
-                    tempstrings = std::move(newTempStrings);
+                    tempstrings = std::move<>(newTempStrings);
                 }
 
                 for (const auto& strPair : tempstrings)

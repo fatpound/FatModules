@@ -50,20 +50,22 @@ namespace fatpound::automata
 
         std::ranges::sort(alphabet);
 
-        const auto& it = std::ranges::unique(alphabet);
+        {
+            const auto& [beg, end] = std::ranges::unique(alphabet);
 
-        alphabet.erase(it.begin(), alphabet.end());
+            alphabet.erase(beg, end);
+        }
     }
     void CFG::ReadSecondLine_(std::ifstream& inputFile, const Alphabet_t& alphabet)
     {
         std::string str;
 
-        while (std::getline(inputFile, str, scx_LanguageDelimiter_))
+        while (std::getline<>(inputFile, str, scx_LanguageDelimiter_))
         {
             {
-                const auto& it = std::ranges::remove_if(str, [](const auto& ch) noexcept -> bool { return std::isspace(ch) not_eq 0; });
+                const auto& [beg, end] = std::ranges::remove_if(str, [](const auto& ch) noexcept -> bool { return std::isspace(ch) not_eq 0; });
 
-                str.erase(it.begin(), str.end());
+                str.erase(beg, end);
             }
 
             const auto& index = str.find(scx_LanguageContentIndicator_);
@@ -80,23 +82,25 @@ namespace fatpound::automata
 
                 std::vector<std::string> leaves;
 
-                std::istringstream iss(str);
-
-                std::string tempstr;
-
-                while (std::getline<>(iss, tempstr, scx_SymbolDelimiter_))
                 {
-                    if (std::ranges::find(leaves, tempstr) == leaves.cend())
-                    {
-                        for (const auto& ch : tempstr)
-                        {
-                            if (static_cast<bool>(std::islower(ch)) and std::ranges::find(alphabet, ch) == alphabet.cend())
-                            {
-                                throw std::runtime_error("The letter " + std::string{ ch } + " is not in the alphabet!");
-                            }
-                        }
+                    std::istringstream iss(str);
 
-                        leaves.push_back(tempstr);
+                    std::string tempstr;
+
+                    while (std::getline<>(iss, tempstr, scx_SymbolDelimiter_))
+                    {
+                        if (std::ranges::find(leaves, tempstr) == leaves.cend())
+                        {
+                            for (const auto& ch : tempstr)
+                            {
+                                if (static_cast<bool>(std::islower(ch)) and std::ranges::find(alphabet, ch) == alphabet.cend())
+                                {
+                                    throw std::runtime_error("The letter " + std::string{ ch } + " is not in the alphabet!");
+                                }
+                            }
+
+                            leaves.push_back(tempstr);
+                        }
                     }
                 }
 

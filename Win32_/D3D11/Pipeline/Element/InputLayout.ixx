@@ -21,15 +21,13 @@ export namespace fatpound::win32::d3d11::pipeline::element
     public:
         explicit InputLayout(ID3D11Device* const pDevice, const std::vector<D3D11_INPUT_ELEMENT_DESC>& layout, ID3DBlob* const pVertexShaderBytecode)
         {
-            const auto& hr = pDevice->CreateInputLayout(
+            if (const auto& hr = pDevice->CreateInputLayout(
                 layout.data(),
                 static_cast<UINT>(layout.size()),
                 pVertexShaderBytecode->GetBufferPointer(),
                 pVertexShaderBytecode->GetBufferSize(),
-                &m_pInputLayout_
-            );
-
-            if (FAILED(hr))
+                &m_pInputLayout_);
+                FAILED(hr))
             {
                 throw std::runtime_error("Could NOT Create Direct3D InputLayout in function: " __FUNCSIG__);
             }

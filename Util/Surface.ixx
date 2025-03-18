@@ -77,9 +77,9 @@ export namespace fatpound::util
 
             Surface surf(width, height, alignBytes);
 
-            for (auto y = 0u; y < height; ++y)
+            for (auto y = 0U; y < height; ++y)
             {
-                for (auto x = 0u; x < width; ++x)
+                for (auto x = 0U; x < width; ++x)
                 {
                     ::Gdiplus::Color c;
 

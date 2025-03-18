@@ -27,16 +27,14 @@ export namespace fatpound::win32::d3d11::pipeline::resource
                     .ByteWidth           = sizeof(T) * static_cast<UINT>(structures.size()),
                     .Usage               = D3D11_USAGE_DEFAULT,
                     .BindFlags           = D3D11_BIND_SHADER_RESOURCE,
-                    .CPUAccessFlags      = 0u,
+                    .CPUAccessFlags      = 0U,
                     .MiscFlags           = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED,
                     .StructureByteStride = sizeof(T)
                 };
 
                 const D3D11_SUBRESOURCE_DATA initData{ .pSysMem = structures.data() };
 
-                const auto& hr = pDevice->CreateBuffer(&sbd, &initData, &m_pStructuredBuffer_);
-
-                if (FAILED(hr))
+                if (const auto& hr = pDevice->CreateBuffer(&sbd, &initData, &m_pStructuredBuffer_); FAILED(hr))
                 {
                     throw std::runtime_error("Could NOT Create Direct3D SBuffer in function: " __FUNCSIG__);
                 }
@@ -49,15 +47,13 @@ export namespace fatpound::win32::d3d11::pipeline::resource
                     .Buffer        = { .ElementWidth = static_cast<UINT>(structures.size()) }
                 };
 
-                const auto& hr = pDevice->CreateShaderResourceView(m_pStructuredBuffer_.Get(), &srvDesc, &m_pShaderResourceView_);
-
-                if (FAILED(hr))
+                if (const auto& hr = pDevice->CreateShaderResourceView(m_pStructuredBuffer_.Get(), &srvDesc, &m_pShaderResourceView_); FAILED(hr))
                 {
                     throw std::runtime_error("Could NOT Create Direct3D ShaderResourceView in function: " __FUNCSIG__);
                 }
             }
 
-            pImmediateContext->VSSetShaderResources(0u, 1u, m_pShaderResourceView_.GetAddressOf());
+            pImmediateContext->VSSetShaderResources(0U, 1U, m_pShaderResourceView_.GetAddressOf());
         }
 
         explicit SBuffer()                   = delete;

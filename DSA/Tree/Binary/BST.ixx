@@ -27,14 +27,14 @@ export namespace fatpound::dsa::tree::binary
         {
             if (src.m_pRoot_ not_eq nullptr)
             {
-                m_pRoot_ = std::exchange(src.m_pRoot_, nullptr);
-                m_node_count_ = std::exchange(src.m_node_count_, 0U);
+                m_pRoot_ = std::exchange<>(src.m_pRoot_, nullptr);
+                m_node_count_ = std::exchange<>(src.m_node_count_, 0U);
             }
         }
 
         auto operator = (const BST& src) noexcept -> BST&
         {
-            if ((this not_eq std::addressof(src)) and (src.m_pRoot_ not_eq nullptr))
+            if ((this not_eq std::addressof<>(src)) and (src.m_pRoot_ not_eq nullptr))
             {
                 if (m_pRoot_ not_eq nullptr)
                 {
@@ -49,15 +49,15 @@ export namespace fatpound::dsa::tree::binary
         }
         auto operator = (BST&& src) noexcept -> BST&
         {
-            if ((this not_eq std::addressof(src)) and (src.m_pRoot_ not_eq nullptr))
+            if ((this not_eq std::addressof<>(src)) and (src.m_pRoot_ not_eq nullptr))
             {
                 if (m_pRoot_ not_eq nullptr)
                 {
                     Clear_();
                 }
 
-                m_pRoot_ = std::exchange(src.m_pRoot_, nullptr);
-                m_node_count_ = std::exchange(src.m_node_count_, 0U);
+                m_pRoot_ = std::exchange<>(src.m_pRoot_, nullptr);
+                m_node_count_ = std::exchange<>(src.m_node_count_, 0U);
             }
 
             return *this;
@@ -74,7 +74,7 @@ export namespace fatpound::dsa::tree::binary
         {
             [[maybe_unused]] Node_* new_node = Insert_(nullptr, m_pRoot_, new_item);
 
-            if (m_pRoot_ == nullptr) [[unlikely]]
+            if (m_pRoot_ == nullptr)
             {
                 m_pRoot_ = new_node;
             }

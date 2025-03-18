@@ -18,7 +18,7 @@ export namespace fatpound::dsa::linkedlist
         explicit SinglyCircular(const SinglyCircular&) = delete;
         SinglyCircular(SinglyCircular&& src) noexcept
             :
-            Singly<T>(std::move(src))
+            Singly<T>(std::move<>(src))
         {
 
         }
@@ -26,14 +26,14 @@ export namespace fatpound::dsa::linkedlist
         auto operator = (const SinglyCircular&) -> SinglyCircular& = delete;
         auto operator = (SinglyCircular&& src) noexcept -> SinglyCircular&
         {
-            if ((this not_eq std::addressof(src)) and (typeid(src) == typeid(*this)) and (src.m_list_ not_eq nullptr))
+            if ((this not_eq std::addressof<>(src)) and (typeid(src) == typeid(*this)) and (src.m_list_ not_eq nullptr))
             {
                 Delete_();
 
-                this->m_list_ = std::exchange(src.m_list_, nullptr);
-                this->m_end_  = std::exchange(src.m_end_,  nullptr);
+                this->m_list_ = std::exchange<>(src.m_list_, nullptr);
+                this->m_end_  = std::exchange<>(src.m_end_,  nullptr);
 
-                this->m_item_count_ = std::exchange(src.m_item_count_, 0U);
+                this->m_item_count_ = std::exchange<>(src.m_item_count_, 0U);
             }
 
             return *this;

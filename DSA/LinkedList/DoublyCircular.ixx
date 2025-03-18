@@ -18,7 +18,7 @@ export namespace fatpound::dsa::linkedlist
         explicit DoublyCircular(const DoublyCircular&) = delete;
         DoublyCircular(DoublyCircular&& src) noexcept
             :
-            Doubly<T>(std::move(src))
+            Doubly<T>(std::move<>(src))
         {
 
         }
@@ -26,14 +26,14 @@ export namespace fatpound::dsa::linkedlist
         auto operator = (const DoublyCircular&) -> DoublyCircular& = delete;
         auto operator = (DoublyCircular&& src) noexcept -> DoublyCircular&
         {
-            if ((this not_eq std::addressof(src)) and (typeid(src) == typeid(*this)) and (src.m_list_ not_eq nullptr))
+            if ((this not_eq std::addressof<>(src)) and (typeid(src) == typeid(*this)) and (src.m_list_ not_eq nullptr))
             {
                 Delete_();
 
-                this->m_list_ = std::exchange(src.m_list_, nullptr);
-                this->m_end_  = std::exchange(src.m_end_,  nullptr);
+                this->m_list_ = std::exchange<>(src.m_list_, nullptr);
+                this->m_end_  = std::exchange<>(src.m_end_,  nullptr);
 
-                this->m_item_count_ = std::exchange(src.m_item_count_, 0U);
+                this->m_item_count_ = std::exchange<>(src.m_item_count_, 0U);
             }
 
             return *this;
@@ -98,7 +98,7 @@ export namespace fatpound::dsa::linkedlist
                 return;
             }
 
-            Node_* temp = this->m_list_;
+            Node_* temp  = this->m_list_;
             Node_* start = temp;
 
             while (temp->next not_eq start)
@@ -139,12 +139,12 @@ export namespace fatpound::dsa::linkedlist
 
             while (temp->next not_eq start)
             {
-                std::swap(temp->prev, temp->next);
+                std::swap<>(temp->prev, temp->next);
 
                 temp = temp->prev;
             }
 
-            std::swap(temp->prev, temp->next);
+            std::swap<>(temp->prev, temp->next);
 
             this->m_list_ = temp;
         }
