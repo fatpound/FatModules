@@ -23,7 +23,20 @@ export namespace fatpound::concurrency
 
 
     public:
-        void ExecuteFirstAndPopOff();
+        void ExecuteFirstAndPopOff()
+        {
+            WrappedTask wtask{};
+
+            {
+                const std::lock_guard lck{ m_mtx_ };
+
+                wtask = std::move<>(m_tasks_.front());
+
+                m_tasks_.pop_front();
+            }
+
+            wtask();
+        }
 
 
     public:
@@ -46,7 +59,12 @@ export namespace fatpound::concurrency
 
 
     private:
-        void Push_(WrappedTask wtask);
+        void Push_(WrappedTask wtask)
+        {
+            const std::lock_guard lck{ m_mtx_ };
+
+            m_tasks_.push_back(std::move<>(wtask));
+        }
 
 
     private:

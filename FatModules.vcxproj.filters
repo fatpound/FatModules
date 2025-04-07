@@ -21,13 +21,7 @@
     <ClCompile Include="Automata\Automata.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Automata\CFG.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Automata\CFG.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Automata\TLT.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Automata\TLT.ixx">
@@ -168,9 +162,6 @@
     <ClCompile Include="Concurrency\TaskQueue.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Concurrency\TaskQueue.cxx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Math\Multiplicative.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -244,9 +235,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="File\File.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="File\File.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Math\Numbers\Numbers.ixx">
