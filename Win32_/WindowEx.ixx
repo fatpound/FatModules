@@ -1,14 +1,12 @@
 module;
 
 #if FAT_BUILDING_WITH_MSVC
-
 #include <FatNamespaces.hpp>
 #include <FatDefines.hpp>
 
 #include <FatWin32.hpp>
 
 #include <DirectXMath.h>
-
 #endif
 
 export module FatPound.Win32.WindowEx;

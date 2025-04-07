@@ -1,16 +1,18 @@
 module;
 
+
 #if FAT_BUILDING_WITH_MSVC
 #include <FatNamespaces.hpp>
 
 #include <FatWin32.hpp>
-#include <d3d11.h>
 #include <wrl.h>
 #endif
 
 export module FatPound.Util.Gfx.ResourcePack;
 
 #if FAT_BUILDING_WITH_MSVC
+
+import <d3d11.h>;
 
 import FatPound.Util.Gfx.SizePack;
 

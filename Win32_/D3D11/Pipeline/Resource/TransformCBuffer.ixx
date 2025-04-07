@@ -2,15 +2,18 @@ module;
 
 #if FAT_BUILDING_WITH_MSVC
 #include <FatNamespaces.hpp>
+
 #include <FatWin32.hpp>
-#include <d3d11.h>
 #include <wrl.h>
+
 #include <DirectXMath.h>
 #endif
 
 export module FatPound.Win32.D3D11.Pipeline.Resource.TransformCBuffer;
 
 #if FAT_BUILDING_WITH_MSVC
+
+import <d3d11.h>;
 
 export import FatPound.Win32.D3D11.Pipeline.Resource.VertexCBuffer;
 

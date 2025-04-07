@@ -4,13 +4,14 @@ module;
 #include <FatNamespaces.hpp>
 
 #include <FatWin32.hpp>
-#include <d3d11.h>
 #include <wrl.h>
 #endif
 
 export module FatPound.Win32.D3D11.Pipeline.Resource.Texture2D;
 
 #if FAT_BUILDING_WITH_MSVC
+
+import <d3d11.h>;
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 import FatPound.Util.Surface;

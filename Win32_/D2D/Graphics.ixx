@@ -1,27 +1,22 @@
 module;
 
 #if FAT_BUILDING_WITH_MSVC
-
 #include <FatNamespaces.hpp>
 #include <FatDefines.hpp>
 
 #include <FatWin32.hpp>
+#include <wrl.h>
 
 #include <DirectXMath.h>
 
-#include <d2d1.h>
-
-#include <wrl.h>
-
-#define SOFT_COLOR_EFFECT false
-
 #pragma comment(lib, "d2d1")
-
 #endif
 
 export module FatPound.Win32.D2D.Graphics;
 
 #if FAT_BUILDING_WITH_MSVC
+
+import <d2d1.h>;
 
 import FatPound.Bitwise.Concepts;
 import FatPound.Util.Gfx.SizePack;

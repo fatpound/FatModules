@@ -1,22 +1,20 @@
 module;
 
 #if FAT_BUILDING_WITH_MSVC
-
 #include <FatNamespaces.hpp>
 
 #include <FatWin32.hpp>
 
-#include <d3d11.h>
-
 #include <DirectXMath.h>
 
 #include <cassert>
-
 #endif
 
 export module FatPound.Win32.D3D11.Visual.Drawable;
 
 #if FAT_BUILDING_WITH_MSVC
+
+import <d3d11.h>;
 
 import FatPound.Win32.D3D11.Pipeline;
 

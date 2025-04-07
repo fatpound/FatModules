@@ -1,11 +1,9 @@
 module;
 
 #if FAT_BUILDING_WITH_MSVC
-
 #include <FatNamespaces.hpp>
 
 #include <cassert>
-
 #endif
 
 export module FatPound.Win32.D3D11.Visual.DrawableBase;
