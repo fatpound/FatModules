@@ -41,7 +41,7 @@ export namespace fatpound::win32::d3d11::pipeline::element
 
         auto operator = (const VertexShader&)     -> VertexShader& = delete;
         auto operator = (VertexShader&&) noexcept -> VertexShader& = delete;
-        virtual ~VertexShader() noexcept final                     = default;
+        virtual ~VertexShader() noexcept override final            = default;
 
 
     public:

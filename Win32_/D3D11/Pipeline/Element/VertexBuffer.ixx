@@ -70,7 +70,7 @@ export namespace fatpound::win32::d3d11::pipeline::element
 
         auto operator = (const VertexBuffer&)     -> VertexBuffer& = delete;
         auto operator = (VertexBuffer&&) noexcept -> VertexBuffer& = delete;
-        virtual ~VertexBuffer() noexcept final                     = default;
+        virtual ~VertexBuffer() noexcept override final            = default;
 
 
     public:

@@ -34,7 +34,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
 
         auto operator = (const Sampler&)     -> Sampler& = delete;
         auto operator = (Sampler&&) noexcept -> Sampler& = delete;
-        virtual ~Sampler() noexcept final                = default;
+        virtual ~Sampler() noexcept override final       = default;
 
 
     public:

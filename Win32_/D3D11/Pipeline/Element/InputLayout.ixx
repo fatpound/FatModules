@@ -39,7 +39,7 @@ export namespace fatpound::win32::d3d11::pipeline::element
 
         auto operator = (const InputLayout&)     -> InputLayout& = delete;
         auto operator = (InputLayout&&) noexcept -> InputLayout& = delete;
-        virtual ~InputLayout() noexcept final                    = default;
+        virtual ~InputLayout() noexcept override final           = default;
 
 
     public:

@@ -132,7 +132,7 @@ export namespace fatpound::win32
 
         auto operator = (const WindowEx&)     -> WindowEx& = delete;
         auto operator = (WindowEx&&) noexcept -> WindowEx& = delete;
-        virtual ~WindowEx() noexcept(false)
+        virtual ~WindowEx() noexcept(false) override
         {
             [[maybe_unused]]
             auto future = DispatchTaskToQueue_<>(

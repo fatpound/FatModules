@@ -30,7 +30,7 @@ export namespace fatpound::win32::d3d11::pipeline::element
 
         auto operator = (const Topology&)     -> Topology& = delete;
         auto operator = (Topology&&) noexcept -> Topology& = delete;
-        virtual ~Topology() noexcept final                 = default;
+        virtual ~Topology() noexcept override final        = default;
 
 
     public:

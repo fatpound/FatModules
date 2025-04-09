@@ -27,7 +27,7 @@ export namespace fatpound::win32::d3d11::visual
 
         auto operator = (const DrawableBase&)     -> DrawableBase& = delete;
         auto operator = (DrawableBase&&) noexcept -> DrawableBase& = delete;
-        virtual ~DrawableBase() noexcept                           = default;
+        virtual ~DrawableBase() noexcept override                  = default;
 
 
     protected:

@@ -38,7 +38,7 @@ export namespace fatpound::dsa::linkedlist
 
             return *this;
         }
-        virtual ~DoublyCircular() noexcept override
+        virtual ~DoublyCircular() noexcept override final
         {
             Delete_();
 
