@@ -31,15 +31,15 @@ export namespace fatpound::math::inline geometry
     {
         return a + b + c;
     }
-    template <bitwise::Unsigned_Integral_Or_Floating T> constexpr auto TriangleArea      (const T& height, const T& base) -> T
-    {
-        return (base * height) / 2.0;
-    }
     template <bitwise::Unsigned_Integral_Or_Floating T> constexpr auto TriangleArea      (const T& a, const T& b, const T& c) -> T
     {
         const auto s = TrianglePerimeter<>(a, b, c) / static_cast<T>(2);
 
         return std::sqrt(s * (s - a) * (s - b) * (s - c));
+    }
+    template <bitwise::Unsigned_Integral_Or_Floating T> constexpr auto TriangleArea      (const T& height, const T& base) -> T
+    {
+        return (base * height) / 2.0;
     }
 }
 
