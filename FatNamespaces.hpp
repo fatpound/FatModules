@@ -13,6 +13,7 @@
 #define FATSPACE_MEMORY               NAMESPACE_FATPOUND::memory
 #define FATSPACE_WIN32                NAMESPACE_FATPOUND::win32
 #define FATSPACE_UTIL                 NAMESPACE_FATPOUND::util
+#define FATSPACE_RANDOM               NAMESPACE_FATPOUND::random
 
 #define FATSPACE_NUMBERS              FATSPACE_MATH::numbers
 #define FATSPACE_UTIL_GFX             FATSPACE_UTIL::gfx
