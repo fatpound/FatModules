@@ -64,7 +64,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
 
         auto operator = (const CBuffer&)     -> CBuffer& = delete;
         auto operator = (CBuffer&&) noexcept -> CBuffer& = delete;
-        virtual ~CBuffer() noexcept                      = default;
+        virtual ~CBuffer() noexcept override             = default;
 
 
     public:
