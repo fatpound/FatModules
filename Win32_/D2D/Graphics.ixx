@@ -5,6 +5,7 @@ module;
 #include <FatDefines.hpp>
 
 #include <FatWin32.hpp>
+#include <d2d1.h>
 #include <wrl.h>
 
 #include <DirectXMath.h>
@@ -15,8 +16,6 @@ module;
 export module FatPound.Win32.D2D.Graphics;
 
 #if FAT_BUILDING_WITH_MSVC
-
-import <d2d1.h>;
 
 import FatPound.Bitwise.Concepts;
 import FatPound.Util.Gfx.SizePack;
@@ -112,26 +111,26 @@ export namespace fatpound::win32::d2d
 
             m_pRenderTarget_->DrawLine(p0, p1, m_pBrush_.Get());
         }
-        void DrawClosedPolyLine(const std::vector<::dx::XMFLOAT2>& vertices, const D2D1_COLOR_F color) noexcept
+        void DrawClosedPolyLine(const ::std::vector<::dx::XMFLOAT2>& vertices, const D2D1_COLOR_F& color) noexcept
         {
             m_pRenderTarget_->CreateSolidColorBrush(color, &m_pBrush_);
 
-            for (std::size_t i{}; i < vertices.size(); ++i)
+            for (::std::size_t i{}; i < vertices.size(); ++i)
             {
                 const auto& current = vertices[i];
                 const auto& next = vertices[(i + 1U) % vertices.size()];
 
                 DrawLine(
-                    D2D1::Point2F(current.x, current.y),
-                    D2D1::Point2F(next.x, next.y)
+                    ::D2D1::Point2F(current.x, current.y),
+                    ::D2D1::Point2F(next.x, next.y)
                 );
             }
         }
-        void DrawClosedPolyLine(const std::vector<::dx::XMFLOAT2>& vertices, const D2D1_COLOR_F color, ::dx::XMMATRIX transform) noexcept
+        void DrawClosedPolyLine(const ::std::vector<::dx::XMFLOAT2>& vertices, const D2D1_COLOR_F& color, ::dx::XMMATRIX transform) noexcept
         {
             m_pRenderTarget_->CreateSolidColorBrush(color, &m_pBrush_);
 
-            for (std::size_t i = 1U; i < vertices.size() + 1U; ++i)
+            for (::std::size_t i = 1U; i < vertices.size() + 1U; ++i)
             {
                 const auto& vec0 = ::dx::XMVector2TransformCoord(::dx::XMLoadFloat2(&vertices[i - 1U]), transform);
                 const auto& vec1 = ::dx::XMVector2TransformCoord(::dx::XMLoadFloat2(&vertices[i % vertices.size()]), transform);
@@ -142,8 +141,8 @@ export namespace fatpound::win32::d2d
                 ::dx::XMStoreFloat2(&transformed1, vec1);
 
                 DrawLine(
-                    D2D1::Point2F(transformed0.x, transformed0.y),
-                    D2D1::Point2F(transformed1.x, transformed1.y)
+                    ::D2D1::Point2F(transformed0.x, transformed0.y),
+                    ::D2D1::Point2F(transformed1.x, transformed1.y)
                 );
             }
         }
