@@ -52,7 +52,7 @@ export namespace fatpound::io
     public:
         auto GetEvent() noexcept -> std::optional<MouseEvent>
         {
-            if (m_event_buffer_.empty())
+            if (EventBufferIsEmpty())
             {
                 return std::nullopt;
             }
