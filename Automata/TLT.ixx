@@ -10,16 +10,15 @@ import FatPound.Automata.CFG;
 
 import std;
 
-export namespace fatpound::automata
+export
+namespace fatpound::automata
 {
-    inline namespace details_v1
+    class TLT final
     {
-        class TLT final
-        {
-            static constexpr auto scx_recurse_limit_ = 1U;
+        static constexpr auto scx_recurse_limit_ = 1U;
 
-        public:
-            explicit TLT(const CFG& cfg)
+    public:
+        explicit TLT(const CFG& cfg)
                 :
                 mc_cfgrammar_(cfg.GetGrammar()),
                 m_recursers_(mc_cfgrammar_.size(), 0)
@@ -38,33 +37,33 @@ export namespace fatpound::automata
 
                 CreateTree_(m_pTree_);
             }
-            explicit TLT(const std::string& inputFilename)
+        explicit TLT(const std::string& inputFilename)
                 :
                 TLT(CFG{ inputFilename })
             {
 
             }
 
-            explicit TLT()               = delete;
-            explicit TLT(const TLT&)     = delete;
-            explicit TLT(TLT&&) noexcept = delete;
+        explicit TLT()               = delete;
+        explicit TLT(const TLT&)     = delete;
+        explicit TLT(TLT&&) noexcept = delete;
 
-            auto operator = (const TLT&)     -> TLT& = delete;
-            auto operator = (TLT&&) noexcept -> TLT& = delete;
-            ~TLT() noexcept(false)
+        auto operator = (const TLT&)     -> TLT& = delete;
+        auto operator = (TLT&&) noexcept -> TLT& = delete;
+        ~TLT() noexcept(false)
             {
                 Clear_();
             }
 
 
-        public:
-            [[nodiscard]]
-            auto GetWords() const -> std::vector<std::string>
+    public:
+        [[nodiscard]]
+        auto GetWords() const -> std::vector<std::string>
             {
                 return m_results_;
             }
 
-            void PrintWords() const
+        void PrintWords() const
             {
                 std::vector<std::string> finals;
                 std::vector<std::string> repeaters;
@@ -103,36 +102,36 @@ export namespace fatpound::automata
             }
 
 
-        protected:
+    protected:
 
 
-        private:
-            // NOLINTBEGIN(altera-struct-pack-align)
-            struct alignas(64) Node_ final
-            {
-                explicit Node_(std::string item)
+    private:
+        // NOLINTBEGIN(altera-struct-pack-align)
+        struct alignas(64) Node_ final
+        {
+            explicit Node_(std::string item)
                     :
                     m_item(std::move<>(item))
                 {
 
                 }
 
-                std::vector<Node_*> m_leaves;
+            std::vector<Node_*> m_leaves;
 
-                std::string m_item;
-            };
-            // NOLINTEND(altera-struct-pack-align)
+            std::string m_item;
+        };
+        // NOLINTEND(altera-struct-pack-align)
 
 
-        private:
-            static auto IsTerminal_(const std::string& word) noexcept -> bool
+    private:
+        static auto IsTerminal_(const std::string& word) noexcept -> bool
             {
                 return std::ranges::all_of(word, [](const auto& ch) noexcept -> bool { return std::islower(ch) not_eq 0; });
             }
 
 
-        private:
-            void CreateTree_     (Node_* node)
+    private:
+        void CreateTree_     (Node_* node)
             {
                 m_results_.reserve(node->m_leaves.size());
 
@@ -148,7 +147,7 @@ export namespace fatpound::automata
                     CreateInnerTree_(leaf);
                 }
             }
-            void CreateInnerTree_(Node_* node)
+        void CreateInnerTree_(Node_* node)
             {
                 for (std::size_t i{}; i < node->m_item.size(); ++i)
                 {
@@ -218,7 +217,7 @@ export namespace fatpound::automata
                 }
             }
 
-            void Clear_()
+        void Clear_()
             {
                 if (m_pTree_ == nullptr)
                 {
@@ -245,241 +244,15 @@ export namespace fatpound::automata
             }
 
 
-        private:
-            const CFG::Grammar_t mc_cfgrammar_;
+    private:
+        const CFG::Grammar_t mc_cfgrammar_;
 
-            std::vector<std::string> m_results_;
+        std::vector<std::string> m_results_;
 
-            std::vector<std::size_t> m_recursers_;
+        std::vector<std::size_t> m_recursers_;
 
-            Node_* m_pTree_{};
-        };
-    }
-
-    namespace details_v2
-    {
-        class TLT final
-        {
-            static constexpr auto scx_RecursionLimit_ = 1U;
-
-        public:
-            using Result_t = std::vector<std::pair<std::string, bool>>;
-
-
-        public:
-            explicit TLT(const CFG& cfg)
-            {
-                {
-                    const auto& cfgrammar = cfg.GetGrammar();
-
-                    m_trees_.reserve(cfgrammar.size());
-
-                    for (const auto& tree : cfgrammar)
-                    {
-                        m_trees_.push_back(new Node_(tree));
-                    }
-                }
-
-                m_results_ = GenerateResults_("", 0U, 0U);
-            }
-            explicit TLT(const std::string& inputFilename)
-                :
-                TLT(CFG{ inputFilename })
-            {
-
-            }
-
-            explicit TLT()               = delete;
-            explicit TLT(const TLT&)     = delete;
-            explicit TLT(TLT&&) noexcept = delete;
-
-            auto operator = (const TLT&)     -> TLT& = delete;
-            auto operator = (TLT&&) noexcept -> TLT& = delete;
-            ~TLT() noexcept(false)
-            {
-                Clear_();
-            }
-
-
-        public:
-            [[nodiscard]]
-            auto GetWords() const -> Result_t
-            {
-                return m_results_;
-            }
-
-            void PrintWords() const
-            {
-                for (const auto& item : m_results_)
-                {
-                    if (item.second)
-                    {
-                        std::cout << item.first << '\n';
-                    }
-                }
-            }
-
-
-        protected:
-
-
-        private:
-            // NOLINTBEGIN(altera-struct-pack-align)
-            struct alignas(64) Node_ final
-            {
-                explicit Node_(const std::pair<std::string, std::vector<std::string>>& tree)
-                    :
-                    m_item(tree.first)
-                {
-                    m_leaves.reserve(tree.second.size());
-
-                    for (const auto& str : tree.second)
-                    {
-                        m_leaves.push_back(new Node_(str));
-                    }
-                }
-                explicit Node_(std::string item)
-                    :
-                    m_item(std::move<>(item))
-                {
-
-                }
-
-                std::vector<Node_*> m_leaves;
-
-                std::string m_item;
-            };
-            // NOLINTEND(altera-struct-pack-align)
-
-
-        private:
-            // NOLINTBEGIN(readability-function-cognitive-complexity)
-            [[nodiscard]]
-            auto GenerateResults_(const std::string& init_str = "", const std::size_t& index = {}, const std::size_t& recursed = {}) const -> Result_t
-            {
-                Result_t strings;
-
-                for (const auto& node : m_trees_[index]->m_leaves)
-                {
-                    Result_t tempstrings;
-
-                    tempstrings.emplace_back(init_str, false);
-
-                    for (const auto& ch : node->m_item)
-                    {
-                        Result_t newTempStrings;
-
-                        for (const auto& strPair : tempstrings)
-                        {
-                            std::string& str = newTempStrings.emplace_back(strPair).first;
-
-                            const auto insertedindex = newTempStrings.size() - 1;
-
-                            const auto it = std::find_if<>(m_trees_.cbegin() + static_cast<std::ptrdiff_t>(index), m_trees_.cend(), [&](const auto& tree) -> bool { return ch == tree->m_item[0]; });
-
-                            if (it == m_trees_.cend())
-                            {
-                                str += ch;
-                            }
-                            else
-                            {
-                                const auto tree_index = static_cast<std::size_t>(it - m_trees_.cbegin());
-                                const auto will_recurse = static_cast<::std::size_t>((tree_index == index) ? 1 : 0);
-
-                                if (recursed < scx_RecursionLimit_)
-                                {
-                                    // const auto size = tempstrings.size();
-
-                                    // bool deleted = false;
-
-                                    const std::string tempstr = strPair.first;
-
-                                    if (tempstr.empty())
-                                    {
-                                        continue;
-                                    }
-
-                                    const auto vec = GenerateResults_(tempstr, tree_index, recursed + will_recurse);
-
-                                    for (const auto& pair : vec)
-                                    {
-                                        newTempStrings.emplace_back(pair);
-                                    }
-
-                                    newTempStrings.erase(newTempStrings.begin() + static_cast<std::ptrdiff_t>(insertedindex));
-                                }
-                                else
-                                {
-                                    str += ch;
-                                }
-                            }
-                        }
-
-                        tempstrings = std::move<>(newTempStrings);
-                    }
-
-                    for (const auto& strPair : tempstrings)
-                    {
-                        strings.emplace_back(strPair.first, IsTerminal_(strPair.first));
-                    }
-                }
-
-                return strings;
-            }
-            // NOLINTEND(readability-function-cognitive-complexity)
-
-            [[nodiscard]]
-            auto IsTerminal_(const std::string& str) const -> bool
-            {
-                for (const auto& tree : m_trees_)
-                {
-                    if (std::ranges::any_of(str, [&](const auto& ch) -> bool { return ch == (tree->m_item[0]); }))
-                    {
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-
-            void Clear_()
-            {
-                std::deque<Node_*> nodes;
-
-                for (auto& tree : m_trees_)
-                {
-                    if (tree not_eq nullptr)
-                    {
-                        nodes.push_back(tree);
-                    }
-                    else
-                    {
-                        continue;
-                    }
-
-                    while (not nodes.empty())
-                    {
-                        Node_* node = nodes.back();
-
-                        nodes.pop_back();
-
-                        for (auto& leaf : node->m_leaves)
-                        {
-                            nodes.push_back(leaf);
-                        }
-
-                        delete node;
-                    }
-                }
-            }
-
-
-        private:
-            Result_t m_results_;
-
-            std::vector<Node_*> m_trees_;
-        };
-    }
+        Node_* m_pTree_{};
+    };
 }
 
 module : private;

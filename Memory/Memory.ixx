@@ -27,27 +27,24 @@ import std;
 
 namespace fatpound::memory
 {
-    namespace details
+    template <typename T>
+    struct AlignedUPtr
     {
-        template <typename T>
-        struct AlignedUPtr
-        {
-            using ptr_type = ::std::unique_ptr<T,   decltype(&FAT_MEMORY_ALIGNED_FREER)>;
-        };
+        using ptr_type = ::std::unique_ptr<T,   decltype(&FAT_MEMORY_ALIGNED_FREER)>;
+    };
 
-        // NOLINTBEGIN(cppcoreguidelines-avoid-c-arrays, hicpp-avoid-c-arrays, modernize-avoid-c-arrays)
-        template <typename T>
-        struct AlignedUPtr<T[]>
-        {
-            using ptr_type = ::std::unique_ptr<T[], decltype(&FAT_MEMORY_ALIGNED_FREER)>;
-        };
-        // NOLINTEND(cppcoreguidelines-avoid-c-arrays, hicpp-avoid-c-arrays, modernize-avoid-c-arrays)
-    }
+    // NOLINTBEGIN(cppcoreguidelines-avoid-c-arrays, hicpp-avoid-c-arrays, modernize-avoid-c-arrays)
+    template <typename T>
+    struct AlignedUPtr<T[]>
+    {
+        using ptr_type = ::std::unique_ptr<T[], decltype(&FAT_MEMORY_ALIGNED_FREER)>;
+    };
+    // NOLINTEND(cppcoreguidelines-avoid-c-arrays, hicpp-avoid-c-arrays, modernize-avoid-c-arrays)
 
     export
     {
         template <typename T>
-        using AlignedUniquePtr = details::AlignedUPtr<T>::ptr_type;
+        using AlignedUniquePtr = AlignedUPtr<T>::ptr_type;
 
         template <typename T>
         auto AlignedAlloc(const ::std::size_t& alignBytes, const ::std::size_t& size) -> T*

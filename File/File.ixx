@@ -6,41 +6,38 @@ import std;
 
 namespace fatpound::file
 {
-    namespace details
+    void EncryptDecrypt_Impl     (const std::filesystem::path& in_path, const std::size_t& key, std::filesystem::path& out_path)
     {
-        void EncryptDecrypt_     (const std::filesystem::path& in_path, const std::size_t& key, std::filesystem::path& out_path)
+        std::ifstream inputFile(in_path, std::ios::binary);
+
+        if (not inputFile.is_open())
         {
-            std::ifstream inputFile(in_path, std::ios::binary);
-
-            if (not inputFile.is_open())
-            {
-                throw std::runtime_error("Input file cannot be opened!");
-            }
-
-            if (out_path.empty() or in_path == out_path)
-            {
-                out_path = std::filesystem::temp_directory_path().string() + in_path.stem().string() + "_temp.fat000";
-            }
-
-            std::ofstream outputFile(out_path, std::ios::binary);
-
-            if (not outputFile.is_open())
-            {
-                throw std::runtime_error("Cannot create the new version of file!");
-            }
-
-            std::minstd_rand rng(static_cast<unsigned int>(key));
-
-            std::transform<>(
-                std::istreambuf_iterator<char>(inputFile),
-                std::istreambuf_iterator<char>(),
-                std::ostreambuf_iterator<char>(outputFile),
-                [&rng](const char& ch) noexcept -> char
-                {
-                    return static_cast<char>(static_cast<decltype(rng)::result_type>(ch) xor rng());
-                }
-            );
+            throw std::runtime_error("Input file cannot be opened!");
         }
+
+        if (out_path.empty() or in_path == out_path)
+        {
+            out_path = std::filesystem::temp_directory_path().string() + in_path.stem().string() + "_temp.fat000";
+        }
+
+        std::ofstream outputFile(out_path, std::ios::binary);
+
+        if (not outputFile.is_open())
+        {
+            throw std::runtime_error("Cannot create the new version of file!");
+        }
+
+        std::minstd_rand rng(static_cast<unsigned int>(key));
+
+        std::transform<>(
+            std::istreambuf_iterator<char>(inputFile),
+            std::istreambuf_iterator<char>(),
+            std::ostreambuf_iterator<char>(outputFile),
+            [&rng](const char& ch) noexcept -> char
+            {
+                return static_cast<char>(static_cast<decltype(rng)::result_type>(ch) xor rng());
+            }
+        );
     }
 
     export
@@ -60,7 +57,7 @@ namespace fatpound::file
 
         void EncryptDecrypt      (const std::filesystem::path& in_path, const std::size_t& key, std::filesystem::path out_path = {})
         {
-            details::EncryptDecrypt_(in_path, key, out_path);
+            EncryptDecrypt_Impl(in_path, key, out_path);
 
             std::filesystem::remove(in_path);
             std::filesystem::rename(out_path, in_path);
