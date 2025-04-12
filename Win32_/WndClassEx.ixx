@@ -45,7 +45,7 @@ export namespace fatpound::win32
             {
                 throw std::runtime_error{
                     "ATOM could not be created!\n\n"
-                    "You might consider checking WNDCLASSEX::lpszClassName\n"
+                    "You should check WNDCLASSEX::lpszClassName\n"
                     "It should have a unique name. If that's not the problem\n"
                     "Then check other parameters too."
                 };

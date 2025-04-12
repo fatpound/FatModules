@@ -40,10 +40,10 @@ export namespace fatpound::concurrency
 
 
     public:
-        template <typename... Args>
-        auto Push(std::invocable<Args...> auto&& func, Args&&... args) -> auto
+        template <typename F, typename... Args>
+        requires std::invocable<F, Args...>
+        auto Push(F&& func, Args&&... args) -> auto
         {
-            using F = decltype(func);
             using T = std::invoke_result_t<F, Args...>;
 
             auto pkgTask = std::packaged_task<T(Args...)>{ std::bind<>(std::forward<F>(func), std::forward<Args>(args)...) };
