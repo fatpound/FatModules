@@ -8,9 +8,9 @@ import std;
 
 export namespace fatpound
 {
-        namespace util
+    namespace util
     {
-        class Color final
+        class [[nodiscard]] Color final
         {
         public:
             constexpr explicit Color(unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha = 0xFFU)

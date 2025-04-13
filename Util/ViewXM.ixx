@@ -10,7 +10,7 @@ export module FatPound.Util.ViewXM;
 
 export namespace fatpound::util
 {
-    class ViewXM final
+    class [[nodiscard]] ViewXM final
     {
     public:
         explicit ViewXM()              = default;
