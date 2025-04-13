@@ -1,34 +1,19 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#include <FatNamespaces.hpp>
-#endif
-
 export module FatPound.IO.Keyboard;
 
 export import FatPound.IO.KeyEvent;
 
 import std;
 
-#if FAT_BUILDING_WITH_MSVC
-namespace fatpound::win32
-{
-    class WindowEx;
-}
-#endif
-
 export namespace fatpound::io
 {
     class Keyboard final
     {
-#if FAT_BUILDING_WITH_MSVC
-        friend FATSPACE_WIN32::WindowEx;
-#endif
-
         static constexpr auto scx_bufferSize_ = 16U;
 
     public:
-        using keycode_t = decltype(KeyEvent::code);
+        using KeyCode_t = decltype(KeyEvent::code);
 
 
     public:
@@ -69,7 +54,7 @@ export namespace fatpound::io
             return ch;
         }
 
-        [[nodiscard]] auto KeyIsPressed(keycode_t code) const noexcept -> bool
+        [[nodiscard]] auto KeyIsPressed(KeyCode_t code) const noexcept -> bool
         {
             return m_key_states_[code];
         }
@@ -95,6 +80,33 @@ export namespace fatpound::io
         {
             m_auto_repeat_enabled_ = false;
         }
+        void ClearKeyStateBitset() noexcept
+        {
+            m_key_states_.reset();
+        }
+
+        void AddKeyPressEvent(unsigned char keycode)
+        {
+            m_key_states_[keycode] = true;
+
+            m_key_event_queue_.push(KeyEvent{ .type = KeyEvent::Type::Press, .code = keycode });
+
+            TrimBuffer_(m_key_event_queue_);
+        }
+        void AddKeyReleaseEvent(unsigned char keycode)
+        {
+            m_key_states_[keycode] = false;
+
+            m_key_event_queue_.push(KeyEvent{ .type = KeyEvent::Type::Release, .code = keycode });
+
+            TrimBuffer_(m_key_event_queue_);
+        }
+        void AddChar(unsigned char ch)
+        {
+            m_char_buffer_.push(ch);
+
+            TrimBuffer_(m_char_buffer_);
+        }
 
 
     protected:
@@ -112,40 +124,10 @@ export namespace fatpound::io
 
 
     private:
-        void OnKeyPressed_(unsigned char keycode)
-        {
-            m_key_states_[keycode] = true;
-
-            m_key_event_queue_.push(KeyEvent{ .type = KeyEvent::Type::Press, .code = keycode });
-
-            TrimBuffer_(m_key_event_queue_);
-        }
-        void OnKeyReleased_(unsigned char keycode)
-        {
-            m_key_states_[keycode] = false;
-
-            m_key_event_queue_.push(KeyEvent{ .type = KeyEvent::Type::Release, .code = keycode });
-
-            TrimBuffer_(m_key_event_queue_);
-        }
-        void OnChar_(unsigned char character)
-        {
-            m_char_buffer_.push(character);
-
-            TrimBuffer_(m_char_buffer_);
-        }
-
-        void ClearKeyStateBitset_() noexcept
-        {
-            m_key_states_.reset();
-        }
-
-
-    private:
         std::queue<KeyEvent> m_key_event_queue_;
         std::queue<unsigned char> m_char_buffer_;
 
-        std::bitset<std::numeric_limits<keycode_t>::max()> m_key_states_;
+        std::bitset<std::numeric_limits<KeyCode_t>::max()> m_key_states_;
 
         std::atomic_bool m_auto_repeat_enabled_;
     };

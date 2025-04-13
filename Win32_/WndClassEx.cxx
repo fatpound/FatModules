@@ -65,7 +65,7 @@ namespace fatpound::win32
             using CREATESTRUCT = CREATESTRUCTW;
 #else
             using CREATESTRUCT = CREATESTRUCTA;
-#endif // UNICODE
+#endif
 
             IWindow* const pWnd = static_cast<IWindow*>(reinterpret_cast<CREATESTRUCT*>(lParam)->lpCreateParams);
 
