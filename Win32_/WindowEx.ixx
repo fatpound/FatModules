@@ -14,7 +14,6 @@ export module FatPound.Win32.WindowEx;
 #if FAT_BUILDING_WITH_MSVC
 
 import FatPound.Win32.IWindow;
-import FatPound.Win32.WndClassEx;
 
 import FatPound.Bitwise.Concepts;
 import FatPound.Concurrency;
@@ -40,14 +39,13 @@ export namespace fatpound::win32
             m_pKeyboard{ std::move(pKeyboard) },
             m_pWndClassEx_{ std::move(pWndClassEx) },
             mc_client_size_{ .m_width = clientDimensions.m_width, .m_height = clientDimensions.m_height },
-            ///////////////////////////////////////////////
+            /////////////////////
 #pragma region (thread w/o C4355)
 #pragma warning (push)
 #pragma warning (disable : 4355)
             m_msg_jthread_{ &WindowEx::MessageKernel_, this }
 #pragma warning (pop)
 #pragma endregion
-            ///////////////////////////////////////////////
         {
             auto future = DispatchTaskToQueue_<false>(
                 [=, this]() -> void
@@ -81,7 +79,7 @@ export namespace fatpound::win32
                         bitor WS_POPUP
                     };
 
-#endif // IN_DEBUG or IS_GFX_FRAMEWORK
+#endif
 
                     const auto hModule = ::GetModuleHandle(nullptr);
 
@@ -106,7 +104,7 @@ export namespace fatpound::win32
                         static_cast<LONG>(mc_client_size_.m_width),
                         static_cast<LONG>(mc_client_size_.m_height),
 
-#endif // IN_DEBUG or IS_GFX_FRAMEWORK
+#endif
 
                         nullptr,
                         nullptr,
@@ -270,7 +268,8 @@ export namespace fatpound::win32
                 m_tasks_.ExecuteFirstAndPopOff();
                 return 0;
 
-            case WM_SYSCOMMAND: // also controls window movement
+            // this also controls window movement
+            case WM_SYSCOMMAND:
                 Process_WM_SYSCOMMAND_(wParam);
                 break;
 
