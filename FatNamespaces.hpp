@@ -18,12 +18,12 @@
 #define FATSPACE_NUMBERS              FATSPACE_MATH::numbers
 #define FATSPACE_UTIL_GFX             FATSPACE_UTIL::gfx
 
-// these will be refactored later
 #define FATSPACE_D2D                  FATSPACE_WIN32::d2d
 #define FATSPACE_D3D11                FATSPACE_WIN32::d3d11
-#define FATSPACE_DIRECTX              FATSPACE_WIN32::directx
 #define FATSPACE_DXGI                 FATSPACE_WIN32::dxgi
 #define FATSPACE_VISUAL               FATSPACE_D3D11::visual
+
+// these will be refactored later
 #define FATSPACE_PIPELINE             FATSPACE_D3D11::pipeline
 #define FATSPACE_PIPELINE_ELEMENT     FATSPACE_PIPELINE::element
 #define FATSPACE_PIPELINE_RESOURCE    FATSPACE_PIPELINE::resource
