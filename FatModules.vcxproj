@@ -106,6 +106,7 @@
     <ClCompile Include="Win32_\WindowEx.ixx" />
     <ClCompile Include="Win32_\WMF\Manager.ixx" />
     <ClCompile Include="Win32_\WMF\WMF.ixx" />
+    <ClCompile Include="Win32_\WndClassEx.cxx" />
     <ClCompile Include="Win32_\WndClassEx.ixx" />
   </ItemGroup>
   <ItemGroup>

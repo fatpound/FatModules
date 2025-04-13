@@ -8,12 +8,9 @@ export module FatPound.Win32.IWindow;
 
 #if FAT_BUILDING_WITH_MSVC
 
-import std;
+import FatPound.Win32.WndClassEx;
 
-namespace fatpound::win32
-{
-    class WndClassEx;
-}
+import std;
 
 export namespace fatpound::win32
 {
