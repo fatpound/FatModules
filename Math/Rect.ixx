@@ -41,7 +41,8 @@ export namespace fatpound::math
     public:
         auto GetCenter() const noexcept -> std::pair<T, T>
         {
-            return {
+            return
+            {
                 (m_left + m_right) / static_cast<T>(2.0),
                 (m_top + m_bottom) / static_cast<T>(2.0)
             };

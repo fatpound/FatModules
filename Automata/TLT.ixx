@@ -10,8 +10,7 @@ import FatPound.Automata.CFG;
 
 import std;
 
-export
-namespace fatpound::automata
+export namespace fatpound::automata
 {
     class TLT final
     {
