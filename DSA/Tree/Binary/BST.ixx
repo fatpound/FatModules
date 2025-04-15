@@ -85,9 +85,7 @@ export namespace fatpound::dsa::tree::binary
 
         virtual void Delete(const T& old_item) noexcept
         {
-            Node_* node = Find_(m_pRoot_, old_item);
-
-            if (node not_eq nullptr)
+            if (auto* node = Find_(m_pRoot_, old_item); node not_eq nullptr)
             {
                 static_cast<void>(Delete_(node));
             }

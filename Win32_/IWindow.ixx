@@ -79,7 +79,7 @@ export namespace fatpound::win32
             }
         }
 
-        explicit ClassEx()                      = delete;
+        explicit ClassEx()                   = delete;
         explicit ClassEx(const ClassEx&)     = delete;
         explicit ClassEx(ClassEx&&) noexcept = delete;
 
