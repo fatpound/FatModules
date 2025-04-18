@@ -15,8 +15,8 @@ This repo can be used directly as a (static) library project in Visual Studio 20
 ----------------
 Supports C++20 `(ISO/IEC 14882:2020)` modules
 
-No warnings on `clang++19` with [these](https://github.com/fatpound/CxxMade/blob/main/Fat_CompileOptions.cmake#L42-L82) compiler options\
-No warnings on `MSVC v19.43.34808` with [these](https://github.com/fatpound/CxxMade/blob/main/Fat_CompileOptions.cmake#L83-L124) compiler options\
+No warnings on `clang++19` with [these](https://github.com/fatpound/CxxMade/blob/main/CompileOptions.cmake#L42-L82) compiler options\
+No warnings on `MSVC v19.43.34808` with [these](https://github.com/fatpound/CxxMade/blob/main/CompileOptions.cmake#L83-L124) compiler options\
 No warnings with `Microsoft C++ Native Recommended Rules` and some more [rules](https://github.com/fatpound/FatLibrary/blob/main/_misc/FatRules.ruleset)\
 No warnings in `clang-tidy 19` with [these](https://github.com/fatpound/CxxMade/blob/main/.clang-tidy) checks\
 No warnings in `PVS-Studio v7.35`
