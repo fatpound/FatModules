@@ -93,7 +93,7 @@ export namespace fatpound::dsa::tree::n_ary
                     items.push_back(new_item);
                 }
             }
-            explicit Node_(Node_* new_lesser)
+            explicit Node_(Node_* new_lesser) noexcept
                 :
                 lesser(new_lesser)
             {
@@ -204,7 +204,7 @@ export namespace fatpound::dsa::tree::n_ary
 
             std::ranges::sort(temp_vec, [](const auto& pair1, const auto& pair2) -> bool { return pair1->first < pair2->first; });
 
-            const std::size_t center = (C * 2U + 1U) / 2U;
+            constexpr auto center = (C * 2U + 1U) / 2U;
 
             std::vector<std::pair<T, Node_*>*> temp_vec_less(center);
             std::vector<std::pair<T, Node_*>*> temp_vec_more((C * 2U) - center + 1U);

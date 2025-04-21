@@ -92,7 +92,7 @@ namespace fatpound::automata
                     m_leaves.push_back(new Node_(str));
                 }
             }
-            explicit Node_(std::string item)
+            explicit Node_(std::string item) noexcept
                 :
                 m_item(std::move<>(item))
             {
