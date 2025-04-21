@@ -51,6 +51,7 @@
     <ClCompile Include="Math\Math.ixx" />
     <ClCompile Include="Math\Multiplicative.ixx" />
     <ClCompile Include="Bitwise\Concepts.ixx" />
+    <ClCompile Include="Math\Numbers\Common.ixx" />
     <ClCompile Include="Math\Numbers\Numbers.ixx" />
     <ClCompile Include="Math\Numbers\Primes.ixx" />
     <ClCompile Include="Math\Numbers\Sets.ixx" />

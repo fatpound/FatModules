@@ -4,6 +4,7 @@ module;
 
 export module FatPound.Math.Numbers;
 
+export import FatPound.Math.Numbers.Common;
 export import FatPound.Math.Numbers.Primes;
 export import FatPound.Math.Numbers.Sets;
 
@@ -14,16 +15,13 @@ import std;
 
 export namespace fatpound::math::numbers
 {
-    template <::std::floating_point FP> constexpr auto    Pi = std::numbers::pi_v<FP>;
-    template <::std::floating_point FP> constexpr auto twoPi = std::numbers::pi_v<FP> * static_cast<FP>(2.0);
-
     template <::std::unsigned_integral T> FAT_CMATH_CONSTEXPR23 auto IsSquare        (const T& num) noexcept -> bool
     {
-        return Square<T>(std::sqrt(num)) == num;
+        return Square<T>(::std::sqrt(num)) == num;
     }
     template <::std::unsigned_integral T> FAT_CMATH_CONSTEXPR23 auto IsCube          (const T& num) noexcept -> bool
     {
-        return Cube<T>(std::cbrt(num)) == num;
+        return Cube<T>(::std::cbrt(num)) == num;
     }
     template <::std::unsigned_integral T>             constexpr auto IsPerfectSquare (const T& num) noexcept -> bool
     {
