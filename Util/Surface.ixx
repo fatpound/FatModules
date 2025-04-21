@@ -32,10 +32,9 @@ export namespace fatpound::util
 {
     class Surface final
     {
-        // NOLINTBEGIN(cppcoreguidelines-avoid-c-arrays, hicpp-avoid-c-arrays, modernize-avoid-c-arrays)
-        using Color_t = Color[];
-        // NOLINTEND(cppcoreguidelines-avoid-c-arrays, hicpp-avoid-c-arrays, modernize-avoid-c-arrays)
-        using Ptr_t = memory::AlignedUniquePtr<Color_t>;
+        using Color_t    = Color;
+        using ColorArr_t = Color_t[];
+        using Ptr_t      = memory::AlignedUniquePtr<ColorArr_t>;
 
     public:
         using Size_t = ::std::uint32_t;
@@ -93,7 +92,7 @@ export namespace fatpound::util
 #endif
         explicit Surface(const gfx::SizePack& dimensions,           const Size_t& alignBytes = scx_DefaultAlignment)
             :
-            m_pBuffer_(memory::MakeAlignedUniquePtr<Color_t>(alignBytes, static_cast<::std::size_t>(dimensions.m_width * dimensions.m_height))),
+            m_pBuffer_(memory::MakeAlignedUniquePtr<ColorArr_t>(alignBytes, static_cast<::std::size_t>(dimensions.m_width * dimensions.m_height))),
             m_size_pack_(dimensions),
             m_align_byte_(alignBytes),
             m_pixel_pitch_(CalculatePixelPitch(GetWidth<>(), GetAlignment<>()))
@@ -135,7 +134,7 @@ export namespace fatpound::util
             {
                 Reset();
 
-                m_pBuffer_     = memory::MakeAlignedUniquePtr<Color_t>(src.GetAlignment(), static_cast<::std::size_t>(src.GetWidth<>() * src.GetHeight<>()));
+                m_pBuffer_     = memory::MakeAlignedUniquePtr<ColorArr_t>(src.GetAlignment(), static_cast<::std::size_t>(src.GetWidth<>() * src.GetHeight<>()));
 
                 m_size_pack_   = src.GetSizePack();
                 m_align_byte_  = src.GetAlignment<>();
