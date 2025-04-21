@@ -122,7 +122,7 @@ export namespace fatpound::dsa::linkedlist
             new_part->next = start;
             start->prev = new_part;
         }
-        virtual void Reverse() override final
+        virtual void Reverse() noexcept override final
         {
             if (this->m_list_ == nullptr)
             {
@@ -134,8 +134,8 @@ export namespace fatpound::dsa::linkedlist
                 return;
             }
 
-            Node_* temp  = this->m_list_;
-            Node_* start = this->m_list_;
+            const Node_* const start = this->m_list_;
+                  Node_*        temp = this->m_list_;
 
             while (temp->next not_eq start)
             {
@@ -155,8 +155,8 @@ export namespace fatpound::dsa::linkedlist
                 throw std::runtime_error("Tried to Print an empty DoublyCircular!");
             }
 
-            Node_* temp = this->m_list_;
-            Node_* start = temp;
+            const Node_* const start = this->m_list_;
+            const Node_*        temp = this->m_list_;
 
             do
             {
@@ -171,17 +171,16 @@ export namespace fatpound::dsa::linkedlist
 
 
     protected:
-        void Delete_()
+        void Delete_() noexcept
         {
             if (this->m_list_ == nullptr)
             {
                 return;
             }
 
-            Node_* start = this->m_list_;
-            Node_* exes = this->m_list_;
-
-            Node_* temp{};
+            const Node_* const start = this->m_list_;
+                  Node_*        exes = this->m_list_;
+                  Node_*        temp{};
 
             do
             {

@@ -108,7 +108,7 @@ export namespace fatpound::automata
         // NOLINTBEGIN(altera-struct-pack-align)
         struct alignas(64) Node_ final
         {
-            explicit Node_(std::string item)
+            explicit Node_(std::string item) noexcept
                     :
                     m_item(std::move<>(item))
                 {

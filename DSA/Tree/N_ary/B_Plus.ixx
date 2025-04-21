@@ -26,7 +26,7 @@ export namespace fatpound::dsa::tree::n_ary
 
     public:
         // NOLINTBEGIN(readability-function-cognitive-complexity)
-        auto Contains(const T& item) -> bool
+        auto Contains(const T& item) noexcept -> bool
         {
             if (root_ not_eq nullptr)
             {
