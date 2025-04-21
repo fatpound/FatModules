@@ -3,7 +3,7 @@ module;
 export module FatPound.Math.Geometry;
 
 import FatPound.Math.Multiplicative;
-import FatPound.Math.Numbers;
+import FatPound.Math.Numbers.Common;
 
 import FatPound.Bitwise.Concepts;
 
