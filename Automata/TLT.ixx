@@ -109,11 +109,11 @@ export namespace fatpound::automata
         struct alignas(64) Node_ final
         {
             explicit Node_(std::string item) noexcept
-                    :
-                    m_item(std::move<>(item))
-                {
+                :
+                m_item(std::move<>(item))
+            {
 
-                }
+            }
 
             std::vector<Node_*> m_leaves;
 
