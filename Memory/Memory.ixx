@@ -1,7 +1,8 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC or FAT_BUILDING_ON_WINDOWS
 #include <cstdlib>
+
+#if FAT_BUILDING_WITH_MSVC or FAT_BUILDING_ON_WINDOWS
 #ifndef FAT_MEMORY_ALIGNED_ALLOCATE_WITH
     // NOLINTBEGIN(cppcoreguidelines-macro-usage)
     #define FAT_MEMORY_ALIGNED_ALLOCATE_WITH(align, size) (::_aligned_malloc(size, align))
