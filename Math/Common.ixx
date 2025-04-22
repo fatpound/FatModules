@@ -73,7 +73,7 @@ export namespace fatpound::math
         return DigitSum<std::make_unsigned_t<T>>(num < 0 ? (-num) : num);
     }
 
-    template <bitwise::Integral_Or_Floating T>
+    template <bitwise::IntegralOrFloating T>
     constexpr auto Gaussian(const T& x, const T& rho)
     {
         const auto rhoSq2 = Square<>(rho) * 2.0;

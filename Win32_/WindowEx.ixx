@@ -33,9 +33,9 @@ export namespace fatpound::win32
             std::shared_ptr<WndClassEx>            pWndClassEx,
             const std::wstring                     title,
             const FATSPACE_UTIL_GFX::SizePack      clientDimensions,
-            std::shared_ptr<FATSPACE_IO::Mouse>    pMouse    = std::make_shared<FATSPACE_IO::Mouse>(),
-            std::shared_ptr<FATSPACE_IO::Keyboard> pKeyboard = std::make_shared<FATSPACE_IO::Keyboard>(),
-            const std::optional<dx::XMINT2> position  = std::nullopt)
+            std::shared_ptr<FATSPACE_IO::Mouse>    pMouse            = std::make_shared<FATSPACE_IO::Mouse>(),
+            std::shared_ptr<FATSPACE_IO::Keyboard> pKeyboard         = std::make_shared<FATSPACE_IO::Keyboard>(),
+            const std::optional<dx::XMINT2>        position          = std::nullopt)
             :
             m_pMouse{ std::move(pMouse) },
             m_pKeyboard{ std::move(pKeyboard) },
@@ -171,11 +171,11 @@ export namespace fatpound::win32
 
 
     public:
-        template <bitwise::Integral_Or_Floating T> FAT_FORCEINLINE auto GetClientWidth()  const noexcept -> T
+        template <bitwise::IntegralOrFloating T> FAT_FORCEINLINE auto GetClientWidth()  const noexcept -> T
         {
             return static_cast<T>(mc_client_size_.m_width);
         }
-        template <bitwise::Integral_Or_Floating T> FAT_FORCEINLINE auto GetClientHeight() const noexcept -> T
+        template <bitwise::IntegralOrFloating T> FAT_FORCEINLINE auto GetClientHeight() const noexcept -> T
         {
             return static_cast<T>(mc_client_size_.m_height);
         }

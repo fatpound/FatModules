@@ -198,23 +198,23 @@ export namespace fatpound::util
 
 
     public:
-        template <bitwise::Integral_Or_Floating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetWidth      () const noexcept -> T
+        template <bitwise::IntegralOrFloating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetWidth      () const noexcept -> T
         {
             return static_cast<T>(m_size_pack_.m_width);
         }
-        template <bitwise::Integral_Or_Floating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetHeight     () const noexcept -> T
+        template <bitwise::IntegralOrFloating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetHeight     () const noexcept -> T
         {
             return static_cast<T>(m_size_pack_.m_height);
         }
-        template <bitwise::Integral_Or_Floating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetAlignment  () const noexcept -> T
+        template <bitwise::IntegralOrFloating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetAlignment  () const noexcept -> T
         {
             return static_cast<T>(m_align_byte_);
         }
-        template <bitwise::Integral_Or_Floating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetPixelPitch () const noexcept -> T
+        template <bitwise::IntegralOrFloating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetPixelPitch () const noexcept -> T
         {
             return static_cast<T>(m_pixel_pitch_);
         }
-        template <bitwise::Integral_Or_Floating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetPitch      () const noexcept -> T
+        template <bitwise::IntegralOrFloating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetPitch      () const noexcept -> T
         {
             return static_cast<T>(m_pixel_pitch_ * sizeof(Color));
         }

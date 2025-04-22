@@ -8,7 +8,7 @@ import std;
 
 export namespace fatpound::math
 {
-    template <bitwise::Integral_Or_Floating T>
+    template <bitwise::IntegralOrFloating T>
     class Rect final
     {
     public:
