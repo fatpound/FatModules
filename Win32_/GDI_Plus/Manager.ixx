@@ -21,8 +21,8 @@ export namespace fatpound::win32::gdi_plus
         {
             if (s_ref_count_ == 0)
             {
-                ::Gdiplus::GdiplusStartupInput gdiplusStartupInput;
-                ::Gdiplus::GdiplusStartup(&s_gdiPlus_token_, &gdiplusStartupInput, nullptr);
+                Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+                Gdiplus::GdiplusStartup(&s_gdiPlus_token_, &gdiplusStartupInput, nullptr);
             }
 
             ++s_ref_count_;
@@ -38,7 +38,7 @@ export namespace fatpound::win32::gdi_plus
 
             if (s_ref_count_ == 0)
             {
-                ::Gdiplus::GdiplusShutdown(s_gdiPlus_token_);
+                Gdiplus::GdiplusShutdown(s_gdiPlus_token_);
             }
         }
 

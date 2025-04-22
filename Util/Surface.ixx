@@ -64,9 +64,9 @@ export namespace fatpound::util
         {
             FATSPACE_WIN32::gdi_plus::Manager gdiplusmgr;
 
-            ::Gdiplus::Bitmap bitmap(filename.c_str());
+            Gdiplus::Bitmap bitmap(filename.c_str());
 
-            if (bitmap.GetLastStatus() not_eq ::Gdiplus::Ok)
+            if (bitmap.GetLastStatus() not_eq Gdiplus::Ok)
             {
                 throw std::runtime_error("GDI+ Bitmap error in Surface ctor!");
             }
@@ -80,7 +80,7 @@ export namespace fatpound::util
             {
                 for (auto x = 0U; x < width; ++x)
                 {
-                    ::Gdiplus::Color c;
+                    Gdiplus::Color c;
 
                     bitmap.GetPixel(static_cast<INT>(x), static_cast<INT>(y), &c);
                     surf.PutPixel<>(x, y, Color{ c.GetValue() });
