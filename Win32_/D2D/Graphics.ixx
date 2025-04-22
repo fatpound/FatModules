@@ -47,8 +47,8 @@ export namespace fatpound::win32::d2d
 
             {
                 const auto& hr = pFactory->CreateHwndRenderTarget(
-                    ::D2D1::RenderTargetProperties(),
-                    ::D2D1::HwndRenderTargetProperties(hWnd, ::D2D1::SizeU(GetWidth<UINT32>(), GetHeight<UINT32>())),
+                    D2D1::RenderTargetProperties(),
+                    D2D1::HwndRenderTargetProperties(hWnd, D2D1::SizeU(GetWidth<UINT32>(), GetHeight<UINT32>())),
                     &m_pRenderTarget_
                 );
 
@@ -92,14 +92,14 @@ export namespace fatpound::win32::d2d
         template <float r = 0.0F, float g = 0.0F, float b = 0.0F>
         void ClearScreen() noexcept
         {
-            m_pRenderTarget_->Clear(::D2D1::ColorF(r, g, b));
+            m_pRenderTarget_->Clear(D2D1::ColorF(r, g, b));
         }
 
 
     public:
         void ClearScreen(const float r, const float g, const float b) noexcept
         {
-            m_pRenderTarget_->Clear(::D2D1::ColorF(r, g, b));
+            m_pRenderTarget_->Clear(D2D1::ColorF(r, g, b));
         }
 
         void DrawLine(const D2D1_POINT_2F p0, const D2D1_POINT_2F p1) noexcept
@@ -122,8 +122,8 @@ export namespace fatpound::win32::d2d
                 const auto& next = vertices[(i + 1U) % vertices.size()];
 
                 DrawLine(
-                    ::D2D1::Point2F(current.x, current.y),
-                    ::D2D1::Point2F(next.x, next.y)
+                    D2D1::Point2F(current.x, current.y),
+                    D2D1::Point2F(next.x, next.y)
                 );
             }
         }
@@ -142,8 +142,8 @@ export namespace fatpound::win32::d2d
                 dx::XMStoreFloat2(&transformed1, vec1);
 
                 DrawLine(
-                    ::D2D1::Point2F(transformed0.x, transformed0.y),
-                    ::D2D1::Point2F(transformed1.x, transformed1.y)
+                    D2D1::Point2F(transformed0.x, transformed0.y),
+                    D2D1::Point2F(transformed1.x, transformed1.y)
                 );
             }
         }
