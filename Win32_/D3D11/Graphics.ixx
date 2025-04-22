@@ -41,7 +41,7 @@ export namespace fatpound::win32::d3d11
     template <bool Framework = false>
     class Graphics final
     {
-        static constexpr auto NotFramework = std::bool_constant<not Framework>::value;
+        static constexpr auto NotFramework         = std::bool_constant<not Framework>::value;
         static constexpr auto RasterizationEnabled = NotFramework;
 
         using ResourcePack_t = std::conditional_t<Framework, FATSPACE_UTIL_GFX::FrameworkResourcePack, FATSPACE_UTIL_GFX::ResourcePack>;
@@ -300,7 +300,7 @@ export namespace fatpound::win32::d3d11
         void InitFrameworkBackbuffer_ () requires(Framework)
         {
             {
-                ::wrl::ComPtr<ID3D11ShaderResourceView> pSRV;
+                wrl::ComPtr<ID3D11ShaderResourceView> pSRV;
 
                 {
                     const D3D11_TEXTURE2D_DESC texDesc
@@ -341,7 +341,7 @@ export namespace fatpound::win32::d3d11
                 GetImmediateContext()->PSSetShaderResources(0U, 1U, pSRV.GetAddressOf());
             }
 
-            ::wrl::ComPtr<ID3D11SamplerState> pSS;
+            wrl::ComPtr<ID3D11SamplerState> pSS;
 
             {
                 const D3D11_SAMPLER_DESC sDesc
@@ -449,7 +449,7 @@ export namespace fatpound::win32::d3d11
         void InitRenderTarget_        ()
         {
             {
-                ::wrl::ComPtr<ID3D11Texture2D> pBackBufferTexture2D{};
+                wrl::ComPtr<ID3D11Texture2D> pBackBufferTexture2D{};
 
                 if (const auto& hr = GetSwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), &pBackBufferTexture2D); FAILED(hr))
                 {
@@ -464,7 +464,7 @@ export namespace fatpound::win32::d3d11
 
             if constexpr (NotFramework)
             {
-                ::wrl::ComPtr<ID3D11Texture2D> pTexture2d;
+                wrl::ComPtr<ID3D11Texture2D> pTexture2d;
 
                 {
                     D3D11_TEXTURE2D_DESC tex2dDesc
@@ -519,7 +519,7 @@ export namespace fatpound::win32::d3d11
         }
         void InitRasterizer_          () requires(NotFramework)
         {
-            ::wrl::ComPtr<ID3D11RasterizerState> m_pRasterizerState_;
+            wrl::ComPtr<ID3D11RasterizerState> m_pRasterizerState_;
 
             {
                 D3D11_RASTERIZER_DESC rDesc

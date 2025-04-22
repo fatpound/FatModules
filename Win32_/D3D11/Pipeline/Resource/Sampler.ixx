@@ -15,6 +15,8 @@ import FatPound.Win32.D3D11.Pipeline.Bindable;
 
 import std;
 
+namespace wrl = Microsoft::WRL;
+
 export namespace fatpound::win32::d3d11::pipeline::resource
 {
     class Sampler final : public Bindable
@@ -48,7 +50,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
 
 
     private:
-        ::Microsoft::WRL::ComPtr<ID3D11SamplerState> m_pSamplerState_;
+        wrl::ComPtr<ID3D11SamplerState> m_pSamplerState_;
     };
 }
 

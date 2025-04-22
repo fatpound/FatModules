@@ -19,15 +19,15 @@ namespace wrl = Microsoft::WRL;
 
 export namespace fatpound::util::gfx
 {
-    auto GetDXGIFactory(ID3D11Device* const pDevice) -> ::Microsoft::WRL::ComPtr<IDXGIFactory>
+    auto GetDXGIFactory(ID3D11Device* const pDevice) -> wrl::ComPtr<IDXGIFactory>
     {
-        auto pDXGIDevice = ::wrl::ComPtr<IDXGIDevice>{};
+        auto pDXGIDevice = wrl::ComPtr<IDXGIDevice>{};
         pDevice->QueryInterface(__uuidof(IDXGIDevice), &pDXGIDevice);
 
-        auto pDXGIAdapter = ::wrl::ComPtr<IDXGIAdapter>{};
+        auto pDXGIAdapter = wrl::ComPtr<IDXGIAdapter>{};
         pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), &pDXGIAdapter);
 
-        auto pDXGIFactory = ::wrl::ComPtr<IDXGIFactory>{};
+        auto pDXGIFactory = wrl::ComPtr<IDXGIFactory>{};
         pDXGIAdapter->GetParent(__uuidof(IDXGIFactory), &pDXGIFactory);
 
         return pDXGIFactory;

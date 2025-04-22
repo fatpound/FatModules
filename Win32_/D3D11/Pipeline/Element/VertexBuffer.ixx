@@ -15,6 +15,8 @@ import FatPound.Win32.D3D11.Pipeline.Bindable;
 
 import std;
 
+namespace wrl = Microsoft::WRL;
+
 export namespace fatpound::win32::d3d11::pipeline::element
 {
     class VertexBuffer final : public Bindable
@@ -83,7 +85,7 @@ export namespace fatpound::win32::d3d11::pipeline::element
 
 
     protected:
-        ::Microsoft::WRL::ComPtr<ID3D11Buffer> m_pVertexBuffer_;
+        wrl::ComPtr<ID3D11Buffer> m_pVertexBuffer_;
 
         UINT m_stride_;
 
