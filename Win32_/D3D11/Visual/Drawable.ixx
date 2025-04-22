@@ -20,6 +20,8 @@ import FatPound.Win32.D3D11.Pipeline;
 
 import std;
 
+namespace dx = DirectX;
+
 export namespace fatpound::win32::d3d11::visual
 {
     class Drawable
@@ -40,7 +42,7 @@ export namespace fatpound::win32::d3d11::visual
 
 
     public:
-        virtual auto GetTransformXM() const noexcept -> ::DirectX::XMMATRIX = 0;
+        virtual auto GetTransformXM() const noexcept -> dx::XMMATRIX = 0;
 
         virtual void Update(const float delta_time) noexcept = 0;
 

@@ -8,6 +8,8 @@ export module FatPound.Util.ViewXM;
 
 #if FAT_BUILDING_WITH_MSVC
 
+namespace dx = DirectX;
+
 export namespace fatpound::util
 {
     class [[nodiscard]] ViewXM final
@@ -23,20 +25,20 @@ export namespace fatpound::util
 
 
     public:
-        [[nodiscard]] auto GetCameraXM     () const noexcept -> ::DirectX::XMMATRIX
+        [[nodiscard]] auto GetCameraXM     () const noexcept -> dx::XMMATRIX
         {
             return m_camera_;
         }
-        [[nodiscard]] auto GetProjectionXM () const noexcept -> ::DirectX::XMMATRIX
+        [[nodiscard]] auto GetProjectionXM () const noexcept -> dx::XMMATRIX
         {
             return m_projection_;
         }
 
-        void SetCameraXM     (const ::DirectX::XMMATRIX& camera)     noexcept
+        void SetCameraXM     (const dx::XMMATRIX& camera)     noexcept
         {
             m_camera_ = camera;
         }
-        void SetProjectionXM (const ::DirectX::XMMATRIX& projection) noexcept
+        void SetProjectionXM (const dx::XMMATRIX& projection) noexcept
         {
             m_projection_ = projection;
         }
@@ -46,8 +48,8 @@ export namespace fatpound::util
 
 
     private:
-        ::DirectX::XMMATRIX m_camera_{};
-        ::DirectX::XMMATRIX m_projection_{};
+        dx::XMMATRIX m_camera_{};
+        dx::XMMATRIX m_projection_{};
     };
 }
 

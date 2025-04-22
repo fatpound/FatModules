@@ -22,6 +22,8 @@ import FatPound.Util.Gfx.SizePack;
 
 import std;
 
+namespace dx = DirectX;
+
 export namespace fatpound::win32
 {
     class WindowEx : public IWindow
@@ -33,7 +35,7 @@ export namespace fatpound::win32
             const FATSPACE_UTIL_GFX::SizePack      clientDimensions,
             std::shared_ptr<FATSPACE_IO::Mouse>    pMouse    = std::make_shared<FATSPACE_IO::Mouse>(),
             std::shared_ptr<FATSPACE_IO::Keyboard> pKeyboard = std::make_shared<FATSPACE_IO::Keyboard>(),
-            const std::optional<::DirectX::XMINT2> position  = std::nullopt)
+            const std::optional<dx::XMINT2> position  = std::nullopt)
             :
             m_pMouse{ std::move(pMouse) },
             m_pKeyboard{ std::move(pKeyboard) },
