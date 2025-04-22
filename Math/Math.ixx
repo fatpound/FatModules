@@ -20,17 +20,17 @@ namespace dx = DirectX;
 
 export namespace fatpound::math
 {
-    auto operator - (const ::dx::XMVECTOR& pos1_vec, const ::dx::XMVECTOR& pos2_vec) noexcept -> ::dx::XMVECTOR
+    auto operator - (const dx::XMVECTOR& pos1_vec, const dx::XMVECTOR& pos2_vec) noexcept -> dx::XMVECTOR
     {
-        return ::dx::XMVectorSubtract(pos1_vec, pos2_vec);
+        return dx::XMVectorSubtract(pos1_vec, pos2_vec);
     }
-    auto operator - (const ::dx::XMFLOAT2& pos1, const ::dx::XMFLOAT2& pos2) noexcept -> float
+    auto operator - (const dx::XMFLOAT2& pos1, const dx::XMFLOAT2& pos2) noexcept -> float
     {
-        return ::dx::XMVectorGetX(::dx::XMVector2Length(::dx::XMLoadFloat2(&pos1) - ::dx::XMLoadFloat2(&pos2)));
+        return dx::XMVectorGetX(dx::XMVector2Length(dx::XMLoadFloat2(&pos1) - dx::XMLoadFloat2(&pos2)));
     }
-    auto operator - (const ::dx::XMFLOAT3& pos1, const ::dx::XMFLOAT3& pos2) noexcept -> float
+    auto operator - (const dx::XMFLOAT3& pos1, const dx::XMFLOAT3& pos2) noexcept -> float
     {
-        return ::dx::XMVectorGetX(::dx::XMVector3Length(::dx::XMLoadFloat3(&pos1) - ::dx::XMLoadFloat3(&pos2)));
+        return dx::XMVectorGetX(dx::XMVector3Length(dx::XMLoadFloat3(&pos1) - dx::XMLoadFloat3(&pos2)));
     }
 }
 
