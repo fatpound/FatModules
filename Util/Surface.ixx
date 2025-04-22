@@ -37,7 +37,7 @@ export namespace fatpound::util
         using Ptr_t      = memory::AlignedUniquePtr<ColorArr_t>;
 
     public:
-        using Size_t = ::std::uint32_t;
+        using Size_t = std::uint32_t;
 
 
     public:
@@ -92,7 +92,7 @@ export namespace fatpound::util
 #endif
         explicit Surface(const gfx::SizePack& dimensions,           const Size_t& alignBytes = scx_DefaultAlignment)
             :
-            m_pBuffer_(memory::MakeAlignedUniquePtr<ColorArr_t>(alignBytes, static_cast<::std::size_t>(dimensions.m_width * dimensions.m_height))),
+            m_pBuffer_(memory::MakeAlignedUniquePtr<ColorArr_t>(alignBytes, static_cast<std::size_t>(dimensions.m_width * dimensions.m_height))),
             m_size_pack_(dimensions),
             m_align_byte_(alignBytes),
             m_pixel_pitch_(CalculatePixelPitch(GetWidth<>(), GetAlignment<>()))
@@ -130,11 +130,11 @@ export namespace fatpound::util
 
         auto operator = (const Surface& src)     -> Surface&
         {
-            if (this not_eq ::std::addressof(src))
+            if (this not_eq std::addressof(src))
             {
                 Reset();
 
-                m_pBuffer_     = memory::MakeAlignedUniquePtr<ColorArr_t>(src.GetAlignment(), static_cast<::std::size_t>(src.GetWidth<>() * src.GetHeight<>()));
+                m_pBuffer_     = memory::MakeAlignedUniquePtr<ColorArr_t>(src.GetAlignment(), static_cast<std::size_t>(src.GetWidth<>() * src.GetHeight<>()));
 
                 m_size_pack_   = src.GetSizePack();
                 m_align_byte_  = src.GetAlignment<>();
@@ -147,11 +147,11 @@ export namespace fatpound::util
         }
         auto operator = (Surface&& src) noexcept -> Surface&
         {
-            if (this not_eq ::std::addressof<>(src))
+            if (this not_eq std::addressof<>(src))
             {
                 Reset();
 
-                m_pBuffer_     = ::std::move<>(src.m_pBuffer_);
+                m_pBuffer_     = std::move<>(src.m_pBuffer_);
 
                 m_size_pack_   = src.GetSizePack();
                 m_align_byte_  = src.GetAlignment<>();
@@ -219,14 +219,14 @@ export namespace fatpound::util
             return static_cast<T>(m_pixel_pitch_ * sizeof(Color));
         }
 
-        template <::std::unsigned_integral T> [[nodiscard]] FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
+        template <std::unsigned_integral T> [[nodiscard]] FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
         {
             assert(x < GetWidth<T>());
             assert(y < GetHeight<T>());
 
             return m_pBuffer_[(y * m_pixel_pitch_) + x];
         }
-        template <::std::unsigned_integral T>               FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
+        template <std::unsigned_integral T>               FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
         {
             assert(x < GetWidth<T>());
             assert(y < GetHeight<T>());
@@ -234,24 +234,24 @@ export namespace fatpound::util
             m_pBuffer_[(y * m_pixel_pitch_) + x] = color;
         }
 
-        template <::std::signed_integral   T> [[nodiscard]] FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
+        template <std::signed_integral   T> [[nodiscard]] FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
         {
             assert(x >= 0);
             assert(y >= 0);
 
             return GetPixel<>(
-                static_cast<::std::make_unsigned_t<T>>(x),
-                static_cast<::std::make_unsigned_t<T>>(y)
+                static_cast<std::make_unsigned_t<T>>(x),
+                static_cast<std::make_unsigned_t<T>>(y)
             );
         }
-        template <::std::signed_integral   T>               FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
+        template <std::signed_integral   T>               FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
         {
             assert(x >= 0);
             assert(y >= 0);
 
             PutPixel<>(
-                static_cast<::std::make_unsigned_t<T>>(x),
-                static_cast<::std::make_unsigned_t<T>>(y),
+                static_cast<std::make_unsigned_t<T>>(x),
+                static_cast<std::make_unsigned_t<T>>(y),
                 color
             );
         }
@@ -283,10 +283,10 @@ export namespace fatpound::util
 
         void Fill(const Color& color) noexcept
         {
-            ::std::memset(
+            std::memset(
                 *this,
                 static_cast<int>(color),
-                GetWidth<::std::size_t>() * GetHeight<::std::size_t>() * sizeof(Color)
+                GetWidth<std::size_t>() * GetHeight<std::size_t>() * sizeof(Color)
             );
         }
         void Reset() noexcept
@@ -321,9 +321,9 @@ export namespace fatpound::util
             for (auto y = 0U; y < src.GetHeight<>(); ++y)
             {
                 // NOLINTBEGIN(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-                ::std::memcpy(
-                    &pDest[y * GetPixelPitch<::std::size_t>()],
-                    &pSrc[y * src.GetPixelPitch<::std::size_t>()],
+                std::memcpy(
+                    &pDest[y * GetPixelPitch<std::size_t>()],
+                    &pSrc[y * src.GetPixelPitch<std::size_t>()],
                     srcPitch
                 );
                 // NOLINTEND(cppcoreguidelines-pro-bounds-pointer-arithmetic)

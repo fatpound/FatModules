@@ -20,7 +20,7 @@ export namespace fatpound::win32::d3d11::pipeline::element
     class VertexBuffer final : public Bindable
     {
     public:
-        template <typename T, ::std::size_t N>
+        template <typename T, std::size_t N>
         explicit VertexBuffer(ID3D11Device* const pDevice, const std::array<T, N>& vertices)
             :
             m_stride_(sizeof(T))

@@ -82,7 +82,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
                 &msr
             );
 
-            ::std::memcpy(msr.pData, &consts, sizeof(consts));
+            std::memcpy(msr.pData, &consts, sizeof(consts));
 
             pImmediateContext->Unmap(m_pConstantBuffer_.Get(), 0U);
         }

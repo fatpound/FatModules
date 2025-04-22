@@ -21,7 +21,7 @@ export namespace fatpound::math
     template <typename T, typename U, bool First>
     concept Multiplicable_SameAs = requires(T a, U b)
     {
-        { a * b } -> ::std::same_as<::std::conditional_t<First, T, U>>;
+        { a * b } -> std::same_as<std::conditional_t<First, T, U>>;
     };
     
     template <typename T, typename U> concept Multiplicable_BothWays    = Multiplicable<T, U>    and Multiplicable<U, T>;

@@ -18,7 +18,7 @@ export namespace fatpound::util::gfx
             float v;
         };
 
-        static constexpr auto GenerateVertices() -> ::std::vector<Vertex>
+        static constexpr auto GenerateVertices() -> std::vector<Vertex>
         {
             return
             {

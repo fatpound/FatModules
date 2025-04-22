@@ -20,7 +20,7 @@ export namespace fatpound::win32::d3d11::pipeline::element
     class IndexBuffer final : public Bindable
     {
     public:
-        template <::std::integral T>
+        template <std::integral T>
         explicit IndexBuffer(ID3D11Device* const pDevice, const std::vector<T>& indices)
             :
             m_count_(static_cast<UINT>(indices.size()))

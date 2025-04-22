@@ -41,10 +41,10 @@ export namespace fatpound::win32::d3d11
     template <bool Framework = false>
     class Graphics final
     {
-        static constexpr auto NotFramework = ::std::bool_constant<not Framework>::value;
+        static constexpr auto NotFramework = std::bool_constant<not Framework>::value;
         static constexpr auto RasterizationEnabled = NotFramework;
 
-        using ResourcePack_t = ::std::conditional_t<Framework, FATSPACE_UTIL_GFX::FrameworkResourcePack, FATSPACE_UTIL_GFX::ResourcePack>;
+        using ResourcePack_t = std::conditional_t<Framework, FATSPACE_UTIL_GFX::FrameworkResourcePack, FATSPACE_UTIL_GFX::ResourcePack>;
 
     public:
         using float_t = float;
@@ -112,11 +112,11 @@ export namespace fatpound::win32::d3d11
             return static_cast<T>(mc_dimensions_.m_height);
         }
 
-        template <::std::integral T> [[nodiscard]] FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color               requires(Framework)
+        template <std::integral T> [[nodiscard]] FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color               requires(Framework)
         {
             return m_res_pack_.m_surface.GetPixel<>(x, y);
         }
-        template <::std::integral T>               FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept requires(Framework)
+        template <std::integral T>               FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept requires(Framework)
         {
             m_res_pack_.m_surface.PutPixel<>(x, y, color);
         }
@@ -138,7 +138,7 @@ export namespace fatpound::win32::d3d11
         void BeginFrame() noexcept requires(Framework)
         {
             [[maybe_unused]]
-            void* const ptr = ::std::memset(
+            void* const ptr = std::memset(
                 m_res_pack_.m_surface,
                 GrayToneValue,
                 GetWidth<UINT>() * GetHeight<UINT>() * sizeof(Color)
@@ -230,7 +230,7 @@ export namespace fatpound::win32::d3d11
             return m_msaa_quality_;
         }
 
-        void BindSurface(::std::unique_ptr<Surface> pSurface) requires(Framework)
+        void BindSurface(std::unique_ptr<Surface> pSurface) requires(Framework)
         {
             if (m_pSurface_ not_eq nullptr)
             {
@@ -243,7 +243,7 @@ export namespace fatpound::win32::d3d11
         {
             if (const void* const pSrc = *m_pSurface_; pSrc not_eq nullptr)
             {
-                ::std::memcpy(
+                std::memcpy(
                     m_res_pack_.m_surface,
                     pSrc,
                     sizeof(Color) * GetWidth<UINT>() * GetHeight<UINT>()
@@ -570,7 +570,7 @@ export namespace fatpound::win32::d3d11
 
             for (auto y = 0U; y < mc_dimensions_.m_height; ++y)
             {
-                ::std::memcpy(
+                std::memcpy(
                     static_cast<void*>(&pDst[y * dstPitch]),
                     static_cast<void*>(&m_res_pack_.m_surface[y * srcPitch]),
                     rowBytes
@@ -600,7 +600,7 @@ export namespace fatpound::win32::d3d11
         ::UINT m_msaa_quality_{};
         ::UINT m_dxgi_mode_{};
 
-        ::std::unique_ptr<Surface> m_pSurface_;
+        std::unique_ptr<Surface> m_pSurface_;
     };
 }
 

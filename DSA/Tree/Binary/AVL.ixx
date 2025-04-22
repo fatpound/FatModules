@@ -103,7 +103,7 @@ export namespace fatpound::dsa::tree::binary
                 const auto  left_val = BST<T>::GetDepth_(last->parent->left,  0);
                 const auto right_val = BST<T>::GetDepth_(last->parent->right, 0);
 
-                const auto balanceFactor = static_cast<::std::int64_t>(right_val - left_val);
+                const auto balanceFactor = static_cast<std::int64_t>(right_val - left_val);
 
                 /*
                 std::cout << "parent  : " << last->parent->item << '\n';
