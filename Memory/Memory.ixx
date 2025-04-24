@@ -44,7 +44,7 @@ namespace fatpound::memory
 #if FAT_BUILDING_WITH_MSVC or FAT_BUILDING_ON_WINDOWS
             FAT_MEMORY_ALIGNED_ALLOCATOR(size * sizeof(T), alignBytes)
 #else
-            FAT_MEMORY_ALIGNED_ALLOCATOR(alignBytes, size * sizeof(T)))
+            FAT_MEMORY_ALIGNED_ALLOCATOR(alignBytes, size * sizeof(T))
 #endif
                 ))
             {
