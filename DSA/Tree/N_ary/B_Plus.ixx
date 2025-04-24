@@ -138,7 +138,7 @@ export namespace fatpound::dsa::tree::n_ary
 
             explicit Node_() = default;
 
-            explicit Node_(std::vector<std::pair<T, Node_*>*>& new_items, Node_* new_lesser, Node_* new_parent)
+            explicit Node_(std::vector<std::pair<T, Node_*>*>& new_items, Node_* const new_lesser, Node_* const new_parent)
                 :
                 lesser(new_lesser),
                 parent(new_parent),
@@ -146,14 +146,14 @@ export namespace fatpound::dsa::tree::n_ary
             {
 
             }
-            explicit Node_(std::pair<T, Node_*>* new_pair, Node_* new_lesser, Node_* new_parent)
+            explicit Node_(std::pair<T, Node_*>* const new_pair, Node_* const new_lesser, Node_* const new_parent)
                 :
                 lesser(new_lesser),
                 parent(new_parent)
             {
                 items.push_back(new_pair);
             }
-            explicit Node_(const T& new_item, Node_* new_lesser, Node_* new_parent)
+            explicit Node_(const T& new_item, Node_* const new_lesser, Node_* const new_parent)
                 :
                 lesser(new_lesser),
                 parent(new_parent)

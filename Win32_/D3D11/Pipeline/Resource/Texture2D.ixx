@@ -13,8 +13,8 @@ export module FatPound.Win32.D3D11.Pipeline.Resource.Texture2D;
 
 import <d3d11.h>;
 
-import FatPound.Win32.D3D11.Pipeline.Bindable;
 import FatPound.Util.Surface;
+import FatPound.Win32.D3D11.Pipeline.Bindable;
 
 import std;
 

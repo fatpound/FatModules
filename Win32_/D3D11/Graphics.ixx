@@ -19,13 +19,12 @@ export module FatPound.Win32.D3D11.Graphics;
 
 import <d3d11.h>;
 
-import FatPound.Win32.D3D11.Pipeline;
-import FatPound.Win32.D3D11.Visual;
-
 import FatPound.Bitwise.Concepts;
 import FatPound.Util.Color;
 import FatPound.Util.Surface;
 import FatPound.Util.Gfx;
+import FatPound.Win32.D3D11.Pipeline;
+import FatPound.Win32.D3D11.Visual;
 
 import std;
 

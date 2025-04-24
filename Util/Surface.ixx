@@ -15,12 +15,11 @@ module;
 
 export module FatPound.Util.Surface;
 
+import FatPound.Bitwise.Concepts;
+import FatPound.Memory;
 import FatPound.Util.Color;
 import FatPound.Util.Common;
 import FatPound.Util.Gfx.SizePack;
-
-import FatPound.Bitwise.Concepts;
-import FatPound.Memory;
 
 #if FAT_BUILDING_WITH_MSVC
 import FatPound.Win32.GDI_Plus;

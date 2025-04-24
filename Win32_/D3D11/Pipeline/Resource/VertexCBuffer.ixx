@@ -11,9 +11,8 @@ export module FatPound.Win32.D3D11.Pipeline.Resource.VertexCBuffer;
 
 import <d3d11.h>;
 
-export import FatPound.Win32.D3D11.Pipeline.Resource.CBuffer;
-
 import FatPound.Win32.D3D11.Pipeline.Bindable;
+import FatPound.Win32.D3D11.Pipeline.Resource.CBuffer;
 
 export namespace fatpound::win32::d3d11::pipeline::resource
 {

@@ -2,10 +2,9 @@ module;
 
 export module FatPound.Math.Geometry;
 
+import FatPound.Bitwise.Concepts;
 import FatPound.Math.Multiplicative;
 import FatPound.Math.Numbers.Common;
-
-import FatPound.Bitwise.Concepts;
 
 import std;
 

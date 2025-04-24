@@ -3,23 +3,15 @@ module;
 #include <cstdlib>
 
 #if FAT_BUILDING_WITH_MSVC or FAT_BUILDING_ON_WINDOWS
-#ifndef FAT_MEMORY_ALIGNED_ALLOCATE_WITH
-    // NOLINTBEGIN(cppcoreguidelines-macro-usage)
-    #define FAT_MEMORY_ALIGNED_ALLOCATE_WITH(align, size) (::_aligned_malloc(size, align))
-    // NOLINTEND(cppcoreguidelines-macro-usage)
-#endif
-#ifndef FAT_MEMORY_ALIGNED_FREER
-    #define FAT_MEMORY_ALIGNED_FREER ::_aligned_free
-#endif
+    #if not defined(FAT_MEMORY_ALIGNED_ALLOCATOR) or not defined(FAT_MEMORY_ALIGNED_FREER)
+        #define FAT_MEMORY_ALIGNED_ALLOCATOR _aligned_malloc
+        #define FAT_MEMORY_ALIGNED_FREER     _aligned_free
+    #endif
 #else
-#ifndef FAT_MEMORY_ALIGNED_ALLOCATE_WITH
-    // NOLINTBEGIN(cppcoreguidelines-macro-usage)
-    #define FAT_MEMORY_ALIGNED_ALLOCATE_WITH(align, size) (std::aligned_alloc(align, size))
-    // NOLINTEND(cppcoreguidelines-macro-usage)
-#endif
-#ifndef FAT_MEMORY_ALIGNED_FREER
-    #define FAT_MEMORY_ALIGNED_FREER std::free
-#endif
+    #if not defined(FAT_MEMORY_ALIGNED_ALLOCATOR) or not defined(FAT_MEMORY_ALIGNED_FREER)
+        #define FAT_MEMORY_ALIGNED_ALLOCATOR std::aligned_alloc
+        #define FAT_MEMORY_ALIGNED_FREER     std::free
+    #endif
 #endif
 
 export module FatPound.Memory;
@@ -31,7 +23,7 @@ namespace fatpound::memory
     template <typename T>
     struct AlignedUPtr
     {
-        using ptr_type = std::unique_ptr<T,   decltype(&FAT_MEMORY_ALIGNED_FREER)>;
+        using ptr_type = std::unique_ptr<T, decltype(&FAT_MEMORY_ALIGNED_FREER)>;
     };
 
     template <typename T>
@@ -48,12 +40,23 @@ namespace fatpound::memory
         template <typename T>
         auto AlignedAlloc(const std::size_t& alignBytes, const std::size_t& size) -> T*
         {
-            if (auto* const ptr = static_cast<T*>(FAT_MEMORY_ALIGNED_ALLOCATE_WITH(alignBytes, (size * sizeof(T)))))
+            if (auto* const ptr = static_cast<T*>(
+#if FAT_BUILDING_WITH_MSVC or FAT_BUILDING_ON_WINDOWS
+            FAT_MEMORY_ALIGNED_ALLOCATOR(size * sizeof(T), alignBytes)
+#else
+            FAT_MEMORY_ALIGNED_ALLOCATOR(alignBytes, size * sizeof(T)))
+#endif
+                ))
             {
                 return ptr;
             }
 
             throw std::runtime_error{ "Aligned allocation failed!" };
+        }
+
+        void AlignedFree(void* const ptr) noexcept
+        {
+            FAT_MEMORY_ALIGNED_FREER(ptr);
         }
 
         template <typename T>

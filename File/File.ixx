@@ -27,7 +27,7 @@ namespace fatpound::file
             throw std::runtime_error("Cannot create the new version of file!");
         }
 
-        std::minstd_rand rng(static_cast<unsigned int>(key));
+        std::minstd_rand rng{ static_cast<decltype(rng)::result_type>(key) };
 
         std::transform<>(
             std::istreambuf_iterator<char>(inputFile),

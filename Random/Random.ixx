@@ -4,17 +4,39 @@ module;
 
 export module FatPound.Random;
 
+import FatPound.Bitwise.Concepts;
 import FatPound.Math.Numbers.Primes;
 
 import std;
 
 export namespace fatpound::random
 {
-    template <std::unsigned_integral N>
-    auto RandomPrime(const N& min, const N& max) -> N
+    template <bitwise::UIntegralOrFloating T, std::uniform_random_bit_generator U>
+    auto RandNum(const T& min, const T& max, U& rng) -> T
     {
-        std::minstd_rand rng{ std::random_device{}() };
-        const auto& rand_num = std::uniform_int_distribution<N>{min, max}(rng);
+        if constexpr (std::floating_point<T>)
+        {
+            return static_cast<T>(std::uniform_real_distribution<long double>{ min, max }(rng));
+        }
+        else
+        {
+            return static_cast<T>(std::uniform_int_distribution<std::size_t>{ min, max }(rng));
+        }
+    }
+
+    template <bitwise::UIntegralOrFloating T = std::size_t, std::uniform_random_bit_generator U = std::minstd_rand>
+    auto RandNum(
+        const T&  min = std::numeric_limits<T>::min(),
+        const T&  max = std::numeric_limits<T>::max(),
+              U&& rng = U{ std::random_device{}() }) -> T
+    {
+        return RandNum<>(min, max, rng);
+    }
+
+    template <std::unsigned_integral T, std::uniform_random_bit_generator U>
+    auto RandPrime(const T& min, const T& max, U& rng) -> T
+    {
+        const auto& rand_num = RandNum<>(min, max, rng);
 
         if (FATSPACE_NUMBERS::IsPrime<>(rand_num))
         {
@@ -31,35 +53,28 @@ export namespace fatpound::random
             return prev;
         }
 
-        return 0;
+        return 0U;
     }
 
-    template <std::unsigned_integral N = std::size_t>
-    auto RollDice() -> N
+    template <std::unsigned_integral T = std::size_t, std::uniform_random_bit_generator U = std::minstd_rand>
+    auto RandPrime(
+        const T&  min = std::numeric_limits<T>::min(),
+        const T&  max = std::numeric_limits<T>::max(),
+              U&& rng = U{ std::random_device{}() }) -> T
     {
-        std::minstd_rand rng{ std::random_device{}() };
-
-        return static_cast<N>(std::uniform_int_distribution<std::size_t>{ 1U, 6U }(rng));
+        return RandPrime<>(min, max, rng);
     }
 
-    template <std::unsigned_integral N = std::size_t>
-    auto RandUInt(
-        const N& min = std::numeric_limits<N>::min(),
-        const N& max = std::numeric_limits<N>::max()) -> N
+    template <std::unsigned_integral T = std::size_t, std::uniform_random_bit_generator U>
+    auto RollDice(U& rng) -> T
     {
-        std::minstd_rand rng{ std::random_device{}() };
-
-        return static_cast<N>(std::uniform_int_distribution<std::size_t>{ min, max }(rng));
+        return RandNum<>(1U, 6U, rng);
     }
 
-    template <std::floating_point N = float>
-    auto RandFloat(
-        const N& min = std::numeric_limits<N>::min(),
-        const N& max = std::numeric_limits<N>::max()) -> N
+    template <std::unsigned_integral T = std::size_t, std::uniform_random_bit_generator U = std::minstd_rand>
+    auto RollDice(U&& rng = U{ std::random_device{}() }) -> T
     {
-        std::minstd_rand rng{ std::random_device{}() };
-
-        return static_cast<N>(std::uniform_real_distribution<long double>{ min, max }(rng));
+        return RollDice<>(rng);
     }
 }
 

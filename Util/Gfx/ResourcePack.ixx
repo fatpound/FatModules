@@ -15,7 +15,6 @@ export module FatPound.Util.Gfx.ResourcePack;
 import <d3d11.h>;
 
 import FatPound.Util.Gfx.SizePack;
-
 import FatPound.Util.Surface;
 
 namespace wrl = Microsoft::WRL;

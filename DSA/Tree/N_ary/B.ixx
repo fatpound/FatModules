@@ -84,7 +84,7 @@ export namespace fatpound::dsa::tree::n_ary
     private:
         struct alignas(64) Node_ final
         {
-            explicit Node_(std::pair<T, Node_*>* new_item, Node_* new_parent = nullptr)
+            explicit Node_(std::pair<T, Node_*>* const new_item, Node_* const new_parent = nullptr)
                 :
                 parent(new_parent)
             {

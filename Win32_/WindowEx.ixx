@@ -13,12 +13,11 @@ export module FatPound.Win32.WindowEx;
 
 #if FAT_BUILDING_WITH_MSVC
 
-import FatPound.Win32.IWindow;
-
 import FatPound.Bitwise.Concepts;
 import FatPound.Concurrency;
 import FatPound.IO;
 import FatPound.Util.Gfx.SizePack;
+import FatPound.Win32.IWindow;
 
 import std;
 
