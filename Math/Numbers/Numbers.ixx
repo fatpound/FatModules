@@ -15,11 +15,11 @@ import std;
 
 export namespace fatpound::math::numbers
 {
-    template <std::unsigned_integral T> FAT_CMATH_CONSTEXPR23 auto IsSquare        (const T& num) noexcept -> bool
+    template <std::unsigned_integral T> FAT_CMATH_CONSTEXPR26 auto IsSquare        (const T& num) noexcept -> bool
     {
         return Square<T>(std::sqrt(num)) == num;
     }
-    template <std::unsigned_integral T> FAT_CMATH_CONSTEXPR23 auto IsCube          (const T& num) noexcept -> bool
+    template <std::unsigned_integral T> FAT_CMATH_CONSTEXPR26 auto IsCube          (const T& num) noexcept -> bool
     {
         return Cube<T>(std::cbrt(num)) == num;
     }
