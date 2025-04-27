@@ -238,7 +238,7 @@ export namespace fatpound::win32::d3d11
 
             m_pSurface_ = std::move<>(pSurface);
         }
-        void CopySurfaceToSysbuffer()                         requires(Framework)
+        void CopySurfaceToSysbuffer()                       requires(Framework)
         {
             if (const void* const pSrc = *m_pSurface_; pSrc not_eq nullptr)
             {
