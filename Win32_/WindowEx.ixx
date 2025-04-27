@@ -188,7 +188,7 @@ export namespace fatpound::win32
     protected:
         template <bool Notify = true, typename F, typename... Args>
         requires std::invocable<F, Args...>
-        auto DispatchTaskToQueue_(F&& function, Args&&... args) -> auto
+        auto DispatchTaskToQueue_(F&& function, Args&&... args) -> std::future<std::invoke_result_t<F, Args...>>
         {
             auto future = m_tasks_.Push<>(std::forward<F>(function), std::forward<Args>(args)...);
 
