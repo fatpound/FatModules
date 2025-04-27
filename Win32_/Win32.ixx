@@ -9,6 +9,7 @@ export import FatPound.Win32.COM;
 export import FatPound.Win32.GDI_Plus;
 export import FatPound.Win32.WMF;
 
+export import FatPound.Win32.Common;
 export import FatPound.Win32.IWindow;
 export import FatPound.Win32.WindowEx;
 

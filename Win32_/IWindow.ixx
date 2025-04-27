@@ -8,6 +8,8 @@ export module FatPound.Win32.IWindow;
 
 #if FAT_BUILDING_WITH_MSVC
 
+import FatPound.Win32.Common;
+
 import std;
 
 export namespace fatpound::win32
@@ -46,26 +48,8 @@ export namespace fatpound::win32
     class IWindow::ClassEx final
     {
     public:
-        explicit ClassEx(const std::wstring& clsName = L"#fatpound.Default.IWindow.ClassEx#")
-            :
-            m_hInstance_{ ::GetModuleHandle(nullptr) }
+        explicit ClassEx(const WNDCLASSEX& wcx)
         {
-            const ::WNDCLASSEX wcx
-            {
-                .cbSize        = sizeof(wcx),
-                .style         = CS_OWNDC,
-                .lpfnWndProc   = &ClassEx::HandleMsgSetup_,
-                .cbClsExtra    = 0,
-                .cbWndExtra    = 0,
-                .hInstance     = m_hInstance_,
-                .hIcon         = nullptr,
-                .hCursor       = ::LoadCursor(nullptr, IDC_ARROW),
-                .hbrBackground = nullptr,
-                .lpszMenuName  = nullptr,
-                .lpszClassName = clsName.c_str(),
-                .hIconSm       = nullptr
-            };
-
             m_atom_ = ::RegisterClassEx(&wcx);
 
             if (m_atom_ == 0)
@@ -78,8 +62,19 @@ export namespace fatpound::win32
                 };
             }
         }
+        explicit ClassEx(const std::wstring& wstr)
+            :
+            ClassEx(wstr.c_str())
+        {
 
-        explicit ClassEx()                   = delete;
+        }
+        explicit ClassEx(const wchar_t* const clsName = L"#fatpound.Default.IWindow.ClassEx#")
+            :
+            ClassEx(CreateDefaultWNDCLASSEX_(m_hInstance_ = ModuleHandleOf(nullptr), clsName))
+        {
+
+        }
+
         explicit ClassEx(const ClassEx&)     = delete;
         explicit ClassEx(ClassEx&&) noexcept = delete;
 
@@ -93,11 +88,11 @@ export namespace fatpound::win32
 
 
     public:
-        auto GetAtom()     const noexcept -> ::ATOM
+        auto GetAtom()     const noexcept -> ATOM
         {
             return m_atom_;
         }
-        auto GetInstance() const noexcept -> ::HINSTANCE
+        auto GetInstance() const noexcept -> HINSTANCE
         {
             return m_hInstance_;
         }
@@ -107,17 +102,30 @@ export namespace fatpound::win32
 
 
     private:
+        static auto CreateDefaultWNDCLASSEX_(const HINSTANCE& hInst, const wchar_t* const clsName) noexcept -> WNDCLASSEX
+        {
+            return
+            {
+                .cbSize        = sizeof(WNDCLASSEX),
+                .style         = CS_OWNDC,
+                .lpfnWndProc   = &ClassEx::HandleMsgSetup_,
+                .cbClsExtra    = 0,
+                .cbWndExtra    = 0,
+                .hInstance     = hInst,
+                .hIcon         = nullptr,
+                .hCursor       = ::LoadCursor(nullptr, IDC_ARROW),
+                .hbrBackground = nullptr,
+                .lpszMenuName  = nullptr,
+                .lpszClassName = clsName,
+                .hIconSm       = nullptr
+            };
+        }
+
         static auto CALLBACK HandleMsgSetup_(const ::HWND hWnd, const ::UINT msg, const ::WPARAM wParam, const ::LPARAM lParam) -> LRESULT
         {
             if (msg == WM_NCCREATE)
             {
-#if UNICODE
-                using CREATESTRUCT = ::CREATESTRUCTW;
-#else
-                using CREATESTRUCT = ::CREATESTRUCTA;
-#endif
-
-                IWindow* const pWnd = static_cast<IWindow*>(reinterpret_cast<::CREATESTRUCT*>(lParam)->lpCreateParams);
+                IWindow* const pWnd = static_cast<IWindow*>(reinterpret_cast<CREATESTRUCT_t*>(lParam)->lpCreateParams);
 
                 ::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<::LONG_PTR>(pWnd));
 
@@ -144,8 +152,8 @@ export namespace fatpound::win32
 
 
     private:
-        ::HINSTANCE m_hInstance_;
-        ::ATOM m_atom_;
+        HINSTANCE m_hInstance_{};
+        ATOM      m_atom_{};
     };
 
     using WndClassEx = IWindow::ClassEx;

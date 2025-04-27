@@ -17,6 +17,7 @@ import FatPound.Bitwise.Concepts;
 import FatPound.Concurrency;
 import FatPound.IO;
 import FatPound.Util.Gfx.SizePack;
+import FatPound.Win32.Common;
 import FatPound.Win32.IWindow;
 
 import std;
@@ -32,13 +33,20 @@ export namespace fatpound::win32
             std::shared_ptr<WndClassEx>            pWndClassEx,
             const std::wstring                     title,
             const FATSPACE_UTIL_GFX::SizePack      clientDimensions,
-            std::shared_ptr<FATSPACE_IO::Mouse>    pMouse            = std::make_shared<FATSPACE_IO::Mouse>(),
             std::shared_ptr<FATSPACE_IO::Keyboard> pKeyboard         = std::make_shared<FATSPACE_IO::Keyboard>(),
-            const std::optional<dx::XMINT2>        position          = std::nullopt)
+            std::shared_ptr<FATSPACE_IO::Mouse>    pMouse            = std::make_shared<FATSPACE_IO::Mouse>(),
+            const std::optional<dx::XMINT2>        position          = std::nullopt,
+            const DWORD&                           styles            = WS_VISIBLE
+#if IN_DEBUG or IS_GFX_FRAMEWORK
+            bitor WS_CAPTION bitor WS_MINIMIZEBOX bitor WS_OVERLAPPED bitor WS_SYSMENU,
+#else
+            bitor WS_POPUP,
+#endif
+            const DWORD& exStyles = {})
             :
-            m_pMouse{ std::move(pMouse) },
-            m_pKeyboard{ std::move(pKeyboard) },
-            m_pWndClassEx_{ std::move(pWndClassEx) },
+            m_pKeyboard{ std::move<>(pKeyboard) },
+            m_pMouse{ std::move<>(pMouse) },
+            m_pWndClassEx_{ std::move<>(pWndClassEx) },
             mc_client_size_{ .m_width = clientDimensions.m_width, .m_height = clientDimensions.m_height },
             /////////////////////
 #pragma region (thread w/o C4355)
@@ -51,44 +59,23 @@ export namespace fatpound::win32
             auto future = DispatchTaskToQueue_<false>(
                 [=, this]() -> void
                 {
-                    constexpr DWORD exStyles{};
-
-                    constexpr DWORD styles
-                    {
-                        WS_VISIBLE
-
 #if IN_DEBUG or IS_GFX_FRAMEWORK
 
-                        bitor WS_CAPTION
-                        bitor WS_MINIMIZEBOX
-                        bitor WS_OVERLAPPED
-                        bitor WS_SYSMENU
-                    };
-
-                    RECT rect{
+                    ::RECT rect
+                    {
                         .left   = 0L,
                         .top    = 0L,
                         .right  = rect.left + static_cast<LONG>(mc_client_size_.m_width),
                         .bottom = rect.top  + static_cast<LONG>(mc_client_size_.m_height)
                     };
 
+                    if (const auto& retval = ::AdjustWindowRectEx(&rect, styles, false, exStyles); retval == 0)
                     {
-                        [[maybe_unused]]
-                        const auto&& retval = ::AdjustWindowRectEx(&rect, styles, false, exStyles);
+                        throw std::runtime_error("Error occured when adjusting RECT");
                     }
-#else
-                        bitor WS_POPUP
-                    };
 
 #endif
-
-                    const auto hModule = ::GetModuleHandle(nullptr);
-
-                    if (hModule == nullptr)
-                    {
-                        throw std::runtime_error("Error occured when obtaining hModule!");
-                    }
-
+                    
                     m_hWnd_ = ::CreateWindowEx(
                         exStyles,
                         MAKEINTATOM(m_pWndClassEx_->GetAtom()),
@@ -109,7 +96,7 @@ export namespace fatpound::win32
 
                         nullptr,
                         nullptr,
-                        hModule,
+                        ModuleHandleOf(),
                         this
                     );
 
@@ -181,8 +168,8 @@ export namespace fatpound::win32
 
 
     public:
-        std::shared_ptr<FATSPACE_IO::Mouse>    m_pMouse;
         std::shared_ptr<FATSPACE_IO::Keyboard> m_pKeyboard;
+        std::shared_ptr<FATSPACE_IO::Mouse>    m_pMouse;
 
 
     protected:
@@ -401,9 +388,7 @@ export namespace fatpound::win32
     private:
         void NotifyTaskDispatch_() const
         {
-            const auto&& retval = ::PostMessage(m_hWnd_, scx_customTaskMsgId_, 0U, 0);
-
-            if (retval == 0)
+            if (const auto& retval = ::PostMessage(m_hWnd_, scx_customTaskMsgId_, 0U, 0); retval == 0)
             {
                 throw std::runtime_error{ "Failed to post task notification message!" };
             }

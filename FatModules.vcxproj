@@ -72,6 +72,7 @@
     <ClCompile Include="Util\Surface.ixx" />
     <ClCompile Include="Util\Timer.ixx" />
     <ClCompile Include="Util\Util.ixx" />
+    <ClCompile Include="Win32_\Common.ixx" />
     <ClCompile Include="Win32_\COM\COM.ixx" />
     <ClCompile Include="Win32_\COM\Manager.ixx" />
     <ClCompile Include="Win32_\D2D\D2D.ixx" />
