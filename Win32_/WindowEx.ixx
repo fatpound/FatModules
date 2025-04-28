@@ -270,7 +270,7 @@ export namespace fatpound::win32
 
 
     protected:
-        FAT_FORCEINLINE void Process_WM_MOUSEMOVE_  (const WPARAM wParam, const LPARAM lParam)
+        FAT_FORCEINLINE void Process_WM_MOUSEMOVE_  (const WPARAM& wParam, const LPARAM& lParam)
         {
             const POINTS pt = MAKEPOINTS(lParam);
 
@@ -325,7 +325,7 @@ export namespace fatpound::win32
         {
             m_pMouse->AddWheelReleaseEvent();
         }
-        FAT_FORCEINLINE void Process_WM_MOUSEWHEEL_ (const int delta)
+        FAT_FORCEINLINE void Process_WM_MOUSEWHEEL_ (const int& delta)
         {
             m_pMouse->ProcessWheelDelta(delta);
         }
@@ -334,30 +334,30 @@ export namespace fatpound::win32
         {
             m_pKeyboard->ClearKeyStateBitset();
         }
-        FAT_FORCEINLINE void Process_WM_KEYDOWN_   (const WPARAM wParam, const LPARAM lParam)
+        FAT_FORCEINLINE void Process_WM_KEYDOWN_   (const WPARAM& wParam, const LPARAM& lParam)
         {
             Process_WM_SYSKEYDOWN_(wParam, lParam);
         }
-        FAT_FORCEINLINE void Process_WM_SYSKEYDOWN_(const WPARAM wParam, const LPARAM lParam)
+        FAT_FORCEINLINE void Process_WM_SYSKEYDOWN_(const WPARAM& wParam, const LPARAM& lParam)
         {
             if ((not (lParam bitand 0x40000000)) or m_pKeyboard->AutoRepeatIsEnabled())
             {
                 m_pKeyboard->AddKeyPressEvent(static_cast<unsigned char>(wParam));
             }
         }
-        FAT_FORCEINLINE void Process_WM_KEYUP_     (const WPARAM wParam)
+        FAT_FORCEINLINE void Process_WM_KEYUP_     (const WPARAM& wParam)
         {
             Process_WM_SYSKEYUP_(wParam);
         }
-        FAT_FORCEINLINE void Process_WM_SYSKEYUP_  (const WPARAM wParam)
+        FAT_FORCEINLINE void Process_WM_SYSKEYUP_  (const WPARAM& wParam)
         {
             m_pKeyboard->AddKeyReleaseEvent(static_cast<unsigned char>(wParam));
         }
-        FAT_FORCEINLINE void Process_WM_CHAR_      (const WPARAM wParam)
+        FAT_FORCEINLINE void Process_WM_CHAR_      (const WPARAM& wParam)
         {
             m_pKeyboard->AddChar(static_cast<unsigned char>(wParam));
         }
-        FAT_FORCEINLINE void Process_WM_SYSCOMMAND_(const WPARAM wParam) noexcept
+        FAT_FORCEINLINE void Process_WM_SYSCOMMAND_(const WPARAM& wParam) noexcept
         {
             if ((wParam bitand 0xFFF0U) == SC_CLOSE)
             {
