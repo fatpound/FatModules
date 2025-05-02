@@ -2,6 +2,24 @@ module;
 
 #include <FatDefines.hpp>
 
+#define MEM_FUNCPTR_TYPE(PQUAL) R(C::* PQUAL)(Args...)
+
+#define V_INHERIT(PQUAL, FQS) virtual FunctionInfo< MEM_FUNCPTR_TYPE(PQUAL) FQS >
+
+#define FAT_FUNC_INFO_GENERATOR1(PQUAL, ...)                         \
+template <typename C, typename R, typename... Args>                  \
+struct FAT_EBCO FunctionInfo< MEM_FUNCPTR_TYPE(PQUAL) __VA_ARGS__ >
+
+#define FAT_FUNC_INFO_GENERATOR2(PQUAL, ...)                         \
+    :                                                                \
+    __VA_ARGS__                                                      
+                                                                     
+#define FAT_FUNC_INFO_GENERATOR3(PQUAL, ...)                         \
+{                                                                    \
+    using CallablePtr_t = MEM_FUNCPTR_TYPE(PQUAL) __VA_ARGS__;       \
+};
+
+
 export module FatPound.Traits.Callable;
 
 import std;
@@ -93,160 +111,76 @@ export namespace fatpound::traits
     };
     /////////////////////////////////////////////////////////////////////////////
 
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::*)(Args...) const volatile>
-        :
-        virtual FunctionInfo<R(C::*)(Args...) const>,
-        virtual FunctionInfo<R(C::*)(Args...) volatile>
-    {
-        using CallablePtr_t = R(C::*)(Args...) const volatile;
-    };
+#pragma warning (push)
+#pragma warning (disable : 4003)
 
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::*)(Args...) const &>
-        :
-        virtual FunctionInfo<R(C::*)(Args...) const>,
-        virtual FunctionInfo<R(C::*)(Args...) &>
-    {
-        using CallablePtr_t = R(C::*)(Args...) const &;
-    };
+#define FAT_FUNC_INFO_GENERATOR(PQUAL)                                                                                                     \
+                                                                                                                                           \
+    FAT_FUNC_INFO_GENERATOR1(PQUAL, const volatile)                                                                                        \
+    FAT_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, volatile))                                                   \
+    FAT_FUNC_INFO_GENERATOR3(PQUAL, const volatile)                                                                                        \
+                                                                                                                                           \
+    FAT_FUNC_INFO_GENERATOR1(PQUAL, const &)                                                                                               \
+    FAT_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, &))                                                          \
+    FAT_FUNC_INFO_GENERATOR3(PQUAL, const &)                                                                                               \
+                                                                                                                                           \
+    FAT_FUNC_INFO_GENERATOR1(PQUAL, const &&)                                                                                              \
+    FAT_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, &&))                                                         \
+    FAT_FUNC_INFO_GENERATOR3(PQUAL, const &&)                                                                                              \
+                                                                                                                                           \
+    FAT_FUNC_INFO_GENERATOR1(PQUAL, volatile &)                                                                                            \
+    FAT_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &))                                                       \
+    FAT_FUNC_INFO_GENERATOR3(PQUAL, volatile &)                                                                                            \
+                                                                                                                                           \
+    FAT_FUNC_INFO_GENERATOR1(PQUAL, volatile &&)                                                                                           \
+    FAT_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &&))                                                      \
+    FAT_FUNC_INFO_GENERATOR3(PQUAL, volatile &&)                                                                                           \
+                                                                                                                                           \
+    FAT_FUNC_INFO_GENERATOR1(PQUAL, const volatile &)                                                                                      \
+    FAT_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &))                              \
+    FAT_FUNC_INFO_GENERATOR3(PQUAL, const volatile &)                                                                                      \
+                                                                                                                                           \
+    FAT_FUNC_INFO_GENERATOR1(PQUAL, const volatile &&)                                                                                     \
+    FAT_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &&))                             \
+    FAT_FUNC_INFO_GENERATOR3(PQUAL, const volatile &&)                                                                                     \
+                                                                                                                                           \
+    FAT_FUNC_INFO_GENERATOR1(PQUAL, const noexcept)                                                                                        \
+    FAT_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, noexcept))                                                   \
+    FAT_FUNC_INFO_GENERATOR3(PQUAL, const noexcept)                                                                                        \
+                                                                                                                                           \
+    FAT_FUNC_INFO_GENERATOR1(PQUAL, volatile noexcept)                                                                                     \
+    FAT_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, noexcept))                                                \
+    FAT_FUNC_INFO_GENERATOR3(PQUAL, volatile noexcept)                                                                                     \
+                                                                                                                                           \
+    FAT_FUNC_INFO_GENERATOR1(PQUAL, const volatile noexcept)                                                                               \
+    FAT_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, noexcept))                       \
+    FAT_FUNC_INFO_GENERATOR3(PQUAL, const volatile noexcept)                                                                               \
+                                                                                                                                           \
+    FAT_FUNC_INFO_GENERATOR1(PQUAL, const & noexcept)                                                                                      \
+    FAT_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, &), V_INHERIT(PQUAL, noexcept))                              \
+    FAT_FUNC_INFO_GENERATOR3(PQUAL, const & noexcept)                                                                                      \
+                                                                                                                                           \
+    FAT_FUNC_INFO_GENERATOR1(PQUAL, const && noexcept)                                                                                     \
+    FAT_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, &&), V_INHERIT(PQUAL, noexcept))                             \
+    FAT_FUNC_INFO_GENERATOR3(PQUAL, const && noexcept)                                                                                     \
+                                                                                                                                           \
+    FAT_FUNC_INFO_GENERATOR1(PQUAL, volatile & noexcept)                                                                                   \
+    FAT_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &), V_INHERIT(PQUAL, noexcept))                           \
+    FAT_FUNC_INFO_GENERATOR3(PQUAL, volatile & noexcept)                                                                                   \
+                                                                                                                                           \
+    FAT_FUNC_INFO_GENERATOR1(PQUAL, volatile && noexcept)                                                                                  \
+    FAT_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &&), V_INHERIT(PQUAL, noexcept))                          \
+    FAT_FUNC_INFO_GENERATOR3(PQUAL, volatile && noexcept)                                                                                  \
+                                                                                                                                           \
+    FAT_FUNC_INFO_GENERATOR1(PQUAL, const volatile & noexcept)                                                                             \
+    FAT_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &), V_INHERIT(PQUAL, noexcept))  \
+    FAT_FUNC_INFO_GENERATOR3(PQUAL, const volatile & noexcept)                                                                             \
+                                                                                                                                           \
+    FAT_FUNC_INFO_GENERATOR1(PQUAL, const volatile && noexcept)                                                                            \
+    FAT_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &&), V_INHERIT(PQUAL, noexcept)) \
+    FAT_FUNC_INFO_GENERATOR3(PQUAL, const volatile && noexcept)
 
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::*)(Args...) const &&>
-        :
-        virtual FunctionInfo<R(C::*)(Args...) const>,
-        virtual FunctionInfo<R(C::*)(Args...) &&>
-    {
-        using CallablePtr_t = R(C::*)(Args...) const &&;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::*)(Args...) volatile &>
-        :
-        virtual FunctionInfo<R(C::*)(Args...) volatile>,
-        virtual FunctionInfo<R(C::*)(Args...) &>
-    {
-        using CallablePtr_t = R(C::*)(Args...) volatile &;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::*)(Args...) volatile &&>
-        :
-        virtual FunctionInfo<R(C::*)(Args...) volatile>,
-        virtual FunctionInfo<R(C::*)(Args...) &&>
-    {
-        using CallablePtr_t = R(C::*)(Args...) volatile &&;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::*)(Args...) const volatile &>
-        :
-        virtual FunctionInfo<R(C::*)(Args...) const>,
-        virtual FunctionInfo<R(C::*)(Args...) volatile>,
-        virtual FunctionInfo<R(C::*)(Args...) &>
-    {
-        using CallablePtr_t = R(C::*)(Args...) const volatile &;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::*)(Args...) const volatile &&>
-        :
-        virtual FunctionInfo<R(C::*)(Args...) const>,
-        virtual FunctionInfo<R(C::*)(Args...) volatile>,
-        virtual FunctionInfo<R(C::*)(Args...) &&>
-    {
-        using CallablePtr_t = R(C::*)(Args...) const volatile &&;
-    };
-    
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::*)(Args...) const noexcept>
-        :
-        virtual FunctionInfo<R(C::*)(Args...) const>,
-        virtual FunctionInfo<R(C::*)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::*)(Args...) const noexcept;
-    };
-    
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::*)(Args...) volatile noexcept>
-        :
-        virtual FunctionInfo<R(C::*)(Args...) volatile>,
-        virtual FunctionInfo<R(C::*)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::*)(Args...) volatile noexcept;
-    };
-    
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::*)(Args...) const volatile noexcept>
-        :
-        virtual FunctionInfo<R(C::*)(Args...) const>,
-        virtual FunctionInfo<R(C::*)(Args...) volatile>,
-        virtual FunctionInfo<R(C::*)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::*)(Args...) const volatile noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::*)(Args...) const & noexcept>
-        :
-        virtual FunctionInfo<R(C::*)(Args...) const>,
-        virtual FunctionInfo<R(C::*)(Args...) &>,
-        virtual FunctionInfo<R(C::*)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::*)(Args...) const & noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::*)(Args...) const && noexcept>
-        :
-        virtual FunctionInfo<R(C::*)(Args...) const>,
-        virtual FunctionInfo<R(C::*)(Args...) &&>,
-        virtual FunctionInfo<R(C::*)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::*)(Args...) const && noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::*)(Args...) volatile & noexcept>
-        :
-        virtual FunctionInfo<R(C::*)(Args...) volatile>,
-        virtual FunctionInfo<R(C::*)(Args...) &>,
-        virtual FunctionInfo<R(C::*)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::*)(Args...) volatile & noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::*)(Args...) volatile && noexcept>
-        :
-        virtual FunctionInfo<R(C::*)(Args...) volatile>,
-        virtual FunctionInfo<R(C::*)(Args...) &&>,
-        virtual FunctionInfo<R(C::*)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::*)(Args...) volatile && noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::*)(Args...) const volatile & noexcept>
-        :
-        virtual FunctionInfo<R(C::*)(Args...) const>,
-        virtual FunctionInfo<R(C::*)(Args...) volatile>,
-        virtual FunctionInfo<R(C::*)(Args...) &>,
-        virtual FunctionInfo<R(C::*)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::*)(Args...) const volatile & noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::*)(Args...) const volatile && noexcept>
-        :
-        virtual FunctionInfo<R(C::*)(Args...) const>,
-        virtual FunctionInfo<R(C::*)(Args...) volatile>,
-        virtual FunctionInfo<R(C::*)(Args...) &&>,
-        virtual FunctionInfo<R(C::*)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::*)(Args...) const volatile && noexcept;
-    };
+    FAT_FUNC_INFO_GENERATOR()
 
     /// with cvr-qualified member function pointers
 
@@ -287,160 +221,7 @@ export namespace fatpound::traits
     };
     /////////////////////////////////////////////////////////////////////////////
 
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const)(Args...) const volatile>
-        :
-        virtual FunctionInfo<R(C::* const)(Args...) const>,
-        virtual FunctionInfo<R(C::* const)(Args...) volatile>
-    {
-        using CallablePtr_t = R(C::* const)(Args...) const volatile;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const)(Args...) const &>
-        :
-        virtual FunctionInfo<R(C::* const)(Args...) const>,
-        virtual FunctionInfo<R(C::* const)(Args...) &>
-    {
-        using CallablePtr_t = R(C::* const)(Args...) const &;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const)(Args...) const &&>
-        :
-        virtual FunctionInfo<R(C::* const)(Args...) const>,
-        virtual FunctionInfo<R(C::* const)(Args...) &&>
-    {
-        using CallablePtr_t = R(C::* const)(Args...) const &&;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const)(Args...) volatile &>
-        :
-        virtual FunctionInfo<R(C::* const)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const)(Args...) &>
-    {
-        using CallablePtr_t = R(C::* const)(Args...) volatile &;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const)(Args...) volatile &&>
-        :
-        virtual FunctionInfo<R(C::* const)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const)(Args...) &&>
-    {
-        using CallablePtr_t = R(C::* const)(Args...) volatile &&;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const)(Args...) const volatile &>
-        :
-        virtual FunctionInfo<R(C::* const)(Args...) const>,
-        virtual FunctionInfo<R(C::* const)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const)(Args...) &>
-    {
-        using CallablePtr_t = R(C::* const)(Args...) const volatile &;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const)(Args...) const volatile &&>
-        :
-        virtual FunctionInfo<R(C::* const)(Args...) const>,
-        virtual FunctionInfo<R(C::* const)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const)(Args...) &&>
-    {
-        using CallablePtr_t = R(C::* const)(Args...) const volatile &&;
-    };
-    
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const)(Args...) const noexcept>
-        :
-        virtual FunctionInfo<R(C::* const)(Args...) const>,
-        virtual FunctionInfo<R(C::* const)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* const)(Args...) const noexcept;
-    };
-    
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const)(Args...) volatile noexcept>
-        :
-        virtual FunctionInfo<R(C::* const)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* const)(Args...) volatile noexcept;
-    };
-    
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const)(Args...) const volatile noexcept>
-        :
-        virtual FunctionInfo<R(C::* const)(Args...) const>,
-        virtual FunctionInfo<R(C::* const)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* const)(Args...) const volatile noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const)(Args...) const & noexcept>
-        :
-        virtual FunctionInfo<R(C::* const)(Args...) const>,
-        virtual FunctionInfo<R(C::* const)(Args...) &>,
-        virtual FunctionInfo<R(C::* const)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* const)(Args...) const & noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const)(Args...) const && noexcept>
-        :
-        virtual FunctionInfo<R(C::* const)(Args...) const>,
-        virtual FunctionInfo<R(C::* const)(Args...) &&>,
-        virtual FunctionInfo<R(C::* const)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* const)(Args...) const && noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const)(Args...) volatile & noexcept>
-        :
-        virtual FunctionInfo<R(C::* const)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const)(Args...) &>,
-        virtual FunctionInfo<R(C::* const)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* const)(Args...) volatile & noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const)(Args...) volatile && noexcept>
-        :
-        virtual FunctionInfo<R(C::* const)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const)(Args...) &&>,
-        virtual FunctionInfo<R(C::* const)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* const)(Args...) volatile && noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const)(Args...) const volatile & noexcept>
-        :
-        virtual FunctionInfo<R(C::* const)(Args...) const>,
-        virtual FunctionInfo<R(C::* const)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const)(Args...) &>,
-        virtual FunctionInfo<R(C::* const)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* const)(Args...) const volatile & noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const)(Args...) const volatile && noexcept>
-        :
-        virtual FunctionInfo<R(C::* const)(Args...) const>,
-        virtual FunctionInfo<R(C::* const)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const)(Args...) &&>,
-        virtual FunctionInfo<R(C::* const)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* const)(Args...) const volatile && noexcept;
-    };
+    FAT_FUNC_INFO_GENERATOR(const)
 
     /////////////////////////////////////////////////////////////////////////////
     template <typename C, typename R, typename... Args>
@@ -479,160 +260,7 @@ export namespace fatpound::traits
     };
     /////////////////////////////////////////////////////////////////////////////
 
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* volatile)(Args...) const volatile>
-        :
-        virtual FunctionInfo<R(C::* volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) volatile>
-    {
-        using CallablePtr_t = R(C::* volatile)(Args...) const volatile;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* volatile)(Args...) const &>
-        :
-        virtual FunctionInfo<R(C::* volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) &>
-    {
-        using CallablePtr_t = R(C::* volatile)(Args...) const &;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* volatile)(Args...) const &&>
-        :
-        virtual FunctionInfo<R(C::* volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) &&>
-    {
-        using CallablePtr_t = R(C::* volatile)(Args...) const &&;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* volatile)(Args...) volatile &>
-        :
-        virtual FunctionInfo<R(C::* volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) &>
-    {
-        using CallablePtr_t = R(C::* volatile)(Args...) volatile &;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* volatile)(Args...) volatile &&>
-        :
-        virtual FunctionInfo<R(C::* volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) &&>
-    {
-        using CallablePtr_t = R(C::* volatile)(Args...) volatile &&;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* volatile)(Args...) const volatile &>
-        :
-        virtual FunctionInfo<R(C::* volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) &>
-    {
-        using CallablePtr_t = R(C::* volatile)(Args...) const volatile &;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* volatile)(Args...) const volatile &&>
-        :
-        virtual FunctionInfo<R(C::* volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) &&>
-    {
-        using CallablePtr_t = R(C::* volatile)(Args...) const volatile &&;
-    };
-    
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* volatile)(Args...) const noexcept>
-        :
-        virtual FunctionInfo<R(C::* volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* volatile)(Args...) const noexcept;
-    };
-    
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* volatile)(Args...) volatile noexcept>
-        :
-        virtual FunctionInfo<R(C::* volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* volatile)(Args...) volatile noexcept;
-    };
-    
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* volatile)(Args...) const volatile noexcept>
-        :
-        virtual FunctionInfo<R(C::* volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* volatile)(Args...) const volatile noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* volatile)(Args...) const & noexcept>
-        :
-        virtual FunctionInfo<R(C::* volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) &>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* volatile)(Args...) const & noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* volatile)(Args...) const && noexcept>
-        :
-        virtual FunctionInfo<R(C::* volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) &&>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* volatile)(Args...) const && noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* volatile)(Args...) volatile & noexcept>
-        :
-        virtual FunctionInfo<R(C::* volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) &>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* volatile)(Args...) volatile & noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* volatile)(Args...) volatile && noexcept>
-        :
-        virtual FunctionInfo<R(C::* volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) &&>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* volatile)(Args...) volatile && noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* volatile)(Args...) const volatile & noexcept>
-        :
-        virtual FunctionInfo<R(C::* volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) &>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* volatile)(Args...) const volatile & noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* volatile)(Args...) const volatile && noexcept>
-        :
-        virtual FunctionInfo<R(C::* volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) &&>,
-        virtual FunctionInfo<R(C::* volatile)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* volatile)(Args...) const volatile && noexcept;
-    };
+    FAT_FUNC_INFO_GENERATOR(volatile)
 
     /////////////////////////////////////////////////////////////////////////////
     template <typename C, typename R, typename... Args>
@@ -671,160 +299,9 @@ export namespace fatpound::traits
     };
     /////////////////////////////////////////////////////////////////////////////
 
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const volatile)(Args...) const volatile>
-        :
-        virtual FunctionInfo<R(C::* const volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) volatile>
-    {
-        using CallablePtr_t = R(C::* const volatile)(Args...) const volatile;
-    };
+    FAT_FUNC_INFO_GENERATOR(const volatile)
 
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const volatile)(Args...) const &>
-        :
-        virtual FunctionInfo<R(C::* const volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) &>
-    {
-        using CallablePtr_t = R(C::* const volatile)(Args...) const &;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const volatile)(Args...) const &&>
-        :
-        virtual FunctionInfo<R(C::* const volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) &&>
-    {
-        using CallablePtr_t = R(C::* const volatile)(Args...) const &&;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const volatile)(Args...) volatile &>
-        :
-        virtual FunctionInfo<R(C::* const volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) &>
-    {
-        using CallablePtr_t = R(C::* const volatile)(Args...) volatile &;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const volatile)(Args...) volatile &&>
-        :
-        virtual FunctionInfo<R(C::* const volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) &&>
-    {
-        using CallablePtr_t = R(C::* const volatile)(Args...) volatile &&;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const volatile)(Args...) const volatile &>
-        :
-        virtual FunctionInfo<R(C::* const volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) &>
-    {
-        using CallablePtr_t = R(C::* const volatile)(Args...) const volatile &;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const volatile)(Args...) const volatile &&>
-        :
-        virtual FunctionInfo<R(C::* const volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) &&>
-    {
-        using CallablePtr_t = R(C::* const volatile)(Args...) const volatile &&;
-    };
-    
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const volatile)(Args...) const noexcept>
-        :
-        virtual FunctionInfo<R(C::* const volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* const volatile)(Args...) const noexcept;
-    };
-    
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const volatile)(Args...) volatile noexcept>
-        :
-        virtual FunctionInfo<R(C::* const volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* const volatile)(Args...) volatile noexcept;
-    };
-    
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const volatile)(Args...) const volatile noexcept>
-        :
-        virtual FunctionInfo<R(C::* const volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* const volatile)(Args...) const volatile noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const volatile)(Args...) const & noexcept>
-        :
-        virtual FunctionInfo<R(C::* const volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) &>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* const volatile)(Args...) const & noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const volatile)(Args...) const && noexcept>
-        :
-        virtual FunctionInfo<R(C::* const volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) &&>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* const volatile)(Args...) const && noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const volatile)(Args...) volatile & noexcept>
-        :
-        virtual FunctionInfo<R(C::* const volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) &>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* const volatile)(Args...) volatile & noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const volatile)(Args...) volatile && noexcept>
-        :
-        virtual FunctionInfo<R(C::* const volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) &&>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* const volatile)(Args...) volatile && noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const volatile)(Args...) const volatile & noexcept>
-        :
-        virtual FunctionInfo<R(C::* const volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) &>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* const volatile)(Args...) const volatile & noexcept;
-    };
-
-    template <typename C, typename R, typename... Args>
-    struct FAT_EBCO FunctionInfo<R(C::* const volatile)(Args...) const volatile && noexcept>
-        :
-        virtual FunctionInfo<R(C::* const volatile)(Args...) const>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) volatile>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) &&>,
-        virtual FunctionInfo<R(C::* const volatile)(Args...) noexcept>
-    {
-        using CallablePtr_t = R(C::* const volatile)(Args...) const volatile && noexcept;
-    };
+#pragma warning (pop)
 
     template <typename T>
     concept Callable = std::invocable<T>;
