@@ -19,7 +19,6 @@ struct FAT_EBCO FunctionInfo< MEM_FUNCPTR_TYPE(PQUAL) __VA_ARGS__ >
     using CallablePtr_t = MEM_FUNCPTR_TYPE(PQUAL) __VA_ARGS__;       \
 };
 
-
 export module FatPound.Traits.Callable;
 
 import std;
