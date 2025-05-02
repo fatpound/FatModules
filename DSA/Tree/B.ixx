@@ -1,10 +1,10 @@
 module;
 
-export module FatPound.DSA.Tree.N_ary.B;
+export module FatPound.DSA.Tree.B;
 
 import std;
 
-export namespace fatpound::dsa::tree::n_ary
+export namespace fatpound::dsa::tree
 {
     template <std::totally_ordered T, std::size_t C>
     class B final

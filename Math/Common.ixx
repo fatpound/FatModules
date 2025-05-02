@@ -4,8 +4,8 @@ module;
 
 export module FatPound.Math.Common;
 
-import FatPound.Bitwise.Concepts;
 import FatPound.Math.Multiplicative;
+import FatPound.Traits.Bitwise;
 
 import std;
 
@@ -72,7 +72,7 @@ export namespace fatpound::math
         return DigitSum<std::make_unsigned_t<T>>(num < 0 ? (-num) : num);
     }
 
-    template <bitwise::IntegralOrFloating T>
+    template <traits::IntegralOrFloating T>
     constexpr auto Gaussian(const T& x, const T& rho)
     {
         const auto rhoSq2 = Square<>(rho) * 2.0;

@@ -17,6 +17,12 @@
     #error unsupported compiler detected
 #endif
 
+#ifdef _MSC_VER
+    #define FAT_EBCO __declspec(empty_bases)
+#else
+    #define FAT_EBCO
+#endif
+
 #include <version>
 
 #ifdef __cpp_lib_constexpr_cmath

@@ -6,21 +6,21 @@ import std;
 
 namespace fatpound::file
 {
-    void EncryptDecrypt_Impl     (const std::filesystem::path& in_path, const std::size_t& key, std::filesystem::path& out_path)
+    void EncryptDecrypt_Impl    (const std::filesystem::path& inPath, const std::size_t& key, std::filesystem::path& outPath)
     {
-        std::ifstream inputFile(in_path, std::ios::binary);
+        std::ifstream inputFile(inPath, std::ios::binary);
 
         if (not inputFile.is_open())
         {
             throw std::runtime_error("Input file cannot be opened!");
         }
 
-        if (out_path.empty() or in_path == out_path)
+        if (outPath.empty() or inPath == outPath)
         {
-            out_path = std::filesystem::temp_directory_path().string() + in_path.stem().string() + "_temp.fat000";
+            outPath = std::filesystem::temp_directory_path().string() + inPath.stem().string() + "_temp.fat000";
         }
 
-        std::ofstream outputFile(out_path, std::ios::binary);
+        std::ofstream outputFile(outPath, std::ios::binary);
 
         if (not outputFile.is_open())
         {
@@ -42,7 +42,7 @@ namespace fatpound::file
 
     export
     {
-        auto GetNameAndExtension (const std::filesystem::path& path) -> std::pair<std::string, std::string>
+        auto NameAndExtensionOf (const std::filesystem::path& path) -> std::pair<std::string, std::string>
         {
             if (not std::filesystem::exists(path))
             {
@@ -55,18 +55,18 @@ namespace fatpound::file
             };
         }
 
-        void EncryptDecrypt      (const std::filesystem::path& in_path, const std::size_t& key, std::filesystem::path out_path = {})
+        void EncryptDecrypt     (const std::filesystem::path& inPath, const std::size_t& key, std::filesystem::path outPath = {})
         {
-            EncryptDecrypt_Impl(in_path, key, out_path);
+            EncryptDecrypt_Impl(inPath, key, outPath);
 
-            std::filesystem::remove(in_path);
-            std::filesystem::rename(out_path, in_path);
+            std::filesystem::remove(inPath);
+            std::filesystem::rename(outPath, inPath);
         }
-        void EncryptDecrypt_Dir  (const std::filesystem::path& in_path, const std::size_t& key, bool recurse = false)
+        void EncryptDecrypt_Dir (const std::filesystem::path& inPath, const std::size_t& key, const bool& recurse = false)
         {
             namespace fs = std::filesystem;
 
-            if (not fs::is_directory(in_path))
+            if (not fs::is_directory(inPath))
             {
                 throw std::runtime_error("Input path is NOT a directory!");
             }
@@ -85,8 +85,8 @@ namespace fatpound::file
                     }
                 },
                 recurse
-                    ? DirIt{ fs::recursive_directory_iterator{ in_path, fs::directory_options::skip_permission_denied } }
-                    : DirIt{ fs::directory_iterator          { in_path, fs::directory_options::skip_permission_denied } }
+                    ? DirIt{ fs::recursive_directory_iterator{ inPath, fs::directory_options::skip_permission_denied } }
+                    : DirIt{ fs::directory_iterator          { inPath, fs::directory_options::skip_permission_denied } }
             );
         }
     }

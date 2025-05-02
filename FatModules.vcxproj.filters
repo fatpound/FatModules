@@ -123,25 +123,19 @@
     <ClCompile Include="FatPound.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DSA\Tree\Binary\AVL.ixx">
+    <ClCompile Include="DSA\Tree\AVL.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DSA\Tree\Binary\Binary.ixx">
+    <ClCompile Include="DSA\Tree\BST.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DSA\Tree\Binary\BST.ixx">
+    <ClCompile Include="DSA\Tree\IPR.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DSA\Tree\Binary\IPR.ixx">
+    <ClCompile Include="DSA\Tree\B.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DSA\Tree\N_ary\B.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DSA\Tree\N_ary\B_Plus.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DSA\Tree\N_ary\N_ary.ixx">
+    <ClCompile Include="DSA\Tree\B_Plus.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DSA\Tree\Tree.ixx">
@@ -204,12 +198,6 @@
     <ClCompile Include="Util\Surface.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\WMF\WMF.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\WMF\Manager.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\COM\COM.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -255,12 +243,6 @@
     <ClCompile Include="Math\Geometry.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Bitwise\Concepts.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Bitwise\Bitwise.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Math\Numbers\Sets.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -274,6 +256,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\Common.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Traits\Traits.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Traits\Bitwise.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Traits\Callable.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

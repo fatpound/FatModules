@@ -1,13 +1,13 @@
 module;
 
-export module FatPound.DSA.Tree.Binary.IPR;
+export module FatPound.DSA.Tree.IPR;
 
-import FatPound.DSA.Tree.Binary.BST;
-import FatPound.DSA.Tree.Binary.AVL;
+import FatPound.DSA.Tree.BST;
+import FatPound.DSA.Tree.AVL;
 
 import std;
 
-export namespace fatpound::dsa::tree::binary
+export namespace fatpound::dsa::tree
 {
     template <std::totally_ordered T>
     class IPR final : public AVL<T>

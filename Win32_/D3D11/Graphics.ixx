@@ -19,7 +19,7 @@ export module FatPound.Win32.D3D11.Graphics;
 
 import <d3d11.h>;
 
-import FatPound.Bitwise.Concepts;
+import FatPound.Traits.Bitwise;
 import FatPound.Util.Color;
 import FatPound.Util.Surface;
 import FatPound.Util.Gfx;
@@ -50,7 +50,7 @@ export namespace fatpound::win32::d3d11
 
 
     public:
-        explicit Graphics(const HWND hWnd, const SizePack& dimensions)
+        explicit Graphics(const HWND& hWnd, const SizePack& dimensions)
             :
             mc_hWnd_(hWnd),
             mc_dimensions_{ dimensions }
@@ -62,7 +62,7 @@ export namespace fatpound::win32::d3d11
                 InitRasterizer_();
             }
         }
-        explicit Graphics(const HWND hWnd, const SizePack& dimensions)        requires(Framework)
+        explicit Graphics(const HWND& hWnd, const SizePack& dimensions)        requires(Framework)
             :
             m_res_pack_(dimensions),
             mc_hWnd_(hWnd),
@@ -71,7 +71,7 @@ export namespace fatpound::win32::d3d11
             InitCommon_();
             InitFramework_();
         }
-        explicit Graphics(const HWND hWnd, std::unique_ptr<Surface> pSurface) requires(Framework)
+        explicit Graphics(const HWND& hWnd, std::unique_ptr<Surface> pSurface) requires(Framework)
             :
             Graphics(hWnd, pSurface->GetSizePack())
         {
@@ -102,11 +102,11 @@ export namespace fatpound::win32::d3d11
 
 
     public:
-        template <bitwise::IntegralOrFloating T> [[nodiscard]] constexpr auto GetWidth () const noexcept -> T
+        template <traits::IntegralOrFloating T> [[nodiscard]] constexpr auto GetWidth () const noexcept -> T
         {
             return static_cast<T>(mc_dimensions_.m_width);
         }
-        template <bitwise::IntegralOrFloating T> [[nodiscard]] constexpr auto GetHeight() const noexcept -> T
+        template <traits::IntegralOrFloating T> [[nodiscard]] constexpr auto GetHeight() const noexcept -> T
         {
             return static_cast<T>(mc_dimensions_.m_height);
         }

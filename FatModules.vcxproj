@@ -26,7 +26,6 @@
     <ClCompile Include="Automata\CFG.ixx" />
     <ClCompile Include="Automata\TLT.ixx" />
     <ClCompile Include="Automata\TLT_v2.ixx" />
-    <ClCompile Include="Bitwise\Bitwise.ixx" />
     <ClCompile Include="Concurrency\Concurrency.ixx" />
     <ClCompile Include="Concurrency\TaskQueue.ixx" />
     <ClCompile Include="DSA\DSA.ixx" />
@@ -35,13 +34,11 @@
     <ClCompile Include="DSA\LinkedList\LinkedList.ixx" />
     <ClCompile Include="DSA\LinkedList\Singly.ixx" />
     <ClCompile Include="DSA\LinkedList\SinglyCircular.ixx" />
-    <ClCompile Include="DSA\Tree\Binary\AVL.ixx" />
-    <ClCompile Include="DSA\Tree\Binary\Binary.ixx" />
-    <ClCompile Include="DSA\Tree\Binary\BST.ixx" />
-    <ClCompile Include="DSA\Tree\Binary\IPR.ixx" />
-    <ClCompile Include="DSA\Tree\N_ary\B.ixx" />
-    <ClCompile Include="DSA\Tree\N_ary\B_Plus.ixx" />
-    <ClCompile Include="DSA\Tree\N_ary\N_ary.ixx" />
+    <ClCompile Include="DSA\Tree\AVL.ixx" />
+    <ClCompile Include="DSA\Tree\BST.ixx" />
+    <ClCompile Include="DSA\Tree\IPR.ixx" />
+    <ClCompile Include="DSA\Tree\B.ixx" />
+    <ClCompile Include="DSA\Tree\B_Plus.ixx" />
     <ClCompile Include="DSA\Tree\Tree.ixx" />
     <ClCompile Include="FatPound.ixx" />
     <ClCompile Include="File\File.ixx" />
@@ -50,13 +47,15 @@
     <ClCompile Include="Math\Geometry.ixx" />
     <ClCompile Include="Math\Math.ixx" />
     <ClCompile Include="Math\Multiplicative.ixx" />
-    <ClCompile Include="Bitwise\Concepts.ixx" />
     <ClCompile Include="Math\Numbers\Common.ixx" />
     <ClCompile Include="Math\Numbers\Numbers.ixx" />
     <ClCompile Include="Math\Numbers\Primes.ixx" />
     <ClCompile Include="Math\Numbers\Sets.ixx" />
     <ClCompile Include="Math\Rect.ixx" />
     <ClCompile Include="Random\Random.ixx" />
+    <ClCompile Include="Traits\Bitwise.ixx" />
+    <ClCompile Include="Traits\Callable.ixx" />
+    <ClCompile Include="Traits\Traits.ixx" />
     <ClCompile Include="Util\Color.ixx" />
     <ClCompile Include="Util\Common.ixx" />
     <ClCompile Include="Util\Gfx\FullScreenQuad.ixx" />
@@ -106,8 +105,6 @@
     <ClCompile Include="Win32_\IWindow.ixx" />
     <ClCompile Include="Win32_\Win32.ixx" />
     <ClCompile Include="Win32_\WindowEx.ixx" />
-    <ClCompile Include="Win32_\WMF\Manager.ixx" />
-    <ClCompile Include="Win32_\WMF\WMF.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FatDefines.hpp" />

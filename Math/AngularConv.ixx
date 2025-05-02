@@ -4,7 +4,7 @@ export module FatPound.Math.AngularConv;
 
 import std;
 
-export namespace fatpound::math::inline angular_conv
+export namespace fatpound::math
 {
     template <std::floating_point FP = double, std::convertible_to<FP> T> constexpr auto DegToMOA(const T& deg) -> FP
     {

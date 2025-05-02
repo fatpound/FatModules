@@ -2,13 +2,13 @@ module;
 
 export module FatPound.Math.Rect;
 
-import FatPound.Bitwise.Concepts;
+import FatPound.Traits.Bitwise;
 
 import std;
 
 export namespace fatpound::math
 {
-    template <bitwise::IntegralOrFloating T>
+    template <traits::IntegralOrFloating T>
     class Rect final
     {
     public:

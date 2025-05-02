@@ -33,7 +33,7 @@ export namespace fatpound::util::gfx
         return pDXGIFactory;
     }
 
-    void ToggleDXGI_AltEnterMode(ID3D11Device* const pDevice, const HWND hWnd, UINT& flag)
+    void ToggleDXGI_AltEnterMode(ID3D11Device* const pDevice, const HWND& hWnd, UINT& flag)
     {
         static constexpr auto magicVal = static_cast<UINT>(DXGI_MWA_NO_ALT_ENTER);
 

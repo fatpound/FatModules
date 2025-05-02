@@ -13,9 +13,9 @@ export module FatPound.Win32.WindowEx;
 
 #if FAT_BUILDING_WITH_MSVC
 
-import FatPound.Bitwise.Concepts;
 import FatPound.Concurrency;
 import FatPound.IO;
+import FatPound.Traits.Bitwise;
 import FatPound.Util.Gfx.SizePack;
 import FatPound.Win32.Common;
 import FatPound.Win32.IWindow;
@@ -157,11 +157,11 @@ export namespace fatpound::win32
 
 
     public:
-        template <bitwise::IntegralOrFloating T> FAT_FORCEINLINE auto GetClientWidth()  const noexcept -> T
+        template <traits::IntegralOrFloating T> FAT_FORCEINLINE auto GetClientWidth()  const noexcept -> T
         {
             return static_cast<T>(mc_client_size_.m_width);
         }
-        template <bitwise::IntegralOrFloating T> FAT_FORCEINLINE auto GetClientHeight() const noexcept -> T
+        template <traits::IntegralOrFloating T> FAT_FORCEINLINE auto GetClientHeight() const noexcept -> T
         {
             return static_cast<T>(mc_client_size_.m_height);
         }

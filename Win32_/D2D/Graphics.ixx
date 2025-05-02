@@ -17,7 +17,7 @@ export module FatPound.Win32.D2D.Graphics;
 
 #if FAT_BUILDING_WITH_MSVC
 
-import FatPound.Bitwise.Concepts;
+import FatPound.Traits.Bitwise;
 import FatPound.Util.Gfx.SizePack;
 
 import std;
@@ -30,7 +30,12 @@ export namespace fatpound::win32::d2d
     class Graphics final
     {
     public:
-        explicit Graphics(const HWND hWnd, const FATSPACE_UTIL_GFX::SizePack& dimensions)
+        using Color_t = D2D1_COLOR_F;
+        using Point_t = D2D1_POINT_2F;
+        
+
+    public:
+        explicit Graphics(const HWND& hWnd, const FATSPACE_UTIL_GFX::SizePack& dimensions)
             :
             mc_dimensions_(dimensions)
         {
@@ -69,11 +74,11 @@ export namespace fatpound::win32::d2d
 
 
     public:
-        template <bitwise::IntegralOrFloating T> FAT_FORCEINLINE constexpr auto GetWidth()  const noexcept -> T
+        template <traits::IntegralOrFloating T> FAT_FORCEINLINE constexpr auto GetWidth()  const noexcept -> T
         {
             return static_cast<T>(mc_dimensions_.m_width);
         }
-        template <bitwise::IntegralOrFloating T> FAT_FORCEINLINE constexpr auto GetHeight() const noexcept -> T
+        template <traits::IntegralOrFloating T> FAT_FORCEINLINE constexpr auto GetHeight() const noexcept -> T
         {
             return static_cast<T>(mc_dimensions_.m_height);
         }
@@ -97,16 +102,16 @@ export namespace fatpound::win32::d2d
 
 
     public:
-        void ClearScreen(const float r, const float g, const float b) noexcept
+        void ClearScreen(const float& r, const float& g, const float& b) noexcept
         {
             m_pRenderTarget_->Clear(D2D1::ColorF(r, g, b));
         }
 
-        void DrawLine(const D2D1_POINT_2F p0, const D2D1_POINT_2F p1) noexcept
+        void DrawLine(const Point_t& p0, const Point_t& p1) noexcept
         {
             m_pRenderTarget_->DrawLine(p0, p1, m_pBrush_.Get());
         }
-        void DrawLine(const D2D1_POINT_2F p0, const D2D1_POINT_2F p1, const D2D1_COLOR_F color) noexcept
+        void DrawLine(const Point_t& p0, const Point_t& p1, const Color_t& color) noexcept
         {
             m_pRenderTarget_->CreateSolidColorBrush(color, &m_pBrush_);
 
@@ -127,7 +132,7 @@ export namespace fatpound::win32::d2d
                 );
             }
         }
-        void DrawClosedPolyLine(const std::vector<dx::XMFLOAT2>& vertices, const D2D1_COLOR_F& color, dx::XMMATRIX transform) noexcept
+        void DrawClosedPolyLine(const std::vector<dx::XMFLOAT2>& vertices, const D2D1_COLOR_F& color, const dx::XMMATRIX& transform) noexcept
         {
             m_pRenderTarget_->CreateSolidColorBrush(color, &m_pBrush_);
 

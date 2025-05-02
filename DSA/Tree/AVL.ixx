@@ -1,12 +1,12 @@
 module;
 
-export module FatPound.DSA.Tree.Binary.AVL;
+export module FatPound.DSA.Tree.AVL;
 
-import FatPound.DSA.Tree.Binary.BST;
+import FatPound.DSA.Tree.BST;
 
 import std;
 
-export namespace fatpound::dsa::tree::binary
+export namespace fatpound::dsa::tree
 {
     template <std::totally_ordered T>
     class AVL : public BST<T>
