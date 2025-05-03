@@ -306,13 +306,7 @@ export namespace fatpound::traits
     concept Callable = std::invocable<T>;
 
     template <typename T>
-    struct FAT_EBCO HasFunctor
-    {
-        static constexpr bool value = Callable<T>;
-    };
-
-    template <typename T>
-    constexpr bool HasFunctor_v = HasFunctor<T>::value;
+    concept Functor = Callable<T> and std::is_object_v<T> and (std::is_class_v<T> or std::is_union_v<T>);
 }
 
 module : private;
