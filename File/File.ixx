@@ -6,7 +6,7 @@ import std;
 
 namespace fatpound::file
 {
-    void EncryptDecrypt_Impl    (const std::filesystem::path& inPath, const std::size_t& key, std::filesystem::path& outPath)
+    void EncryptDecrypt_Impl (const std::filesystem::path& inPath, const std::size_t& key, std::filesystem::path& outPath)
     {
         std::ifstream inputFile(inPath, std::ios::binary);
 
@@ -39,56 +39,57 @@ namespace fatpound::file
             }
         );
     }
+}
 
-    export
+export namespace fatpound::file
+{
+    auto NameAndExtensionOf  (const std::filesystem::path& path) -> std::pair<std::string, std::string>
     {
-        auto NameAndExtensionOf (const std::filesystem::path& path) -> std::pair<std::string, std::string>
+        if (not std::filesystem::exists(path))
         {
-            if (not std::filesystem::exists(path))
-            {
-                throw std::runtime_error("The file does not exist!");
-            }
-
-            return {
-                path.stem().string(),
-                path.extension().string()
-            };
+            throw std::runtime_error("The file does not exist!");
         }
 
-        void EncryptDecrypt     (const std::filesystem::path& inPath, const std::size_t& key, std::filesystem::path outPath = {})
+        return
         {
-            EncryptDecrypt_Impl(inPath, key, outPath);
+            path.stem().string(),
+            path.extension().string()
+        };
+    }
 
-            std::filesystem::remove(inPath);
-            std::filesystem::rename(outPath, inPath);
+    void EncryptDecrypt      (const std::filesystem::path& inPath, const std::size_t& key, std::filesystem::path outPath = {})
+    {
+        EncryptDecrypt_Impl(inPath, key, outPath);
+
+        std::filesystem::remove(inPath);
+        std::filesystem::rename(outPath, inPath);
+    }
+    void EncryptDecrypt_Dir  (const std::filesystem::path& inPath, const std::size_t& key, const bool& recurse = false)
+    {
+        namespace fs = std::filesystem;
+
+        if (not fs::is_directory(inPath))
+        {
+            throw std::runtime_error("Input path is NOT a directory!");
         }
-        void EncryptDecrypt_Dir (const std::filesystem::path& inPath, const std::size_t& key, const bool& recurse = false)
-        {
-            namespace fs = std::filesystem;
 
-            if (not fs::is_directory(inPath))
+        using DirIt = std::variant<fs::recursive_directory_iterator, fs::directory_iterator>;
+
+        std::visit<>(
+            [&key](auto&& it) -> void
             {
-                throw std::runtime_error("Input path is NOT a directory!");
-            }
-
-            using DirIt = std::variant<fs::recursive_directory_iterator, fs::directory_iterator>;
-
-            std::visit<>(
-                [&key](auto&& it) -> void
+                for (const auto& path : it)
                 {
-                    for (const auto& path : it)
+                    if (fs::is_regular_file(path))
                     {
-                        if (fs::is_regular_file(path))
-                        {
-                            EncryptDecrypt(path, key);
-                        }
+                        EncryptDecrypt(path, key);
                     }
-                },
-                recurse
-                    ? DirIt{ fs::recursive_directory_iterator{ inPath, fs::directory_options::skip_permission_denied } }
-                    : DirIt{ fs::directory_iterator          { inPath, fs::directory_options::skip_permission_denied } }
-            );
-        }
+                }
+            },
+            recurse
+                ? DirIt{ fs::recursive_directory_iterator{ inPath, fs::directory_options::skip_permission_denied } }
+                : DirIt{ fs::directory_iterator          { inPath, fs::directory_options::skip_permission_denied } }
+        );
     }
 }
 
