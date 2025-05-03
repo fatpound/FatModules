@@ -191,7 +191,7 @@ struct FAT_EBCO FunctionInfo< MEM_FUNCPTR_TYPE(PQUAL) __VA_ARGS__ >
         using CallablePtr_t_no_cvrn = R(C::* PQUAL)(Args...);                                             \
     };
 
-#define FAT_FUNC_INFO_GENERATOR_BASE(PQUAL)  \
+#define FAT_FUNC_INFO_GENERATOR_BASE(PQUAL)   \
     FAT_FUNC_INFO_GENERATOR4(PQUAL, const)    \
     FAT_FUNC_INFO_GENERATOR4(PQUAL, volatile) \
     FAT_FUNC_INFO_GENERATOR4(PQUAL, &)        \
