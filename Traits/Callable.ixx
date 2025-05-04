@@ -37,7 +37,9 @@ export namespace fatpound::traits
         using Class_t = std::conditional_t<std::is_class_v<C>, C, void>;
         using Union_t = std::conditional_t<std::is_union_v<C>, C, void>;
 
+        using Callable_t                      = void;
         using CallablePtr_t                   = R(C::*)(Args...);
+        using CallablePtr_t_no_ptr_cv         = R(C::*)(Args...); // removing pointer cv qualifiers
         using CallablePtr_t_no_cvrn           = R(C::*)(Args...); // removing all cvr-n but pointer cv qualifiers
         using CallablePtr_t_no_cvrn_no_ptr_cv = R(C::*)(Args...); // removing all cvr-n
 
@@ -53,7 +55,8 @@ export namespace fatpound::traits
     template <typename C, typename R, typename... Args>
     struct FAT_EBCO FunctionInfo<R(C::*)(Args...) const> : virtual FunctionInfo<R(C::*)(Args...)>
     {
-        using CallablePtr_t = R(C::*)(Args...) const;
+        using CallablePtr_t           = R(C::*)(Args...) const;
+        using CallablePtr_t_no_ptr_cv = R(C::*)(Args...) const;
 
         static constexpr bool is_const_qualified = true;
     };
@@ -61,7 +64,8 @@ export namespace fatpound::traits
     template <typename C, typename R, typename... Args>
     struct FAT_EBCO FunctionInfo<R(C::*)(Args...) volatile> : virtual FunctionInfo<R(C::*)(Args...)>
     {
-        using CallablePtr_t = R(C::*)(Args...) volatile;
+        using CallablePtr_t           = R(C::*)(Args...) volatile;
+        using CallablePtr_t_no_ptr_cv = R(C::*)(Args...) volatile;
 
         static constexpr bool is_volatile_qualified = true;
     };
@@ -69,7 +73,8 @@ export namespace fatpound::traits
     template <typename C, typename R, typename... Args>
     struct FAT_EBCO FunctionInfo<R(C::*)(Args...) &> : virtual FunctionInfo<R(C::*)(Args...)>
     {
-        using CallablePtr_t = R(C::*)(Args...) &;
+        using CallablePtr_t           = R(C::*)(Args...) &;
+        using CallablePtr_t_no_ptr_cv = R(C::*)(Args...) &;
 
         static constexpr bool is_lvalue_reference_qualified = true;
         static constexpr bool is_not_reference_qualified    = false;
@@ -78,7 +83,8 @@ export namespace fatpound::traits
     template <typename C, typename R, typename... Args>
     struct FAT_EBCO FunctionInfo<R(C::*)(Args...) &&> : virtual FunctionInfo<R(C::*)(Args...)>
     {
-        using CallablePtr_t = R(C::*)(Args...) &&;
+        using CallablePtr_t           = R(C::*)(Args...) &&;
+        using CallablePtr_t_no_ptr_cv = R(C::*)(Args...) &&;
 
         static constexpr bool is_rvalue_reference_qualified = true;
         static constexpr bool is_not_reference_qualified    = false;
@@ -87,7 +93,8 @@ export namespace fatpound::traits
     template <typename C, typename R, typename... Args>
     struct FAT_EBCO FunctionInfo<R(C::*)(Args...) noexcept> : virtual FunctionInfo<R(C::*)(Args...)>
     {
-        using CallablePtr_t = R(C::*)(Args...) noexcept;
+        using CallablePtr_t           = R(C::*)(Args...) noexcept;
+        using CallablePtr_t_no_ptr_cv = R(C::*)(Args...) noexcept;
 
         static constexpr bool is_noexcept_specified = true;
     };
@@ -187,8 +194,9 @@ struct FAT_EBCO FunctionInfo< MEM_FUNCPTR_TYPE(PQUAL) __VA_ARGS__ >
     template <typename C, typename R, typename... Args>                                                   \
     struct FAT_EBCO FunctionInfo<R(C::* PQUAL)(Args...) FQS> : virtual FunctionInfo<R(C::*)(Args...) FQS> \
     {                                                                                                     \
-        using CallablePtr_t         = R(C::* PQUAL)(Args...) FQS;                                         \
-        using CallablePtr_t_no_cvrn = R(C::* PQUAL)(Args...);                                             \
+        using CallablePtr_t           = R(C::* PQUAL)(Args...) FQS;                                       \
+        using CallablePtr_t_no_ptr_cv = R(C::*      )(Args...) FQS;                                       \
+        using CallablePtr_t_no_cvrn   = R(C::* PQUAL)(Args...);                                           \
     };
 
 #define FAT_FUNC_INFO_GENERATOR_BASE(PQUAL)   \
