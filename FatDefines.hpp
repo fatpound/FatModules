@@ -5,7 +5,7 @@
 #define IS_GFX_FRAMEWORK  false
 #define WITH_EXPERIMENTAL false
 
-#if   defined(_MSC_VER) or defined(_MSC_FULL_VER)
+#if defined(_MSC_VER)
     #define FAT_FORCEINLINE __forceinline
 #elif defined(__INTEL_LLVM_COMPILER)
     #define FAT_FORCEINLINE __inline
