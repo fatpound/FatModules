@@ -229,16 +229,16 @@ struct FAT_EBCO FunctionInfo< MEM_FUNCPTR_TYPE(PQUAL) __VA_ARGS__ >
 
     /// with cvr-qualified (member function) pointers
 
-#define FAT_FUNC_INFO_GENERATOR4(PQUAL, FQS)                                                              \
-    template <typename C, typename R, typename... Args>                                                   \
-    struct FAT_EBCO FunctionInfo<R(C::* PQUAL)(Args...) FQS>                                              \
-        :                                                                                                 \
-        virtual FunctionInfo<R(C::* PQUAL)(Args...)>,                                                     \
-        virtual FunctionInfo<R(C::*      )(Args...) FQS>                                                  \
-    {                                                                                                     \
-        using CallablePtr_t           = R(C::* PQUAL)(Args...) FQS;                                       \
-        using CallablePtr_t_no_ptr_cv = R(C::*      )(Args...) FQS;                                       \
-        using CallablePtr_t_no_cvrn   = R(C::* PQUAL)(Args...);                                           \
+#define FAT_FUNC_INFO_GENERATOR4(PQUAL, FQS)                        \
+    template <typename C, typename R, typename... Args>             \
+    struct FAT_EBCO FunctionInfo<R(C::* PQUAL)(Args...) FQS>        \
+        :                                                           \
+        virtual FunctionInfo<R(C::* PQUAL)(Args...)>,               \
+        virtual FunctionInfo<R(C::*      )(Args...) FQS>            \
+    {                                                               \
+        using CallablePtr_t           = R(C::* PQUAL)(Args...) FQS; \
+        using CallablePtr_t_no_ptr_cv = R(C::*      )(Args...) FQS; \
+        using CallablePtr_t_no_cvrn   = R(C::* PQUAL)(Args...);     \
     };
 
 #define FAT_FUNC_INFO_GENERATOR_BASE(PQUAL)   \
