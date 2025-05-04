@@ -28,7 +28,25 @@ export namespace fatpound::traits
     template <typename R, typename... Args>
     struct FAT_EBCO FunctionInfo<R(*)(Args...)> : virtual FunctionInfo<R(Args...)>
     {
-        
+        using CallablePtr_t_no_ptr_cv = R(*)(Args...);
+    };
+
+    template <typename R, typename... Args>
+    struct FAT_EBCO FunctionInfo<R(* const)(Args...)> : virtual FunctionInfo<R(*)(Args...)>
+    {
+        using CallablePtr_t = R(* const)(Args...);
+    };
+
+    template <typename R, typename... Args>
+    struct FAT_EBCO FunctionInfo<R(* volatile)(Args...)> : virtual FunctionInfo<R(*)(Args...)>
+    {
+        using CallablePtr_t = R(* volatile)(Args...);
+    };
+
+    template <typename R, typename... Args>
+    struct FAT_EBCO FunctionInfo<R(* const volatile)(Args...)> : virtual FunctionInfo<R(*)(Args...)>
+    {
+        using CallablePtr_t = R(* const volatile)(Args...);
     };
 
     template <typename C, typename R, typename... Args>
@@ -49,6 +67,27 @@ export namespace fatpound::traits
         static constexpr bool is_rvalue_reference_qualified{};
         static constexpr bool is_not_reference_qualified{ true };
         static constexpr bool is_noexcept_specified{};
+    };
+
+    template <typename C, typename R, typename... Args>
+    struct FAT_EBCO FunctionInfo<R(C::* const)(Args...)> : virtual FunctionInfo<R(C::*)(Args...)>
+    {
+        using CallablePtr_t = R(C::* const)(Args...);
+    };
+
+    template <typename C, typename R, typename... Args>
+    struct FAT_EBCO FunctionInfo<R(C::* volatile)(Args...)> : virtual FunctionInfo<R(C::*)(Args...)>
+    {
+        using CallablePtr_t = R(C::* volatile)(Args...);
+    };
+
+    template <typename C, typename R, typename... Args>
+    struct FAT_EBCO FunctionInfo<R(C::* const volatile)(Args...)>
+        :
+        virtual FunctionInfo<R(C::* const)(Args...)>,
+        virtual FunctionInfo<R(C::* volatile)(Args...)>
+    {
+        using CallablePtr_t = R(C::* const volatile)(Args...);
     };
 
     /////////////////////////////////////////////////////////////////////////////
@@ -192,7 +231,10 @@ struct FAT_EBCO FunctionInfo< MEM_FUNCPTR_TYPE(PQUAL) __VA_ARGS__ >
 
 #define FAT_FUNC_INFO_GENERATOR4(PQUAL, FQS)                                                              \
     template <typename C, typename R, typename... Args>                                                   \
-    struct FAT_EBCO FunctionInfo<R(C::* PQUAL)(Args...) FQS> : virtual FunctionInfo<R(C::*)(Args...) FQS> \
+    struct FAT_EBCO FunctionInfo<R(C::* PQUAL)(Args...) FQS>                                              \
+        :                                                                                                 \
+        virtual FunctionInfo<R(C::* PQUAL)(Args...)>,                                                     \
+        virtual FunctionInfo<R(C::*      )(Args...) FQS>                                                  \
     {                                                                                                     \
         using CallablePtr_t           = R(C::* PQUAL)(Args...) FQS;                                       \
         using CallablePtr_t_no_ptr_cv = R(C::*      )(Args...) FQS;                                       \
