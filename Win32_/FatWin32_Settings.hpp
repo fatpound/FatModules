@@ -7,8 +7,13 @@
 
 #include <sdkddkver.h>
 
-#define NOMINMAX
-#define STRICT
+#ifndef NOMINMAX
+    #define NOMINMAX
+#endif
+
+#ifndef STRICT
+    #define STRICT
+#endif
 
 #ifndef FATPOUND_FULL_WIN_TARGETED
 #define WIN32_LEAN_AND_MEAN // for 16-bit Windows libraries, rarely used
