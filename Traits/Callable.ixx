@@ -9,6 +9,9 @@ import std;
 export namespace fatpound::traits
 {
     template <typename T>
+    concept Function = std::is_function_v<T>;
+
+    template <typename T>
     struct FAT_EBCO FunctionInfo;
     
     template <typename R, typename... Args>
@@ -267,7 +270,10 @@ struct FAT_EBCO FunctionInfo< MEM_FUNCPTR_TYPE(PQUAL) __VA_ARGS__ >
 #undef MEM_FUNCPTR_TYPE
 
     template <typename T>
-    concept Callable = std::invocable<T>;
+    concept Callable = requires()
+    {
+        &T::operator ();
+    };
 
     template <typename T>
     concept Functor = Callable<T> and std::is_object_v<T> and (std::is_class_v<T> or std::is_union_v<T>);
