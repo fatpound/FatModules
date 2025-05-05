@@ -353,9 +353,9 @@ struct FAT_EBCO FunctionInfo< MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__ >
                                                                                                                                            \
     FAT_FUNC_INFO_GENERATOR1(PQUAL, const volatile && noexcept)                                                                            \
     FAT_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &&), V_INHERIT(PQUAL, noexcept)) \
-    FAT_FUNC_INFO_GENERATOR3(PQUAL, const volatile && noexcept)                                                                            \
-                                                                                                                                           \
-                                                                                                                                           \
+    FAT_FUNC_INFO_GENERATOR3(PQUAL, const volatile && noexcept)
+
+#define FAT_FUNC_INFO_GENERATOR_VARIADIC(PQUAL)                                                                                            \
                                                                                                                                            \
     FAT_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const volatile)                                                                                \
     FAT_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, volatile))                                   \
@@ -424,9 +424,10 @@ struct FAT_EBCO FunctionInfo< MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__ >
 #pragma warning (push)
 #pragma warning (disable : 4003)
     FAT_FUNC_INFO_GENERATOR()
+    FAT_FUNC_INFO_GENERATOR_VARIADIC()
 #pragma warning (pop)
 
-    /// with cvr-qualified (member function) pointers
+    /// with cv-qualified (member function) pointers
 
 #define FAT_FUNC_INFO_GENERATOR4(PQUAL, FQS)                        \
     template <typename C, typename R, typename... Args>             \
@@ -440,12 +441,31 @@ struct FAT_EBCO FunctionInfo< MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__ >
         using CallablePtr_t_no_cvrn   = R(C::* PQUAL)(Args...);     \
     };
 
+#define FAT_FUNC_INFO_GENERATOR4_VARIADIC(PQUAL, FQS)                    \
+    template <typename C, typename R, typename... Args>                  \
+    struct FAT_EBCO FunctionInfo<R(C::* PQUAL)(Args..., ...) FQS>        \
+        :                                                                \
+        virtual FunctionInfo<R(C::* PQUAL)(Args..., ...)>,               \
+        virtual FunctionInfo<R(C::*      )(Args..., ...) FQS>            \
+    {                                                                    \
+        using CallablePtr_t           = R(C::* PQUAL)(Args..., ...) FQS; \
+        using CallablePtr_t_no_ptr_cv = R(C::*      )(Args..., ...) FQS; \
+        using CallablePtr_t_no_cvrn   = R(C::* PQUAL)(Args..., ...);     \
+    };
+
 #define FAT_FUNC_INFO_GENERATOR_BASE(PQUAL)   \
     FAT_FUNC_INFO_GENERATOR4(PQUAL, const)    \
     FAT_FUNC_INFO_GENERATOR4(PQUAL, volatile) \
     FAT_FUNC_INFO_GENERATOR4(PQUAL, &)        \
     FAT_FUNC_INFO_GENERATOR4(PQUAL, &&)       \
     FAT_FUNC_INFO_GENERATOR4(PQUAL, noexcept)
+
+#define FAT_FUNC_INFO_GENERATOR_BASE_VARIADIC(PQUAL)   \
+    FAT_FUNC_INFO_GENERATOR4_VARIADIC(PQUAL, const)    \
+    FAT_FUNC_INFO_GENERATOR4_VARIADIC(PQUAL, volatile) \
+    FAT_FUNC_INFO_GENERATOR4_VARIADIC(PQUAL, &)        \
+    FAT_FUNC_INFO_GENERATOR4_VARIADIC(PQUAL, &&)       \
+    FAT_FUNC_INFO_GENERATOR4_VARIADIC(PQUAL, noexcept)
 
     FAT_FUNC_INFO_GENERATOR_BASE(const)
     FAT_FUNC_INFO_GENERATOR(const)
@@ -456,7 +476,19 @@ struct FAT_EBCO FunctionInfo< MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__ >
     FAT_FUNC_INFO_GENERATOR_BASE(const volatile)
     FAT_FUNC_INFO_GENERATOR(const volatile)
 
+    FAT_FUNC_INFO_GENERATOR_BASE_VARIADIC(const)
+    FAT_FUNC_INFO_GENERATOR_VARIADIC(const)
+
+    FAT_FUNC_INFO_GENERATOR_BASE_VARIADIC(volatile)
+    FAT_FUNC_INFO_GENERATOR_VARIADIC(volatile)
+
+    FAT_FUNC_INFO_GENERATOR_BASE_VARIADIC(const volatile)
+    FAT_FUNC_INFO_GENERATOR_VARIADIC(const volatile)
+
+#undef FAT_FUNC_INFO_GENERATOR_BASE
+#undef FAT_FUNC_INFO_GENERATOR_BASE_VARIADIC
 #undef FAT_FUNC_INFO_GENERATOR4
+#undef FAT_FUNC_INFO_GENERATOR4_VARIADIC
 #undef FAT_FUNC_INFO_GENERATOR_CVPTR
 #undef FAT_FUNC_INFO_GENERATOR3
 #undef FAT_FUNC_INFO_GENERATOR3_VARIADIC
