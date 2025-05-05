@@ -19,7 +19,10 @@ export namespace fatpound::traits
     concept MemberObjectPointer = MemberPointer<T> and not MemberFunctionPointer<T>;
 
     template <typename T>
-    concept Pointer = std::is_pointer_v<T> or MemberPointer<T> or MemberFunctionPointer<T> or MemberObjectPointer<T>;
+    concept NonMemberPointer = std::is_pointer_v<T>; // not MemberPointer<T>
+
+    template <typename T>
+    concept Pointer = NonMemberPointer<T> or MemberPointer<T> or MemberFunctionPointer<T> or MemberObjectPointer<T>;
 
     template <typename T>
     concept LValueReference = std::is_lvalue_reference_v<T>;
