@@ -16,6 +16,8 @@ module;
 
 export module FatPound.Memory;
 
+import FatPound.Traits.Extents;
+
 import std;
 
 namespace fatpound::memory
@@ -60,17 +62,16 @@ export namespace fatpound::memory
         FAT_MEMORY_ALIGNED_FREER(ptr);
     }
 
-    template <typename T>
-    auto MakeAlignedUniquePtr(const std::size_t& alignBytes, [[maybe_unused]] const std::size_t& size)
+    template <traits::Array T>
+    auto MakeAlignedUniquePtr(const std::size_t& alignBytes, const std::size_t& size)
     {
-        if constexpr (std::is_array_v<T>)
-        {
-            return AlignedUniquePtr<T>(AlignedAlloc<std::remove_all_extents_t<T>>(alignBytes, size), &FAT_MEMORY_ALIGNED_FREER);
-        }
-        else
-        {
-            return AlignedUniquePtr<T>(AlignedAlloc<T>(alignBytes, 1U), &FAT_MEMORY_ALIGNED_FREER);
-        }
+        return AlignedUniquePtr<T>(AlignedAlloc<std::remove_all_extents_t<T>>(alignBytes, size), &FAT_MEMORY_ALIGNED_FREER);
+    }
+
+    template <typename T>
+    auto MakeAlignedUniquePtr(const std::size_t& alignBytes)
+    {
+        return AlignedUniquePtr<T>(AlignedAlloc<T>(alignBytes, 1U), &FAT_MEMORY_ALIGNED_FREER);
     }
 }
 

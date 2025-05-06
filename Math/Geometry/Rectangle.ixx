@@ -1,18 +1,18 @@
 module;
 
-export module FatPound.Math.Rect;
+export module FatPound.Math.Geometry.Rectangle;
 
 import FatPound.Traits.Bitwise;
 
 import std;
 
-export namespace fatpound::math
+export namespace fatpound::math::geometry
 {
     template <traits::IntegralOrFloating T>
-    class Rect final
+    class Rectangle final
     {
     public:
-        explicit Rect(const T& left, const T& top, const T& right, const T& bottom) noexcept
+        explicit Rectangle(const T& left, const T& top, const T& right, const T& bottom) noexcept
             :
             m_left(left),
             m_top(top),
@@ -22,19 +22,19 @@ export namespace fatpound::math
 
         }
 
-        explicit Rect()       = delete;
-        Rect(const Rect&)     = default;
-        Rect(Rect&&) noexcept = default;
+        explicit Rectangle()            = delete;
+        Rectangle(const Rectangle&)     = default;
+        Rectangle(Rectangle&&) noexcept = default;
 
-        auto operator = (const Rect&)     -> Rect& = default;
-        auto operator = (Rect&&) noexcept -> Rect& = default;
-        ~Rect() noexcept                           = default;
+        auto operator = (const Rectangle&)     -> Rectangle& = default;
+        auto operator = (Rectangle&&) noexcept -> Rectangle& = default;
+        ~Rectangle() noexcept                                = default;
 
 
     public:
-        static auto FromCenter(const T& centerX, const T& centerY, const T& halfWidth, const T& halfHeight) noexcept -> Rect
+        static auto FromCenter(const T& centerX, const T& centerY, const T& halfWidth, const T& halfHeight) noexcept -> Rectangle
         {
-            return Rect(centerX - halfWidth, centerY - halfHeight, centerX + halfWidth, centerY + halfHeight);
+            return Rectangle(centerX - halfWidth, centerY - halfHeight, centerX + halfWidth, centerY + halfHeight);
         }
 
 
@@ -48,12 +48,12 @@ export namespace fatpound::math
             };
         }
 
-        auto GetExpanded(const T& offset) const noexcept -> Rect
+        auto GetExpanded(const T& offset) const noexcept -> Rectangle
         {
-            return Rect(m_left - offset, m_top - offset, m_right + offset, m_bottom + offset);
+            return Rectangle(m_left - offset, m_top - offset, m_right + offset, m_bottom + offset);
         }
 
-        auto IsOverlappingWith(const Rect& other) const noexcept -> bool
+        auto IsOverlappingWith(const Rectangle& other) const noexcept -> bool
         {
             return m_left   < other.m_right
                    and
@@ -63,7 +63,7 @@ export namespace fatpound::math
                    and
                    m_bottom > other.m_top;
         }
-        auto IsContainedBy(const Rect& other) const noexcept -> bool
+        auto IsContainedBy(const Rectangle& other) const noexcept -> bool
         {
             return m_left   >= other.m_left
                    and
@@ -87,6 +87,9 @@ export namespace fatpound::math
 
     private:
     };
+
+    template <traits::IntegralOrFloating T>
+    using Rect = Rectangle<T>;
 }
 
 module : private;

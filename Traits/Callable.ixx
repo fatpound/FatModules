@@ -9,9 +9,6 @@ import std;
 export namespace fatpound::traits
 {
     template <typename T>
-    concept Function = std::is_function_v<T>;
-
-    template <typename T>
     struct FAT_EBCO FunctionInfo;
     
     template <typename R, typename... Args>
@@ -59,7 +56,8 @@ export namespace fatpound::traits
         using CallablePtr_t = R(* const volatile)(Args...);
     };
 
-    /// variadic overloads
+    ///////////////////////////
+    // variadic specializations
 
     template <typename R, typename... Args>
     struct FAT_EBCO FunctionInfo<R(*)(Args..., ...)> : virtual FunctionInfo<R(Args..., ...)>
@@ -85,7 +83,74 @@ export namespace fatpound::traits
         using CallablePtr_t = R(* const volatile)(Args..., ...);
     };
 
-    /// member function specializations
+    ///////////////////////////////////////////////////////////
+    // noexcept (free / static member) function specializations
+
+    template <typename R, typename... Args>
+    struct FAT_EBCO FunctionInfo<R(*)(Args...) noexcept> : virtual FunctionInfo<R(*)(Args...)>
+    {
+        using Callable_t              = R(Args...) noexcept;
+        using CallablePtr_t           = R(*)(Args...) noexcept;
+        using CallablePtr_t_no_ptr_cv = R(*)(Args...) noexcept;
+
+        static constexpr bool is_noexcept_specified = true;
+    };
+
+    template <typename R, typename... Args>
+    struct FAT_EBCO FunctionInfo<R(* const)(Args...) noexcept> : virtual FunctionInfo<R(*)(Args...) noexcept>
+    {
+        using Callable_t    = R(Args...) noexcept;
+        using CallablePtr_t = R(* const)(Args...) noexcept;
+    };
+
+    template <typename R, typename... Args>
+    struct FAT_EBCO FunctionInfo<R(* volatile)(Args...) noexcept> : virtual FunctionInfo<R(*)(Args...) noexcept>
+    {
+        using Callable_t    = R(Args...) noexcept;
+        using CallablePtr_t = R(* volatile)(Args...) noexcept;
+    };
+
+    template <typename R, typename... Args>
+    struct FAT_EBCO FunctionInfo<R(* const volatile)(Args...) noexcept> : virtual FunctionInfo<R(*)(Args...) noexcept>
+    {
+        using Callable_t    = R(Args...) noexcept;
+        using CallablePtr_t = R(* const volatile)(Args...) noexcept;
+    };
+
+    ///////////////////////////////////////////////////////////
+    // noexcept (free / static member) variadic specializations
+
+    template <typename R, typename... Args>
+    struct FAT_EBCO FunctionInfo<R(*)(Args..., ...) noexcept> : virtual FunctionInfo<R(*)(Args..., ...)>
+    {
+        using Callable_t              = R(Args..., ...) noexcept;
+        using CallablePtr_t           = R(*)(Args..., ...) noexcept;
+        using CallablePtr_t_no_ptr_cv = R(*)(Args..., ...) noexcept;
+    };
+
+    template <typename R, typename... Args>
+    struct FAT_EBCO FunctionInfo<R(* const)(Args..., ...) noexcept> : virtual FunctionInfo<R(*)(Args..., ...) noexcept>
+    {
+        using Callable_t    = R(Args..., ...) noexcept;
+        using CallablePtr_t = R(* const)(Args..., ...) noexcept;
+    };
+
+    template <typename R, typename... Args>
+    struct FAT_EBCO FunctionInfo<R(* volatile)(Args..., ...) noexcept> : virtual FunctionInfo<R(*)(Args..., ...) noexcept>
+    {
+        using Callable_t    = R(Args..., ...) noexcept;
+        using CallablePtr_t = R(* volatile)(Args..., ...) noexcept;
+    };
+
+    template <typename R, typename... Args>
+    struct FAT_EBCO FunctionInfo<R(* const volatile)(Args..., ...) noexcept> : virtual FunctionInfo<R(*)(Args..., ...) noexcept>
+    {
+        using Callable_t    = R(Args..., ...) noexcept;
+        using CallablePtr_t = R(* const volatile)(Args..., ...) noexcept;
+    };
+
+    //////////////////////////////////
+    // member function specializations
 
     template <typename C, typename R, typename... Args>
     struct FAT_EBCO FunctionInfo<R(C::*)(Args...)> : virtual FunctionInfo<R(*)(Args...)>
@@ -140,7 +205,8 @@ export namespace fatpound::traits
         using CallablePtr_t = R(C::* const volatile)(Args...);
     };
 
-    /// variadic overloads
+    ///////////////////////////
+    // variadic specializations
 
     template <typename C, typename R, typename... Args>
     struct FAT_EBCO FunctionInfo<R(C::* const)(Args..., ...)> : virtual FunctionInfo<R(C::*)(Args..., ...)>
@@ -211,7 +277,8 @@ export namespace fatpound::traits
         static constexpr bool is_noexcept_specified = true;
     };
 
-    /// variadic overloads
+    /////////////////////
+    // variadic overloads
 
     template <typename C, typename R, typename... Args>
     struct FAT_EBCO FunctionInfo<R(C::*)(Args..., ...) const> : virtual FunctionInfo<R(C::*)(Args..., ...)>
@@ -500,6 +567,9 @@ struct FAT_EBCO FunctionInfo< MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__ >
 #undef V_INHERIT_VARIADIC
 #undef MEM_FUNCPTR_TYPE
 #undef MEM_FUNCPTR_TYPE_VARIADIC
+
+    template <typename T>
+    concept Function = std::is_function_v<T>;
 
     template <typename T>
     concept Callable = requires()

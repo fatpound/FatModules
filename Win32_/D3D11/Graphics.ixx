@@ -173,7 +173,7 @@ export namespace fatpound::win32::d3d11
         }
 
         template <std::floating_point T = float_t>
-        void FillWithSolidColor(const T red, const T green, const T blue, const T alpha = static_cast<T>(1.0)) requires(NotFramework)
+        void FillWithSolidColor(const T& red, const T& green, const T& blue, const T& alpha = static_cast<T>(1.0)) requires(NotFramework)
         {
             {
                 const std::array<const T, 4> colors{ red, green, blue, alpha };
@@ -591,13 +591,13 @@ export namespace fatpound::win32::d3d11
     private:
         ResourcePack_t m_res_pack_{};
 
-        const ::HWND mc_hWnd_;
+        const HWND mc_hWnd_;
         
         const SizePack mc_dimensions_;
 
-        ::UINT m_msaa_count_{};
-        ::UINT m_msaa_quality_{};
-        ::UINT m_dxgi_mode_{};
+        UINT m_msaa_count_{};
+        UINT m_msaa_quality_{};
+        UINT m_dxgi_mode_{};
 
         std::unique_ptr<Surface> m_pSurface_;
     };

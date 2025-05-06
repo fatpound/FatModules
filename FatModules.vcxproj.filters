@@ -228,7 +228,7 @@
     <ClCompile Include="Math\Common.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Rect.ixx">
+    <ClCompile Include="Math\Geometry\Rectangle.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Util\Common.ixx">
@@ -237,10 +237,10 @@
     <ClCompile Include="Win32_\D3D11\Visual\DrawableBase.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\AngularConv.ixx">
+    <ClCompile Include="Math\Geometry\AngularConv.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Geometry.ixx">
+    <ClCompile Include="Math\Geometry\Geometry.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Math\Numbers\Sets.ixx">
@@ -265,6 +265,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Traits\Callable.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Traits\Extents.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Traits\UdtKinds.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Traits\Indirection.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

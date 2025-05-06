@@ -61,7 +61,7 @@ export namespace fatpound::win32
                 {
 #if IN_DEBUG or IS_GFX_FRAMEWORK
 
-                    ::RECT rect
+                    RECT rect
                     {
                         .left   = 0L,
                         .top    = 0L,

@@ -121,17 +121,17 @@ export namespace fatpound::win32
             };
         }
 
-        static auto CALLBACK HandleMsgSetup_(const ::HWND hWnd, const ::UINT msg, const ::WPARAM wParam, const ::LPARAM lParam) -> LRESULT
+        static auto CALLBACK HandleMsgSetup_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT
         {
             if (msg == WM_NCCREATE)
             {
                 IWindow* const pWnd = static_cast<IWindow*>(reinterpret_cast<CREATESTRUCT_t*>(lParam)->lpCreateParams);
 
-                ::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<::LONG_PTR>(pWnd));
+                ::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
 
 #pragma warning (push)
 #pragma warning (disable : 5039)
-                ::SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<::LONG_PTR>(&ClassEx::HandleMsgThunk_));
+                ::SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&ClassEx::HandleMsgThunk_));
 #pragma warning (pop)
 
                 return ForwardMsg_(pWnd, hWnd, msg, wParam, lParam);
@@ -139,13 +139,13 @@ export namespace fatpound::win32
 
             return ::DefWindowProc(hWnd, msg, wParam, lParam);
         }
-        static auto CALLBACK HandleMsgThunk_(const ::HWND hWnd, const ::UINT msg, const ::WPARAM wParam, const ::LPARAM lParam) -> LRESULT
+        static auto CALLBACK HandleMsgThunk_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT
         {
             IWindow* const pWnd = reinterpret_cast<IWindow*>(::GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
             return ForwardMsg_(pWnd, hWnd, msg, wParam, lParam);
         }
-        static auto ForwardMsg_(IWindow* const pWnd, const ::HWND hWnd, const ::UINT msg, const ::WPARAM wParam, const ::LPARAM lParam) -> LRESULT
+        static auto ForwardMsg_(IWindow* const pWnd, const HWND hWnd, const UINT msg, const ::WPARAM wParam, const LPARAM lParam) -> LRESULT
         {
             return pWnd->HandleMessage_(hWnd, msg, wParam, lParam);
         }

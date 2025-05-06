@@ -1,10 +1,10 @@
 module;
 
-export module FatPound.Math.AngularConv;
+export module FatPound.Math.Geometry.AngularConv;
 
 import std;
 
-export namespace fatpound::math
+export namespace fatpound::math::geometry
 {
     template <std::floating_point FP = double, std::convertible_to<FP> T> constexpr auto DegToMOA(const T& deg) -> FP
     {

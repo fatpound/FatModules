@@ -70,8 +70,8 @@ export namespace fatpound::util
                 throw std::runtime_error("GDI+ Bitmap error in Surface ctor!");
             }
 
-            const auto width  = bitmap.GetWidth();
-            const auto height = bitmap.GetHeight();
+            const auto& width  = bitmap.GetWidth();
+            const auto& height = bitmap.GetHeight();
 
             Surface surf(width, height, alignBytes);
 
@@ -233,7 +233,7 @@ export namespace fatpound::util
             m_pBuffer_[(y * m_pixel_pitch_) + x] = color;
         }
 
-        template <std::signed_integral   T> [[nodiscard]] FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
+        template <std::signed_integral T>   [[nodiscard]] FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
         {
             assert(x >= 0);
             assert(y >= 0);
@@ -243,7 +243,7 @@ export namespace fatpound::util
                 static_cast<std::make_unsigned_t<T>>(y)
             );
         }
-        template <std::signed_integral   T>               FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
+        template <std::signed_integral T>                 FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
         {
             assert(x >= 0);
             assert(y >= 0);
@@ -309,8 +309,8 @@ export namespace fatpound::util
         void DeepCopyFrom_(const Surface& src) noexcept
         {
 #if defined(__clang__)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
 #endif
                   Color* const pDest = *this;
             const Color* const pSrc  = src;
@@ -328,7 +328,7 @@ export namespace fatpound::util
                 // NOLINTEND(cppcoreguidelines-pro-bounds-pointer-arithmetic)
             }
 #if defined(__clang__)
-#pragma clang diagnostic pop
+    #pragma clang diagnostic pop
 #endif
         }
 

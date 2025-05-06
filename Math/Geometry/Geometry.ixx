@@ -2,13 +2,16 @@ module;
 
 export module FatPound.Math.Geometry;
 
+export import FatPound.Math.Geometry.AngularConv;
+export import FatPound.Math.Geometry.Rectangle;
+
 import FatPound.Math.Multiplicative;
 import FatPound.Math.Numbers.Common;
 import FatPound.Traits.Bitwise;
 
 import std;
 
-export namespace fatpound::math
+export namespace fatpound::math::geometry
 {
     template <traits::UIntegralOrFloating T> constexpr auto SquarePerimeter   (const T& length) -> T
     {
