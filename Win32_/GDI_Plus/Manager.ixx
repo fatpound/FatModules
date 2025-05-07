@@ -22,6 +22,7 @@ export namespace fatpound::win32::gdi_plus
             if (s_ref_count_ == 0)
             {
                 Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+
                 Gdiplus::GdiplusStartup(&s_gdiPlus_token_, &gdiplusStartupInput, nullptr);
             }
 
@@ -47,7 +48,7 @@ export namespace fatpound::win32::gdi_plus
 
 
     private:
-        inline static ::ULONG_PTR s_gdiPlus_token_{};
+        inline static ULONG_PTR s_gdiPlus_token_{};
 
         inline static int s_ref_count_{};
     };

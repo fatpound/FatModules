@@ -11,30 +11,27 @@ export namespace fatpound::util
     class [[nodiscard]] Color final
     {
     public:
-        constexpr Color(const std::uint8_t&  red, const std::uint8_t&  green, const std::uint8_t&  blue, const std::uint8_t& alpha = 0xFFU) noexcept
+        constexpr Color(const std::uint32_t& xrgb, const std::uint32_t& alpha = 0xFF'00'00'00U) noexcept
             :
-            m_dword{(static_cast<std::uint32_t>(alpha) << 24U)
-                bitor (static_cast<std::uint32_t>(red) << 16U)
-                bitor (static_cast<std::uint32_t>(green) << 8U)
-                bitor (static_cast<std::uint32_t>(blue))}
+            m_dword(xrgb bitor alpha)
+        {
+
+        }
+        constexpr Color(const std::uint32_t&  red, const std::uint32_t& green, const std::uint32_t& blue, const std::uint32_t& alpha = 0xFF'00'00'00U) noexcept
+            :
+            Color((red << 16U) bitor (green << 8U) bitor blue, alpha)
+        {
+
+        }
+        constexpr Color(const std::uint8_t&   red, const std::uint8_t&  green, const std::uint8_t&  blue, const std::uint8_t&  alpha = 0xFFU) noexcept
+            :
+            Color(static_cast<std::uint32_t>(red), static_cast<std::uint32_t>(green), static_cast<std::uint32_t>(blue), static_cast<std::uint32_t>(alpha))
         {
             
         }
-        constexpr Color(const std::uint32_t& red, const std::uint32_t& green, const std::uint32_t& blue) noexcept
-            :
-            Color(static_cast<std::uint8_t>(red), static_cast<std::uint8_t>(green), static_cast<std::uint8_t>(blue))
-        {
-
-        }
-        constexpr Color(const std::uint32_t& xrgb) noexcept
-            :
-            m_dword(xrgb bitor 0xFF'00'00'00U)
-        {
-
-        }
         constexpr Color(const Color& col, const std::uint8_t& alpha) noexcept
             :
-            Color((static_cast<std::uint32_t>(alpha) << 24U) bitor col.m_dword)
+            Color(col.m_dword, static_cast<std::uint32_t>(alpha))
         {
 
         }
@@ -113,6 +110,8 @@ export namespace fatpound::colors
 
     // This namespace contains Microsoft-style colors. (count: 140) (Direct2D version 1)
     // Lime => 0x00FF00, Green => 0x008000, LimeGreen => 0x32CD32
+    // 
+    // Alpha value: 0xFF
 
     constexpr Color AliceBlue            = 0xF0F8FF;
     constexpr Color AntiqueWhite         = 0xFAEBD7;
