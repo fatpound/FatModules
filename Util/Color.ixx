@@ -11,27 +11,21 @@ export namespace fatpound::util
     class [[nodiscard]] Color final
     {
     public:
-        constexpr Color(const std::uint32_t& xrgb, const std::uint32_t& alpha = 0xFF'00'00'00U) noexcept
+        constexpr Color(const std::uint32_t& xrgb, const std::uint8_t& alpha = 0xFFU) noexcept
             :
-            m_dword(xrgb bitor alpha)
+            m_dword(xrgb bitor (static_cast<std::uint32_t>(alpha) << 24U))
         {
 
         }
-        constexpr Color(const std::uint32_t&  red, const std::uint32_t& green, const std::uint32_t& blue, const std::uint32_t& alpha = 0xFF'00'00'00U) noexcept
+        constexpr Color(const std::uint8_t&   red, const std::uint8_t& green, const std::uint8_t& blue, const std::uint8_t& alpha) noexcept
             :
-            Color((red << 16U) bitor (green << 8U) bitor blue, alpha)
-        {
-
-        }
-        constexpr Color(const std::uint8_t&   red, const std::uint8_t&  green, const std::uint8_t&  blue, const std::uint8_t&  alpha) noexcept
-            :
-            Color(static_cast<std::uint32_t>(red), static_cast<std::uint32_t>(green), static_cast<std::uint32_t>(blue), static_cast<std::uint32_t>(alpha))
+            Color((static_cast<std::uint32_t>(red) << 16U) bitor (static_cast<std::uint32_t>(green) << 8U) bitor (static_cast<std::uint32_t>(blue)), alpha)
         {
             
         }
         constexpr Color(const Color& col, const std::uint8_t& alpha) noexcept
             :
-            Color(col.m_dword, static_cast<std::uint32_t>(alpha))
+            Color(col.m_dword, alpha)
         {
 
         }
