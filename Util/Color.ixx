@@ -13,7 +13,7 @@ export namespace fatpound::util
     public:
         constexpr Color(const std::uint32_t& xrgb, const std::uint8_t& alpha = 0xFFU) noexcept
             :
-            m_dword(xrgb bitor (static_cast<std::uint32_t>(alpha) << 24U))
+            m_dword((xrgb bitand 0x00'FF'FF'FFU) bitor (static_cast<std::uint32_t>(alpha) << 24U))
         {
 
         }
@@ -247,6 +247,8 @@ export namespace fatpound::colors
     constexpr Color WhiteSmoke           = 0xF5F5F5;
     constexpr Color Yellow               = 0xFFFF00;
     constexpr Color YellowGreen          = 0x9ACD32;
+    /////////
+    constexpr Color Transparent          = { White, 0U };
 }
 
 module : private;
