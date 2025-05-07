@@ -23,7 +23,7 @@ export namespace fatpound::util
         {
 
         }
-        constexpr Color(const std::uint8_t&   red, const std::uint8_t&  green, const std::uint8_t&  blue, const std::uint8_t&  alpha = 0xFFU) noexcept
+        constexpr Color(const std::uint8_t&   red, const std::uint8_t&  green, const std::uint8_t&  blue, const std::uint8_t&  alpha) noexcept
             :
             Color(static_cast<std::uint32_t>(red), static_cast<std::uint32_t>(green), static_cast<std::uint32_t>(blue), static_cast<std::uint32_t>(alpha))
         {
