@@ -4,6 +4,8 @@ module;
 
 export module FatPound.Random;
 
+export import FatPound.Random.URand;
+
 import FatPound.Math.Numbers.Primes;
 import FatPound.Traits.Bitwise;
 

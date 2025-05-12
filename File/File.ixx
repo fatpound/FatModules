@@ -2,6 +2,8 @@ module;
 
 export module FatPound.File;
 
+import FatPound.DSA.Cryptography.XorCipher;
+
 import std;
 
 namespace fatpound::file
@@ -27,16 +29,11 @@ namespace fatpound::file
             throw std::runtime_error("Cannot create the new version of file!");
         }
 
-        std::minstd_rand rng{ static_cast<decltype(rng)::result_type>(key) };
-
-        std::transform<>(
+        dsa::cryptography::ApplyXorCipherWithKey<>(
             std::istreambuf_iterator<char>(inputFile),
             std::istreambuf_iterator<char>(),
             std::ostreambuf_iterator<char>(outputFile),
-            [&rng](const char& ch) noexcept -> char
-            {
-                return static_cast<char>(static_cast<decltype(rng)::result_type>(ch) xor rng());
-            }
+            key
         );
     }
 }

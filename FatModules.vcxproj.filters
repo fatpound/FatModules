@@ -270,10 +270,28 @@
     <ClCompile Include="Traits\Extents.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Traits\UdtKinds.ixx">
+    <ClCompile Include="Traits\Formation.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Traits\Indirection.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bit\Bit.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DSA\Cryptography\Cryptography.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Random\URand.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Geometry\Circle.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DSA\Cryptography\XorCipher.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Geometry\Common.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

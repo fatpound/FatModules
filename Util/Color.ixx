@@ -4,16 +4,28 @@ module;
 
 export module FatPound.Util.Color;
 
+import FatPound.Bit;
+
 import std;
 
 export namespace fatpound::util
 {
     class [[nodiscard]] Color final
     {
+        static constexpr auto AlphaShift = 24ULL;
+        static constexpr auto   RedShift = 16ULL;
+        static constexpr auto GreenShift =  8ULL;
+        static constexpr auto  BlueShift =  0ULL;
+
+        static constexpr auto AlphaMask = bit::OneMask<>(AlphaShift + 7U, AlphaShift);
+        static constexpr auto   RedMask = bit::OneMask<>(  RedShift + 7U,   RedShift);
+        static constexpr auto GreenMask = bit::OneMask<>(GreenShift + 7U, GreenShift);
+        static constexpr auto  BlueMask = bit::OneMask<>( BlueShift + 7U,  BlueShift);
+
     public:
         constexpr Color(const std::uint32_t& xrgb, const std::uint8_t& alpha = 0xFFU) noexcept
             :
-            m_dword((xrgb bitand 0x00'FF'FF'FFU) bitor (static_cast<std::uint32_t>(alpha) << 24U))
+            m_dword_((xrgb bitand 0x00'FF'FF'FFU) bitor (static_cast<std::uint32_t>(alpha) << 24U))
         {
 
         }
@@ -25,7 +37,7 @@ export namespace fatpound::util
         }
         constexpr Color(const Color& col, const std::uint8_t& alpha) noexcept
             :
-            Color(col.m_dword, alpha)
+            Color(col.m_dword_, alpha)
         {
 
         }
@@ -46,55 +58,52 @@ export namespace fatpound::util
         // NOLINTBEGIN(google-explicit-constructor, hicpp-explicit-conversions)
         operator std::uint32_t () const noexcept
         {
-            return m_dword;
+            return m_dword_;
         }
         // NOLINTEND(google-explicit-constructor, hicpp-explicit-conversions)
 
 
     public:
-        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetA() const noexcept -> unsigned char
+        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetA() const noexcept -> std::uint8_t
         {
-            return m_dword >> 24U;
+            return m_dword_ >> 24U;
         }
-        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetR() const noexcept -> unsigned char
+        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetR() const noexcept -> std::uint8_t
         {
-            return (m_dword >> 16U) bitand 0xFFU;
+            return (m_dword_ >> 16U) bitand 0xFFU;
         }
-        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetG() const noexcept -> unsigned char
+        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetG() const noexcept -> std::uint8_t
         {
-            return (m_dword >> 8U) bitand 0xFFU;
+            return (m_dword_ >> 8U) bitand 0xFFU;
         }
-        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetB() const noexcept -> unsigned char
+        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetB() const noexcept -> std::uint8_t
         {
-            return m_dword bitand 0xFFU;
+            return m_dword_ bitand 0xFFU;
         }
 
         FAT_FORCEINLINE void SetA(const std::uint8_t& alpha) noexcept
         {
-            m_dword = ((m_dword bitand 0x00'FF'FF'FFU) bitor (static_cast<std::uint32_t>(alpha) << 24U));
+            m_dword_ = (m_dword_ bitand AlphaMask) bitor (static_cast<std::uint32_t>(alpha) << AlphaShift);
         }
         FAT_FORCEINLINE void SetR(const std::uint8_t& red) noexcept
         {
-            m_dword = ((m_dword bitand 0xFF'00'FF'FFU) bitor (static_cast<std::uint32_t>(red) << 16U));
+            m_dword_ = (m_dword_ bitand RedMask) bitor (static_cast<std::uint32_t>(red) << RedShift);
         }
         FAT_FORCEINLINE void SetG(const std::uint8_t& green) noexcept
         {
-            m_dword = ((m_dword bitand 0xFF'FF'00'FFU) bitor (static_cast<std::uint32_t>(green) << 8U));
+            m_dword_ = (m_dword_ bitand GreenMask) bitor (static_cast<std::uint32_t>(green) << GreenShift);
         }
         FAT_FORCEINLINE void SetB(const std::uint8_t& blue) noexcept
         {
-            m_dword = ((m_dword bitand 0xFF'FF'FF'00U) bitor static_cast<std::uint32_t>(blue));
+            m_dword_ = (m_dword_ bitand BlueMask) bitor (static_cast<std::uint32_t>(blue) /* << BlueShift */);
         }
-
-
-    public:
-        std::uint32_t m_dword = std::numeric_limits<decltype(m_dword)>::max();
         
 
     protected:
 
 
     private:
+        std::uint32_t m_dword_ = std::numeric_limits<decltype(m_dword_)>::max();
     };
 }
 
@@ -102,10 +111,10 @@ export namespace fatpound::colors
 {
     using namespace util;
 
-    // This namespace contains Microsoft-style colors. (count: 140) (Direct2D version 1)
+    // This namespace contains Microsoft-style colors. (count: 140+1) (Direct2D and GDI+)
     // Lime => 0x00FF00, Green => 0x008000, LimeGreen => 0x32CD32
     // 
-    // Alpha value: 0xFF
+    // default alpha channel value: 0xFF
 
     constexpr Color AliceBlue            = 0xF0F8FF;
     constexpr Color AntiqueWhite         = 0xFAEBD7;
@@ -247,7 +256,7 @@ export namespace fatpound::colors
     constexpr Color WhiteSmoke           = 0xF5F5F5;
     constexpr Color Yellow               = 0xFFFF00;
     constexpr Color YellowGreen          = 0x9ACD32;
-    /////////
+    //
     constexpr Color Transparent          = { White, 0U };
 }
 

@@ -1,7 +1,7 @@
 module;
 
 #ifdef __INTELLISENSE__
-#include <algorithm>
+    #include <algorithm>
 #endif
 
 export module FatPound.Automata.TLT_v2;

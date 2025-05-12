@@ -3,7 +3,7 @@ module;
 #include <FatDefines.hpp>
 
 #ifdef __INTELLISENSE__
-#include <chrono>
+    #include <chrono>
 #endif
 
 export module FatPound.Util.Timer;

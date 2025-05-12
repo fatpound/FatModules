@@ -1,7 +1,7 @@
 module;
 
 #if FAT_BUILDING_WITH_MSVC
-#include <DirectXMath.h>
+    #include <DirectXMath.h>
 #endif
 
 export module FatPound.Math;

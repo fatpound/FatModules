@@ -13,7 +13,7 @@ export namespace fatpound::traits
     concept UnboundedArray = std::is_unbounded_array_v<T>;
 
     template <typename T>
-    concept Array = std::is_array_v<T>; // (or) BoundedArray<T> or UnboundedArray<T>
+    concept Array = std::is_array_v<T>; // or BoundedArray<T> or UnboundedArray<T>
 }
 
 module : private;

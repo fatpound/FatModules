@@ -1,6 +1,6 @@
 module;
 
-export module FatPound.Traits.UdtKinds;
+export module FatPound.Traits.Formation;
 
 import std;
 
@@ -17,6 +17,14 @@ export namespace fatpound::traits
 
     template <typename T>
     concept Enum = std::is_enum_v<T>; // or ScopedEnum<T>
+
+    template <typename T>
+    concept Instantiable = requires()
+    {
+        requires std::is_object_v<T>; // or ClassOrStruct<T> or Union<T> or ScopedEnum<T> or Enum<T>
+
+        T{};
+    };
 }
 
 module : private;
