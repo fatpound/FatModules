@@ -4,7 +4,10 @@ module;
 #include <FatNamespaces.hpp>
 #include <FatDefines.hpp>
 
-#include <FatWin32.hpp>
+#ifdef __INTELLISENSE__
+    #include <FatWin32.hpp>
+#endif
+
 #include <d2d1.h>
 
 #include <DirectXMath.h>
@@ -15,6 +18,10 @@ module;
 export module FatPound.Win32.D2D.Graphics;
 
 #if FAT_BUILDING_WITH_MSVC
+
+#ifndef __INTELLISENSE__
+    import <Windows.h>;
+#endif
 
 import FatPound.Traits.Bitwise;
 import FatPound.Util.Gfx.SizePack;

@@ -1,12 +1,16 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
+#ifdef __INTELLISENSE__
     #include <FatWin32.hpp>
 #endif
 
 export module FatPound.Win32.IWindow;
 
 #if FAT_BUILDING_WITH_MSVC
+
+#ifndef __INTELLISENSE__
+    import <Windows.h>;
+#endif
 
 import FatPound.Win32.Common;
 

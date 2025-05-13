@@ -1,24 +1,28 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-
-#ifndef FATPOUND_FULL_WIN_TARGETED
-    #define FATPOUND_FULL_WIN_TARGETED
-#endif
-
-#include <FatWin32_Settings.hpp>
-#undef FATPOUND_FULL_WIN_TARGETED
-#include <Windows.h>
-// #include <ntdef.h>  // for UNICODE_STRING
-// #include <winDNS.h> // for QWORD
-
+#ifdef __INTELLISENSE__
+    #if FAT_BUILDING_WITH_MSVC
+    
+    #ifndef FATPOUND_FULL_WIN_TARGETED
+        #define FATPOUND_FULL_WIN_TARGETED
+    #endif
+    
+    #include <FatWin32_Settings.hpp>
+    #undef FATPOUND_FULL_WIN_TARGETED
+    #include <Windows.h>
+    // #include <ntdef.h>  // for UNICODE_STRING
+    // #include <winDNS.h> // for QWORD
+    
+    #endif
 #endif
 
 export module FatPound.Win32.Common;
 
 #if FAT_BUILDING_WITH_MSVC
 
-// import <Windows.h>;
+#ifndef __INTELLISENSE__
+    import <Windows.h>;
+#endif
 
 import std;
 

@@ -26,7 +26,7 @@ import FatPound.Win32.WRL.Common;
 
 import std;
 
-namespace dx  = DirectX;
+namespace dx = DirectX;
 
 using FATSPACE_UTIL::Color;
 using FATSPACE_UTIL::Surface;
