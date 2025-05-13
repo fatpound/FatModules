@@ -3,8 +3,6 @@ module;
 #if FAT_BUILDING_WITH_MSVC
 #include <FatNamespaces.hpp>
 
-#include <FatWin32.hpp>
-
 #include <DirectXMath.h>
 
 #include <cassert>

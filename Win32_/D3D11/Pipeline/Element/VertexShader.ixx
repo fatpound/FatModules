@@ -1,10 +1,5 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#include <FatWin32.hpp>
-#include <wrl.h>
-#endif
-
 export module FatPound.Win32.D3D11.Pipeline.Element.VertexShader;
 
 #if FAT_BUILDING_WITH_MSVC
@@ -13,10 +8,9 @@ import <d3d11.h>;
 import <d3dcompiler.h>;
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
+import FatPound.Win32.WRL.Common;
 
 import std;
-
-namespace wrl = Microsoft::WRL;
 
 export namespace fatpound::win32::d3d11::pipeline::element
 {

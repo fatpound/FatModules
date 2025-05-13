@@ -6,7 +6,6 @@ module;
 
 #include <FatWin32.hpp>
 #include <d2d1.h>
-#include <wrl.h>
 
 #include <DirectXMath.h>
 
@@ -19,11 +18,11 @@ export module FatPound.Win32.D2D.Graphics;
 
 import FatPound.Traits.Bitwise;
 import FatPound.Util.Gfx.SizePack;
+import FatPound.Win32.WRL.Common;
 
 import std;
 
-namespace dx  = DirectX;
-namespace wrl = Microsoft::WRL;
+namespace dx = DirectX;
 
 export namespace fatpound::win32::d2d
 {

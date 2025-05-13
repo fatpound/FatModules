@@ -1,10 +1,7 @@
 module;
 
 #if FAT_BUILDING_WITH_MSVC
-#include <FatNamespaces.hpp>
-
-#include <FatWin32.hpp>
-#include <wrl.h>
+    #include <FatNamespaces.hpp>
 #endif
 
 export module FatPound.Win32.D3D11.Pipeline.Resource.Texture2D;
@@ -15,10 +12,9 @@ import <d3d11.h>;
 
 import FatPound.Util.Surface;
 import FatPound.Win32.D3D11.Pipeline.Bindable;
+import FatPound.Win32.WRL.Common;
 
 import std;
-
-namespace wrl = Microsoft::WRL;
 
 export namespace fatpound::win32::d3d11::pipeline::resource
 {

@@ -4,9 +4,6 @@ module;
 #include <FatNamespaces.hpp>
 #include <FatDefines.hpp>
 
-#include <FatWin32.hpp>
-#include <wrl.h>
-
 #include <DirectXMath.h>
 
 #pragma comment(lib, "d3d11")
@@ -25,11 +22,11 @@ import FatPound.Util.Surface;
 import FatPound.Util.Gfx;
 import FatPound.Win32.D3D11.Pipeline;
 import FatPound.Win32.D3D11.Visual;
+import FatPound.Win32.WRL.Common;
 
 import std;
 
 namespace dx  = DirectX;
-namespace wrl = Microsoft::WRL;
 
 using FATSPACE_UTIL::Color;
 using FATSPACE_UTIL::Surface;

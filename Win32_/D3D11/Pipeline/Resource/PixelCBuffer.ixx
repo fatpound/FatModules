@@ -1,10 +1,5 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#include <FatWin32.hpp>
-#include <wrl.h>
-#endif
-
 export module FatPound.Win32.D3D11.Pipeline.Resource.PixelCBuffer;
 
 #if FAT_BUILDING_WITH_MSVC

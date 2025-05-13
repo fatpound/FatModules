@@ -1,9 +1,7 @@
 module;
 
 #if FAT_BUILDING_WITH_MSVC
-#include <FatWin32.hpp>
-
-#include <combaseapi.h>
+    #include <combaseapi.h>
 #endif
 
 export module FatPound.Win32.COM.Manager;

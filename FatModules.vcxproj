@@ -47,7 +47,6 @@
     <ClCompile Include="File\File.ixx" />
     <ClCompile Include="Math\Geometry\AngularConv.ixx" />
     <ClCompile Include="Math\Common.ixx" />
-    <ClCompile Include="Math\Geometry\Circle.ixx" />
     <ClCompile Include="Math\Geometry\Common.ixx" />
     <ClCompile Include="Math\Geometry\Geometry.ixx" />
     <ClCompile Include="Math\Math.ixx" />
@@ -114,6 +113,8 @@
     <ClCompile Include="Win32_\IWindow.ixx" />
     <ClCompile Include="Win32_\Win32.ixx" />
     <ClCompile Include="Win32_\WindowEx.ixx" />
+    <ClCompile Include="Win32_\WRL\Common.ixx" />
+    <ClCompile Include="Win32_\WRL\WRL.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FatDefines.hpp" />

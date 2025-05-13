@@ -285,13 +285,16 @@
     <ClCompile Include="Random\URand.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Geometry\Circle.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DSA\Cryptography\XorCipher.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Math\Geometry\Common.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32_\WRL\WRL.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32_\WRL\Common.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

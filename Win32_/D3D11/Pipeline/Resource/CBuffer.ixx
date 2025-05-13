@@ -1,10 +1,5 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#include <FatWin32.hpp>
-#include <wrl.h>
-#endif
-
 export module FatPound.Win32.D3D11.Pipeline.Resource.CBuffer;
 
 #if FAT_BUILDING_WITH_MSVC
@@ -12,10 +7,9 @@ export module FatPound.Win32.D3D11.Pipeline.Resource.CBuffer;
 import <d3d11.h>;
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
+import FatPound.Win32.WRL.Common;
 
 import std;
-
-namespace wrl = Microsoft::WRL;
 
 export namespace fatpound::win32::d3d11::pipeline::resource
 {
@@ -72,19 +66,19 @@ export namespace fatpound::win32::d3d11::pipeline::resource
     public:
         virtual void Update(ID3D11DeviceContext* const pImmediateContext, const T& consts) final
         {
-            // refactor later
+            {
+                D3D11_MAPPED_SUBRESOURCE msr;
 
-            D3D11_MAPPED_SUBRESOURCE msr;
+                pImmediateContext->Map(
+                    m_pConstantBuffer_.Get(),
+                    0U,
+                    D3D11_MAP_WRITE_DISCARD,
+                    0U,
+                    &msr
+                );
 
-            pImmediateContext->Map(
-                m_pConstantBuffer_.Get(),
-                0U,
-                D3D11_MAP_WRITE_DISCARD,
-                0U,
-                &msr
-            );
-
-            std::memcpy(msr.pData, &consts, sizeof(consts));
+                std::memcpy(msr.pData, &consts, sizeof(consts));
+            }
 
             pImmediateContext->Unmap(m_pConstantBuffer_.Get(), 0U);
         }

@@ -1,12 +1,7 @@
 module;
 
 #if FAT_BUILDING_WITH_MSVC
-#include <FatNamespaces.hpp>
-
-#include <FatWin32.hpp>
-#include <wrl.h>
-
-#include <DirectXMath.h>
+    #include <DirectXMath.h>
 #endif
 
 export module FatPound.Win32.D3D11.Pipeline.Resource.TransformCBuffer;
@@ -27,7 +22,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
     class TransformCBuffer final : public Bindable
     {
     public:
-        explicit TransformCBuffer(ID3D11Device* const pDevice, const T& parent, FATSPACE_UTIL::ViewXM& viewXM)
+        explicit TransformCBuffer(ID3D11Device* const pDevice, const T& parent, util::ViewXM& viewXM)
             :
             m_vcbuf_(pDevice),
             m_parent_(parent),
@@ -69,7 +64,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
 
         const T& m_parent_;
 
-        FATSPACE_UTIL::ViewXM& m_viewXM_;
+        util::ViewXM& m_viewXM_;
     };
 }
 

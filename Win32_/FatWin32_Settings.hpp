@@ -2,9 +2,7 @@
 
 #if FAT_BUILDING_WITH_MSVC
 
-// target Windows 7 or later
-#define _WIN32_WINNT 0x0601
-
+#define _WIN32_WINNT _WIN32_WINNT_WIN10
 #include <sdkddkver.h>
 
 #ifndef NOMINMAX
