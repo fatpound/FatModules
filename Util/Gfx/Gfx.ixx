@@ -1,8 +1,10 @@
 module;
 
 #if FAT_BUILDING_WITH_MSVC
-#include <FatWin32.hpp>
-#include <wrl.h>
+    #ifdef __INTELLISENSE__
+        #include <FatWin32.hpp>
+        #include <wrl.h>
+    #endif
 #endif
 
 export module FatPound.Util.Gfx;
@@ -14,6 +16,10 @@ export import FatPound.Util.Gfx.SizePack;
 #if FAT_BUILDING_WITH_MSVC
 
 import <d3d11.h>;
+
+#ifndef __INTELLISENSE__
+    import <wrl.h>;
+#endif
 
 namespace wrl = Microsoft::WRL;
 
