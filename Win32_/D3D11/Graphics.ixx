@@ -4,8 +4,6 @@ module;
 #include <FatNamespaces.hpp>
 #include <FatDefines.hpp>
 
-#include <DirectXMath.h>
-
 #pragma comment(lib, "d3d11")
 #pragma comment(lib, "D3DCompiler")
 #endif
@@ -25,8 +23,6 @@ import FatPound.Win32.D3D11.Visual;
 import FatPound.Win32.WRL.Common;
 
 import std;
-
-namespace dx = DirectX;
 
 using FATSPACE_UTIL::Color;
 using FATSPACE_UTIL::Surface;

@@ -1,18 +1,15 @@
 module;
 
-#ifdef __INTELLISENSE__
-    #if FAT_BUILDING_WITH_MSVC
-    
-    #ifndef FATPOUND_FULL_WIN_TARGETED
-        #define FATPOUND_FULL_WIN_TARGETED
-    #endif
-    
-    #include <FatWin32_Settings.hpp>
-    #undef FATPOUND_FULL_WIN_TARGETED
-    #include <Windows.h>
-    // #include <ntdef.h>  // for UNICODE_STRING
-    // #include <winDNS.h> // for QWORD
-    
+#if FAT_BUILDING_WITH_MSVC
+    #ifdef __INTELLISENSE__
+        #ifndef FATPOUND_FULL_WIN_TARGETED
+            #define FATPOUND_FULL_WIN_TARGETED
+        #endif
+        #include <FatWin32_Settings.hpp>
+        #undef FATPOUND_FULL_WIN_TARGETED
+        #include <Windows.h>
+        // #include <ntdef.h>  // for UNICODE_STRING
+        // #include <winDNS.h> // for QWORD
     #endif
 #endif
 

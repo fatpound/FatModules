@@ -23,11 +23,11 @@ export namespace fatpound::math::numbers
     {
         return Cube<T>(std::cbrt(num)) == num;
     }
-    template <std::unsigned_integral T>             constexpr auto IsPerfectSquare (const T& num) noexcept -> bool
+    template <std::unsigned_integral T> FAT_CMATH_CONSTEXPR26 auto IsPerfectSquare (const T& num) noexcept -> bool
     {
         return IsSquare<>(num);
     }
-    template <std::unsigned_integral T>             constexpr auto IsPerfectCube   (const T& num) noexcept -> bool
+    template <std::unsigned_integral T> FAT_CMATH_CONSTEXPR26 auto IsPerfectCube   (const T& num) noexcept -> bool
     {
         return IsCube<>(num);
     }
