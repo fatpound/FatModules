@@ -1,38 +1,26 @@
 module;
 
 #if FAT_BUILDING_WITH_MSVC
-    #ifdef __INTELLISENSE__
-        #ifndef FATPOUND_FULL_WIN_TARGETED
-            #define FATPOUND_FULL_WIN_TARGETED
-        #endif
-        #include <FatWin32_Settings.hpp>
-        #undef FATPOUND_FULL_WIN_TARGETED
-        #include <Windows.h>
-        // #include <ntdef.h>  // for UNICODE_STRING
-        // #include <winDNS.h> // for QWORD
+    #ifndef FATPOUND_FULL_WIN_TARGETED
+        #define FATPOUND_FULL_WIN_TARGETED
     #endif
+    #include <FatWin32_Settings.hpp>
+    #ifdef FATPOUND_FULL_WIN_TARGETED
+        #undef FATPOUND_FULL_WIN_TARGETED
+    #endif
+    #include <Windows.h>
+    #include <winDNS.h>
+    #include <subauth.h>
 #endif
 
 export module FatPound.Win32.Common;
 
 #if FAT_BUILDING_WITH_MSVC
 
-#ifndef __INTELLISENSE__
-    import <Windows.h>;
-#endif
-
 import std;
 
-export namespace fatpound::win32
+export
 {
-#ifdef UNICODE
-    using CREATESTRUCT_t = ::CREATESTRUCTW;
-    using STR_t          = ::LPCWSTR;
-#else
-    using CREATESTRUCT_t = ::CREATESTRUCTA;
-    using STR_t          = ::LPCSTR;
-#endif
-
     using ::ATOM;
     using ::BOOL;
     using ::BOOLEAN;
@@ -169,7 +157,7 @@ export namespace fatpound::win32
     using ::PWCHAR;
     using ::PWORD;
     using ::PWSTR;
-//  using ::QWORD;
+    using ::QWORD;
     using ::SC_HANDLE;
     using ::SC_LOCK;
     using ::SERVICE_STATUS_HANDLE;
@@ -191,7 +179,7 @@ export namespace fatpound::win32
     using ::ULONG_PTR;
     using ::ULONG32;
     using ::ULONG64;
-//  using ::UNICODE_STRING;
+    using ::UNICODE_STRING;
     using ::USHORT;
     using ::USN;
     using ::WCHAR;
@@ -199,6 +187,17 @@ export namespace fatpound::win32
     using ::WPARAM;
     
     using ::WNDCLASSEX;
+}
+
+export namespace fatpound::win32
+{
+#ifdef UNICODE
+    using CREATESTRUCT_t = ::CREATESTRUCTW;
+    using STR_t          = ::LPCWSTR;
+#else
+    using CREATESTRUCT_t = ::CREATESTRUCTA;
+    using STR_t          = ::LPCSTR;
+#endif
 
     auto ModuleHandleOf(const STR_t& cstr = nullptr) -> HINSTANCE
     {
