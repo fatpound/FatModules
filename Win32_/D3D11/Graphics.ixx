@@ -33,13 +33,13 @@ export namespace fatpound::win32::d3d11
     template <bool Framework = false>
     class Graphics final
     {
-        static constexpr auto NotFramework         = std::bool_constant<not Framework>::value;
+        static constexpr auto NotFramework         = not Framework;
         static constexpr auto RasterizationEnabled = NotFramework;
 
         using ResourcePack_t = std::conditional_t<Framework, FATSPACE_UTIL_GFX::FrameworkResourcePack, FATSPACE_UTIL_GFX::ResourcePack>;
 
     public:
-        using float_t = float;
+        using Float_t = float;
 
 
     public:
@@ -113,7 +113,7 @@ export namespace fatpound::win32::d3d11
             m_res_pack_.m_surface.PutPixel<>(x, y, color);
         }
 
-        template <bool FullBlack = true, float_t red = 1.0F, float_t green = 1.0F, float_t blue = 1.0F, float_t alpha = 1.0F>
+        template <bool FullBlack = true, Float_t red = 1.0F, Float_t green = 1.0F, Float_t blue = 1.0F, Float_t alpha = 1.0F>
         void BeginFrame() requires(NotFramework)
         {
             if constexpr (FullBlack)
@@ -153,11 +153,11 @@ export namespace fatpound::win32::d3d11
             }
         }
 
-        template <float_t red = 0.0F, float_t green = 0.0F, float_t blue = 0.0F, float_t alpha = 1.0F>
+        template <Float_t red = 0.0F, Float_t green = 0.0F, Float_t blue = 0.0F, Float_t alpha = 1.0F>
         void FillWithSolidColor() requires(NotFramework)
         {
             {
-                constexpr std::array<const float_t, 4> colors{ red, green, blue, alpha };
+                constexpr std::array<const Float_t, 4> colors{ red, green, blue, alpha };
 
                 GetImmediateContext()->ClearRenderTargetView(GetRenderTargetView(), colors.data());
             }
@@ -165,7 +165,7 @@ export namespace fatpound::win32::d3d11
             GetImmediateContext()->ClearDepthStencilView(GetDepthStencilView(), D3D11_CLEAR_DEPTH, 1.0F, 0U);
         }
 
-        template <std::floating_point T = float_t>
+        template <std::floating_point T = Float_t>
         void FillWithSolidColor(const T& red, const T& green, const T& blue, const T& alpha = static_cast<T>(1.0)) requires(NotFramework)
         {
             {
@@ -238,7 +238,7 @@ export namespace fatpound::win32::d3d11
                 std::memcpy(
                     m_res_pack_.m_surface,
                     pSrc,
-                    sizeof(Color) * GetWidth<UINT>() * GetHeight<UINT>()
+                    GetWidth<UINT>() * GetHeight<UINT>() * sizeof(Color)
                 );
             }
         }
@@ -248,7 +248,7 @@ export namespace fatpound::win32::d3d11
 
 
     private:
-        void InitCommon_              ()
+        void InitCommon_                       ()
         {
             InitDevice_();
             InitMSAA_Settings_();
@@ -258,7 +258,7 @@ export namespace fatpound::win32::d3d11
 
             ToggleAltEnterMode_();
         }
-        void InitFramework_           () requires(Framework)
+        void InitFramework_                    () requires(Framework)
         {
             InitFrameworkBackbuffer_();
 
@@ -289,7 +289,7 @@ export namespace fatpound::win32::d3d11
                 bindable->Bind(GetImmediateContext());
             }
         }
-        void InitFrameworkBackbuffer_ () requires(Framework)
+        void InitFrameworkBackbuffer_          () requires(Framework)
         {
             {
                 wrl::ComPtr<ID3D11ShaderResourceView> pSRV;
@@ -355,7 +355,7 @@ export namespace fatpound::win32::d3d11
 
             GetImmediateContext()->PSSetSamplers(0, 1, pSS.GetAddressOf());
         }
-        void InitDevice_              ()
+        void InitDevice_                       ()
         {
             D3D_FEATURE_LEVEL featureLevel{};
 
@@ -379,7 +379,7 @@ export namespace fatpound::win32::d3d11
                 throw std::runtime_error("Direct3D Feature Level 11 is unsupported!");
             }
         }
-        void InitMSAA_Settings_       ()
+        void InitMSAA_Settings_                ()
         {
             {
                 constexpr std::array<const UINT, 4> msaa_counts{ 32U, 16U, 8U, 4U };
@@ -402,7 +402,7 @@ export namespace fatpound::win32::d3d11
                 throw std::runtime_error{ "MSAA Quality is NOT valid!" };
             }
         }
-        void InitSwapChain_           ()
+        void InitSwapChain_                    ()
         {
             DXGI_SWAP_CHAIN_DESC scDesc
             {
@@ -438,7 +438,7 @@ export namespace fatpound::win32::d3d11
                 throw std::runtime_error("Could NOT create DXGI SwapChain!");
             }
         }
-        void InitRenderTarget_        ()
+        void InitRenderTarget_                 ()
         {
             {
                 wrl::ComPtr<ID3D11Texture2D> pBackBufferTexture2D{};
@@ -495,7 +495,7 @@ export namespace fatpound::win32::d3d11
 
             GetImmediateContext()->OMSetRenderTargets(1U, m_res_pack_.m_pRTV.GetAddressOf(), GetDepthStencilView());
         }
-        void InitViewport_            ()
+        void InitViewport_                     ()
         {
             const D3D11_VIEWPORT vp
             {
@@ -509,7 +509,7 @@ export namespace fatpound::win32::d3d11
 
             GetImmediateContext()->RSSetViewports(1U, &vp);
         }
-        void InitRasterizer_          () requires(NotFramework)
+        void InitRasterizer_                   () requires(NotFramework)
         {
             wrl::ComPtr<ID3D11RasterizerState> m_pRasterizerState_;
 
