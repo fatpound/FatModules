@@ -1,12 +1,10 @@
 module;
 
-#include <FatWin32.hpp>
-
 export module FatPound.Win32.IWindow;
 
 #if FAT_BUILDING_WITH_MSVC
 
-import FatPound.Win32.Common;
+import <FatWin32.hxx>;
 
 import std;
 
@@ -123,7 +121,13 @@ export namespace fatpound::win32
         {
             if (msg == WM_NCCREATE)
             {
+#ifdef UNICODE
+    #define CREATESTRUCT_t CREATESTRUCTW
+#else
+    #define CREATESTRUCT_t CREATESTRUCTA
+#endif
                 IWindow* const pWnd = static_cast<IWindow*>(reinterpret_cast<CREATESTRUCT_t*>(lParam)->lpCreateParams);
+#undef CREATESTRUCT_t
 
                 ::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
 

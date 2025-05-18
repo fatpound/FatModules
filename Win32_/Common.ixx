@@ -1,13 +1,9 @@
 module;
 
 #if FAT_BUILDING_WITH_MSVC
-    #ifndef FATPOUND_FULL_WIN_TARGETED
-        #define FATPOUND_FULL_WIN_TARGETED
-    #endif
+    #define FATPOUND_FULL_WIN_TARGETED
     #include <FatWin32_Settings.hpp>
-    #ifdef FATPOUND_FULL_WIN_TARGETED
-        #undef FATPOUND_FULL_WIN_TARGETED
-    #endif
+    #undef  FATPOUND_FULL_WIN_TARGETED
     #include <Windows.h>
     #include <winDNS.h>
     #include <subauth.h>
@@ -189,15 +185,13 @@ export
 
 export namespace fatpound::win32
 {
+    auto ModuleHandleOf(const
 #ifdef UNICODE
-    using CREATESTRUCT_t = ::CREATESTRUCTW;
-    using STR_t          = ::LPCWSTR;
+        ::LPCWSTR
 #else
-    using CREATESTRUCT_t = ::CREATESTRUCTA;
-    using STR_t          = ::LPCSTR;
+        ::LPCSTR
 #endif
-
-    auto ModuleHandleOf(const STR_t& cstr = nullptr) -> HINSTANCE
+        & cstr = nullptr) -> HINSTANCE
     {
         if (const auto& hInstance{ ::GetModuleHandle(cstr) }; hInstance not_eq nullptr)
         {

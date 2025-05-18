@@ -4,9 +4,10 @@ module;
 #include <FatNamespaces.hxx>
 #include <FatMacros.hxx>
 
-#ifdef __INTELLISENSE__
     #include <FatWin32.hpp>
     #include <d2d1.h>
+
+#ifdef __INTELLISENSE__
     #include <wrl.h>
 #endif
 
@@ -20,7 +21,6 @@ export module FatPound.Win32.D2D.Graphics;
 #if FAT_BUILDING_WITH_MSVC
 
 #ifndef __INTELLISENSE__
-    import <d2d1.h>;
     import FatPound.Win32.WRL.Common;
 #endif
 

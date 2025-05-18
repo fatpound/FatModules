@@ -1,12 +1,10 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-    #include <FatWin32.hpp>
-#endif
-
 export module FatPound.Util.Common;
 
 #if FAT_BUILDING_WITH_MSVC
+
+import <FatWin32.hxx>;
 
 import std;
 

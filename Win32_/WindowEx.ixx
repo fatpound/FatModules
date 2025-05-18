@@ -4,7 +4,9 @@ module;
 #include <FatNamespaces.hxx>
 #include <FatMacros.hxx>
 
-#include <FatWin32.hpp>
+#ifdef __INTELLISENSE__
+    #include <FatWin32.hpp>
+#endif
 
 #include <DirectXMath.h>
 #endif
@@ -13,11 +15,14 @@ export module FatPound.Win32.WindowEx;
 
 #if FAT_BUILDING_WITH_MSVC
 
+#ifndef __INTELLISENSE__
+    import <FatWin32.hxx>;
+#endif
+
 import FatPound.Concurrency;
 import FatPound.IO;
 import FatPound.Traits.Bitwise;
 import FatPound.Util.Gfx.SizePack;
-import FatPound.Win32.Common;
 import FatPound.Win32.IWindow;
 
 import std;

@@ -3,17 +3,11 @@ module;
 #include <FatNamespaces.hxx>
 #include <FatMacros.hxx>
 
-#if FAT_BUILDING_WITH_MSVC
-#define FATPOUND_FULL_WIN_TARGETED
-#include <FatWin32.hpp>
-#include <gdiplus.h>
-#undef FATPOUND_FULL_WIN_TARGETED
-#pragma comment(lib, "gdiplus")
-#endif
-
 #include <cassert>
 
 export module FatPound.Util.Surface;
+
+import <FatWin32.hxx>;
 
 import FatPound.Memory;
 import FatPound.Traits.Bitwise;
@@ -22,7 +16,7 @@ import FatPound.Util.Common;
 import FatPound.Util.Gfx.SizePack;
 
 #if FAT_BUILDING_WITH_MSVC
-import FatPound.Win32.GDI_Plus;
+import FatPound.Win32.GDI_Plus.Manager;
 #endif
 
 import std;
