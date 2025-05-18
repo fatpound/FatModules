@@ -1,6 +1,6 @@
 module;
 
-#include <FatDefines.hpp>
+#include <FatSTL_Macros.hxx>
 
 export module FatPound.Math.Common;
 

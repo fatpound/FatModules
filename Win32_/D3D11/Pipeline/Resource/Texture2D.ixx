@@ -1,7 +1,7 @@
 module;
 
 #if FAT_BUILDING_WITH_MSVC
-    #include <FatNamespaces.hpp>
+    #include <FatNamespaces.hxx>
 #endif
 
 export module FatPound.Win32.D3D11.Pipeline.Resource.Texture2D;

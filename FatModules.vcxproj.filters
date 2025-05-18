@@ -305,10 +305,13 @@
     <ClInclude Include="Win32_\FatWin32_Settings.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FatNamespaces.hpp">
+    <ClInclude Include="FatNamespaces.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FatDefines.hpp">
+    <ClInclude Include="FatMacros.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FatSTL_Macros.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

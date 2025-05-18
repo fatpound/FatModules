@@ -1,6 +1,6 @@
 module;
 
-#include <FatDefines.hpp>
+#include <FatMacros.hxx>
 
 #ifdef __INTELLISENSE__
     #include <chrono>

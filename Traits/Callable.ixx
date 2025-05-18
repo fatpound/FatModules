@@ -1,6 +1,6 @@
 module;
 
-#include <FatDefines.hpp>
+#include <FatMacros.hxx>
 
 export module FatPound.Traits.Callable;
 

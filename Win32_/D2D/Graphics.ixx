@@ -1,14 +1,13 @@
 module;
 
 #if FAT_BUILDING_WITH_MSVC
-#include <FatNamespaces.hpp>
-#include <FatDefines.hpp>
+#include <FatNamespaces.hxx>
+#include <FatMacros.hxx>
 
 #ifdef __INTELLISENSE__
     #include <FatWin32.hpp>
+    #include <d2d1.h>
 #endif
-
-#include <d2d1.h>
 
 #include <DirectXMath.h>
 
@@ -21,6 +20,7 @@ export module FatPound.Win32.D2D.Graphics;
 
 #ifndef __INTELLISENSE__
     import <Windows.h>;
+    import <d2d1.h>;
 #endif
 
 import FatPound.Traits.Bitwise;

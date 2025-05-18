@@ -23,7 +23,6 @@
 #define FATSPACE_D3D11                FATSPACE_WIN32::d3d11
 #define FATSPACE_VISUAL               FATSPACE_D3D11::visual
 
-// these will be refactored later
 #define FATSPACE_PIPELINE             FATSPACE_D3D11::pipeline
 #define FATSPACE_PIPELINE_ELEMENT     FATSPACE_PIPELINE::element
 #define FATSPACE_PIPELINE_RESOURCE    FATSPACE_PIPELINE::resource

@@ -1,7 +1,7 @@
 module;
 
 #if FAT_BUILDING_WITH_MSVC
-#include <FatNamespaces.hpp>
+#include <FatNamespaces.hxx>
 
 #include <DirectXMath.h>
 

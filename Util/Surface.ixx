@@ -1,7 +1,7 @@
 module;
 
-#include <FatNamespaces.hpp>
-#include <FatDefines.hpp>
+#include <FatNamespaces.hxx>
+#include <FatMacros.hxx>
 
 #if FAT_BUILDING_WITH_MSVC
 #define FATPOUND_FULL_WIN_TARGETED

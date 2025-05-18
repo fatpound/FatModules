@@ -117,8 +117,9 @@
     <ClCompile Include="Win32_\WRL\WRL.ixx" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FatDefines.hpp" />
-    <ClInclude Include="FatNamespaces.hpp" />
+    <ClInclude Include="FatMacros.hxx" />
+    <ClInclude Include="FatNamespaces.hxx" />
+    <ClInclude Include="FatSTL_Macros.hxx" />
     <ClInclude Include="Win32_\FatWin32.hpp" />
     <ClInclude Include="Win32_\FatWin32_Settings.hpp" />
   </ItemGroup>
