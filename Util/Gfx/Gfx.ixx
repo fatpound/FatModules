@@ -4,6 +4,7 @@ module;
     #ifdef __INTELLISENSE__
         #include <FatWin32.hpp>
         #include <wrl.h>
+        #include <d3d11.h>
     #endif
 #endif
 
@@ -18,16 +19,17 @@ export import FatPound.Util.Gfx.SizePack;
 import <d3d11.h>;
 
 #ifndef __INTELLISENSE__
-    import <wrl.h>;
+    import FatPound.Win32.WRL.Common;
+#else
+    namespace wrl = Microsoft::WRL;
 #endif
-
-namespace wrl = Microsoft::WRL;
 
 export namespace fatpound::util::gfx
 {
     auto GetDXGIFactory(ID3D11Device* const pDevice) -> wrl::ComPtr<IDXGIFactory>
     {
         auto pDXGIDevice = wrl::ComPtr<IDXGIDevice>{};
+
         pDevice->QueryInterface(__uuidof(IDXGIDevice), &pDXGIDevice);
 
         auto pDXGIAdapter = wrl::ComPtr<IDXGIAdapter>{};

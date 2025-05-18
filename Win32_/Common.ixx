@@ -185,8 +185,6 @@ export
     using ::WCHAR;
     using ::WORD;
     using ::WPARAM;
-    
-    using ::WNDCLASSEX;
 }
 
 export namespace fatpound::win32

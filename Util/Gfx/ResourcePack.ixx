@@ -4,6 +4,7 @@ module;
     #ifdef __INTELLISENSE__
         #include <FatWin32.hpp>
         #include <wrl.h>
+        #include <d3d11.h>
     #endif
 #endif
 
@@ -13,14 +14,14 @@ export module FatPound.Util.Gfx.ResourcePack;
 
 import <d3d11.h>;
 
-#ifndef __INTELLISENSE__
-    import <wrl.h>;
-#endif
-
 import FatPound.Util.Gfx.SizePack;
 import FatPound.Util.Surface;
 
-namespace wrl = Microsoft::WRL;
+#ifndef __INTELLISENSE__
+    import FatPound.Win32.WRL.Common;
+#else
+    namespace wrl = Microsoft::WRL;
+#endif
 
 export namespace fatpound::util::gfx
 {

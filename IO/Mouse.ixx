@@ -1,15 +1,5 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#include <FatWin32.hpp>
-#else
-#ifndef WHEEL_DELTA
-// NOLINTBEGIN(cppcoreguidelines-macro-usage)
-#define WHEEL_DELTA 120
-// NOLINTEND(cppcoreguidelines-macro-usage)
-#endif
-#endif
-
 export module FatPound.IO.Mouse;
 
 export import FatPound.IO.MouseEvent;
@@ -176,22 +166,21 @@ export namespace fatpound::io
         {
             m_wheel_delta_carry_ += delta;
 
-            while (m_wheel_delta_carry_ >= WHEEL_DELTA)
+#define FAT_WHEEL_DELTA 120
+            while (m_wheel_delta_carry_ >= FAT_WHEEL_DELTA)
             {
-                m_wheel_delta_carry_ -= WHEEL_DELTA;
+                m_wheel_delta_carry_ -= FAT_WHEEL_DELTA;
 
                 AddWheelUpEvent();
             }
 
-            while (m_wheel_delta_carry_ <= -WHEEL_DELTA)
+            while (m_wheel_delta_carry_ <= -FAT_WHEEL_DELTA)
             {
-                m_wheel_delta_carry_ += WHEEL_DELTA;
+                m_wheel_delta_carry_ += FAT_WHEEL_DELTA;
 
                 AddWheelDownEvent();
             }
-#if not FAT_BUILDING_WITH_MSVC
-#undef WHEEL_DELTA
-#endif
+#undef FAT_WHEEL_DELTA
         }
 
 
