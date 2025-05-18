@@ -1,8 +1,8 @@
 module;
 
 #if FAT_BUILDING_WITH_MSVC
-#include <FatNamespaces.hxx>
-#include <FatMacros.hxx>
+    #include <FatNamespaces.hxx>
+    #include <FatMacros.hxx>
 
     #include <FatWin32.hpp>
     #include <d2d1.h>
@@ -11,9 +11,9 @@ module;
     #include <wrl.h>
 #endif
 
-#include <DirectXMath.h>
+    #include <DirectXMath.h>
 
-#pragma comment(lib, "d2d1")
+    #pragma comment(lib, "d2d1")
 #endif
 
 export module FatPound.Win32.D2D.Graphics;

@@ -1,11 +1,11 @@
 module;
 
 #if FAT_BUILDING_WITH_MSVC
-#include <FatNamespaces.hxx>
-#include <FatMacros.hxx>
+    #include <FatNamespaces.hxx>
+    #include <FatMacros.hxx>
 
-#pragma comment(lib, "d3d11")
-#pragma comment(lib, "D3DCompiler")
+    #pragma comment(lib, "d3d11")
+    #pragma comment(lib, "D3DCompiler")
 #endif
 
 export module FatPound.Win32.D3D11.Graphics;
