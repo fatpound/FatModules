@@ -5,8 +5,6 @@
 #undef FATPOUND_FULL_WIN_TARGETED
 #include <gdiplus.h>
 #include <combaseapi.h>
-#include <winDNS.h>
-#include <subauth.h>
 
 #pragma comment(lib, "gdiplus")
 
