@@ -1,5 +1,7 @@
 module;
 
+#include <FatSTL_Macros.hxx>
+
 export module FatPound.Math.Geometry.Common;
 
 import FatPound.Math.Multiplicative;
@@ -12,7 +14,7 @@ export namespace fatpound::math::geometry
 {
     template <traits::UIntegralOrFloating T> constexpr auto SquarePerimeter   (const T& length) -> T
     {
-        return length * 4;
+        return length * static_cast<T>(4);
     }
     template <traits::UIntegralOrFloating T> constexpr auto SquareArea        (const T& length) noexcept(Squarable_NX<T>) -> T
     {
@@ -34,7 +36,7 @@ export namespace fatpound::math::geometry
     {
         return a + b + c;
     }
-    template <traits::UIntegralOrFloating T> constexpr auto TriangleArea      (const T& a, const T& b, const T& c) -> T
+    template <traits::UIntegralOrFloating T> CX_MATH26 auto TriangleArea      (const T& a, const T& b, const T& c) -> T
     {
         const auto s = TrianglePerimeter<>(a, b, c) / static_cast<T>(2);
 

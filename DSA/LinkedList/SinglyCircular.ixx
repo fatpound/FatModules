@@ -133,6 +133,11 @@ export namespace fatpound::dsa::linkedlist
             while (true)
             {
                 temp1 = temp->next;
+
+#ifdef _MSC_VER
+                __assume(temp1 not_eq nullptr);
+#endif
+
                 temp->next = temp2;
                 temp2 = temp1;
                 temp3 = temp;

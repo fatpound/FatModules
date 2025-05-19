@@ -36,9 +36,9 @@ export namespace fatpound::util::gfx
 
     struct FrameworkResourcePack final : public ResourcePack
     {
-        wrl::ComPtr<::ID3D11Texture2D> m_pSysbufferTex2d;
-        D3D11_MAPPED_SUBRESOURCE       m_mappedSysbufferTex2d{};
-        Surface                        m_surface;
+        wrl::ComPtr<::ID3D11Texture2D>      m_pSysbufferTex2d;
+        D3D11_MAPPED_SUBRESOURCE            m_mappedSysbufferTex2d{};
+        Surface                             m_surface;
 
         FrameworkResourcePack(const SizePack& dimensions)
             :

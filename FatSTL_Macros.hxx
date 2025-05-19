@@ -20,3 +20,11 @@
         #define FAT_CMATH_CONSTEXPR26
     #endif
 #endif
+
+#ifndef CX_MATH23
+    #define CX_MATH23 FAT_CMATH_CONSTEXPR23
+#endif
+
+#ifndef CX_MATH26
+    #define CX_MATH26 FAT_CMATH_CONSTEXPR26
+#endif

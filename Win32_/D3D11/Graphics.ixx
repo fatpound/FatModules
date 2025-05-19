@@ -179,7 +179,7 @@ export namespace fatpound::win32::d3d11
 
 
     public:
-        auto GetSurface() -> Surface*
+        auto GetSurface() noexcept -> Surface*
         {
             return m_pSurface_.get();
         }

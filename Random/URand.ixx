@@ -30,7 +30,7 @@ export namespace fatpound::random
 
 
     public:
-        auto operator () () noexcept -> std::ptrdiff_t
+        auto operator () () -> std::ptrdiff_t
         {
             if (m_current_ >= m_vec_.size())
             {
