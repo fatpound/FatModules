@@ -36,7 +36,7 @@ export import FatPound.Math;
 export import FatPound.Memory;
 export import FatPound.Random;
 export import FatPound.Traits;
-export import FatPound.Util;
+export import FatPound.Utility;
 
 #if FAT_BUILDING_WITH_MSVC
 export import FatPound.Win32;

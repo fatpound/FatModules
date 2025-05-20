@@ -8,11 +8,11 @@ module;
     #endif
 #endif
 
-export module FatPound.Util.Gfx;
+export module FatPound.Utility.Gfx;
 
-export import FatPound.Util.Gfx.FullScreenQuad;
-export import FatPound.Util.Gfx.ResourcePack;
-export import FatPound.Util.Gfx.SizePack;
+export import FatPound.Utility.Gfx.FullScreenQuad;
+export import FatPound.Utility.Gfx.ResourcePack;
+export import FatPound.Utility.Gfx.SizePack;
 
 #if FAT_BUILDING_WITH_MSVC
 
@@ -24,7 +24,7 @@ import <d3d11.h>;
     namespace wrl = Microsoft::WRL;
 #endif
 
-export namespace fatpound::util::gfx
+export namespace fatpound::utility::gfx
 {
     auto GetDXGIFactory(ID3D11Device* const pDevice) -> wrl::ComPtr<IDXGIFactory>
     {

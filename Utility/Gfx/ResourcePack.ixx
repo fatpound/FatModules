@@ -3,19 +3,19 @@ module;
 #if FAT_BUILDING_WITH_MSVC
     #ifdef __INTELLISENSE__
         #include <FatWin32.hpp>
-        #include <wrl.h>
         #include <d3d11.h>
+        #include <wrl.h>
     #endif
 #endif
 
-export module FatPound.Util.Gfx.ResourcePack;
+export module FatPound.Utility.Gfx.ResourcePack;
 
 #if FAT_BUILDING_WITH_MSVC
 
 import <d3d11.h>;
 
-import FatPound.Util.Gfx.SizePack;
-import FatPound.Util.Surface;
+import FatPound.Utility.Gfx.SizePack;
+import FatPound.Utility.Surface;
 
 #ifndef __INTELLISENSE__
     import FatPound.Win32.WRL.Common;
@@ -23,7 +23,7 @@ import FatPound.Util.Surface;
     namespace wrl = Microsoft::WRL;
 #endif
 
-export namespace fatpound::util::gfx
+export namespace fatpound::utility::gfx
 {
     struct ResourcePack
     {

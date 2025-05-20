@@ -5,15 +5,15 @@ module;
 
 #include <cassert>
 
-export module FatPound.Util.Surface;
+export module FatPound.Utility.Surface;
 
 import <FatWin32.hxx>;
 
 import FatPound.Memory;
 import FatPound.Traits.Bitwise;
-import FatPound.Util.Color;
-import FatPound.Util.Common;
-import FatPound.Util.Gfx.SizePack;
+import FatPound.Utility.Color;
+import FatPound.Utility.Common;
+import FatPound.Utility.Gfx.SizePack;
 
 #if FAT_BUILDING_WITH_MSVC
 import FatPound.Win32.GDI_Plus.Manager;
@@ -21,7 +21,7 @@ import FatPound.Win32.GDI_Plus.Manager;
 
 import std;
 
-export namespace fatpound::util
+export namespace fatpound::utility
 {
     class Surface final
     {

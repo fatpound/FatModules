@@ -4,13 +4,13 @@ module;
     #include <DirectXMath.h>
 #endif
 
-export module FatPound.Util.ViewXM;
+export module FatPound.Utility.ViewXM;
 
 #if FAT_BUILDING_WITH_MSVC
 
 namespace dx = DirectX;
 
-export namespace fatpound::util
+export namespace fatpound::utility
 {
     class [[nodiscard]] ViewXM final
     {

@@ -6,11 +6,11 @@ module;
     #include <chrono>
 #endif
 
-export module FatPound.Util.Timer;
+export module FatPound.Utility.Timer;
 
 import std;
 
-export namespace fatpound::util
+export namespace fatpound::utility
 {
     class Timer final
     {

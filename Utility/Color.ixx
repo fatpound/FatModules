@@ -2,13 +2,13 @@ module;
 
 #include <FatMacros.hxx>
 
-export module FatPound.Util.Color;
+export module FatPound.Utility.Color;
 
 import FatPound.Bit;
 
 import std;
 
-export namespace fatpound::util
+export namespace fatpound::utility
 {
     class [[nodiscard]] Color final
     {
@@ -109,7 +109,7 @@ export namespace fatpound::util
 
 export namespace fatpound::colors
 {
-    using namespace util;
+    using namespace utility;
 
     // This namespace contains Microsoft-style colors. (count: 140+1) (Direct2D and GDI+)
     // Lime => 0x00FF00, Green => 0x008000, LimeGreen => 0x32CD32

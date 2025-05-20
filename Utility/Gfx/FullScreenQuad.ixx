@@ -1,10 +1,10 @@
 module;
 
-export module FatPound.Util.Gfx.FullScreenQuad;
+export module FatPound.Utility.Gfx.FullScreenQuad;
 
 import std;
 
-export namespace fatpound::util::gfx
+export namespace fatpound::utility::gfx
 {
     struct FullScreenQuad final
     {

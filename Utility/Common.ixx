@@ -1,6 +1,6 @@
 module;
 
-export module FatPound.Util.Common;
+export module FatPound.Utility.Common;
 
 #if FAT_BUILDING_WITH_MSVC
 
@@ -8,7 +8,7 @@ import <FatWin32.hxx>;
 
 import std;
 
-export namespace fatpound::util
+export namespace fatpound::utility
 {
     auto ToWString(const std::string& str) -> std::wstring
     {

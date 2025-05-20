@@ -15,17 +15,17 @@ export module FatPound.Win32.D3D11.Graphics;
 import <d3d11.h>;
 
 import FatPound.Traits.Bitwise;
-import FatPound.Util.Color;
-import FatPound.Util.Surface;
-import FatPound.Util.Gfx;
+import FatPound.Utility.Color;
+import FatPound.Utility.Surface;
+import FatPound.Utility.Gfx;
 import FatPound.Win32.D3D11.Pipeline;
 import FatPound.Win32.D3D11.Visual;
 import FatPound.Win32.WRL.Common;
 
 import std;
 
-using FATSPACE_UTIL::Color;
-using FATSPACE_UTIL::Surface;
+using FATSPACE_UTILITY::Color;
+using FATSPACE_UTILITY::Surface;
 using FATSPACE_UTIL_GFX::SizePack;
 
 export namespace fatpound::win32::d3d11

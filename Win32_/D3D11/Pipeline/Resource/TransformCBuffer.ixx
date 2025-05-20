@@ -10,7 +10,7 @@ export module FatPound.Win32.D3D11.Pipeline.Resource.TransformCBuffer;
 
 import <d3d11.h>;
 
-import FatPound.Util.ViewXM;
+import FatPound.Utility.ViewXM;
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 import FatPound.Win32.D3D11.Pipeline.Resource.VertexCBuffer;
 
@@ -22,7 +22,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
     class TransformCBuffer final : public Bindable
     {
     public:
-        explicit TransformCBuffer(ID3D11Device* const pDevice, const T& parent, util::ViewXM& viewXM)
+        explicit TransformCBuffer(ID3D11Device* const pDevice, const T& parent, utility::ViewXM& viewXM)
             :
             m_vcbuf_(pDevice),
             m_parent_(parent),
@@ -64,7 +64,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
 
         const T& m_parent_;
 
-        util::ViewXM& m_viewXM_;
+        utility::ViewXM& m_viewXM_;
     };
 }
 

@@ -13,11 +13,11 @@
 #define FATSPACE_MEMORY               NAMESPACE_FATPOUND::memory
 #define FATSPACE_WIN32                NAMESPACE_FATPOUND::win32
 #define FATSPACE_TRAITS               NAMESPACE_FATPOUND::traits
-#define FATSPACE_UTIL                 NAMESPACE_FATPOUND::util
+#define FATSPACE_UTILITY              NAMESPACE_FATPOUND::utility
 #define FATSPACE_RANDOM               NAMESPACE_FATPOUND::random
 
 #define FATSPACE_NUMBERS              FATSPACE_MATH::numbers
-#define FATSPACE_UTIL_GFX             FATSPACE_UTIL::gfx
+#define FATSPACE_UTIL_GFX             FATSPACE_UTILITY::gfx
 
 #define FATSPACE_D2D                  FATSPACE_WIN32::d2d
 #define FATSPACE_D3D11                FATSPACE_WIN32::d3d11

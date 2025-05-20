@@ -2,15 +2,22 @@
 
 #if FAT_BUILDING_WITH_MSVC
 
-#define _WIN32_WINNT _WIN32_WINNT_WIN10
+#ifndef _WIN32_WINNT
+    #define _WIN32_WINNT _WIN32_WINNT_WIN10
+#endif
+
 #include <sdkddkver.h>
+
+#ifndef NOMINMAX
+    #define NOMINMAX
+#endif
 
 #ifndef STRICT
     #define STRICT
 #endif
 
-#ifndef FATPOUND_FULL_WIN_TARGETED
-    #define WIN32_LEAN_AND_MEAN // for 16-bit Windows libraries, rarely used
+#ifndef FATPOUND_FULL_WIN_TARGETED // except NOMINMAX
+    #define WIN32_LEAN_AND_MEAN    // for 16-bit Windows libraries, rarely used
     #define NOGDICAPMASKS
     #define NOMENUS
     #define NOICONS
@@ -37,7 +44,7 @@
     #define NOPROXYSTUB
     #define NOIMAGE
     #define NOTAPE
-    #define NOMETAFILE
+//  #define NOMETAFILE
 //  #define NOSYSMETRICS
 //  #define NOSYSCOMMANDS
 //  #define NOATOM
@@ -51,7 +58,6 @@
 //  #define NOGDI
 //  #define NOUSER
 //  #define NOMB
-//  #define NOMINMAX
 //  #define NOMSG
 //  #define NOWINOFFSETS
 #endif

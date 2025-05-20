@@ -5,11 +5,11 @@ module;
     #include <FatMacros.hxx>
 
     #include <FatWin32.hpp>
-    #include <d2d1.h>
+    #include <d2d1.h> // for fast compilation since the only module using d2d1 header is this, but I might change this in the future
 
-#ifdef __INTELLISENSE__
-    #include <wrl.h>
-#endif
+    #ifdef __INTELLISENSE__
+        #include <wrl.h>
+    #endif
 
     #include <DirectXMath.h>
 
@@ -21,11 +21,12 @@ export module FatPound.Win32.D2D.Graphics;
 #if FAT_BUILDING_WITH_MSVC
 
 #ifndef __INTELLISENSE__
+    // import <FatWin32.hxx>;
     import FatPound.Win32.WRL.Common;
 #endif
 
 import FatPound.Traits.Bitwise;
-import FatPound.Util.Gfx.SizePack;
+import FatPound.Utility.Gfx.SizePack;
 
 import std;
 

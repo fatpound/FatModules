@@ -2,19 +2,19 @@ module;
 
 #include <FatSTL_Macros.hxx>
 
-export module FatPound.Util;
+export module FatPound.Utility;
 
-export import FatPound.Util.Gfx;
+export import FatPound.Utility.Gfx;
 
-export import FatPound.Util.Color;
-export import FatPound.Util.Common;
-export import FatPound.Util.Surface;
-export import FatPound.Util.Timer;
-export import FatPound.Util.ViewXM;
+export import FatPound.Utility.Color;
+export import FatPound.Utility.Common;
+export import FatPound.Utility.Surface;
+export import FatPound.Utility.Timer;
+export import FatPound.Utility.ViewXM;
 
 import std;
 
-export namespace fatpound::util
+export namespace fatpound::utility
 {
     template <std::floating_point FP = double, std::integral T>
     FAT_CMATH_CONSTEXPR23

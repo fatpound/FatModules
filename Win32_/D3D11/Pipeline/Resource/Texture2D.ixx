@@ -10,7 +10,7 @@ export module FatPound.Win32.D3D11.Pipeline.Resource.Texture2D;
 
 import <d3d11.h>;
 
-import FatPound.Util.Surface;
+import FatPound.Utility.Surface;
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 import FatPound.Win32.WRL.Common;
 
@@ -21,7 +21,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
     class Texture2D final : public Bindable
     {
     public:
-        explicit Texture2D(ID3D11Device* const pDevice, const D3D11_TEXTURE2D_DESC& tex2dDesc, const D3D11_SHADER_RESOURCE_VIEW_DESC& srvDesc, std::shared_ptr<FATSPACE_UTIL::Surface> pSurface = {})
+        explicit Texture2D(ID3D11Device* const pDevice, const D3D11_TEXTURE2D_DESC& tex2dDesc, const D3D11_SHADER_RESOURCE_VIEW_DESC& srvDesc, std::shared_ptr<FATSPACE_UTILITY::Surface> pSurface = {})
         {
             wrl::ComPtr<ID3D11Texture2D> pTexture;
 

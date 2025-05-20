@@ -48,13 +48,13 @@
     <ClCompile Include="Math\Math.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Color.ixx">
+    <ClCompile Include="Utility\Color.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Gfx\SizePack.ixx">
+    <ClCompile Include="Utility\Gfx\SizePack.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Util.ixx">
+    <ClCompile Include="Utility\Utility.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\D3D11\Pipeline\Element\Element.ixx">
@@ -105,7 +105,7 @@
     <ClCompile Include="Win32_\D3D11\Visual\Drawable.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\ViewXM.ixx">
+    <ClCompile Include="Utility\ViewXM.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\D3D11\Visual\Visual.ixx">
@@ -171,7 +171,7 @@
     <ClCompile Include="IO\MouseEvent.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Timer.ixx">
+    <ClCompile Include="Utility\Timer.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\IWindow.ixx">
@@ -180,10 +180,10 @@
     <ClCompile Include="Win32_\WindowEx.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Gfx\FullScreenQuad.ixx">
+    <ClCompile Include="Utility\Gfx\FullScreenQuad.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Gfx\Gfx.ixx">
+    <ClCompile Include="Utility\Gfx\Gfx.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Memory\Memory.ixx">
@@ -195,7 +195,7 @@
     <ClCompile Include="Win32_\GDI_Plus\GDI_Plus.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Surface.ixx">
+    <ClCompile Include="Utility\Surface.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\COM\COM.ixx">
@@ -204,7 +204,7 @@
     <ClCompile Include="Win32_\COM\Manager.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Gfx\ResourcePack.ixx">
+    <ClCompile Include="Utility\Gfx\ResourcePack.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\D3D11\Pipeline\Resource\Sampler.ixx">
@@ -231,7 +231,7 @@
     <ClCompile Include="Math\Geometry\Rectangle.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Common.ixx">
+    <ClCompile Include="Utility\Common.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\D3D11\Visual\DrawableBase.ixx">

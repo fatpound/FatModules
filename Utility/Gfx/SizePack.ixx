@@ -1,10 +1,10 @@
 module;
 
-export module FatPound.Util.Gfx.SizePack;
+export module FatPound.Utility.Gfx.SizePack;
 
 import std;
 
-export namespace fatpound::util::gfx
+export namespace fatpound::utility::gfx
 {
     struct alignas(8) SizePack final
     {

@@ -2,9 +2,8 @@ module;
 
 #if FAT_BUILDING_WITH_MSVC
     #define FATPOUND_FULL_WIN_TARGETED
-    #include <FatWin32_Settings.hpp>
+    #include <FatWin32.hpp>
     #undef  FATPOUND_FULL_WIN_TARGETED
-    #include <Windows.h>
     #include <winDNS.h>
     #include <subauth.h>
 #endif
