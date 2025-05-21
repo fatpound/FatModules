@@ -1,15 +1,29 @@
 module;
 
+#if FAT_BUILDING_WITH_MSVC
+    #ifdef __INTELLISENSE__
+        #include <FatWin32.hpp>
+        #include <d3d11.h>
+        #include <wrl.h>
+    #endif
+#endif
+
 export module FatPound.Win32.D3D11.Pipeline.Element.InputLayout;
 
 #if FAT_BUILDING_WITH_MSVC
 
-import <d3d11.h>;
+#ifndef __INTELLISENSE__
+    import <d3d11.h>;
+    import FatPound.Win32.WRL.Common;
+#endif
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
-import FatPound.Win32.WRL.Common;
 
 import std;
+
+#ifdef __INTELLISENSE__
+    namespace wrl = Microsoft::WRL;
+#endif
 
 export namespace fatpound::win32::d3d11::pipeline::element
 {

@@ -1,6 +1,13 @@
 module;
 
 #if FAT_BUILDING_WITH_MSVC
+    #include <FatNamespaces.hxx>
+
+    #ifdef __INTELLISENSE__
+        #include <FatWin32.hpp>
+        #include <d3d11.h>
+    #endif
+
     #include <DirectXMath.h>
 #endif
 
@@ -8,7 +15,9 @@ export module FatPound.Win32.D3D11.Pipeline.Resource.TransformCBuffer;
 
 #if FAT_BUILDING_WITH_MSVC
 
-import <d3d11.h>;
+#ifndef __INTELLISENSE__
+    import <d3d11.h>;
+#endif
 
 import FatPound.Utility.ViewXM;
 import FatPound.Win32.D3D11.Pipeline.Bindable;
