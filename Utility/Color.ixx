@@ -25,19 +25,19 @@ export namespace fatpound::utility
     public:
         constexpr Color(const std::uint32_t& xrgb, const std::uint8_t& alpha = 0xFFU) noexcept
             :
-            m_dword_((xrgb bitand 0x00'FF'FF'FFU) bitor (static_cast<std::uint32_t>(alpha) << 24U))
+            m_value_((xrgb bitand 0x00'FF'FF'FFU) bitor (static_cast<std::uint32_t>(alpha) << AlphaShift))
         {
 
         }
-        constexpr Color(const std::uint8_t&   red, const std::uint8_t& green, const std::uint8_t& blue, const std::uint8_t& alpha) noexcept
+        constexpr Color(const std::uint8_t&   red, const std::uint8_t& green, const std::uint8_t& blue, const std::uint8_t& alpha = static_cast<std::uint8_t>(255U)) noexcept
             :
-            Color((static_cast<std::uint32_t>(red) << 16U) bitor (static_cast<std::uint32_t>(green) << 8U) bitor (static_cast<std::uint32_t>(blue)), alpha)
+            Color((static_cast<std::uint32_t>(red) << RedShift) bitor (static_cast<std::uint32_t>(green) << GreenShift) bitor (static_cast<std::uint32_t>(blue)), alpha)
         {
             
         }
         constexpr Color(const Color& col, const std::uint8_t& alpha) noexcept
             :
-            Color(col.m_dword_, alpha)
+            Color(col.m_value_, alpha)
         {
 
         }
@@ -56,9 +56,9 @@ export namespace fatpound::utility
         auto operator ==  (const Color&) const noexcept -> bool = default;
 
         // NOLINTBEGIN(google-explicit-constructor, hicpp-explicit-conversions)
-        operator std::uint32_t () const noexcept
+        constexpr operator std::uint32_t () const noexcept
         {
-            return m_dword_;
+            return m_value_;
         }
         // NOLINTEND(google-explicit-constructor, hicpp-explicit-conversions)
 
@@ -66,36 +66,36 @@ export namespace fatpound::utility
     public:
         [[nodiscard]] FAT_FORCEINLINE constexpr auto GetA() const noexcept -> std::uint8_t
         {
-            return m_dword_ >> 24U;
+            return m_value_ >> AlphaShift;
         }
         [[nodiscard]] FAT_FORCEINLINE constexpr auto GetR() const noexcept -> std::uint8_t
         {
-            return (m_dword_ >> 16U) bitand 0xFFU;
+            return (m_value_ >> RedShift) bitand 0xFFU;
         }
         [[nodiscard]] FAT_FORCEINLINE constexpr auto GetG() const noexcept -> std::uint8_t
         {
-            return (m_dword_ >> 8U) bitand 0xFFU;
+            return (m_value_ >> GreenShift) bitand 0xFFU;
         }
         [[nodiscard]] FAT_FORCEINLINE constexpr auto GetB() const noexcept -> std::uint8_t
         {
-            return m_dword_ bitand 0xFFU;
+            return m_value_ bitand 0xFFU;
         }
 
         FAT_FORCEINLINE void SetA(const std::uint8_t& alpha) noexcept
         {
-            m_dword_ = (m_dword_ bitand AlphaMask) bitor (static_cast<std::uint32_t>(alpha) << AlphaShift);
+            m_value_ = (m_value_ bitand AlphaMask) bitor (static_cast<std::uint32_t>(alpha) << AlphaShift);
         }
-        FAT_FORCEINLINE void SetR(const std::uint8_t& red) noexcept
+        FAT_FORCEINLINE void SetR(const std::uint8_t&   red) noexcept
         {
-            m_dword_ = (m_dword_ bitand RedMask) bitor (static_cast<std::uint32_t>(red) << RedShift);
+            m_value_ = (m_value_ bitand RedMask) bitor (static_cast<std::uint32_t>(red) << RedShift);
         }
         FAT_FORCEINLINE void SetG(const std::uint8_t& green) noexcept
         {
-            m_dword_ = (m_dword_ bitand GreenMask) bitor (static_cast<std::uint32_t>(green) << GreenShift);
+            m_value_ = (m_value_ bitand GreenMask) bitor (static_cast<std::uint32_t>(green) << GreenShift);
         }
-        FAT_FORCEINLINE void SetB(const std::uint8_t& blue) noexcept
+        FAT_FORCEINLINE void SetB(const std::uint8_t&  blue) noexcept
         {
-            m_dword_ = (m_dword_ bitand BlueMask) bitor (static_cast<std::uint32_t>(blue) /* << BlueShift */);
+            m_value_ = (m_value_ bitand BlueMask) bitor (static_cast<std::uint32_t>(blue));
         }
         
 
@@ -103,7 +103,7 @@ export namespace fatpound::utility
 
 
     private:
-        std::uint32_t m_dword_ = std::numeric_limits<decltype(m_dword_)>::max();
+        std::uint32_t m_value_ = std::numeric_limits<decltype(m_value_)>::max();
     };
 }
 
@@ -136,7 +136,7 @@ export namespace fatpound::colors
     constexpr Color CornflowerBlue       = 0x6495ED;
     constexpr Color Cornsilk             = 0xFFF8DC;
     constexpr Color Crimson              = 0xDC143C;
-    constexpr Color Cyan                 = 0x00FFFF;
+    constexpr Color Cyan                 = Aqua;
     constexpr Color DarkBlue             = 0x00008B;
     constexpr Color DarkCyan             = 0x008B8B;
     constexpr Color DarkGoldenrod        = 0xB8860B;
@@ -195,7 +195,7 @@ export namespace fatpound::colors
     constexpr Color Lime                 = 0x00FF00;
     constexpr Color LimeGreen            = 0x32CD32;
     constexpr Color Linen                = 0xFAF0E6;
-    constexpr Color Magenta              = 0xFF00FF;
+    constexpr Color Magenta              = Fuchsia;
     constexpr Color Maroon               = 0x800000;
     constexpr Color MediumAquamarine     = 0x66CDAA;
     constexpr Color MediumBlue           = 0x0000CD;
@@ -256,7 +256,7 @@ export namespace fatpound::colors
     constexpr Color WhiteSmoke           = 0xF5F5F5;
     constexpr Color Yellow               = 0xFFFF00;
     constexpr Color YellowGreen          = 0x9ACD32;
-    //
+    /////////
     constexpr Color Transparent          = { White, 0U };
 }
 

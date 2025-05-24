@@ -631,7 +631,13 @@ struct FAT_EBCO FunctionInfo< MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__ >
     concept Function = std::is_function_v<T>;
 
     template <typename T>
-    concept Functor = not Function<T> and Instantiable<T> and requires(T t)
+    concept HasFCallOperator = (ClassOrStruct<T> or Union<T>) and requires()
+    {
+        &T::operator ();
+    };
+
+    template <typename T>
+    concept Functor = Instantiable<T> and not Function<T> and requires(T t)
     {
         t();
     };
@@ -648,9 +654,10 @@ namespace fatpound::traits
 {
     // static assertion tests for lambdas
 
-    static_assert(not Function<decltype([]{})>);
-    static_assert(     Functor<decltype([]{})>);
-    static_assert(    Callable<decltype([]{})>);
+    static_assert(        not Function<decltype([]{})>);
+    static_assert(             Functor<decltype([]{})>);
+    static_assert(    HasFCallOperator<decltype([]{})>);
+    static_assert(            Callable<decltype([]{})>);
 
     static_assert(    FunctionInfo<decltype(&decltype([]()          {})::operator ())>::is_const_qualified);
     static_assert(not FunctionInfo<decltype(&decltype([]() mutable  {})::operator ())>::is_const_qualified);
@@ -680,25 +687,33 @@ namespace fatpound::traits
         
         //********************//
 
-#define FAT_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(ret_t, funcname, PQUAL, FQS, cons, vol, lref, rref, nonref, noexc, vary, ...)                                                                                                                                                                                                                                                \
-                                                                                                                                                                                                                                                                                                                                                                                 \
-        ret_t funcname ( __VA_ARGS__ ) FQS;                                                                                                                                                                                                                                                                                                                                      \
-                                                                                                                                                                                                                                                                                                                                                                                 \
-        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::Class_t,                         ___unused___>,                                     " Class_t"                         " check failed!");                                                                                                                                           \
-        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::Callable_t,                      void>,                                             " Callable_t"                      " check failed!");                                                                                                                                           \
-        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallableDecl_t,                  void( __VA_ARGS__ ) FQS >,                         " CallableDecl_t"                  " check failed!");                                                                                                                                           \
-        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallablePtr_t,                   void(___unused___::* PQUAL )( __VA_ARGS__ ) FQS>,  " CallablePtr_t"                   " check failed!");                                                                                                                                           \
-        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallablePtr_t_no_ptr_cv,         void(___unused___::*       )( __VA_ARGS__ ) FQS >, " CallablePtr_t_no_ptr_cv"         " check failed!");                                                                                                                                           \
-        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallablePtr_t_no_cvrn,           void(___unused___::* PQUAL )( __VA_ARGS__ )>,      " CallablePtr_t_no_cvrn"           " check failed!");                                                                                                                                           \
-        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallablePtr_t_no_cvrn_no_ptr_cv, void(___unused___::*       )( __VA_ARGS__ )>,      " CallablePtr_t_no_cvrn_no_ptr_cv" " check failed!");                                                                                                                                           \
-                                                                                                                                                                                                                                                                                                                                                                                 \
-        static_assert(   cons FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_const_qualified,            "   cons qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
-        static_assert(    vol FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_volatile_qualified,         "    vol qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
-        static_assert(   lref FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_lvalue_reference_qualified, "   lref qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
-        static_assert(   rref FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_rvalue_reference_qualified, "   rref qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
-        static_assert( nonref FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_not_reference_qualified,    " nonref qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
-        static_assert(  noexc FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_noexcept_specified,         "  noexc qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
-        static_assert(   vary FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_variadic,                   "   vary func check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);
+        auto operator () () -> int;
+
+        static_assert(HasFCallOperator<               ___unused___>);
+        static_assert(HasFCallOperator<const          ___unused___>);
+        static_assert(HasFCallOperator<      volatile ___unused___>);
+        static_assert(HasFCallOperator<const volatile ___unused___>);
+
+
+#define FAT_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(ret_t, funcname, PQUAL, FQS, cons, vol, lref, rref, nonref, noexc, vary, ...)                                                                                                                                                                                                                                                     \
+                                                                                                                                                                                                                                                                                                                                                                                      \
+        ret_t funcname ( __VA_ARGS__ ) FQS;                                                                                                                                                                                                                                                                                                                                           \
+                                                                                                                                                                                                                                                                                                                                                                                      \
+        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::Class_t,                         ___unused___>,                                     " Class_t"                         " check failed!");                                                                                                                                                \
+        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::Callable_t,                      void>,                                             " Callable_t"                      " check failed!");                                                                                                                                                \
+        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallableDecl_t,                  void( __VA_ARGS__ ) FQS >,                         " CallableDecl_t"                  " check failed!");                                                                                                                                                \
+        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallablePtr_t,                   void(___unused___::* PQUAL )( __VA_ARGS__ ) FQS>,  " CallablePtr_t"                   " check failed!");                                                                                                                                                \
+        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallablePtr_t_no_ptr_cv,         void(___unused___::*       )( __VA_ARGS__ ) FQS >, " CallablePtr_t_no_ptr_cv"         " check failed!");                                                                                                                                                \
+        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallablePtr_t_no_cvrn,           void(___unused___::* PQUAL )( __VA_ARGS__ )>,      " CallablePtr_t_no_cvrn"           " check failed!");                                                                                                                                                \
+        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallablePtr_t_no_cvrn_no_ptr_cv, void(___unused___::*       )( __VA_ARGS__ )>,      " CallablePtr_t_no_cvrn_no_ptr_cv" " check failed!");                                                                                                                                                \
+                                                                                                                                                                                                                                                                                                                                                                                      \
+        static_assert(        cons FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_const_qualified,            "   cons qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
+        static_assert(         vol FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_volatile_qualified,         "    vol qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
+        static_assert(        lref FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_lvalue_reference_qualified, "   lref qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
+        static_assert(        rref FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_rvalue_reference_qualified, "   rref qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
+        static_assert(      nonref FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_not_reference_qualified,    " nonref qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
+        static_assert(       noexc FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_noexcept_specified,         "  noexc qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
+        static_assert(        vary FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_variadic,                   "   vary func check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);
 
 
 
