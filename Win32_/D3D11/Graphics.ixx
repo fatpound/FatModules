@@ -19,7 +19,6 @@ import FatPound.Utility.Color;
 import FatPound.Utility.Surface;
 import FatPound.Utility.Gfx;
 import FatPound.Win32.D3D11.Pipeline;
-import FatPound.Win32.D3D11.Visual;
 import FatPound.Win32.WRL.Common;
 
 import std;

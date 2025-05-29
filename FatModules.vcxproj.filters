@@ -102,13 +102,7 @@
     <ClCompile Include="Win32_\D3D11\Pipeline\Pipeline.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Visual\Drawable.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Utility\ViewXM.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Visual\Visual.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\D3D11\D3D11.ixx">
@@ -228,9 +222,6 @@
     <ClCompile Include="Utility\Common.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Visual\DrawableBase.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Math\Geometry\AngularConv.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -307,6 +298,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Algorithm\Graph\BFS.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32_\D3D11\Visual\Visual.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32_\D3D11\Visual\Drawable.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32_\D3D11\Visual\DrawableBase.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
