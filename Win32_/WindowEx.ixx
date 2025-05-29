@@ -37,7 +37,7 @@ export namespace fatpound::win32
         explicit WindowEx(
             std::shared_ptr<WndClassEx>            pWndClassEx,
             const std::wstring                     title,
-            const FATSPACE_UTIL_GFX::SizePack      clientDimensions,
+            const FATSPACE_UTILITY_GFX::SizePack   clientDimensions,
             std::shared_ptr<FATSPACE_IO::Keyboard> pKeyboard         = std::make_shared<FATSPACE_IO::Keyboard>(),
             std::shared_ptr<FATSPACE_IO::Mouse>    pMouse            = std::make_shared<FATSPACE_IO::Mouse>(),
             const std::optional<dx::XMINT2>        position          = std::nullopt,
@@ -380,7 +380,7 @@ export namespace fatpound::win32
 
         std::shared_ptr<WndClassEx> m_pWndClassEx_;
 
-        const FATSPACE_UTIL_GFX::SizePack mc_client_size_;
+        const FATSPACE_UTILITY_GFX::SizePack mc_client_size_;
 
         HWND m_hWnd_{};
 

@@ -10,7 +10,7 @@ module;
     #endif
 #endif
 
-export module FatPound.Win32.D3D11.Pipeline.Resource.Texture2D;
+export module FatPound.Win32.D3D11.Pipeline.Texture2D;
 
 #if FAT_BUILDING_WITH_MSVC
 
@@ -28,7 +28,7 @@ import std;
     namespace wrl = Microsoft::WRL;
 #endif
 
-export namespace fatpound::win32::d3d11::pipeline::resource
+export namespace fatpound::win32::d3d11::pipeline
 {
     class Texture2D final : public Bindable
     {

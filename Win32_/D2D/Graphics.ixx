@@ -46,7 +46,7 @@ export namespace fatpound::win32::d2d
         
 
     public:
-        explicit Graphics(const HWND& hWnd, const FATSPACE_UTIL_GFX::SizePack& dimensions)
+        explicit Graphics(const HWND& hWnd, const FATSPACE_UTILITY_GFX::SizePack& dimensions)
             :
             mc_dimensions_(dimensions)
         {
@@ -170,7 +170,7 @@ export namespace fatpound::win32::d2d
         wrl::ComPtr<ID2D1HwndRenderTarget> m_pRenderTarget_;
         wrl::ComPtr<ID2D1SolidColorBrush>  m_pBrush_;
 
-        const FATSPACE_UTIL_GFX::SizePack  mc_dimensions_;
+        const FATSPACE_UTILITY_GFX::SizePack  mc_dimensions_;
     };
 }
 

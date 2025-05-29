@@ -8,7 +8,7 @@ module;
     #endif
 #endif
 
-export module FatPound.Win32.D3D11.Pipeline.Element.InputLayout;
+export module FatPound.Win32.D3D11.Pipeline.InputLayout;
 
 #if FAT_BUILDING_WITH_MSVC
 
@@ -25,7 +25,7 @@ import std;
     namespace wrl = Microsoft::WRL;
 #endif
 
-export namespace fatpound::win32::d3d11::pipeline::element
+export namespace fatpound::win32::d3d11::pipeline
 {
     class InputLayout final : public Bindable
     {

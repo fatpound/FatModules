@@ -31,7 +31,7 @@ export namespace fatpound::win32::d3d11::visual
 
 
     protected:
-        virtual void AddStaticIndexBuffer_(std::unique_ptr<FATSPACE_PIPELINE_ELEMENT::IndexBuffer> idxbuf) noexcept(IN_RELEASE) final
+        virtual void AddStaticIndexBuffer_(std::unique_ptr<pipeline::IndexBuffer> idxbuf) noexcept(IN_RELEASE) final
         {
             assert("Attempting to add index buffer a second time" && m_pCIndexBuffer_ == nullptr);
 
@@ -45,7 +45,7 @@ export namespace fatpound::win32::d3d11::visual
 
             for (const auto& b : GetStaticBinds_())
             {
-                const auto ptr = dynamic_cast<FATSPACE_PIPELINE_ELEMENT::IndexBuffer*>(b.get());
+                const auto ptr = dynamic_cast<pipeline::IndexBuffer*>(b.get());
 
                 if (ptr not_eq nullptr)
                 {

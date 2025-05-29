@@ -25,7 +25,7 @@ import std;
 
 using FATSPACE_UTILITY::Color;
 using FATSPACE_UTILITY::Surface;
-using FATSPACE_UTIL_GFX::SizePack;
+using FATSPACE_UTILITY_GFX::SizePack;
 
 export namespace fatpound::win32::d3d11
 {
@@ -35,7 +35,7 @@ export namespace fatpound::win32::d3d11
         static constexpr auto NotFramework         = not Framework;
         static constexpr auto RasterizationEnabled = NotFramework;
 
-        using ResourcePack_t = std::conditional_t<Framework, FATSPACE_UTIL_GFX::FrameworkResourcePack, FATSPACE_UTIL_GFX::ResourcePack>;
+        using ResourcePack_t = std::conditional_t<Framework, FATSPACE_UTILITY_GFX::FrameworkResourcePack, FATSPACE_UTILITY_GFX::ResourcePack>;
 
     public:
         using Float_t = float;
@@ -262,16 +262,16 @@ export namespace fatpound::win32::d3d11
         {
             InitFrameworkBackbuffer_();
 
-            std::vector<std::unique_ptr<FATSPACE_PIPELINE::Bindable>> binds;
+            std::vector<std::unique_ptr<pipeline::Bindable>> binds;
 
             {
-                auto pVS = std::make_unique<FATSPACE_PIPELINE_ELEMENT::VertexShader>(GetDevice(), L"..\\FatModules\\VSFrameBuffer.cso");
+                auto pVS = std::make_unique<pipeline::VertexShader>(GetDevice(), L"..\\FatModules\\VSFrameBuffer.cso");
                 auto pBlob = pVS->GetBytecode();
 
                 binds.push_back(std::move(pVS));
-                binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::PixelShader>(GetDevice(), L"..\\FatModules\\PSFrameBuffer.cso"));
-                binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::VertexBuffer>(GetDevice(), FATSPACE_UTIL_GFX::FullScreenQuad::GenerateVertices()));
-                binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
+                binds.push_back(std::make_unique<pipeline::PixelShader>(GetDevice(), L"..\\FatModules\\PSFrameBuffer.cso"));
+                binds.push_back(std::make_unique<pipeline::VertexBuffer>(GetDevice(), FATSPACE_UTILITY_GFX::FullScreenQuad::GenerateVertices()));
+                binds.push_back(std::make_unique<pipeline::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
 
                 const std::vector<D3D11_INPUT_ELEMENT_DESC> iedesc
                 {
@@ -281,7 +281,7 @@ export namespace fatpound::win32::d3d11
                     }
                 };
 
-                binds.push_back(std::make_unique<FATSPACE_PIPELINE_ELEMENT::InputLayout>(GetDevice(), iedesc, pBlob));
+                binds.push_back(std::make_unique<pipeline::InputLayout>(GetDevice(), iedesc, pBlob));
             }
 
             for (auto& bindable : binds)
@@ -444,7 +444,7 @@ export namespace fatpound::win32::d3d11
                 .Flags        = 0U
             };
 
-            if (const auto& hr = FATSPACE_UTIL_GFX::GetDXGIFactory(GetDevice())->CreateSwapChain(
+            if (const auto& hr = FATSPACE_UTILITY_GFX::GetDXGIFactory(GetDevice())->CreateSwapChain(
                 GetDevice(),
                 &scDesc,
                 m_res_pack_.m_pSwapChain.GetAddressOf());
@@ -596,7 +596,7 @@ export namespace fatpound::win32::d3d11
 
         void ToggleAltEnterMode_()
         {
-            FATSPACE_UTIL_GFX::ToggleDXGI_AltEnterMode(GetDevice(), GetHwnd(), m_dxgi_mode_);
+            FATSPACE_UTILITY_GFX::ToggleDXGI_AltEnterMode(GetDevice(), GetHwnd(), m_dxgi_mode_);
         }
 
 

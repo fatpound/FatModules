@@ -1,15 +1,15 @@
 module;
 
-export module FatPound.Win32.D3D11.Pipeline.Resource.VertexCBuffer;
+export module FatPound.Win32.D3D11.Pipeline.VertexCBuffer;
 
 #if FAT_BUILDING_WITH_MSVC
 
 import <d3d11.h>;
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
-import FatPound.Win32.D3D11.Pipeline.Resource.CBuffer;
+import FatPound.Win32.D3D11.Pipeline.CBuffer;
 
-export namespace fatpound::win32::d3d11::pipeline::resource
+export namespace fatpound::win32::d3d11::pipeline
 {
     template <typename T>
     class VertexCBuffer final : public CBuffer<T>
