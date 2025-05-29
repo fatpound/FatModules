@@ -43,13 +43,13 @@ export namespace fatpound::utility
     public:
         constexpr Color(const      Value_t& xrgb, const std::uint8_t& alpha = 0xFFU) noexcept
             :
-            m_value((xrgb bitand 0x00'FF'FF'FFU) bitor (static_cast<Value_t>(alpha) << AlphaShift))
+            m_value_((xrgb bitand 0x00'FF'FF'FFU) bitor (static_cast<Value_t>(alpha) << AlphaShift))
         {
 
         }
         constexpr Color(const      Value_t& xrgb, bool) noexcept
             :
-            m_value(xrgb)
+            m_value_(xrgb)
         {
 
         }
@@ -61,7 +61,7 @@ export namespace fatpound::utility
         }
         constexpr Color(const Color& col, const std::uint8_t& alpha) noexcept
             :
-            Color(col.m_value, alpha)
+            Color(col.m_value_, alpha)
         {
 
         }
@@ -82,7 +82,7 @@ export namespace fatpound::utility
         // NOLINTBEGIN(google-explicit-constructor, hicpp-explicit-conversions)
         constexpr operator Value_t () const noexcept
         {
-            return m_value;
+            return m_value_;
         }
         // NOLINTEND(google-explicit-constructor, hicpp-explicit-conversions)
 
@@ -90,36 +90,36 @@ export namespace fatpound::utility
     public:
         [[nodiscard]] FAT_FORCEINLINE constexpr auto GetA() const noexcept -> std::uint8_t
         {
-            return m_value >> AlphaShift;
+            return m_value_ >> AlphaShift;
         }
         [[nodiscard]] FAT_FORCEINLINE constexpr auto GetR() const noexcept -> std::uint8_t
         {
-            return (m_value >> RedShift) bitand 0xFFU;
+            return (m_value_ >> RedShift) bitand 0xFFU;
         }
         [[nodiscard]] FAT_FORCEINLINE constexpr auto GetG() const noexcept -> std::uint8_t
         {
-            return (m_value >> GreenShift) bitand 0xFFU;
+            return (m_value_ >> GreenShift) bitand 0xFFU;
         }
         [[nodiscard]] FAT_FORCEINLINE constexpr auto GetB() const noexcept -> std::uint8_t
         {
-            return m_value bitand 0xFFU;
+            return m_value_ bitand 0xFFU;
         }
 
         FAT_FORCEINLINE constexpr void SetA(const std::uint8_t& alpha) noexcept
         {
-            m_value = (m_value bitand AlphaMask) bitor (static_cast<std::uint32_t>(alpha) << AlphaShift);
+            m_value_ = (m_value_ bitand AlphaMask) bitor (static_cast<std::uint32_t>(alpha) << AlphaShift);
         }
         FAT_FORCEINLINE constexpr void SetR(const std::uint8_t&   red) noexcept
         {
-            m_value = (m_value bitand RedMask) bitor (static_cast<std::uint32_t>(red) << RedShift);
+            m_value_ = (m_value_ bitand RedMask) bitor (static_cast<std::uint32_t>(red) << RedShift);
         }
         FAT_FORCEINLINE constexpr void SetG(const std::uint8_t& green) noexcept
         {
-            m_value = (m_value bitand GreenMask) bitor (static_cast<std::uint32_t>(green) << GreenShift);
+            m_value_ = (m_value_ bitand GreenMask) bitor (static_cast<std::uint32_t>(green) << GreenShift);
         }
         FAT_FORCEINLINE constexpr void SetB(const std::uint8_t&  blue) noexcept
         {
-            m_value = (m_value bitand BlueMask) bitor (static_cast<std::uint32_t>(blue));
+            m_value_ = (m_value_ bitand BlueMask) bitor (static_cast<std::uint32_t>(blue));
         }
         
         FAT_FORCEINLINE constexpr auto GetValue() const noexcept -> Value_t
@@ -146,14 +146,11 @@ export namespace fatpound::utility
 #pragma warning (pop)
 
 
-    public:
-        Value_t m_value = std::numeric_limits<Value_t>::max();
-
-
     protected:
 
 
     private:
+        Value_t m_value_ = std::numeric_limits<Value_t>::max();
     };
 }
 
