@@ -46,7 +46,8 @@ export namespace fatpound::win32::d3d11::pipeline::resource
 
                 const D3D11_SUBRESOURCE_DATA initData{ .pSysMem = structures.data() };
 
-                if (const auto& hr = pDevice->CreateBuffer(&sbd, &initData, &m_pStructuredBuffer_); FAILED(hr))
+                if (const auto& hr = pDevice->CreateBuffer(&sbd, &initData, &m_pStructuredBuffer_);
+                    FAILED(hr))
                 {
                     throw std::runtime_error("Could NOT Create Direct3D SBuffer in function: " __FUNCSIG__);
                 }
@@ -60,7 +61,8 @@ export namespace fatpound::win32::d3d11::pipeline::resource
                     .Buffer        = { .ElementWidth = static_cast<UINT>(structures.size()) }
                 };
 
-                if (const auto& hr = pDevice->CreateShaderResourceView(m_pStructuredBuffer_.Get(), &srvDesc, &m_pShaderResourceView_); FAILED(hr))
+                if (const auto& hr = pDevice->CreateShaderResourceView(m_pStructuredBuffer_.Get(), &srvDesc, &m_pShaderResourceView_);
+                    FAILED(hr))
                 {
                     throw std::runtime_error("Could NOT Create Direct3D ShaderResourceView in function: " __FUNCSIG__);
                 }

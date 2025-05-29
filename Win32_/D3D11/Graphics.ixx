@@ -147,7 +147,8 @@ export namespace fatpound::win32::d3d11
                 UnMapSubresourceAndDraw_();
             }
 
-            if (const auto& hr = GetSwapChain()->Present(static_cast<UINT>(VSynced), 0U); FAILED(hr))
+            if (const auto& hr = GetSwapChain()->Present(static_cast<UINT>(VSynced), 0U);
+                FAILED(hr))
             {
                 throw std::runtime_error("SwapChain could NOT Present!");;
             }
@@ -313,7 +314,8 @@ export namespace fatpound::win32::d3d11
                         .MiscFlags      = 0U
                     };
 
-                    if (const auto& hr = GetDevice()->CreateTexture2D(&texDesc, nullptr, m_res_pack_.m_pSysbufferTex2d.GetAddressOf()); FAILED(hr))
+                    if (const auto& hr = GetDevice()->CreateTexture2D(&texDesc, nullptr, m_res_pack_.m_pSysbufferTex2d.GetAddressOf());
+                        FAILED(hr))
                     {
                         throw std::runtime_error("Could NOT create Texture2D!");
                     }
@@ -328,7 +330,8 @@ export namespace fatpound::win32::d3d11
                                        }
                     };
 
-                    if (const auto& hr = GetDevice()->CreateShaderResourceView(GetSysbufferTexture(), &srvDesc, pSRV.GetAddressOf()); FAILED(hr))
+                    if (const auto& hr = GetDevice()->CreateShaderResourceView(GetSysbufferTexture(), &srvDesc, pSRV.GetAddressOf());
+                        FAILED(hr))
                     {
                         throw std::runtime_error("Could NOT create ShaderResourceView!");
                     }
@@ -351,7 +354,8 @@ export namespace fatpound::win32::d3d11
                     .MaxLOD         = D3D11_FLOAT32_MAX
                 };
 
-                if (const auto& hr = GetDevice()->CreateSamplerState(&sDesc, pSS.GetAddressOf()); FAILED(hr))
+                if (const auto& hr = GetDevice()->CreateSamplerState(&sDesc, pSS.GetAddressOf());
+                    FAILED(hr))
                 {
                     throw std::runtime_error("Could NOT create SamplerState");
                 }
@@ -455,12 +459,14 @@ export namespace fatpound::win32::d3d11
             {
                 wrl::ComPtr<ID3D11Texture2D> pBackBufferTexture2D{};
 
-                if (const auto& hr = GetSwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), &pBackBufferTexture2D); FAILED(hr))
+                if (const auto& hr = GetSwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), &pBackBufferTexture2D);
+                    FAILED(hr))
                 {
                     throw std::runtime_error("Could NOT get the buffer from SwapChain!");
                 }
 
-                if (const auto& hr = GetDevice()->CreateRenderTargetView(pBackBufferTexture2D.Get(), nullptr, &m_res_pack_.m_pRTV); FAILED(hr))
+                if (const auto& hr = GetDevice()->CreateRenderTargetView(pBackBufferTexture2D.Get(), nullptr, &m_res_pack_.m_pRTV);
+                    FAILED(hr))
                 {
                     throw std::runtime_error("Could NOT create RenderTargetView!");
                 }
@@ -487,7 +493,8 @@ export namespace fatpound::win32::d3d11
                         .BindFlags  = D3D11_BIND_DEPTH_STENCIL
                     };
 
-                    if (const auto& hr = GetDevice()->CreateTexture2D(&tex2dDesc, nullptr, pTexture2d.GetAddressOf()); FAILED(hr))
+                    if (const auto& hr = GetDevice()->CreateTexture2D(&tex2dDesc, nullptr, pTexture2d.GetAddressOf());
+                        FAILED(hr))
                     {
                         throw std::runtime_error("Could NOT create Texture2D!");
                     }
@@ -500,7 +507,8 @@ export namespace fatpound::win32::d3d11
                     .Texture2D     = { .MipSlice = ((m_msaa_count_ == 1U) ? 0U : 1U) }
                 };
 
-                if (const auto& hr = GetDevice()->CreateDepthStencilView(pTexture2d.Get(), &dsvDesc, &m_res_pack_.m_pDSV); FAILED(hr))
+                if (const auto& hr = GetDevice()->CreateDepthStencilView(pTexture2d.Get(), &dsvDesc, &m_res_pack_.m_pDSV);
+                    FAILED(hr))
                 {
                     throw std::runtime_error("Could NOT create DepthStencilView!");
                 }
@@ -541,7 +549,8 @@ export namespace fatpound::win32::d3d11
                     .AntialiasedLineEnable = true
                 };
 
-                if (const auto& hr = GetDevice()->CreateRasterizerState(&rDesc, &m_pRasterizerState_); FAILED(hr))
+                if (const auto& hr = GetDevice()->CreateRasterizerState(&rDesc, &m_pRasterizerState_);
+                    FAILED(hr))
                 {
                     throw std::runtime_error("Could NOT create RasterizerState!");
                 }
@@ -552,15 +561,13 @@ export namespace fatpound::win32::d3d11
 
         void MapSubresource_                   () requires(Framework)
         {
-            const auto& hr = GetImmediateContext()->Map(
+            if (const auto& hr = GetImmediateContext()->Map(
                 GetSysbufferTexture(),
                 0U,
                 D3D11_MAP_WRITE_DISCARD,
                 0U,
-                &m_res_pack_.m_mappedSysbufferTex2d
-            );
-
-            if (FAILED(hr))
+                &m_res_pack_.m_mappedSysbufferTex2d);
+                FAILED(hr))
             {
                 throw std::runtime_error("Could NOT Map the ImmediateContext!");
             }

@@ -15,9 +15,8 @@ export namespace fatpound::win32::com
     public:
         explicit Manager(const DWORD initFlags = COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)
         {
-            const auto hr = ::CoInitializeEx(nullptr, initFlags);
-
-            if (FAILED(hr))
+            if (const auto& hr = ::CoInitializeEx(nullptr, initFlags);
+                FAILED(hr))
             {
                 throw std::runtime_error("Failed to initialize COM!");
             }

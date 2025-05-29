@@ -47,7 +47,8 @@ export namespace fatpound::win32::d3d11::pipeline::element
 
             const D3D11_SUBRESOURCE_DATA sd{ .pSysMem = vertices.data() };
 
-            if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pVertexBuffer_); FAILED(hr))
+            if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pVertexBuffer_);
+                FAILED(hr))
             {
                 throw std::runtime_error("Could NOT Create Direct3D VertexBuffer in function: " __FUNCSIG__);
             }
@@ -68,7 +69,8 @@ export namespace fatpound::win32::d3d11::pipeline::element
 
             const D3D11_SUBRESOURCE_DATA sd{ .pSysMem = vertices.data() };
 
-            if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pVertexBuffer_); FAILED(hr))
+            if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pVertexBuffer_);
+                FAILED(hr))
             {
                 throw std::runtime_error("Could NOT Create Direct3D VertexBuffer in function: " __FUNCSIG__);
             }

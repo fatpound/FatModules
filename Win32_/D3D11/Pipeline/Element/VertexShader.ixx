@@ -40,7 +40,8 @@ export namespace fatpound::win32::d3d11::pipeline::element
                 m_pBytecodeBlob_->GetBufferPointer(),
                 m_pBytecodeBlob_->GetBufferSize(),
                 nullptr,
-                &m_pVertexShader_); FAILED(hr))
+                &m_pVertexShader_);
+                FAILED(hr))
             {
                 throw std::runtime_error("Could NOT Create Direct3D VertexShader in function: " __FUNCSIG__);
             }

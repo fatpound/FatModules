@@ -37,7 +37,8 @@ export namespace fatpound::win32::d3d11::pipeline::element
                 static_cast<UINT>(layout.size()),
                 pVertexShaderBytecode->GetBufferPointer(),
                 pVertexShaderBytecode->GetBufferSize(),
-                &m_pInputLayout_); FAILED(hr))
+                &m_pInputLayout_);
+                FAILED(hr))
             {
                 throw std::runtime_error("Could NOT Create Direct3D InputLayout in function: " __FUNCSIG__);
             }
