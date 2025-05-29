@@ -55,24 +55,13 @@ namespace fatpound::traits
 
         int val;
 
-        static_assert(MemberFunctionPointer<               decltype(&___unused___::foo)>);
-        static_assert(MemberFunctionPointer<const          decltype(&___unused___::foo)>);
-        static_assert(MemberFunctionPointer<      volatile decltype(&___unused___::foo)>);
-        static_assert(MemberFunctionPointer<const volatile decltype(&___unused___::foo)>);
-
-        static_assert(  MemberObjectPointer<               decltype(&___unused___::val)>);
-        static_assert(  MemberObjectPointer<const          decltype(&___unused___::val)>);
-        static_assert(  MemberObjectPointer<      volatile decltype(&___unused___::val)>);
-        static_assert(  MemberObjectPointer<const volatile decltype(&___unused___::val)>);
-
-        static_assert(        MemberPointer<               decltype(&___unused___::foo)>);
-        static_assert(        MemberPointer<const          decltype(&___unused___::foo)>);
-        static_assert(        MemberPointer<      volatile decltype(&___unused___::foo)>);
-        static_assert(        MemberPointer<const volatile decltype(&___unused___::foo)>);
-        static_assert(        MemberPointer<               decltype(&___unused___::val)>);
-        static_assert(        MemberPointer<const          decltype(&___unused___::val)>);
-        static_assert(        MemberPointer<      volatile decltype(&___unused___::val)>);
-        static_assert(        MemberPointer<const volatile decltype(&___unused___::val)>);
+        static_assert(MemberFunctionPointer<decltype(&___unused___::foo)>);
+        static_assert(  MemberObjectPointer<decltype(&___unused___::val)>);
+        static_assert(        MemberPointer<decltype(&___unused___::foo)>);
+        static_assert(              Pointer<decltype(&___unused___::foo)>);
+        static_assert(              Pointer<decltype(&___unused___::val)>);
+        static_assert(not  NonMemberPointer<decltype(&___unused___::foo)>);
+        static_assert(not  NonMemberPointer<decltype(&___unused___::val)>);
     };
 }
 
