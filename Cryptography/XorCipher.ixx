@@ -1,10 +1,10 @@
 module;
 
-export module FatPound.DSA.Cryptography.XorCipher;
+export module FatPound.Cryptography.XorCipher;
 
 import std;
 
-export namespace fatpound::dsa::cryptography
+export namespace fatpound::cryptography
 {
     template <std::integral T = char, std::uniform_random_bit_generator RNG = std::minstd_rand, std::input_iterator InIt, std::output_iterator<T> OutIt>
     void ApplyXorCipherWithKey(const InIt& begin, const InIt& end, const OutIt& outBegin, const std::size_t& key)

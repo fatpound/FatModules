@@ -279,13 +279,13 @@
     <ClCompile Include="Bit\Bit.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DSA\Cryptography\Cryptography.ixx">
+    <ClCompile Include="Cryptography\Cryptography.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Random\URand.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DSA\Cryptography\XorCipher.ixx">
+    <ClCompile Include="Cryptography\XorCipher.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Math\Geometry\Common.ixx">
@@ -295,6 +295,24 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\WRL\Common.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Algorithm\Algorithm.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Algorithm\Sorting.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Algorithm\Graph\Graph.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Algorithm\Graph\DFS.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DSA\DirectedGraph.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Algorithm\Graph\BFS.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -22,6 +22,12 @@
     <None Include="_misc\FatRules.ruleset" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Algorithm\Algorithm.ixx" />
+    <ClCompile Include="Algorithm\Graph\BFS.ixx" />
+    <ClCompile Include="Algorithm\Graph\DFS.ixx" />
+    <ClCompile Include="DSA\DirectedGraph.ixx" />
+    <ClCompile Include="Algorithm\Graph\Graph.ixx" />
+    <ClCompile Include="Algorithm\Sorting.ixx" />
     <ClCompile Include="Automata\Automata.ixx" />
     <ClCompile Include="Automata\CFG.ixx" />
     <ClCompile Include="Automata\TLT.ixx" />
@@ -29,8 +35,8 @@
     <ClCompile Include="Bit\Bit.ixx" />
     <ClCompile Include="Concurrency\Concurrency.ixx" />
     <ClCompile Include="Concurrency\TaskQueue.ixx" />
-    <ClCompile Include="DSA\Cryptography\Cryptography.ixx" />
-    <ClCompile Include="DSA\Cryptography\XorCipher.ixx" />
+    <ClCompile Include="Cryptography\Cryptography.ixx" />
+    <ClCompile Include="Cryptography\XorCipher.ixx" />
     <ClCompile Include="DSA\DSA.ixx" />
     <ClCompile Include="DSA\LinkedList\Doubly.ixx" />
     <ClCompile Include="DSA\LinkedList\DoublyCircular.ixx" />

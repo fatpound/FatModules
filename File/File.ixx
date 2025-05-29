@@ -2,7 +2,7 @@ module;
 
 export module FatPound.File;
 
-import FatPound.DSA.Cryptography.XorCipher;
+import FatPound.Cryptography.XorCipher;
 
 import std;
 
@@ -29,7 +29,7 @@ namespace fatpound::file
             throw std::runtime_error("Cannot create the new version of file!");
         }
 
-        dsa::cryptography::ApplyXorCipherWithKey<>(
+        cryptography::ApplyXorCipherWithKey<>(
             std::istreambuf_iterator<char>(inputFile),
             std::istreambuf_iterator<char>(),
             std::ostreambuf_iterator<char>(outputFile),

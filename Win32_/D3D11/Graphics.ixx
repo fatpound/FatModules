@@ -302,7 +302,8 @@ export namespace fatpound::win32::d3d11
                         .MipLevels      = 1U,
                         .ArraySize      = 1U,
                         .Format         = DXGI_FORMAT_B8G8R8A8_UNORM,
-                        .SampleDesc     = {
+                        .SampleDesc     =
+                                        {
                                             .Count   = 1U,
                                             .Quality = 0U 
                                         },
@@ -321,7 +322,10 @@ export namespace fatpound::win32::d3d11
                     {
                         .Format        = texDesc.Format,
                         .ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D,
-                        .Texture2D     = { .MipLevels = texDesc.MipLevels }
+                        .Texture2D     =
+                                       {
+                                           .MipLevels = texDesc.MipLevels
+                                       }
                     };
 
                     if (const auto& hr = GetDevice()->CreateShaderResourceView(GetSysbufferTexture(), &srvDesc, pSRV.GetAddressOf()); FAILED(hr))
@@ -363,13 +367,18 @@ export namespace fatpound::win32::d3d11
                 nullptr,
                 D3D_DRIVER_TYPE_HARDWARE,
                 nullptr,
-                IN_RELEASE ? 0U : D3D11_CREATE_DEVICE_DEBUG,
+#if IN_RELEASE
+                0U,
+#else
+                D3D11_CREATE_DEVICE_DEBUG,
+#endif
                 nullptr,
                 0U,
                 D3D11_SDK_VERSION,
                 &m_res_pack_.m_pDevice,
                 &featureLevel,
-                &m_res_pack_.m_pImmediateContext); FAILED(hr))
+                &m_res_pack_.m_pImmediateContext);
+                FAILED(hr))
             {
                 throw std::runtime_error("Could NOT create Direct3D Device!");
             }
@@ -406,18 +415,21 @@ export namespace fatpound::win32::d3d11
         {
             DXGI_SWAP_CHAIN_DESC scDesc
             {
-                .BufferDesc   = {
+                .BufferDesc   =
+                              {
                                   .Width            = GetWidth<UINT>(),
                                   .Height           = GetHeight<UINT>(),
-                                  .RefreshRate      = {
-                                                        .Numerator = 0U,
+                                  .RefreshRate      =
+                                                    {
+                                                        .Numerator   = 0U,
                                                         .Denominator = 0U,
                                                     },
                                   .Format           = DXGI_FORMAT_B8G8R8A8_UNORM,
                                   .ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED,
                                   .Scaling          = DXGI_MODE_SCALING_UNSPECIFIED,
                               },
-                .SampleDesc   = {
+                .SampleDesc   =
+                              {
                                   .Count   = (Framework ? 1U : m_msaa_count_),
                                   .Quality = (Framework ? 0U : m_msaa_quality_ - 1U)
                               },
@@ -466,7 +478,8 @@ export namespace fatpound::win32::d3d11
                         .MipLevels  = 1U,
                         .ArraySize  = 1U,
                         .Format     = DXGI_FORMAT_D32_FLOAT,
-                        .SampleDesc = {
+                        .SampleDesc =
+                                    {
                                         .Count   = GetMSAACount(),
                                         .Quality = GetMSAAQuality() - 1U
                                     },

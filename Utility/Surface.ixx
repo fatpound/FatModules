@@ -16,7 +16,7 @@ import FatPound.Utility.Common;
 import FatPound.Utility.Gfx.SizePack;
 
 #if FAT_BUILDING_WITH_MSVC
-import FatPound.Win32.GDI_Plus.Manager;
+    import FatPound.Win32.GDI_Plus.Manager;
 #endif
 
 import std;

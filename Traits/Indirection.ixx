@@ -1,5 +1,7 @@
 module;
 
+#include <FatMacros.hxx>
+
 export module FatPound.Traits.Indirection;
 
 import std;
@@ -32,3 +34,46 @@ export namespace fatpound::traits
 }
 
 module : private;
+
+#ifdef IN_DEBUG
+
+namespace fatpound::traits
+{
+    class FAT_EBCO ___unused___ final
+    {
+        explicit ___unused___()                        = delete;
+        explicit ___unused___(const ___unused___&)     = delete;
+        explicit ___unused___(___unused___&&) noexcept = delete;
+
+        auto operator = (const ___unused___&)     -> ___unused___& = delete;
+        auto operator = (___unused___&&) noexcept -> ___unused___& = delete;
+        ~___unused___() noexcept                                   = delete;
+        
+        //********************//
+
+        void foo();
+
+        int val;
+
+        static_assert(MemberFunctionPointer<               decltype(&___unused___::foo)>);
+        static_assert(MemberFunctionPointer<const          decltype(&___unused___::foo)>);
+        static_assert(MemberFunctionPointer<      volatile decltype(&___unused___::foo)>);
+        static_assert(MemberFunctionPointer<const volatile decltype(&___unused___::foo)>);
+
+        static_assert(  MemberObjectPointer<               decltype(&___unused___::val)>);
+        static_assert(  MemberObjectPointer<const          decltype(&___unused___::val)>);
+        static_assert(  MemberObjectPointer<      volatile decltype(&___unused___::val)>);
+        static_assert(  MemberObjectPointer<const volatile decltype(&___unused___::val)>);
+
+        static_assert(        MemberPointer<               decltype(&___unused___::foo)>);
+        static_assert(        MemberPointer<const          decltype(&___unused___::foo)>);
+        static_assert(        MemberPointer<      volatile decltype(&___unused___::foo)>);
+        static_assert(        MemberPointer<const volatile decltype(&___unused___::foo)>);
+        static_assert(        MemberPointer<               decltype(&___unused___::val)>);
+        static_assert(        MemberPointer<const          decltype(&___unused___::val)>);
+        static_assert(        MemberPointer<      volatile decltype(&___unused___::val)>);
+        static_assert(        MemberPointer<const volatile decltype(&___unused___::val)>);
+    };
+}
+
+#endif

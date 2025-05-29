@@ -38,16 +38,19 @@ export namespace fatpound::bit
     {
         return Mask_<false>(endBit, startBit);;
     }
-
-    static_assert( OneMask<>( 7U,  0U) == 0x000000FFU);
-    static_assert( OneMask<>(15U,  8U) == 0x0000FF00U); // (OneMask<>( 7U,  0U) << 8U)
-    static_assert( OneMask<>(23U, 16U) == 0x00FF0000U); // (OneMask<>(15U,  8U) << 8U)
-    static_assert( OneMask<>(31U, 24U) == 0xFF000000U); // (OneMask<>(23U, 16U) << 8U)
-
-    static_assert(ZeroMask<>( 7U,  0U) == 0xFFFFFF00U); // compl OneMask<>( 7U,  0U)
-    static_assert(ZeroMask<>(15U,  8U) == 0xFFFF00FFU); // compl OneMask<>(15U,  8U)
-    static_assert(ZeroMask<>(23U, 16U) == 0xFF00FFFFU); // compl OneMask<>(23U, 16U)
-    static_assert(ZeroMask<>(31U, 24U) == 0x00FFFFFFU); // compl OneMask<>(31U, 24U)
 }
 
 module : private;
+
+namespace fatpound::bit
+{
+    static_assert( OneMask<>( 7U,  0U) == 0x000000FFU);
+    static_assert( OneMask<>(15U,  8U) == 0x0000FF00U); // (== OneMask<>( 7U,  0U) << 8U)
+    static_assert( OneMask<>(23U, 16U) == 0x00FF0000U); // (== OneMask<>(15U,  8U) << 8U)
+    static_assert( OneMask<>(31U, 24U) == 0xFF000000U); // (== OneMask<>(23U, 16U) << 8U)
+
+    static_assert(ZeroMask<>( 7U,  0U) == 0xFFFFFF00U); //  == compl OneMask<>( 7U,  0U)
+    static_assert(ZeroMask<>(15U,  8U) == 0xFFFF00FFU); //  == compl OneMask<>(15U,  8U)
+    static_assert(ZeroMask<>(23U, 16U) == 0xFF00FFFFU); //  == compl OneMask<>(23U, 16U)
+    static_assert(ZeroMask<>(31U, 24U) == 0x00FFFFFFU); //  == compl OneMask<>(31U, 24U)
+}

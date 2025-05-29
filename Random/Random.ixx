@@ -18,33 +18,31 @@ export namespace fatpound::random
     template <template <typename> typename T, typename U>
     concept StdUniformDist = std::same_as<T<U>, std::conditional_t<std::integral<U>, std::uniform_int_distribution<U>, std::uniform_real_distribution<U>>>;
 
-    template <std::uniform_random_bit_generator T, typename D>
-    requires std::same_as<D, std::bernoulli_distribution>
-    auto RandBool(T& rng, D& dist) -> bool
+    auto RandBool(std::uniform_random_bit_generator auto& rng, std::bernoulli_distribution& bdist) -> bool
     {
-        return dist(rng);
+        return bdist(rng);
     }
 
-    template <traits::UIntegralOrFloating T, std::uniform_random_bit_generator U, template <typename> typename D>
+    template <traits::UIntegralOrFloating T, template <typename> typename D>
     requires StdUniformDist<D, T>
-    auto RandNum(U& rng, D<T>& dist) -> T
+    auto RandNumber(std::uniform_random_bit_generator auto& rng, D<T>& dist) -> T
     {
         return static_cast<T>(dist(rng));
     }
 
-    template <traits::UIntegralOrFloating T, std::uniform_random_bit_generator U>
-    auto RandNum(const T& min, const T& max, U& rng) -> T
+    template <traits::UIntegralOrFloating T>
+    auto RandNumber(const T& min, const T& max, std::uniform_random_bit_generator auto& rng) -> T
     {
         std::uniform_int_distribution<T> dist{ min, max };
 
-        return RandNum<>(rng, dist);
+        return RandNumber<>(rng, dist);
     }
 
-    template <std::unsigned_integral T, std::uniform_random_bit_generator U, template <typename> typename D>
+    template <std::unsigned_integral T, template <typename> typename D>
     requires StdUniformDist<D, T>
-    auto RandPrime(U& rng, D<T>& dist) -> T
+    auto RandPrimeNumber(std::uniform_random_bit_generator auto& rng, D<T>& dist) -> T
     {
-        const auto& num = RandNum<>(rng, dist);
+        const auto& num = RandNumber<>(rng, dist);
 
         if (FATSPACE_NUMBERS::IsPrime<>(num))
         {
@@ -64,50 +62,124 @@ export namespace fatpound::random
         return static_cast<T>(0U);
     }
 
-    template <std::unsigned_integral T, std::uniform_random_bit_generator U>
-    auto RandPrime(const T& min, const T& max, U& rng) -> T
+    template <std::unsigned_integral T>
+    auto RandPrimeNumber(const T& min, const T& max, std::uniform_random_bit_generator auto& rng) -> T
     {
         std::uniform_int_distribution<T> dist{ min, max };
 
-        return RandPrime<>(rng, dist);
+        return RandPrimeNumber<>(rng, dist);
     }
     
-    template <std::unsigned_integral T, std::uniform_random_bit_generator U, template <typename> typename D>
+    template <std::unsigned_integral T, template <typename> typename D>
     requires StdUniformDist<D, T>
-    auto RollDice(U& rng, D<T>& dist) -> T
+    auto RollDice(std::uniform_random_bit_generator auto& rng, D<T>& dist) -> T
     {
-        return RandNum<>(rng, dist);
+        return RandNumber<>(rng, dist);
     }
     
-    template <std::unsigned_integral T, std::uniform_random_bit_generator U>
-    auto RollDice(U& rng) -> T
+    template <std::unsigned_integral T>
+    auto RollDice(std::uniform_random_bit_generator auto& rng) -> T
     {
         std::uniform_int_distribution<std::size_t> dist{ 1U, 6U };
 
         return RollDice<>(rng, dist);
     }
 
-    template <bool FullAlpha = true, traits::UIntegralOrFloating T = std::size_t, std::uniform_random_bit_generator U, template <typename> typename D>
+    template <bool FullAlpha = true, traits::UIntegralOrFloating T = std::size_t, template <typename> typename D>
     requires StdUniformDist<D, T>
-    auto RandColor(U& rng, D<T>& dist) -> utility::Color
+    auto RandColor(std::uniform_random_bit_generator auto& rng, D<T>& dist) -> utility::Color
     {
         if constexpr (std::unsigned_integral<T>)
         {
-            const auto& xrgb = static_cast<std::uint32_t>(RandNum<T>(rng, dist));
+            using utility::Color;
+
+            const auto& xrgb = static_cast<Color::Value_t>(RandNumber<>(rng, dist));
 
             if constexpr (FullAlpha)
             {
-                return utility::Color{ xrgb, static_cast<std::uint8_t>(255U) };
+                return Color{ xrgb, static_cast<Color::ChannelA_t>(255U) };
             }
             else
             {
-                return utility::Color{ xrgb };
+                return Color{ xrgb, bool{} };
             }
         }
         else
         {
             static_assert(false, "floating point Colors are not supported!");
         }
+    }
+
+    template <bool FullAlpha = true, traits::UIntegralOrFloating T = std::size_t, template <typename> typename D>
+    requires StdUniformDist<D, T>
+    auto RandColorString(const std::string& prefix, const bool& withAlpha, std::uniform_random_bit_generator auto& rng, D<T>& dist) -> std::string
+    {
+        return RandColor<FullAlpha>(rng, dist).GetString(prefix, withAlpha);
+    }
+
+    auto RandString(const std::unsigned_integral auto& length, const std::string_view& charset, std::uniform_random_bit_generator auto& rng) -> std::string
+    {
+        if (length == 0)
+        {
+            return {};
+        }
+
+        if (charset.empty())
+        {
+            throw std::invalid_argument("Charset cannot be empty!");
+        }
+
+        std::uniform_int_distribution<std::size_t> dist(0U, charset.size() - 1U);
+
+        return std::views::iota(0U, length)
+             | std::views::transform([&charset, &dist, &rng](auto) { return charset[dist(rng)]; })
+             | std::ranges::to<std::string>();
+    }
+
+    auto RandPassword(
+        const std::unsigned_integral auto& length,
+        const bool& withLowercase,
+        const bool& withUppercase,
+        const bool& withDigits,
+        const bool& withSymbols,
+        const bool& enforceEachType,
+        std::uniform_random_bit_generator auto& rng) -> std::string
+    {
+        constexpr std::string_view LowerCase = "abcdefghijklmnopqrstuvwxyz";
+        constexpr std::string_view UpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        constexpr std::string_view Digits    =                 "0123456789";
+        constexpr std::string_view Symbols   = "!@#$%^&*()-_=+[]{}|;:,.<>?";
+
+        if (length == 0)
+        {
+            throw std::invalid_argument("Password length must be greater than 0");
+        }
+
+        if (not (withLowercase or withUppercase or withDigits or withSymbols))
+        {
+            throw std::invalid_argument("At least one charset must be enabled!");
+        }
+
+        std::vector<std::string_view> vec;
+        vec.reserve(4U);
+
+        withLowercase ? vec.push_back(LowerCase) : void();
+        withUppercase ? vec.push_back(UpperCase) : void();
+        withDigits    ? vec.push_back(Digits)    : void();
+        withSymbols   ? vec.push_back(Symbols)   : void();
+
+        std::string password;
+
+        if (enforceEachType)
+        {
+            password += std::ranges::to<std::string>(vec | std::views::transform([](const auto& set) { return set[0]; }));
+        }
+
+        password += RandString<>(length - password.length(), std::ranges::to<std::string>(vec | std::views::join), rng);
+
+        std::shuffle<>(password.begin(), password.end(), rng);
+
+        return password;
     }
 }
 

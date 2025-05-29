@@ -2,6 +2,8 @@ module;
 
 #include <FatNamespaces.hxx>
 
+#include <cassert>
+
 export module FatPound.Random.URand;
 
 import std;
@@ -11,10 +13,11 @@ export namespace fatpound::random
     class URand final
     {
     public:
-        URand(const std::size_t& limit)
+        URand(const std::size_t& count)
             :
-            m_vec_(limit == 0 ? 1ULL : limit),
+            m_vec_((assert(count > 0), count)),
             m_rng_(std::random_device{}()),
+            m_dist_(0ULL, count - 1ULL),
             m_current_(0ULL)
         {
             std::ranges::iota(m_vec_, 0ULL);
@@ -37,11 +40,9 @@ export namespace fatpound::random
                 return -1;
             }
 
-            {
-                std::uniform_int_distribution<std::size_t> idxDist(m_current_, m_vec_.size() - 1ULL);
+            m_dist_.param(decltype(m_dist_)::param_type{ m_current_, m_vec_.size() - 1ULL });
 
-                std::swap<>(m_vec_[m_current_], m_vec_[idxDist(m_rng_)]);
-            }
+            std::swap<>(m_vec_[m_current_], m_vec_[m_dist_(m_rng_)]);
 
             const auto val = m_vec_[m_current_];
 
@@ -55,9 +56,11 @@ export namespace fatpound::random
 
 
     private:
-        std::vector<std::size_t>  m_vec_;
-        std::minstd_rand          m_rng_;
-        std::size_t               m_current_;
+        std::vector<std::size_t>                   m_vec_;
+        std::minstd_rand                           m_rng_;
+        std::uniform_int_distribution<std::size_t> m_dist_;
+
+        std::size_t                                m_current_;
     };
 
     using UniqueRand = URand;
