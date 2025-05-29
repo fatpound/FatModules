@@ -17,6 +17,53 @@ export namespace fatpound::random
 {
     template <template <typename> typename T, typename U>
     concept StdUniformDist = std::same_as<T<U>, std::conditional_t<std::integral<U>, std::uniform_int_distribution<U>, std::uniform_real_distribution<U>>>;
+    
+    template <template <typename> typename T, typename U>
+    concept StdOtherBernoulliDist = std::integral<U> and requires()
+    {
+        requires
+               std::same_as<T<U>, std::binomial_distribution<U>>
+            or std::same_as<T<U>, std::negative_binomial_distribution<U>>
+            or std::same_as<T<U>, std::geometric_distribution<U>>;
+    };
+
+    template <template <typename> typename T, typename U>
+    concept StdPoissonDist = traits::IntegralOrFloating<U> and requires()
+    {
+        requires
+               std::same_as<T<U>, std::poisson_distribution<U>> and std::integral<U>
+            or std::same_as<T<U>, std::exponential_distribution<U>>
+            or std::same_as<T<U>, std::gamma_distribution<U>>
+            or std::same_as<T<U>, std::weibull_distribution<U>>
+            or std::same_as<T<U>, std::extreme_value_distribution<U>>;
+    };
+
+    template <template <typename> typename T, typename U>
+    concept StdNormalDist = std::floating_point<U> and requires()
+    {
+        requires
+               std::same_as<T<U>, std::normal_distribution<U>>
+            or std::same_as<T<U>, std::lognormal_distribution<U>>
+            or std::same_as<T<U>, std::chi_squared_distribution<U>>
+            or std::same_as<T<U>, std::cauchy_distribution<U>>
+            or std::same_as<T<U>, std::fisher_f_distribution<U>>
+            or std::same_as<T<U>, std::student_t_distribution<U>>;
+    };
+
+    template <template <typename> typename T, typename U>
+    concept StdSamplingDist = traits::IntegralOrFloating<U> and requires()
+    {
+        requires
+               std::same_as<T<U>, std::discrete_distribution<U>> and std::integral<U>
+            or std::same_as<T<U>, std::piecewise_constant_distribution<U>>
+            or std::same_as<T<U>, std::piecewise_linear_distribution<U>>;
+    };
+
+    template <template <typename> typename T, typename U>
+    concept StdUniformOrNormalDist = StdUniformDist<T, U> or StdNormalDist<T, U>;
+
+    template <template <typename> typename T, typename U>
+    concept StdDistNoBernoulli = StdUniformOrNormalDist<T, U> or StdOtherBernoulliDist<T, U> or StdPoissonDist<T, U> or StdSamplingDist<T, U>;
 
     auto RandBool(std::uniform_random_bit_generator auto& rng, std::bernoulli_distribution& bdist) -> bool
     {
@@ -24,7 +71,7 @@ export namespace fatpound::random
     }
 
     template <traits::UIntegralOrFloating T, template <typename> typename D>
-    requires StdUniformDist<D, T>
+    requires StdUniformOrNormalDist<D, T>
     auto RandNumber(std::uniform_random_bit_generator auto& rng, D<T>& dist) -> T
     {
         return static_cast<T>(dist(rng));
@@ -39,7 +86,7 @@ export namespace fatpound::random
     }
 
     template <std::unsigned_integral T, template <typename> typename D>
-    requires StdUniformDist<D, T>
+    requires StdUniformOrNormalDist<D, T>
     auto RandPrimeNumber(std::uniform_random_bit_generator auto& rng, D<T>& dist) -> T
     {
         const auto& num = RandNumber<>(rng, dist);
@@ -71,7 +118,7 @@ export namespace fatpound::random
     }
     
     template <std::unsigned_integral T, template <typename> typename D>
-    requires StdUniformDist<D, T>
+    requires StdUniformOrNormalDist<D, T>
     auto RollDice(std::uniform_random_bit_generator auto& rng, D<T>& dist) -> T
     {
         return RandNumber<>(rng, dist);
@@ -86,7 +133,7 @@ export namespace fatpound::random
     }
 
     template <bool FullAlpha = true, traits::UIntegralOrFloating T = std::size_t, template <typename> typename D>
-    requires StdUniformDist<D, T>
+    requires StdUniformOrNormalDist<D, T>
     auto RandColor(std::uniform_random_bit_generator auto& rng, D<T>& dist) -> utility::Color
     {
         if constexpr (std::unsigned_integral<T>)
@@ -111,7 +158,7 @@ export namespace fatpound::random
     }
 
     template <bool FullAlpha = true, traits::UIntegralOrFloating T = std::size_t, template <typename> typename D>
-    requires StdUniformDist<D, T>
+    requires StdUniformOrNormalDist<D, T>
     auto RandColorString(const std::string& prefix, const bool& withAlpha, std::uniform_random_bit_generator auto& rng, D<T>& dist) -> std::string
     {
         return RandColor<FullAlpha>(rng, dist).GetString(prefix, withAlpha);
