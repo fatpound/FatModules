@@ -186,11 +186,11 @@ export namespace fatpound::win32
 {
     auto ModuleHandleOf(const
 #ifdef UNICODE
-        ::LPCWSTR
+        ::LPCWSTR&
 #else
-        ::LPCSTR
+        ::LPCSTR&
 #endif
-        & cstr = nullptr) -> HINSTANCE
+        cstr = nullptr) -> HINSTANCE
     {
         if (const auto& hInstance{ ::GetModuleHandle(cstr) }; hInstance not_eq nullptr)
         {

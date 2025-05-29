@@ -76,9 +76,7 @@
     <ClCompile Include="Utility\Gfx\Gfx.ixx" />
     <ClCompile Include="IO\IO.ixx" />
     <ClCompile Include="IO\Keyboard.ixx" />
-    <ClCompile Include="IO\KeyEvent.ixx" />
     <ClCompile Include="IO\Mouse.ixx" />
-    <ClCompile Include="IO\MouseEvent.ixx" />
     <ClCompile Include="Memory\Memory.ixx" />
     <ClCompile Include="Utility\Gfx\ResourcePack.ixx" />
     <ClCompile Include="Utility\Gfx\SizePack.ixx" />

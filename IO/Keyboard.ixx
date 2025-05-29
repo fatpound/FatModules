@@ -2,8 +2,6 @@ module;
 
 export module FatPound.IO.Keyboard;
 
-export import FatPound.IO.KeyEvent;
-
 import std;
 
 export namespace fatpound::io
@@ -11,6 +9,23 @@ export namespace fatpound::io
     class Keyboard final
     {
         static constexpr auto scx_bufferSize_ = 16U;
+
+    public:
+        struct alignas(2) KeyEvent final
+        {
+            enum struct Type : std::uint8_t
+            {
+                Press,
+                Release,
+
+                Invalid
+            };
+
+            Type type{ Type::Invalid };
+        
+            std::underlying_type_t<Type> code{};
+        };
+
 
     public:
         using KeyCode_t = decltype(KeyEvent::code);

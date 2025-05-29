@@ -162,13 +162,7 @@
     <ClCompile Include="IO\Keyboard.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IO\KeyEvent.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="IO\Mouse.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IO\MouseEvent.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Utility\Timer.ixx">
