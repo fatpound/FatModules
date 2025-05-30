@@ -248,6 +248,8 @@ export namespace fatpound::io
         bool m_right_is_pressed_{};
         bool m_wheel_is_pressed_{};
     };
+
+    using MouseEvent = Mouse::Event;
 }
 
 module : private;

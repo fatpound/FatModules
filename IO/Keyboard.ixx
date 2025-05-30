@@ -146,6 +146,8 @@ export namespace fatpound::io
 
         std::atomic_bool m_auto_repeat_enabled_;
     };
+
+    using KeyEvent = Keyboard::KeyEvent;
 }
 
 module : private;
