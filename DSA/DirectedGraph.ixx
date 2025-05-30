@@ -21,7 +21,7 @@ export namespace fatpound::dsa
             while (not my_file.eof())
             {
                 std::string line;
-                std::getline(my_file, line);
+                std::getline<>(my_file, line);
 
                 std::stringstream ss;
                 ss << line;
@@ -36,7 +36,7 @@ export namespace fatpound::dsa
                     vec.push_back(x);
                 }
 
-                m_adj_.push_back(std::move(vec));
+                m_adj_.push_back(std::move<>(vec));
                 m_nexts_.emplace_back();
             }
 

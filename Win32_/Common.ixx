@@ -186,9 +186,9 @@ export namespace fatpound::win32
 {
     auto ModuleHandleOf(const
 #ifdef UNICODE
-        ::LPCWSTR&
+        LPCWSTR&
 #else
-        ::LPCSTR&
+        LPCSTR&
 #endif
         cstr = nullptr) -> HINSTANCE
     {
