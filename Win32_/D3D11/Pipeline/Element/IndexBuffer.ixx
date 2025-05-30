@@ -45,7 +45,10 @@ export namespace fatpound::win32::d3d11::pipeline
                 .StructureByteStride = sizeof(T)
             };
 
-            const D3D11_SUBRESOURCE_DATA sd{ .pSysMem = indices.data() };
+            const D3D11_SUBRESOURCE_DATA sd
+            {
+                .pSysMem = indices.data()
+            };
 
             if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pIndexBuffer_);
                 FAILED(hr))

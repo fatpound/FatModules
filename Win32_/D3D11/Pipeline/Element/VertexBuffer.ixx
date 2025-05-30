@@ -45,7 +45,10 @@ export namespace fatpound::win32::d3d11::pipeline
                 .StructureByteStride = m_stride_
             };
 
-            const D3D11_SUBRESOURCE_DATA sd{ .pSysMem = vertices.data() };
+            const D3D11_SUBRESOURCE_DATA sd
+            {
+                .pSysMem = vertices.data()
+            };
 
             if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pVertexBuffer_);
                 FAILED(hr))
@@ -67,7 +70,10 @@ export namespace fatpound::win32::d3d11::pipeline
                 .StructureByteStride = m_stride_
             };
 
-            const D3D11_SUBRESOURCE_DATA sd{ .pSysMem = vertices.data() };
+            const D3D11_SUBRESOURCE_DATA sd
+            {
+                .pSysMem = vertices.data()
+            };
 
             if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pVertexBuffer_);
                 FAILED(hr))

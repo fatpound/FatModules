@@ -33,7 +33,7 @@ export namespace fatpound::win32::d3d11::visual
     protected:
         virtual void AddStaticIndexBuffer_(std::unique_ptr<pipeline::IndexBuffer> idxbuf) noexcept(IN_RELEASE) final
         {
-            assert("Attempting to add index buffer a second time" && m_pCIndexBuffer_ == nullptr);
+            assert("Attempting to add index buffer a second time" and m_pCIndexBuffer_ == nullptr);
 
             m_pCIndexBuffer_ = idxbuf.get();
 
@@ -41,7 +41,7 @@ export namespace fatpound::win32::d3d11::visual
         }
         virtual void SetIndexFromStatic_() noexcept(IN_RELEASE) final
         {
-            assert("Attempting to add index buffer a second time" && m_pCIndexBuffer_ == nullptr);
+            assert("Attempting to add index buffer a second time" and m_pCIndexBuffer_ == nullptr);
 
             for (const auto& b : GetStaticBinds_())
             {
@@ -55,7 +55,7 @@ export namespace fatpound::win32::d3d11::visual
                 }
             }
 
-            assert("Failed to find index buffer in static binds" && m_pCIndexBuffer_ not_eq nullptr);
+            assert("Failed to find index buffer in static binds" and m_pCIndexBuffer_ not_eq nullptr);
         }
 
 
