@@ -46,6 +46,13 @@ export namespace fatpound::math::geometry
     {
         return (base * height) / 2.0;
     }
+
+    template <traits::UIntegralOrFloating T> constexpr auto FormsATriangle    (const T& a, const T& b, const T& c) -> bool
+    {
+        return     (std::abs(b - c) < a and a < b + c)
+               and (std::abs(a - c) < b and b < a + c)
+               and (std::abs(a - b) < c and c < a + b);
+    }
 }
 
 module : private;

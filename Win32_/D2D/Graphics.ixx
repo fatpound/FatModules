@@ -119,7 +119,7 @@ export namespace fatpound::win32::d2d
         {
             m_pRenderTarget_->CreateSolidColorBrush(color, &m_pBrush_);
 
-            m_pRenderTarget_->DrawLine(p0, p1, m_pBrush_.Get());
+            DrawLine(p0, p1);
         }
         void DrawClosedPolyLine(const std::vector<dx::XMFLOAT2>& vertices, const D2D1_COLOR_F& color) noexcept
         {
@@ -167,8 +167,8 @@ export namespace fatpound::win32::d2d
         
         
     private:
-        wrl::ComPtr<ID2D1HwndRenderTarget> m_pRenderTarget_;
-        wrl::ComPtr<ID2D1SolidColorBrush>  m_pBrush_;
+        wrl::ComPtr<ID2D1HwndRenderTarget>    m_pRenderTarget_;
+        wrl::ComPtr<ID2D1SolidColorBrush>     m_pBrush_;
 
         const FATSPACE_UTILITY_GFX::SizePack  mc_dimensions_;
     };
