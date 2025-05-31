@@ -13,10 +13,14 @@ namespace fatpound::algorithm
     {
         colors[index] = colors::Gray;
 
+#ifdef _MSC_VER
 #pragma warning (push)
 #pragma warning (disable : 4686)
+#endif
         std::string output = std::format<>("{}\n", index);
+#ifdef _MSC_VER
 #pragma warning (pop)
+#endif
 
         for (std::size_t i{}; i < graph.GetNextCount(index); ++i)
         {

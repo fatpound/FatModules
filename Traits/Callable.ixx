@@ -544,11 +544,15 @@ struct FAT_EBCO FunctionInfo< MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__ >
     FAT_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, &&), V_INHERIT_VARIADIC(PQUAL, noexcept))                                                                        \
     FAT_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, && noexcept)
 
+#ifdef _MSC_VER
 #pragma warning (push)
 #pragma warning (disable : 4003)
+#endif
     FAT_FUNC_INFO_GENERATOR()
     FAT_FUNC_INFO_GENERATOR_VARIADIC()
+#ifdef _MSC_VER
 #pragma warning (pop)
+#endif
 
     // with cv-qualified (member function) pointers
 

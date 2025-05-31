@@ -127,10 +127,12 @@ export namespace fatpound::utility
             return *this;
         }
 
+#ifdef _MSC_VER
 #pragma warning (push)
 #pragma warning (disable : 4686)
 #if __cplusplus > 202400L
         constexpr
+#endif
 #endif
         auto GetString(const std::string& prefix, const bool& withAlpha) const -> std::string
         {
@@ -143,7 +145,9 @@ export namespace fatpound::utility
                 GetB()
             );
         }
+#ifdef _MSC_VER
 #pragma warning (pop)
+#endif
 
 
     protected:

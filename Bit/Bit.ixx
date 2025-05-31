@@ -36,7 +36,7 @@ export namespace fatpound::bit
     template <std::unsigned_integral T = std::size_t>
     constexpr auto ZeroMask(const T& endBit, const T& startBit) -> T
     {
-        return Mask_<false>(endBit, startBit);;
+        return Mask_<false>(endBit, startBit);
     }
 }
 
