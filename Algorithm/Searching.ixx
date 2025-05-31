@@ -6,6 +6,8 @@ import std;
 
 namespace fatpound::algorithm
 {
+    /// @brief Time Complexity: O(nlogn)
+    ///
     template <bool Largest, std::totally_ordered T>
     constexpr auto Nth_LS_ElementUnique(const std::vector<T>& vec, const std::unsigned_integral auto& n) -> T
     {
@@ -46,6 +48,7 @@ namespace fatpound::algorithm
 export namespace fatpound::algorithm
 {
     /// @brief Time Complexity: O(nlogn)
+    ///
     template <std::totally_ordered T>
     constexpr auto NthLargestElementUnique(const std::vector<T>& vec, const std::unsigned_integral auto& n) -> T
     {
@@ -53,6 +56,7 @@ export namespace fatpound::algorithm
     }
 
     /// @brief Time Complexity: O(nlogn)
+    ///
     template <std::totally_ordered T>
     constexpr auto NthSmallestElementUnique(const std::vector<T>& vec, const std::unsigned_integral auto& n) -> T
     {
