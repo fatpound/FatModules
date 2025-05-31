@@ -303,6 +303,9 @@
     <ClCompile Include="Win32_\D3D11\Visual\DrawableBase.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Algorithm\Searching.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32_\FatWin32.hpp">

@@ -25,6 +25,7 @@
     <ClCompile Include="Algorithm\Algorithm.ixx" />
     <ClCompile Include="Algorithm\Graph\BFS.ixx" />
     <ClCompile Include="Algorithm\Graph\DFS.ixx" />
+    <ClCompile Include="Algorithm\Searching.ixx" />
     <ClCompile Include="DSA\DirectedGraph.ixx" />
     <ClCompile Include="Algorithm\Graph\Graph.ixx" />
     <ClCompile Include="Algorithm\Sorting.ixx" />
