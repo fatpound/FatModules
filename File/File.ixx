@@ -1,5 +1,10 @@
 module;
 
+#ifdef __INTELLISENSE__
+    #include <variant>
+    #include <filesystem>
+#endif
+
 export module FatPound.File;
 
 import FatPound.Cryptography.XorCipher;
@@ -61,7 +66,7 @@ export namespace fatpound::file
         std::filesystem::remove(inPath);
         std::filesystem::rename(outPath, inPath);
     }
-    void EncryptDecrypt_Dir  (const std::filesystem::path& inPath, const std::size_t& key, const bool& recurse = false)
+    void EncryptDecrypt_Dir  (const std::filesystem::path& inPath, const std::size_t& key, std::filesystem::path outPath = {}, const bool& recurse = false)
     {
         namespace fs = std::filesystem;
 
@@ -73,13 +78,13 @@ export namespace fatpound::file
         using DirIt = std::variant<fs::recursive_directory_iterator, fs::directory_iterator>;
 
         std::visit<>(
-            [&key](auto&& it) -> void
+            [&key, &outPath](auto&& it) -> void
             {
                 for (const auto& path : it)
                 {
                     if (fs::is_regular_file(path))
                     {
-                        EncryptDecrypt(path, key);
+                        EncryptDecrypt(path, key, outPath);
                     }
                 }
             },
@@ -87,6 +92,29 @@ export namespace fatpound::file
                 ? DirIt{ fs::recursive_directory_iterator{ inPath, fs::directory_options::skip_permission_denied } }
                 : DirIt{ fs::directory_iterator          { inPath, fs::directory_options::skip_permission_denied } }
         );
+    }
+
+    void PrintHex            (const std::filesystem::path& path, std::ostream& os = std::cout)
+    {
+        std::ifstream file(path, std::ios::binary);
+
+        if (not file.is_open())
+        {
+            throw std::runtime_error("Input file cannot be opened!");
+        }
+
+#pragma warning (push)
+#pragma warning (disable : 4686)
+        if (auto ch = file.get(); not file.eof())
+        {
+            std::print<>(os, "{:02X}", ch);
+        }
+
+        for (auto ch = file.get(); not file.eof(); ch = file.get())
+        {
+            std::print<>(os, " {:02X}", ch);
+        }
+#pragma warning (pop)
     }
 }
 
