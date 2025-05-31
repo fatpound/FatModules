@@ -203,6 +203,7 @@ export namespace fatpound::io
         {
             m_wheel_delta_carry_ += delta;
 
+// NOLINTBEGIN(cppcoreguidelines-macro-usage)
 #define FAT_WHEEL_DELTA 120
             while (m_wheel_delta_carry_ >= FAT_WHEEL_DELTA)
             {
@@ -218,6 +219,7 @@ export namespace fatpound::io
                 AddWheelDownEvent();
             }
 #undef FAT_WHEEL_DELTA
+// NOLINTEND(cppcoreguidelines-macro-usage)
         }
 
 

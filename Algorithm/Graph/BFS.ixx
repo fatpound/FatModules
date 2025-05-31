@@ -18,7 +18,7 @@ export namespace fatpound::algorithm
 
         std::string output;
 
-        while (queue.size() > 0U)
+        while (not queue.empty())
         {
             const auto& u = queue.front();
             queue.pop();

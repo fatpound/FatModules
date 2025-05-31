@@ -30,7 +30,7 @@ export namespace fatpound::dsa
 
                 while (not ss.eof())
                 {
-                    std::ptrdiff_t x;
+                    std::ptrdiff_t x{};
                     ss >> x >> std::ws;
 
                     vec.push_back(x);
@@ -68,25 +68,25 @@ export namespace fatpound::dsa
 
 
     public:
-        auto GetAdjAt (const std::size_t& u, const std::size_t& v) const noexcept -> std::ptrdiff_t
+        [[nodiscard]] auto GetAdjAt (const std::size_t& u, const std::size_t& v) const noexcept -> std::ptrdiff_t
         {
             return m_adj_[u][v];
         }
-        auto GetNextAt(const std::size_t& u, const std::size_t& v) const noexcept -> std::size_t
+        [[nodiscard]] auto GetNextAt(const std::size_t& u, const std::size_t& v) const noexcept -> std::size_t
         {
             return m_nexts_[u][v];
         }
 
-        auto GetNextCount(const std::size_t& idx) const noexcept -> std::size_t
+        [[nodiscard]] auto GetNextCount(const std::size_t& idx) const noexcept -> std::size_t
         {
             return m_nexts_[idx].size();
         }
 
-        auto GetNodeCount() const noexcept -> std::size_t
+        [[nodiscard]] auto GetNodeCount() const noexcept -> std::size_t
         {
             return m_node_count_;
         }
-        auto GetEdgeCount() const noexcept -> std::size_t
+        [[nodiscard]] auto GetEdgeCount() const noexcept -> std::size_t
         {
             return m_edge_count_;
         }
@@ -99,8 +99,8 @@ export namespace fatpound::dsa
         std::vector<std::vector<std::ptrdiff_t>> m_adj_;
         std::vector<std::vector<std::size_t>>    m_nexts_;
 
-        std::size_t m_node_count_{};
-        std::size_t m_edge_count_{};
+        std::size_t                              m_node_count_{};
+        std::size_t                              m_edge_count_{};
     };
 }
 

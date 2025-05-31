@@ -30,9 +30,9 @@ export namespace fatpound::utility
 
     public:
         static constexpr auto  BlueShift = 0ULL;
-        static constexpr auto GreenShift = sizeof(ChannelB_t) * 8U;
-        static constexpr auto   RedShift = sizeof(ChannelB_t) * 8U + sizeof(ChannelG_t) * 8U;
-        static constexpr auto AlphaShift = sizeof(ChannelB_t) * 8U + sizeof(ChannelG_t) * 8U + sizeof(ChannelR_t) * 8U;
+        static constexpr auto GreenShift =  sizeof(ChannelB_t) * 8U;
+        static constexpr auto   RedShift = (sizeof(ChannelB_t) * 8U) + (sizeof(ChannelG_t) * 8U);
+        static constexpr auto AlphaShift = (sizeof(ChannelB_t) * 8U) + (sizeof(ChannelG_t) * 8U) + (sizeof(ChannelR_t) * 8U);
 
         static constexpr auto AlphaMask = bit::OneMask<>(AlphaShift + (sizeof(ChannelA_t) * 8U - 1U), AlphaShift);
         static constexpr auto   RedMask = bit::OneMask<>(  RedShift + (sizeof(ChannelR_t) * 8U - 1U),   RedShift);
@@ -41,12 +41,14 @@ export namespace fatpound::utility
 
 
     public:
+        // NOLINTBEGIN(google-explicit-constructor, hicpp-explicit-conversions)
         constexpr Color(const      Value_t& xrgb, const std::uint8_t& alpha = 0xFFU) noexcept
             :
             m_value_((xrgb bitand 0x00'FF'FF'FFU) bitor (static_cast<Value_t>(alpha) << AlphaShift))
         {
 
         }
+        // NOLINTEND(google-explicit-constructor, hicpp-explicit-conversions)
         constexpr Color(const      Value_t& xrgb, bool) noexcept
             :
             m_value_(xrgb)
@@ -88,19 +90,23 @@ export namespace fatpound::utility
 
 
     public:
-        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetA() const noexcept -> std::uint8_t
+        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetValue () const noexcept -> Value_t
+        {
+            return *this;
+        }
+        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetA     () const noexcept -> std::uint8_t
         {
             return m_value_ >> AlphaShift;
         }
-        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetR() const noexcept -> std::uint8_t
+        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetR     () const noexcept -> std::uint8_t
         {
             return (m_value_ >> RedShift) bitand 0xFFU;
         }
-        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetG() const noexcept -> std::uint8_t
+        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetG     () const noexcept -> std::uint8_t
         {
             return (m_value_ >> GreenShift) bitand 0xFFU;
         }
-        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetB() const noexcept -> std::uint8_t
+        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetB     () const noexcept -> std::uint8_t
         {
             return m_value_ bitand 0xFFU;
         }
@@ -121,11 +127,6 @@ export namespace fatpound::utility
         {
             m_value_ = (m_value_ bitand BlueMask) bitor (static_cast<std::uint32_t>(blue));
         }
-        
-        FAT_FORCEINLINE constexpr auto GetValue() const noexcept -> Value_t
-        {
-            return *this;
-        }
 
 #ifdef _MSC_VER
 #pragma warning (push)
@@ -134,7 +135,7 @@ export namespace fatpound::utility
         constexpr
 #endif
 #endif
-        auto GetString(const std::string& prefix, const bool& withAlpha) const -> std::string
+        [[nodiscard]] auto GetString(const std::string& prefix, const bool& withAlpha) const -> std::string
         {
             return std::format<>(
                 "{}{}{:02X}{:02X}{:02X}",
@@ -160,7 +161,9 @@ export namespace fatpound::utility
 
 export namespace fatpound::colors
 {
+    // NOLINTBEGIN(google-build-using-namespace)
     using namespace utility;
+    // NOLINTEND(google-build-using-namespace)
 
     // This namespace uses Microsoft-style colors by default.
 
