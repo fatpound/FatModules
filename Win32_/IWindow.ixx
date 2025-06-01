@@ -27,11 +27,9 @@ export namespace fatpound::win32
 
 
     public:
-        virtual auto SetTitle(const std::wstring& title) -> std::future<void> = 0;
-
-        virtual auto GetHandle() const noexcept -> HWND = 0;
-
-        virtual auto IsClosing() const noexcept -> bool = 0;
+        virtual auto SetTitle  (const std::wstring& title) -> std::future<void> = 0;
+        virtual auto GetHandle () const noexcept           -> HWND              = 0;
+        virtual auto IsClosing () const noexcept           -> bool              = 0;
 
 
     protected:
@@ -41,7 +39,7 @@ export namespace fatpound::win32
     private:
     };
     
-    class IWindow::ClassEx final
+    class IWindow::ClassEx
     {
     public:
         explicit ClassEx(const WNDCLASSEX& wcx)
@@ -50,7 +48,8 @@ export namespace fatpound::win32
 
             if (m_atom_ == 0)
             {
-                throw std::runtime_error{
+                throw std::runtime_error
+                {
                     "ATOM could not be created!\n\n"
                     "You should check ClassEx::lpszClassName\n"
                     "It should have a unique name. If that's not the problem\n"
@@ -66,7 +65,7 @@ export namespace fatpound::win32
         }
         explicit ClassEx(const wchar_t* const clsName = L"#fatpound.Default.IWindow.ClassEx#")
             :
-            ClassEx(CreateDefaultWNDCLASSEX_(m_hInstance_ = ModuleHandleOf(nullptr), clsName))
+            ClassEx(CreateDefaultWNDCLASSEX_<>(m_hInstance_ = ModuleHandleOf(nullptr), clsName))
         {
 
         }
@@ -84,27 +83,24 @@ export namespace fatpound::win32
 
 
     public:
-        auto GetAtom()     const noexcept -> ATOM
+        auto GetAtom     () const noexcept -> ATOM
         {
             return m_atom_;
         }
-        auto GetInstance() const noexcept -> HINSTANCE
+        auto GetInstance () const noexcept -> HINSTANCE
         {
             return m_hInstance_;
         }
 
 
     protected:
-
-
-    private:
-        static auto CreateDefaultWNDCLASSEX_(const HINSTANCE& hInst, const wchar_t* const clsName) noexcept -> WNDCLASSEX
+        template <typename Wnd = IWindow> static auto CreateDefaultWNDCLASSEX_(const HINSTANCE& hInst, const wchar_t* const clsName) noexcept -> WNDCLASSEX
         {
             return
             {
                 .cbSize        = sizeof(WNDCLASSEX),
                 .style         = CS_OWNDC,
-                .lpfnWndProc   = &ClassEx::HandleMsgSetup_,
+                .lpfnWndProc   = &ClassEx::HandleMsgSetup_<Wnd>,
                 .cbClsExtra    = 0,
                 .cbWndExtra    = 0,
                 .hInstance     = hInst,
@@ -117,7 +113,7 @@ export namespace fatpound::win32
             };
         }
 
-        static auto CALLBACK HandleMsgSetup_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT
+        template <typename Wnd = IWindow> static auto CALLBACK HandleMsgSetup_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT
         {
             if (msg == WM_NCCREATE)
             {
@@ -126,36 +122,53 @@ export namespace fatpound::win32
 #else
     #define CREATESTRUCT_t CREATESTRUCTA
 #endif
-                IWindow* const pWnd = static_cast<IWindow*>(reinterpret_cast<CREATESTRUCT_t*>(lParam)->lpCreateParams);
+                Wnd* const pWnd = static_cast<Wnd*>(reinterpret_cast<CREATESTRUCT_t*>(lParam)->lpCreateParams);
 #undef CREATESTRUCT_t
 
                 ::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
 
 #pragma warning (push)
 #pragma warning (disable : 5039)
-                ::SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&ClassEx::HandleMsgThunk_));
+                ::SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&ClassEx::HandleMsgThunk_<Wnd>));
 #pragma warning (pop)
 
-                return ForwardMsg_(pWnd, hWnd, msg, wParam, lParam);
+                if constexpr (std::same_as<Wnd, IWindow>)
+                {
+                    return ForwardMsg_(pWnd, hWnd, msg, wParam, lParam);
+                }
+                else
+                {
+                    return pWnd->HandleMessage_(hWnd, msg, wParam, lParam);
+                }
             }
 
             return ::DefWindowProc(hWnd, msg, wParam, lParam);
         }
-        static auto CALLBACK HandleMsgThunk_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT
+        template <typename Wnd = IWindow> static auto CALLBACK HandleMsgThunk_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT
         {
-            IWindow* const pWnd = reinterpret_cast<IWindow*>(::GetWindowLongPtr(hWnd, GWLP_USERDATA));
+            Wnd* const pWnd = reinterpret_cast<Wnd*>(::GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
-            return ForwardMsg_(pWnd, hWnd, msg, wParam, lParam);
+            if constexpr (std::same_as<Wnd, IWindow>)
+            {
+                return ForwardMsg_(pWnd, hWnd, msg, wParam, lParam);
+            }
+            else
+            {
+                return pWnd->HandleMessage_(hWnd, msg, wParam, lParam);
+            }
         }
+
+
+    protected:
+        HINSTANCE m_hInstance_{};
+        ATOM      m_atom_{};
+
+
+    private:
         static auto ForwardMsg_(IWindow* const pWnd, const HWND hWnd, const UINT msg, const ::WPARAM wParam, const LPARAM lParam) -> LRESULT
         {
             return pWnd->HandleMessage_(hWnd, msg, wParam, lParam);
         }
-
-
-    private:
-        HINSTANCE m_hInstance_{};
-        ATOM      m_atom_{};
     };
 
     using WndClassEx = IWindow::ClassEx;
