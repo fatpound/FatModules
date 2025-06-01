@@ -392,7 +392,6 @@ export namespace fatpound::dsa::tree
             }
 
             std::queue<Node_*> queue;
-
             queue.push(root_);
 
             while (not queue.empty())
