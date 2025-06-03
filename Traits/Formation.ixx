@@ -25,6 +25,10 @@ export namespace fatpound::traits
 
         T{};
     };
+
+    template <typename T, typename... U> concept  AllOfIs = (std::same_as<T, U> && ...);
+    template <typename T, typename... U> concept  AnyOfIs = (std::same_as<T, U> || ...);
+    template <typename T, typename... U> concept NoneOfIs = not AnyOfIs<T, U...>;
 }
 
 module : private;

@@ -123,6 +123,7 @@
     <ClInclude Include="FatMacros.hxx" />
     <ClInclude Include="FatNamespaces.hxx" />
     <ClInclude Include="FatSTL_Macros.hxx" />
+    <ClInclude Include="FatWin32_Macros.hxx" />
     <ClInclude Include="Win32_\FatWin32.hpp" />
     <ClInclude Include="Win32_\FatWin32.hxx" />
     <ClInclude Include="Win32_\FatWin32_Settings.hpp" />

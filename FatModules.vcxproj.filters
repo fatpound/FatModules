@@ -326,6 +326,9 @@
     <ClInclude Include="Win32_\FatWin32.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FatWin32_Macros.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Win32_\D3D11\Shader\PSFrameBuffer.hlsl" />
