@@ -10,6 +10,8 @@ import <FatWin32.hxx>;
 
 #endif
 
+import FatPound.Traits.Bitwise;
+
 import std;
 
 export namespace fatpound::utility
@@ -69,6 +71,12 @@ export namespace fatpound::utility
         const auto angle = std::fabs(static_cast<FP>((11 * minutes) - (60 * hours)) / static_cast<FP>(2.0));
 
         return (angle > 180) ? static_cast<FP>(360 - angle) : angle;
+    }
+
+    template <traits::IntegralOrFloating T>
+    constexpr auto Map(const T& value, const T& fromLow, const T& fromHigh, const T& toLow, const T& toHigh) -> T
+    {
+        return (value - fromLow) * (toHigh - toLow) / (fromHigh - fromLow) + toLow;
     }
     
     constexpr auto StrRev(const std::string& str) -> std::string
