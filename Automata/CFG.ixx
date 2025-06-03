@@ -74,33 +74,24 @@ export namespace fatpound::automata
     private:
         static void ReadFirstLine_(std::ifstream& inputFile, Alphabet_t& alphabet)
         {
-            // duzelt?
             {
                 std::string str;
-
                 std::getline<>(inputFile, str);
 
+                std::stringstream ss{ str };
+
+                char ch{};
+
+                while (ss >> ch)
                 {
-                    std::stringstream ss;
-
-                    ss << str;
-
-                    char ch{};
-
-                    while (ss >> ch)
-                    {
-                        alphabet.push_back(ch);
-                    }
+                    alphabet.push_back(ch);
                 }
             }
 
             std::ranges::sort(alphabet);
 
-            {
-                const auto& [beg, end] = std::ranges::unique(alphabet);
-
-                alphabet.erase(beg, end);
-            }
+            const auto&   [beg, end] = std::ranges::unique(alphabet);
+            alphabet.erase(beg, end);
         }
 
 
@@ -113,48 +104,53 @@ export namespace fatpound::automata
             {
                 {
                     const auto& [beg, end] = std::ranges::remove_if(str, [](const auto& ch) noexcept -> bool { return std::isspace(ch) not_eq 0; });
-
                     str.erase(beg, end);
                 }
 
-                const auto& index = str.find(scx_LanguageContentIndicator_);
+                std::string word;
 
-                if (index not_eq std::string::npos)
                 {
-                    std::string word(str.cbegin(), str.cbegin() + static_cast<std::ptrdiff_t>(index));
+                    const auto& index = str.find(scx_LanguageContentIndicator_);
 
+                    if (index == std::string::npos)
                     {
-                        constexpr auto lciLen = std::string_view{scx_LanguageContentIndicator_}.size();
-
-                        str.erase(0, index + lciLen);
+                        continue;
                     }
 
-                    std::vector<std::string> leaves;
+                    word = std::string(str.cbegin(), str.cbegin() + static_cast<std::ptrdiff_t>(index));
 
+                    str.erase(0, index + std::string_view{ scx_LanguageContentIndicator_ }.size());
+                }
+
+                std::vector<std::string> leaves;
+
+                {
+                    std::istringstream iss(str);
+
+                    std::string tempstr;
+
+                    while (std::getline<>(iss, tempstr, scx_SymbolDelimiter_))
                     {
-                        std::istringstream iss(str);
-
-                        std::string tempstr;
-
-                        while (std::getline<>(iss, tempstr, scx_SymbolDelimiter_))
+                        if (std::ranges::find(leaves, tempstr) not_eq leaves.cend())
                         {
-                            if (std::ranges::find(leaves, tempstr) == leaves.cend())
-                            {
-                                for (const auto& ch : tempstr)
-                                {
-                                    if (static_cast<bool>(std::islower(ch)) and std::ranges::find(alphabet, ch) == alphabet.cend())
-                                    {
-                                        throw std::runtime_error("The letter " + std::string{ ch } + " is not in the alphabet!");
-                                    }
-                                }
+                            continue;
+                        }
 
-                                leaves.push_back(tempstr);
+                        for (const auto& ch : tempstr)
+                        {
+                            if (static_cast<bool>(std::islower(ch))
+                                and
+                                std::ranges::find(alphabet, ch) == alphabet.cend())
+                            {
+                                throw std::runtime_error("The letter " + std::string{ ch } + " is not in the alphabet!");
                             }
                         }
-                    }
 
-                    m_grammar_.emplace_back(std::move<>(word), std::move<>(leaves));
+                        leaves.push_back(tempstr);
+                    }
                 }
+
+                m_grammar_.emplace_back(std::move<>(word), std::move<>(leaves));
             }
         }
 
