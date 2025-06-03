@@ -111,21 +111,35 @@ export namespace fatpound::utility
             return m_value_ bitand 0xFFU;
         }
 
-        FAT_FORCEINLINE constexpr void SetA(const std::uint8_t& alpha) noexcept
+        FAT_FORCEINLINE constexpr auto SetValue (const      Value_t& value) noexcept -> Color&
+        {
+            m_value_ = value;
+
+            return *this;
+        }
+        FAT_FORCEINLINE constexpr auto SetA     (const std::uint8_t& alpha) noexcept -> Color&
         {
             m_value_ = (m_value_ bitand AlphaMask) bitor (static_cast<std::uint32_t>(alpha) << AlphaShift);
+
+            return *this;
         }
-        FAT_FORCEINLINE constexpr void SetR(const std::uint8_t&   red) noexcept
+        FAT_FORCEINLINE constexpr auto SetR     (const std::uint8_t&   red) noexcept -> Color&
         {
             m_value_ = (m_value_ bitand RedMask) bitor (static_cast<std::uint32_t>(red) << RedShift);
+
+            return *this;
         }
-        FAT_FORCEINLINE constexpr void SetG(const std::uint8_t& green) noexcept
+        FAT_FORCEINLINE constexpr auto SetG     (const std::uint8_t& green) noexcept -> Color&
         {
             m_value_ = (m_value_ bitand GreenMask) bitor (static_cast<std::uint32_t>(green) << GreenShift);
+
+            return *this;
         }
-        FAT_FORCEINLINE constexpr void SetB(const std::uint8_t&  blue) noexcept
+        FAT_FORCEINLINE constexpr auto SetB     (const std::uint8_t&  blue) noexcept -> Color&
         {
             m_value_ = (m_value_ bitand BlueMask) bitor (static_cast<std::uint32_t>(blue));
+
+            return *this;
         }
 
 #ifdef _MSC_VER
