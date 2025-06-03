@@ -48,13 +48,7 @@ export namespace fatpound::win32
 
             if (m_atom_ == 0)
             {
-                throw std::runtime_error
-                {
-                    "ATOM could not be created!\n\n"
-                    "You should check ClassEx::lpszClassName\n"
-                    "It should have a unique name. If that's not the problem\n"
-                    "Then check other parameters too."
-                };
+                throw std::runtime_error { "ATOM could not be created!\n" "Consider checking WNDCLASSEX::lpszClassName" };
             }
         }
         explicit ClassEx(const std::wstring& wstr)
