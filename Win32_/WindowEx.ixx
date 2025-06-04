@@ -106,7 +106,7 @@ export namespace fatpound::win32
                         nullptr,
                         nullptr,
                         ModuleHandleOf(),
-                        this
+                        this // to use HandleMessage_ (see IWindow::ClassEx::HandleMsgSetup_)
                     );
 
                     if (m_hWnd_ == nullptr)
