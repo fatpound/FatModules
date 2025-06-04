@@ -84,11 +84,11 @@ export namespace fatpound::dsa::tree
                 }
 
                 /*
-                std::cout << "parent  : " << last->parent->item << '\n';
-                std::cout << "node    : " << last->item << '\n';
-                std::cout << "na      : " << na << '\n';
-                std::cout << "nb      : " << nb << '\n';
-                std::cout << "nc      : " << nc << '\n' << '\n';
+                    *(this->m_os_) << "parent  : " << last->parent->item << '\n';
+                    *(this->m_os_) << "node    : " << last->item << '\n';
+                    *(this->m_os_) << "na      : " << na << '\n';
+                    *(this->m_os_) << "nb      : " << nb << '\n';
+                    *(this->m_os_) << "nc      : " << nc << '\n' << '\n';
                 */
 
                 // NOLINTBEGIN(readability-simplify-boolean-expr)

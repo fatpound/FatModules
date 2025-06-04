@@ -10,7 +10,13 @@ export namespace fatpound::dsa::linkedlist
     class Singly
     {
     public:
-        explicit Singly()              = default;
+        explicit Singly(std::ostream& os = std::cout)
+            :
+            m_os_(&os)
+        {
+
+        }
+
         explicit Singly(const Singly&) = delete;
         Singly(Singly&& src) noexcept
             :
@@ -168,13 +174,20 @@ export namespace fatpound::dsa::linkedlist
 
             do
             {
-                std::cout << temp << '\t' << temp->item << '\t' << temp->next << '\n';
+                *m_os_ << temp << '\t' << temp->item << '\t' << temp->next << '\n';
 
                 temp = temp->next;
             }
             while (temp not_eq nullptr);
 
-            std::cout << '\n';
+            *m_os_ << '\n';
+        }
+
+
+    public:
+        void SetOstream(std::ostream& os) noexcept
+        {
+            m_os_ = &os;
         }
 
 
@@ -260,6 +273,8 @@ export namespace fatpound::dsa::linkedlist
         Node_* m_end_{};
 
         std::size_t m_item_count_{};
+
+        std::ostream* m_os_;
 
         bool m_cleared_from_derived_dtor_{};
 

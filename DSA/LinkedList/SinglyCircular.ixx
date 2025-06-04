@@ -14,7 +14,13 @@ export namespace fatpound::dsa::linkedlist
         using typename Singly<T>::Node_;
 
     public:
-        explicit SinglyCircular()                      = default;
+        explicit SinglyCircular(std::ostream& os = std::cout)
+            :
+            Singly<T>(os)
+        {
+
+        }
+
         explicit SinglyCircular(const SinglyCircular&) = delete;
         SinglyCircular(SinglyCircular&& src) noexcept
             :
@@ -184,13 +190,13 @@ export namespace fatpound::dsa::linkedlist
 
             do
             {
-                std::cout << temp << '\t' << temp->item << '\t' << temp->next << '\n';
+                *(this->m_os_) << temp << '\t' << temp->item << '\t' << temp->next << '\n';
 
                 temp = temp->next;
             }
             while (temp not_eq start);
 
-            std::cout << '\n';
+            *(this->m_os_) << '\n';
         }
 
 

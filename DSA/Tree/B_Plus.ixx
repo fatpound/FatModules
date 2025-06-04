@@ -12,7 +12,13 @@ export namespace fatpound::dsa::tree
         using Size_t = std::size_t;
         
     public:
-        explicit B_Plus()                  = default;
+        explicit B_Plus(std::ostream& os = std::cout)
+            :
+            m_os_(&os)
+        {
+
+        }
+
         explicit B_Plus(const B_Plus&)     = delete;
         explicit B_Plus(B_Plus&&) noexcept = delete;
 
@@ -114,14 +120,19 @@ export namespace fatpound::dsa::tree
 
             for (Size_t i = 1U; i <= height; ++i)
             {
-                std::cout << "Level " << i << " : ";
+                *m_os_ << "Level " << i << " : ";
 
                 ListLevelorder_(root_, i);
 
-                std::cout << '\n';
+                *m_os_ << '\n';
             }
 
-            std::cout << '\n';
+            *m_os_ << '\n';
+        }
+
+        void SetOstream(std::ostream& os)
+        {
+            m_os_ = &os;
         }
 
 
@@ -361,7 +372,7 @@ export namespace fatpound::dsa::tree
                 {
                     for (std::size_t i{}; i < node->items.size(); ++i)
                     {
-                        std::cout << node->items[i]->first << ' ';
+                        *m_os_ << node->items[i]->first << ' ';
                     }
                 }
                 else if (level > 1U)
@@ -372,16 +383,16 @@ export namespace fatpound::dsa::tree
                     {
                         ListLevelorder_(node->items[i]->second, level - 1U);
 
-                        std::cout << '\t';
+                        *m_os_ << '\t';
                     }
                 }
             }
             else if (level == 1U)
             {
-                std::cout << "x ";
+                *m_os_ << "x ";
             }
 
-            std::cout << '\t';
+            *m_os_ << '\t';
         }
 
         void Clear_()
@@ -425,6 +436,8 @@ export namespace fatpound::dsa::tree
         Node_* root_{};
 
         std::size_t item_count_{};
+
+        std::ostream* m_os_;
     };
 }
 

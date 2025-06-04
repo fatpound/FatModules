@@ -14,7 +14,13 @@ export namespace fatpound::dsa::linkedlist
         using typename Doubly<T>::Node_;
 
     public:
-        explicit DoublyCircular()                      = default;
+        explicit DoublyCircular(std::ostream& os = std::cout)
+            :
+            Doubly<T>(os)
+        {
+
+        }
+
         explicit DoublyCircular(const DoublyCircular&) = delete;
         DoublyCircular(DoublyCircular&& src) noexcept
             :
@@ -160,13 +166,13 @@ export namespace fatpound::dsa::linkedlist
 
             do
             {
-                std::cout << temp->prev << '\t' << temp << '\t' << temp->item << '\t' << temp->next << '\n';
+                *(this->m_os_) << temp->prev << '\t' << temp << '\t' << temp->item << '\t' << temp->next << '\n';
 
                 temp = temp->next;
             }
             while (temp not_eq start);
 
-            std::cout << '\n';
+            *(this->m_os_) << '\n';
         }
 
 
