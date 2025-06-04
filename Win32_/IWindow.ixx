@@ -111,7 +111,7 @@ export namespace fatpound::win32
             };
         }
 
-        template <typename Wnd = IWindow> static auto CALLBACK HandleMsgSetup_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT
+        template <typename Wnd = IWindow> static auto CALLBACK HandleMsgSetup_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) noexcept -> LRESULT
         {
             if (msg == WM_NCCREATE)
             {
@@ -142,7 +142,7 @@ export namespace fatpound::win32
 
             return ::DefWindowProc(hWnd, msg, wParam, lParam);
         }
-        template <typename Wnd = IWindow> static auto CALLBACK HandleMsgThunk_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT
+        template <typename Wnd = IWindow> static auto CALLBACK HandleMsgThunk_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) noexcept -> LRESULT
         {
             Wnd* const pWnd = reinterpret_cast<Wnd*>(::GetWindowLongPtr(hWnd, GWLP_USERDATA));
 
