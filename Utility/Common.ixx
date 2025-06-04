@@ -70,8 +70,8 @@ export namespace fatpound::utility
     /// @tparam      FP: The floating-point type used for the result (defaults to double). Must satisfy std::floating_point
     /// @tparam       T: The integral type of the input parameters. Must satisfy std::integral
     /// 
-    ///  @param   hours: The hour value (0–23) representing the current hour
-    ///  @param minutes: The minute value (0–59) representing the current minute
+    ///  @param   hours: The hour value (0-23) representing the current hour
+    ///  @param minutes: The minute value (0-59) representing the current minute
     /// 
     /// @return The smallest angle (in degrees) between the hour and minute hands, as a value of type FP
     /// 
@@ -110,7 +110,7 @@ export namespace fatpound::utility
     template <traits::IntegralOrFloating T>
     constexpr auto Map(const T& value, const T& fromLow, const T& fromHigh, const T& toLow, const T& toHigh) -> T
     {
-        return (value - fromLow) * (toHigh - toLow) / (fromHigh - fromLow) + toLow;
+        return ((value - fromLow) * (toHigh - toLow) / (fromHigh - fromLow)) + toLow;
     }
     
 

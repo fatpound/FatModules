@@ -160,16 +160,9 @@ export namespace fatpound::win32
                 ::SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&ClassEx::HandleMsgThunk_<Wnd>));
 
 
-                // return with custom WndProc (now old) only once (window creation), then the HandleMsgThunk will keep running from now on
-
-                if constexpr (std::same_as<Wnd, IWindow>)
-                {
-                    return ForwardMsg_(pWnd, hWnd, msg, wParam, lParam);
-                }
-                else
-                {
-                    return pWnd->HandleMessage_(hWnd, msg, wParam, lParam);
-                }
+                // now its time to see the new WndProc in work
+                //
+                return HandleMsgThunk_<Wnd>(hWnd, msg, wParam, lParam);
             }
 
             // If there is a message before WM_NCCREATE OR between it and WM_CREATE (and Microsoft did not document it)

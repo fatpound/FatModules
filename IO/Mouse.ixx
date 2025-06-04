@@ -4,6 +4,11 @@ export module FatPound.IO.Mouse;
 
 import std;
 
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wctad-maybe-unsupported"
+#endif
+
 export namespace fatpound::io
 {
     /// @brief Represents a mouse input handler that tracks mouse events, button states, position, and provides an event buffer interface
@@ -286,14 +291,18 @@ export namespace fatpound::io
 
         WheelDelta_t m_wheel_delta_carry_{};
 
-        std::atomic_bool m_is_in_window_{};
+        std::atomic_bool m_is_in_window_;
 
-        std::atomic_bool m_left_is_pressed_{};
-        std::atomic_bool m_right_is_pressed_{};
-        std::atomic_bool m_wheel_is_pressed_{};
+        std::atomic_bool m_left_is_pressed_;
+        std::atomic_bool m_right_is_pressed_;
+        std::atomic_bool m_wheel_is_pressed_;
     };
 
     using MouseEvent = Mouse::Event;
 }
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 
 module : private;

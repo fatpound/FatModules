@@ -4,6 +4,11 @@ export module FatPound.IO.Keyboard;
 
 import std;
 
+#if defined(__clang__)
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wctad-maybe-unsupported"
+#endif
+
 export namespace fatpound::io
 {
     /// @brief Represents a keyboard input handler that manages key events, character input, and key states, including support for auto-repeat functionality
@@ -169,5 +174,9 @@ export namespace fatpound::io
 
     using KeyEvent = Keyboard::KeyEvent;
 }
+
+#if defined(__clang__)
+#pragma clang diagnostic pop
+#endif
 
 module : private;
