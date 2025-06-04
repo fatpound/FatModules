@@ -76,7 +76,7 @@ export namespace fatpound::dsa::linkedlist
             new_part->prev = m_end_;
             m_end_ = new_part;
         }
-        virtual void InsertBeforeGreater(const T& new_item)
+        virtual void InsertAtFirst_GreaterEq(const T& new_item)
         {
             auto* const new_part = new Node_(new_item);
 
