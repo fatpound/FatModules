@@ -10,7 +10,7 @@ import std;
 
 export namespace fatpound::win32
 {
-    /// @brief Abstract interface for a window, providing methods to set the title, retrieve the window handle, and check if the window is closing
+    /// @brief Abstract interface for windowing with multithreading support
     ///
     class IWindow
     {
@@ -35,7 +35,7 @@ export namespace fatpound::win32
 
 
     protected:
-        virtual auto HandleMessage_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT = 0;
+        virtual auto HandleMsg_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT = 0;
 
 
     private:
@@ -191,7 +191,7 @@ export namespace fatpound::win32
             }
             else
             {
-                return pWnd->HandleMessage_(hWnd, msg, wParam, lParam);
+                return pWnd->HandleMsg_(hWnd, msg, wParam, lParam);
             }
         }
 
@@ -204,7 +204,7 @@ export namespace fatpound::win32
     private:
         static auto ForwardMsg_(IWindow* const pWnd, const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT
         {
-            return pWnd->HandleMessage_(hWnd, msg, wParam, lParam);
+            return pWnd->HandleMsg_(hWnd, msg, wParam, lParam);
         }
     };
 

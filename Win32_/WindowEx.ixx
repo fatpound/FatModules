@@ -196,7 +196,7 @@ export namespace fatpound::win32
 
 
     protected:
-        virtual auto HandleMessage_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT override
+        virtual auto HandleMsg_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT override
         {
             switch (msg)
             {
