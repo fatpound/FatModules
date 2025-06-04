@@ -13,6 +13,12 @@ import std;
 
 namespace fatpound::file
 {
+    /// @brief Encrypts or decrypts a file using an XOR cipher with the specified key
+    /// 
+    /// @param  inPath: The path to the input file to be encrypted or decrypted
+    /// @param     key: The key to use for the XOR cipher
+    /// @param outPath: The path where the output file will be written. If empty or the same as inPath, a temporary file path is generated and assigned
+    /// 
     void EncryptDecrypt_Impl (const std::filesystem::path& inPath, const std::size_t& key, std::filesystem::path& outPath)
     {
         std::ifstream inputFile(inPath, std::ios::binary);
@@ -45,6 +51,12 @@ namespace fatpound::file
 
 export namespace fatpound::file
 {
+    /// @brief Returns the name and extension of a file from a given filesystem path
+    /// 
+    /// @param path: The filesystem path to the file
+    /// 
+    /// @return A pair containing the file name (without extension) and the file extension as strings
+    /// 
     auto NameAndExtensionOf  (const std::filesystem::path& path) -> std::pair<std::string, std::string>
     {
         if (not std::filesystem::exists(path))
@@ -59,6 +71,14 @@ export namespace fatpound::file
         };
     }
 
+
+
+    /// @brief Encrypts or decrypts a file and replaces the original file with the processed output
+    /// 
+    /// @param  inPath: The path to the input file to be encrypted or decrypted
+    /// @param     key: The key used for encryption or decryption
+    /// @param outPath: The path to the output file. If not specified, a default path is used
+    /// 
     void EncryptDecrypt      (const std::filesystem::path& inPath, const std::size_t& key, std::filesystem::path outPath = {})
     {
         EncryptDecrypt_Impl(inPath, key, outPath);
@@ -66,6 +86,16 @@ export namespace fatpound::file
         std::filesystem::remove(inPath);
         std::filesystem::rename(outPath, inPath);
     }
+
+
+
+    /// @brief Encrypts or decrypts all regular files in a directory using a specified key
+    /// 
+    /// @param  inPath: The path to the input directory containing files to encrypt or decrypt
+    /// @param     key: The encryption or decryption key to use
+    /// @param outPath: The output directory path where processed files will be saved. If not specified, the default behavior is used
+    /// @param recurse: If true, processes files in all subdirectories recursively; otherwise, only processes files in the top-level directory. Defaults to false
+    /// 
     void EncryptDecrypt_Dir  (const std::filesystem::path& inPath, const std::size_t& key, std::filesystem::path outPath = {}, const bool& recurse = false)
     {
         namespace fs = std::filesystem;
@@ -94,6 +124,13 @@ export namespace fatpound::file
         );
     }
 
+
+
+    /// @brief Prints the contents of a file as hexadecimal values to the specified output stream (with spaces between those values)
+    /// 
+    /// @param path: The path to the file whose contents will be printed in hexadecimal format
+    /// @param   os: The output stream to which the hexadecimal values will be written. Defaults to std::cout
+    /// 
     void PrintHex            (const std::filesystem::path& path, std::ostream& os = std::cout)
     {
         std::ifstream file(path, std::ios::binary);

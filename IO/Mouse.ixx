@@ -6,6 +6,8 @@ import std;
 
 export namespace fatpound::io
 {
+    /// @brief Represents a mouse input handler that tracks mouse events, button states, position, and provides an event buffer interface
+    ///
     class Mouse final
     {
         static constexpr auto scx_bufferSize_ = 16U;

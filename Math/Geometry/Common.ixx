@@ -47,6 +47,16 @@ export namespace fatpound::math::geometry
         return (base * height) / 2.0;
     }
 
+    /// @brief Determines whether three side lengths can form a triangle
+    /// 
+    /// @tparam T: A type that is either an unsigned integral or floating-point type, as defined by traits::UIntegralOrFloating
+    /// 
+    ///  @param a: The length of the  first side
+    ///  @param b: The length of the second side
+    ///  @param c: The length of the  third side
+    /// 
+    /// @return true if the three side lengths satisfy the triangle inequality and can form a triangle; otherwise, false
+    /// 
     template <traits::UIntegralOrFloating T> constexpr auto FormsATriangle    (const T& a, const T& b, const T& c) -> bool
     {
         return     (std::abs(b - c) < a and a < b + c)

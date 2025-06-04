@@ -6,6 +6,14 @@ import std;
 
 export namespace fatpound::algorithm
 {
+    /// @brief Performs an unchecked counting sort on a vector of unsigned integers
+    /// 
+    /// @tparam        T: An unsigned integral type for the elements to be sorted
+    /// 
+    ///  @param    inVec: The input vector containing the elements to be sorted
+    ///  @param   outVec: The output vector where the sorted elements will be stored. Must be pre-allocated to the same size as inVec
+    ///  @param maxValue: The maximum value present in inVec. Assumed that its equal to the max element of inVec
+    /// 
     template <std::unsigned_integral T>
     constexpr void CountingSort_Unchecked(std::vector<T>& inVec, std::vector<T>& outVec, const std::unsigned_integral auto& maxValue) noexcept
     {
@@ -27,6 +35,15 @@ export namespace fatpound::algorithm
         }
     }
 
+
+
+    /// @brief Performs counting sort on a vector of unsigned integral values
+    /// 
+    /// @tparam      T: The unsigned integral type of the elements to sort
+    /// 
+    ///  @param  inVec: The  input vector containing the values to be sorted
+    ///  @param outVec: The output vector where the sorted values will be stored
+    /// 
     template <std::unsigned_integral T>
     constexpr void CountingSort(std::vector<T>& inVec, std::vector<T>& outVec)
     {

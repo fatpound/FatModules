@@ -10,6 +10,9 @@ import std;
 
 export namespace fatpound::random
 {
+    /// @brief URand is a functor that generates a random permutation of unique indices in the range [0, count).
+    ///        Each call to operator() returns the next unique random index, or -1 if all indices have been used
+    /// 
     class URand final
     {
     public:

@@ -10,6 +10,8 @@ import std;
 
 export namespace fatpound::win32
 {
+    /// @brief Abstract interface for a window, providing methods to set the title, retrieve the window handle, and check if the window is closing
+    ///
     class IWindow
     {
     public:
@@ -39,6 +41,8 @@ export namespace fatpound::win32
     private:
     };
     
+    /// @brief Manages the registration and unregistration of a window class (WNDCLASSEX) in the Windows API, while providing custom WndProc setup functions
+    ///
     class IWindow::ClassEx
     {
     public:

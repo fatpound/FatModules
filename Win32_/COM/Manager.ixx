@@ -10,6 +10,8 @@ import std;
 
 export namespace fatpound::win32::com
 {
+    /// @brief Manages the initialization and uninitialization of the COM library for the current thread
+    ///
     class Manager final
     {
     public:

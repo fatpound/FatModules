@@ -29,6 +29,10 @@ using FATSPACE_UTILITY_GFX::SizePack;
 
 export namespace fatpound::win32::d3d11
 {
+    /// @brief A graphics management class template that configures rendering behavior based on the Framework template parameter
+    /// 
+    /// @tparam Framework: A boolean value that determines whether to use framework-specific graphics resources and behavior. Defaults to false
+    /// 
     template <bool Framework = false>
     class Graphics final
     {

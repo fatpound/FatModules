@@ -10,6 +10,9 @@ import std;
 
 export namespace fatpound::utility
 {
+    /// @brief Represents a 32-bit color value with separate alpha, red, green, and blue channels.
+    ///        Provides methods for constructing, accessing, and modifying color channel values, as well as formatting the color as a string.
+    /// 
     class [[nodiscard]] Color final
     {
     public:

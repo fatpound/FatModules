@@ -23,6 +23,8 @@ import std;
 
 export namespace fatpound::utility
 {
+    /// @brief Represents a 2D pixel surface with aligned memory storage, supporting pixel access, modification
+    ///
     class Surface final
     {
         using Color_t    = Color;

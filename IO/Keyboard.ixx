@@ -6,6 +6,8 @@ import std;
 
 export namespace fatpound::io
 {
+    /// @brief Represents a keyboard input handler that manages key events, character input, and key states, including support for auto-repeat functionality
+    ///
     class Keyboard final
     {
         static constexpr auto scx_bufferSize_ = 16U;
