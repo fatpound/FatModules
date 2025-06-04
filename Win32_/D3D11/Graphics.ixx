@@ -29,6 +29,10 @@ using FATSPACE_UTILITY_GFX::SizePack;
 
 export namespace fatpound::win32::d3d11
 {
+    /// @brief A graphics management class template that configures rendering behavior based on the Framework template parameter
+    /// 
+    /// @tparam Framework: A boolean value that determines whether to use framework-specific graphics resources and behavior. Defaults to false
+    /// 
     template <bool Framework = false>
     class Graphics final
     {
@@ -433,11 +437,11 @@ export namespace fatpound::win32::d3d11
                               },
                 .SampleDesc   =
                               {
-                                  .Count   = (Framework ? 1U : m_msaa_count_),
-                                  .Quality = (Framework ? 0U : m_msaa_quality_ - 1U)
+                                  .Count   = (Framework ? 1U : GetMSAACount()),
+                                  .Quality = (Framework ? 0U : GetMSAAQuality() - 1U)
                               },
                 .BufferUsage  = DXGI_USAGE_RENDER_TARGET_OUTPUT,
-                .BufferCount  = 1U,
+                .BufferCount  = 2U,
                 .OutputWindow = GetHwnd(),
                 .Windowed     = not (IN_RELEASE and NotFramework),
                 .SwapEffect   = DXGI_SWAP_EFFECT_DISCARD,
