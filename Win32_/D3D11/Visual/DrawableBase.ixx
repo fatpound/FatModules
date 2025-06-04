@@ -17,6 +17,10 @@ import std;
 
 export namespace fatpound::win32::d3d11::visual
 {
+    /// @brief A template base class for drawable objects that manages static index buffers and bindable resources
+    /// 
+    /// @tparam CRTP type
+    /// 
     template <typename T>
     class DrawableBase : public Drawable
     {

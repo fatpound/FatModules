@@ -38,6 +38,8 @@ using FATSPACE_UTILITY_GFX::SizePack;
 
 export namespace fatpound::win32
 {
+    /// @brief A multithreaded Win32 extended Window, with Keyboard and Mouse input support
+    ///
     class WindowEx : public IWindow
     {
     public:

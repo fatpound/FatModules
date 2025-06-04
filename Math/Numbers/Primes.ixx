@@ -6,6 +6,8 @@ import std;
 
 export namespace fatpound::math::numbers
 {
+    // _GT* postfix => The function will assume that the function argument value is greater than N
+
     template <std::unsigned_integral T> constexpr auto IsPrime_GT4        (const T& num) noexcept -> bool
     {
         if (num % 2 == 0 or num % 3 == 0)
