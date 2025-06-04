@@ -2,6 +2,8 @@ module;
 
 export module FatPound.DSA.LinkedList.Singly;
 
+import FatPound.Traits.Callable;
+
 import std;
 
 export namespace fatpound::dsa::linkedlist
@@ -58,7 +60,7 @@ export namespace fatpound::dsa::linkedlist
             return Find_(item) not_eq nullptr;
         }
 
-        virtual void Add(const T& new_item)
+        virtual void Insert(const T& new_item)
         {
             auto* const new_part = new Node_(new_item);
 
@@ -75,7 +77,7 @@ export namespace fatpound::dsa::linkedlist
 
             m_end_ = new_part;
         }
-        virtual void AddOrdered(const T& new_item)
+        virtual void InsertBeforeGreater(const T& new_item)
         {
             auto* const new_part = new Node_(new_item);
 
