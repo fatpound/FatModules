@@ -92,12 +92,12 @@ export namespace fatpound::win32
 
 
     protected:
-        template <typename Wnd = IWindow> static auto CreateDefaultWNDCLASSEX_(const HINSTANCE& hInst, const wchar_t* const clsName) noexcept -> WNDCLASSEX
+        template <typename Wnd = IWindow> static auto CreateDefaultWNDCLASSEX_(const HINSTANCE& hInst, const wchar_t* const clsName, UINT style = CS_OWNDC) noexcept -> WNDCLASSEX
         {
             return
             {
                 .cbSize        = sizeof(WNDCLASSEX),
-                .style         = CS_OWNDC,
+                .style         = style,
                 .lpfnWndProc   = &ClassEx::HandleMsgSetup_<Wnd>,
                 .cbClsExtra    = 0,
                 .cbWndExtra    = 0,
