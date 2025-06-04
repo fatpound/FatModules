@@ -47,7 +47,7 @@ export namespace fatpound::math::geometry
         return (base * height) / 2.0;
     }
 
-    /// @brief Determines whether three side lengths can form a triangle
+    /// @brief Checks whether three side lengths can form a triangle
     /// 
     /// @tparam T: A type that is either an unsigned integral or floating-point type, as defined by traits::UIntegralOrFloating
     /// 
