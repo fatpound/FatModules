@@ -210,9 +210,6 @@
     <ClCompile Include="Math\Common.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Geometry\Rectangle.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Utility\Common.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
