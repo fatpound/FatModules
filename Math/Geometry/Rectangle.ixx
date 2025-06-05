@@ -14,10 +14,10 @@ export namespace fatpound::math::geometry
     public:
         explicit Rectangle(const T& left, const T& top, const T& right, const T& bottom) noexcept
             :
-            m_left(left),
-            m_top(top),
-            m_right(right),
-            m_bottom(bottom)
+            m_left_(left),
+            m_top_(top),
+            m_right_(right),
+            m_bottom_(bottom)
         {
 
         }
@@ -43,43 +43,40 @@ export namespace fatpound::math::geometry
         {
             return
             {
-                (m_left + m_right)  / static_cast<T>(2.0),
-                (m_top  + m_bottom) / static_cast<T>(2.0)
+                (m_left_ + m_right_)  / static_cast<T>(2.0),
+                (m_top_  + m_bottom_) / static_cast<T>(2.0)
             };
         }
 
         auto GetExpanded(const T& offset) const noexcept -> Rectangle
         {
-            return Rectangle(m_left - offset, m_top - offset, m_right + offset, m_bottom + offset);
+            return Rectangle(m_left_ - offset, m_top_ - offset, m_right_ + offset, m_bottom_ + offset);
         }
 
         auto IsOverlappingWith(const Rectangle& other) const noexcept -> bool
         {
-            return     m_left   < other.m_right
-                   and m_top    < other.m_bottom
-                   and m_right  > other.m_left
-                   and m_bottom > other.m_top;
+            return     m_left_   < other.m_right_
+                   and m_top_    < other.m_bottom_
+                   and m_right_  > other.m_left_
+                   and m_bottom_ > other.m_top_;
         }
         auto IsContainedBy(const Rectangle& other) const noexcept -> bool
         {
-            return     m_left   >= other.m_left
-                   and m_top    >= other.m_top
-                   and m_right  <= other.m_right
-                   and m_bottom <= other.m_bottom;
+            return     m_left_   >= other.m_left_
+                   and m_top_    >= other.m_top_
+                   and m_right_  <= other.m_right_
+                   and m_bottom_ <= other.m_bottom_;
         }
-
-
-    public:
-        T m_left;
-        T m_top;
-        T m_right;
-        T m_bottom;
 
 
     protected:
 
 
     private:
+        T m_left_;
+        T m_top_;
+        T m_right_;
+        T m_bottom_;
     };
 
     template <traits::IntegralOrFloating T>
