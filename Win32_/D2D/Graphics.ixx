@@ -1,6 +1,6 @@
 module;
 
-#ifdef _MSC_VER
+#ifdef FAT_BUILDING_WITH_MSVC
     #include <FatNamespaces.hxx>
     #include <FatMacros.hxx>
 
@@ -18,7 +18,7 @@ module;
 
 export module FatPound.Win32.D2D.Graphics;
 
-#ifdef _MSC_VER
+#ifdef FAT_BUILDING_WITH_MSVC
 
 #ifndef __INTELLISENSE__
     // import <FatWin32.hxx>;

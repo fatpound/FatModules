@@ -2,7 +2,7 @@ module;
 
 #include <cstdlib>
 
-#if defined(_MSVC_STL_VERSION) or FAT_BUILDING_ON_WINDOWS
+#if defined(_MSVC_STL_VERSION) or defined(FAT_BUILDING_ON_WINDOWS)
     #define FAT_MEMORY_ALIGNED_ALLOCATOR _aligned_malloc
     #define FAT_MEMORY_ALIGNED_FREER     _aligned_free
 #else
@@ -40,7 +40,7 @@ export namespace fatpound::memory
     auto AlignedAlloc(const std::size_t& alignBytes, const std::size_t& size) -> T*
     {
         if (auto* const ptr = static_cast<T*>(
-#if defined(_MSVC_STL_VERSION) or FAT_BUILDING_ON_WINDOWS
+#if defined(_MSVC_STL_VERSION) or defined(FAT_BUILDING_ON_WINDOWS)
             FAT_MEMORY_ALIGNED_ALLOCATOR(size * sizeof(T), alignBytes)
 #else
             FAT_MEMORY_ALIGNED_ALLOCATOR(alignBytes, size * sizeof(T))

@@ -1,12 +1,12 @@
 module;
 
-#ifdef _MSC_VER
+#ifdef FAT_BUILDING_WITH_MSVC
     #include <DirectXMath.h>
 #endif
 
 export module FatPound.Utility.ViewXM;
 
-#ifdef _MSC_VER
+#ifdef FAT_BUILDING_WITH_MSVC
 
 namespace dx = DirectX;
 
