@@ -32,21 +32,26 @@ export namespace fatpound::dsa::linkedlist
         auto operator = (const SinglyCircular&) -> SinglyCircular& = delete;
         auto operator = (SinglyCircular&& src) noexcept -> SinglyCircular&
         {
-            if ((this not_eq std::addressof<>(src)) and (typeid(src) == typeid(*this)) and (src.m_list_ not_eq nullptr))
+            if (this not_eq std::addressof<>(src) and typeid(src) == typeid(*this))
             {
-                Delete_();
+                if (src.m_list_ not_eq nullptr)
+                {
+                    ClearList();
 
-                this->m_list_ = std::exchange<>(src.m_list_, nullptr);
-                this->m_end_  = std::exchange<>(src.m_end_,  nullptr);
+                    this->m_list_       = std::exchange<>(src.m_list_, nullptr);
+                    this->m_end_        = std::exchange<>(src.m_end_,  nullptr);
 
-                this->m_item_count_ = std::exchange<>(src.m_item_count_, 0U);
+                    this->m_item_count_ = std::exchange<>(src.m_item_count_, 0U);
+                }
+                
+                this->m_os_ = std::exchange<>(src.m_os_, nullptr);
             }
 
             return *this;
         }
         virtual ~SinglyCircular() noexcept override final
         {
-            Delete_();
+            Clear();
 
             this->m_cleared_from_derived_dtor_ = true;
         }
@@ -200,8 +205,8 @@ export namespace fatpound::dsa::linkedlist
         }
 
 
-    protected:
-        void Delete_() noexcept
+    public:
+        void ClearList() noexcept
         {
             if (this->m_list_ == nullptr)
             {
@@ -222,11 +227,20 @@ export namespace fatpound::dsa::linkedlist
             }
             while (exes not_eq start);
 
-            this->m_list_ = nullptr;
-            this->m_end_  = nullptr;
+            this->m_list_       = nullptr;
+            this->m_end_        = nullptr;
 
             this->m_item_count_ = 0U;
         }
+        void Clear() noexcept
+        {
+            ClearList();
+
+            this->m_os_ = nullptr;
+        }
+
+
+    protected:
 
 
     private:

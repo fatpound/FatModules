@@ -22,55 +22,60 @@ export namespace fatpound::dsa::tree
         }
 
         BST(const BST& src) noexcept
+            :
+            m_pRoot_(src.Clone_(src.m_pRoot_)),
+            m_node_count_(src.m_node_count_),
+            m_os_(src.m_os_)
         {
-            if (src.m_pRoot_ not_eq nullptr)
-            {
-                m_pRoot_ = src.Clone_(src.m_pRoot_);
-                m_node_count_ = src.m_node_count_;
-            }
+
         }
         BST(BST&& src) noexcept
+            :
+            m_pRoot_(std::exchange<>(src.m_pRoot_, nullptr)),
+            m_node_count_(std::exchange<>(src.m_node_count_, 0U)),
+            m_os_(std::exchange<>(src.m_os_, nullptr))
         {
-            if (src.m_pRoot_ not_eq nullptr)
-            {
-                m_pRoot_ = std::exchange<>(src.m_pRoot_, nullptr);
-                m_node_count_ = std::exchange<>(src.m_node_count_, 0U);
-            }
+            
         }
 
         auto operator = (const BST& src) noexcept -> BST&
         {
-            if ((this not_eq std::addressof<>(src)) and (src.m_pRoot_ not_eq nullptr))
+            if (this not_eq std::addressof<>(src))
             {
-                if (m_pRoot_ not_eq nullptr)
+                if (src.m_pRoot_ not_eq nullptr)
                 {
-                    Clear_();
+                    ClearTree();
+
+                    m_pRoot_      = src.Clone_(src.m_pRoot_);
+                    m_node_count_ = src.m_node_count_;
                 }
 
-                m_pRoot_ = src.Clone_(src.m_pRoot_);
-                m_node_count_ = src.m_node_count_;
+                m_os_ = src.m_os_;
             }
 
             return *this;
         }
         auto operator = (BST&& src) noexcept -> BST&
         {
-            if ((this not_eq std::addressof<>(src)) and (src.m_pRoot_ not_eq nullptr))
+            if (this not_eq std::addressof<>(src))
             {
-                if (m_pRoot_ not_eq nullptr)
+                if (src.m_pRoot_ not_eq nullptr)
                 {
-                    Clear_();
+                    ClearTree();
+
+                    m_pRoot_      = std::exchange<>(src.m_pRoot_, nullptr);
+                    m_node_count_ = std::exchange<>(src.m_node_count_, 0U);
                 }
 
-                m_pRoot_ = std::exchange<>(src.m_pRoot_, nullptr);
-                m_node_count_ = std::exchange<>(src.m_node_count_, 0U);
+                m_os_ = std::exchange<>(src.m_os_, nullptr);
             }
+
 
             return *this;
         }
         virtual ~BST() noexcept
         {
-            Clear_();
+            Clear();
         }
 
 
@@ -178,6 +183,19 @@ export namespace fatpound::dsa::tree
         void Mirror()
         {
             Mirror_(m_pRoot_);
+        }
+        void ClearTree()
+        {
+            DeleteSubTree_(m_pRoot_);
+
+            m_pRoot_      = nullptr;
+            m_node_count_ = 0U;
+        }
+        void Clear()
+        {
+            ClearTree();
+
+            m_os_ = nullptr;
         }
         void SetOstream(std::ostream& os) noexcept
         {
@@ -555,17 +573,10 @@ export namespace fatpound::dsa::tree
 
         Size_t m_node_count_{};
 
-        std::ostream* m_os_;
+        std::ostream* m_os_{};
 
 
     private:
-        void Clear_() noexcept
-        {
-            DeleteSubTree_(m_pRoot_);
-
-            m_pRoot_      = nullptr;
-            m_node_count_ = 0U;
-        }
         void DeleteSubTree_(Node_* const root) noexcept
         {
             if (root not_eq nullptr)
