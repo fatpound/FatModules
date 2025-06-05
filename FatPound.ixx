@@ -40,7 +40,7 @@ export import FatPound.Random;
 export import FatPound.Traits;
 export import FatPound.Utility;
 
-#if FAT_BUILDING_WITH_MSVC
+#ifdef FAT_BUILDING_WITH_MSVC
     export import FatPound.Win32;
 #endif
 

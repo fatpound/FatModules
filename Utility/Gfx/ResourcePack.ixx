@@ -1,6 +1,6 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
+#ifdef FAT_BUILDING_WITH_MSVC
     #ifdef __INTELLISENSE__
         #include <FatWin32.hpp>
         #include <d3d11.h>
@@ -10,7 +10,7 @@ module;
 
 export module FatPound.Utility.Gfx.ResourcePack;
 
-#if FAT_BUILDING_WITH_MSVC
+#ifdef FAT_BUILDING_WITH_MSVC
 
 import <d3d11.h>;
 
