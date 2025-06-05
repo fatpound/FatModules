@@ -1,19 +1,16 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#define FATPOUND_FULL_WIN_TARGETED
-#include <FatWin32.hpp>
-#include <gdiplus.h>
-#undef FATPOUND_FULL_WIN_TARGETED
-#pragma comment(lib, "gdiplus")
-#endif
-
 export module FatPound.Win32.GDI_Plus.Manager;
 
-#if FAT_BUILDING_WITH_MSVC
+#ifdef FAT_BUILDING_WITH_MSVC
+
+import <FatWin32.hxx>;
 
 export namespace fatpound::win32::gdi_plus
 {
+    /// @brief Manages the initialization and shutdown of the GDI+ library using reference counting.
+    ///        Ensures GDI+ is started once and properly shut down when no longer needed
+    ///
     class Manager final
     {
     public:
@@ -21,8 +18,9 @@ export namespace fatpound::win32::gdi_plus
         {
             if (s_ref_count_ == 0)
             {
-                ::Gdiplus::GdiplusStartupInput gdiplusStartupInput;
-                ::Gdiplus::GdiplusStartup(&s_gdiPlus_token_, &gdiplusStartupInput, nullptr);
+                Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+
+                Gdiplus::GdiplusStartup(&s_gdiPlus_token_, &gdiplusStartupInput, nullptr);
             }
 
             ++s_ref_count_;
@@ -38,7 +36,7 @@ export namespace fatpound::win32::gdi_plus
 
             if (s_ref_count_ == 0)
             {
-                ::Gdiplus::GdiplusShutdown(s_gdiPlus_token_);
+                Gdiplus::GdiplusShutdown(s_gdiPlus_token_);
             }
         }
 
@@ -47,7 +45,7 @@ export namespace fatpound::win32::gdi_plus
 
 
     private:
-        inline static ::ULONG_PTR s_gdiPlus_token_{};
+        inline static ULONG_PTR s_gdiPlus_token_{};
 
         inline static int s_ref_count_{};
     };

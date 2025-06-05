@@ -14,7 +14,13 @@ export namespace fatpound::dsa::linkedlist
         using typename Doubly<T>::Node_;
 
     public:
-        explicit DoublyCircular()                      = default;
+        explicit DoublyCircular(std::ostream& os = std::cout)
+            :
+            Doubly<T>(os)
+        {
+
+        }
+
         explicit DoublyCircular(const DoublyCircular&) = delete;
         DoublyCircular(DoublyCircular&& src) noexcept
             :
@@ -26,28 +32,33 @@ export namespace fatpound::dsa::linkedlist
         auto operator = (const DoublyCircular&) -> DoublyCircular& = delete;
         auto operator = (DoublyCircular&& src) noexcept -> DoublyCircular&
         {
-            if ((this not_eq std::addressof<>(src)) and (typeid(src) == typeid(*this)) and (src.m_list_ not_eq nullptr))
+            if (this not_eq std::addressof<>(src) and typeid(src) == typeid(*this))
             {
-                Delete_();
+                if (src.m_list_ not_eq nullptr)
+                {
+                    ClearList();
 
-                this->m_list_ = std::exchange<>(src.m_list_, nullptr);
-                this->m_end_  = std::exchange<>(src.m_end_,  nullptr);
+                    this->m_list_       = std::exchange<>(src.m_list_, nullptr);
+                    this->m_end_        = std::exchange<>(src.m_end_,  nullptr);
 
-                this->m_item_count_ = std::exchange<>(src.m_item_count_, 0U);
+                    this->m_item_count_ = std::exchange<>(src.m_item_count_, 0U);
+                }
             }
+
+            this->m_os_ = std::exchange<>(src.m_os_, nullptr);
 
             return *this;
         }
         virtual ~DoublyCircular() noexcept override final
         {
-            Delete_();
+            Clear();
 
             this->m_cleared_from_derived_dtor_ = true;
         }
 
 
     public:
-        virtual void Add(const T& new_item) override final
+        virtual void Insert(const T& new_item) override final
         {
             auto* const new_part = new Node_(new_item);
 
@@ -71,7 +82,7 @@ export namespace fatpound::dsa::linkedlist
             this->m_list_->prev = new_part;
             this->m_end_ = new_part;
         }
-        virtual void AddOrdered(const T& new_item) override final
+        virtual void InsertAtFirst_GreaterEq(const T& new_item) override final
         {
             auto* const new_part = new Node_(new_item);
 
@@ -160,18 +171,18 @@ export namespace fatpound::dsa::linkedlist
 
             do
             {
-                std::cout << temp->prev << '\t' << temp << '\t' << temp->item << '\t' << temp->next << '\n';
+                *(this->m_os_) << temp->prev << '\t' << temp << '\t' << temp->item << '\t' << temp->next << '\n';
 
                 temp = temp->next;
             }
             while (temp not_eq start);
 
-            std::cout << '\n';
+            *(this->m_os_) << '\n';
         }
 
 
-    protected:
-        void Delete_() noexcept
+    public:
+        void ClearList() noexcept
         {
             if (this->m_list_ == nullptr)
             {
@@ -192,11 +203,20 @@ export namespace fatpound::dsa::linkedlist
             }
             while (exes not_eq start);
 
-            this->m_list_ = nullptr;
-            this->m_end_  = nullptr;
+            this->m_list_       = nullptr;
+            this->m_end_        = nullptr;
 
             this->m_item_count_ = 0U;
         }
+        void Clear() noexcept
+        {
+            ClearList();
+
+            this->m_os_ = nullptr;
+        }
+
+
+    protected:
 
 
     private:

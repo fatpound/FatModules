@@ -1,7 +1,7 @@
 module;
 
 #ifdef __INTELLISENSE__
-#include <algorithm>
+    #include <algorithm>
 #endif
 
 export module FatPound.Automata.TLT_v2;
@@ -137,8 +137,8 @@ namespace fatpound::automata
                         }
                         else
                         {
-                            const auto tree_index = static_cast<std::size_t>(it - m_trees_.cbegin());
-                            const auto will_recurse = static_cast<::std::size_t>((tree_index == index) ? 1 : 0);
+                            const auto tree_index   = static_cast<std::size_t>(it - m_trees_.cbegin());
+                            const auto will_recurse = static_cast<std::size_t>((tree_index == index) ? 1 : 0);
 
                             if (recursed < scx_RecursionLimit_)
                             {

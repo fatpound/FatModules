@@ -1,29 +1,40 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#include <FatWin32.hpp>
-#include <wrl.h>
+#ifdef FAT_BUILDING_WITH_MSVC
+    #ifdef __INTELLISENSE__
+        #include <FatWin32.hpp>
+        #include <d3d11.h>
+        #include <d3dcompiler.h>
+        #include <wrl.h>
+    #endif
 #endif
 
-export module FatPound.Win32.D3D11.Pipeline.Element.PixelShader;
+export module FatPound.Win32.D3D11.Pipeline.PixelShader;
 
-#if FAT_BUILDING_WITH_MSVC
+#ifdef FAT_BUILDING_WITH_MSVC
 
-import <d3d11.h>;
-import <d3dcompiler.h>;
+#ifndef __INTELLISENSE__
+    import <d3d11.h>;
+    import <d3dcompiler.h>;
+    import FatPound.Win32.WRL.Common;
+#endif
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 
 import std;
 
-export namespace fatpound::win32::d3d11::pipeline::element
+#ifdef __INTELLISENSE__
+    namespace wrl = Microsoft::WRL;
+#endif
+
+export namespace fatpound::win32::d3d11::pipeline
 {
     class PixelShader final : public Bindable
     {
     public:
         explicit PixelShader(ID3D11Device* const pDevice, const std::wstring& path)
         {
-            ::Microsoft::WRL::ComPtr<ID3DBlob> pBlob;
+            wrl::ComPtr<ID3DBlob> pBlob;
 
             ::D3DReadFileToBlob(path.c_str(), &pBlob);
 
@@ -55,7 +66,7 @@ export namespace fatpound::win32::d3d11::pipeline::element
 
 
     protected:
-        ::Microsoft::WRL::ComPtr<ID3D11PixelShader> m_pPixelShader_;
+        wrl::ComPtr<ID3D11PixelShader> m_pPixelShader_;
 
 
     private:

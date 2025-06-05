@@ -1,26 +1,36 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#include <FatWin32.hpp>
-#include <wrl.h>
+#ifdef FAT_BUILDING_WITH_MSVC
+    #ifdef __INTELLISENSE__
+        #include <FatWin32.hpp>
+        #include <d3d11.h>
+        #include <wrl.h>
+    #endif
 #endif
 
-export module FatPound.Win32.D3D11.Pipeline.Element.VertexBuffer;
+export module FatPound.Win32.D3D11.Pipeline.VertexBuffer;
 
-#if FAT_BUILDING_WITH_MSVC
+#ifdef FAT_BUILDING_WITH_MSVC
 
-import <d3d11.h>;
+#ifndef __INTELLISENSE__
+    import <d3d11.h>;
+    import FatPound.Win32.WRL.Common;
+#endif
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 
 import std;
 
-export namespace fatpound::win32::d3d11::pipeline::element
+#ifdef __INTELLISENSE__
+    namespace wrl = Microsoft::WRL;
+#endif
+
+export namespace fatpound::win32::d3d11::pipeline
 {
     class VertexBuffer final : public Bindable
     {
     public:
-        template <typename T, ::std::size_t N>
+        template <typename T, std::size_t N>
         explicit VertexBuffer(ID3D11Device* const pDevice, const std::array<T, N>& vertices)
             :
             m_stride_(sizeof(T))
@@ -35,9 +45,13 @@ export namespace fatpound::win32::d3d11::pipeline::element
                 .StructureByteStride = m_stride_
             };
 
-            const D3D11_SUBRESOURCE_DATA sd{ .pSysMem = vertices.data() };
+            const D3D11_SUBRESOURCE_DATA sd
+            {
+                .pSysMem = vertices.data()
+            };
 
-            if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pVertexBuffer_); FAILED(hr))
+            if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pVertexBuffer_);
+                FAILED(hr))
             {
                 throw std::runtime_error("Could NOT Create Direct3D VertexBuffer in function: " __FUNCSIG__);
             }
@@ -56,9 +70,13 @@ export namespace fatpound::win32::d3d11::pipeline::element
                 .StructureByteStride = m_stride_
             };
 
-            const D3D11_SUBRESOURCE_DATA sd{ .pSysMem = vertices.data() };
+            const D3D11_SUBRESOURCE_DATA sd
+            {
+                .pSysMem = vertices.data()
+            };
 
-            if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pVertexBuffer_); FAILED(hr))
+            if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pVertexBuffer_);
+                FAILED(hr))
             {
                 throw std::runtime_error("Could NOT Create Direct3D VertexBuffer in function: " __FUNCSIG__);
             }
@@ -83,7 +101,7 @@ export namespace fatpound::win32::d3d11::pipeline::element
 
 
     protected:
-        ::Microsoft::WRL::ComPtr<ID3D11Buffer> m_pVertexBuffer_;
+        wrl::ComPtr<ID3D11Buffer> m_pVertexBuffer_;
 
         UINT m_stride_;
 

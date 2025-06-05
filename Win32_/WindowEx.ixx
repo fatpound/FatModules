@@ -1,43 +1,61 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#include <FatNamespaces.hpp>
-#include <FatDefines.hpp>
+#ifdef FAT_BUILDING_WITH_MSVC
+    #include <FatNamespaces.hxx>
+    #include <FatMacros.hxx>
+    #include <FatWin32_Macros.hxx>
 
-#include <FatWin32.hpp>
+    #ifdef __INTELLISENSE__
+        #include <FatWin32.hpp>
+    #endif
 
-#include <DirectXMath.h>
+    #include <DirectXMath.h>
 #endif
 
 export module FatPound.Win32.WindowEx;
 
-#if FAT_BUILDING_WITH_MSVC
+#ifdef FAT_BUILDING_WITH_MSVC
 
-import FatPound.Win32.IWindow;
+#ifndef __INTELLISENSE__
+    import <FatWin32.hxx>;
+#endif
 
-import FatPound.Bitwise.Concepts;
 import FatPound.Concurrency;
 import FatPound.IO;
-import FatPound.Util.Gfx.SizePack;
+import FatPound.Traits.Bitwise;
+import FatPound.Utility.Gfx.SizePack;
+import FatPound.Win32.IWindow;
+
+#ifdef __INTELLISENSE__
+    import FatPound.Win32.Common;
+#endif
 
 import std;
 
+namespace dx = DirectX;
+
+using FATSPACE_UTILITY_GFX::SizePack;
+
 export namespace fatpound::win32
 {
+    /// @brief A multithreaded Win32 extended Window, with Keyboard and Mouse input support
+    ///
     class WindowEx : public IWindow
     {
     public:
         explicit WindowEx(
             std::shared_ptr<WndClassEx>            pWndClassEx,
             const std::wstring                     title,
-            const FATSPACE_UTIL_GFX::SizePack      clientDimensions,
-            std::shared_ptr<FATSPACE_IO::Mouse>    pMouse    = std::make_shared<FATSPACE_IO::Mouse>(),
-            std::shared_ptr<FATSPACE_IO::Keyboard> pKeyboard = std::make_shared<FATSPACE_IO::Keyboard>(),
-            const std::optional<::DirectX::XMINT2> position  = std::nullopt)
+            const SizePack                         clientDimensions,
+            std::shared_ptr<io::Keyboard>          pKeyboard         = std::make_shared<io::Keyboard>(),
+            std::shared_ptr<io::Mouse>             pMouse            = std::make_shared<io::Mouse>(),
+            const std::optional<dx::XMINT2>        position          = std::nullopt,
+            const DWORD                            styles            = WS_VISIBLE bitor FAT_WNDSTYLE_EX,
+            const DWORD                            exStyles          = {})
             :
-            m_pMouse{ std::move(pMouse) },
-            m_pKeyboard{ std::move(pKeyboard) },
-            m_pWndClassEx_{ std::move(pWndClassEx) },
+            m_pKeyboard{ std::move<>(pKeyboard) },
+            m_pMouse{ std::move<>(pMouse) },
+            m_pWndClassEx_{ std::move<>(pWndClassEx) },
             mc_client_size_{ .m_width = clientDimensions.m_width, .m_height = clientDimensions.m_height },
             /////////////////////
 #pragma region (thread w/o C4355)
@@ -50,44 +68,23 @@ export namespace fatpound::win32
             auto future = DispatchTaskToQueue_<false>(
                 [=, this]() -> void
                 {
-                    constexpr DWORD exStyles{};
-
-                    constexpr DWORD styles
-                    {
-                        WS_VISIBLE
-
 #if IN_DEBUG or IS_GFX_FRAMEWORK
 
-                        bitor WS_CAPTION
-                        bitor WS_MINIMIZEBOX
-                        bitor WS_OVERLAPPED
-                        bitor WS_SYSMENU
-                    };
-
-                    RECT rect{
+                    RECT rect
+                    {
                         .left   = 0L,
                         .top    = 0L,
                         .right  = rect.left + static_cast<LONG>(mc_client_size_.m_width),
                         .bottom = rect.top  + static_cast<LONG>(mc_client_size_.m_height)
                     };
 
+                    if (const auto& retval = ::AdjustWindowRectEx(&rect, styles, false, exStyles); retval == 0)
                     {
-                        [[maybe_unused]]
-                        const auto&& retval = ::AdjustWindowRectEx(&rect, styles, false, exStyles);
+                        throw std::runtime_error("Error occured when adjusting RECT");
                     }
-#else
-                        bitor WS_POPUP
-                    };
 
 #endif
-
-                    const auto hModule = ::GetModuleHandle(nullptr);
-
-                    if (hModule == nullptr)
-                    {
-                        throw std::runtime_error("Error occured when obtaining hModule!");
-                    }
-
+                    
                     m_hWnd_ = ::CreateWindowEx(
                         exStyles,
                         MAKEINTATOM(m_pWndClassEx_->GetAtom()),
@@ -108,8 +105,8 @@ export namespace fatpound::win32
 
                         nullptr,
                         nullptr,
-                        hModule,
-                        this
+                        ModuleHandleOf(),
+                        this // to use HandleMessage_ (see IWindow::ClassEx::HandleMsgSetup_)
                     );
 
                     if (m_hWnd_ == nullptr)
@@ -133,7 +130,7 @@ export namespace fatpound::win32
         virtual ~WindowEx() noexcept(false) override
         {
             [[maybe_unused]]
-            auto future = DispatchTaskToQueue_<>(
+            const auto future = DispatchTaskToQueue_<>(
                 [this]() noexcept -> void
                 {
                     [[maybe_unused]]
@@ -144,7 +141,7 @@ export namespace fatpound::win32
 
 
     public:
-        virtual auto SetTitle(const std::wstring& title) -> std::future<void> override final
+        virtual auto SetTitle  (const std::wstring& title) -> std::future<void> override final
         {
             auto future = DispatchTaskToQueue_<>(
                 [=, this]() noexcept -> void
@@ -156,38 +153,36 @@ export namespace fatpound::win32
 
             return future;
         }
-
-        virtual auto GetHandle() const noexcept -> HWND override final
+        virtual auto GetHandle () const noexcept -> HWND override final
         {
             return m_hWnd_;
         }
-
-        virtual auto IsClosing() const noexcept -> bool override final
+        virtual auto IsClosing () const noexcept -> bool override final
         {
             return m_is_closing_;
         }
 
 
     public:
-        template <bitwise::Integral_Or_Floating T> FAT_FORCEINLINE auto GetClientWidth()  const noexcept -> T
+        template <traits::IntegralOrFloating T> FAT_FORCEINLINE auto GetClientWidth  () const noexcept -> T
         {
             return static_cast<T>(mc_client_size_.m_width);
         }
-        template <bitwise::Integral_Or_Floating T> FAT_FORCEINLINE auto GetClientHeight() const noexcept -> T
+        template <traits::IntegralOrFloating T> FAT_FORCEINLINE auto GetClientHeight () const noexcept -> T
         {
             return static_cast<T>(mc_client_size_.m_height);
         }
 
 
     public:
-        std::shared_ptr<FATSPACE_IO::Mouse>    m_pMouse;
-        std::shared_ptr<FATSPACE_IO::Keyboard> m_pKeyboard;
+        std::shared_ptr<io::Keyboard> m_pKeyboard;
+        std::shared_ptr<io::Mouse>    m_pMouse;
 
 
     protected:
         template <bool Notify = true, typename F, typename... Args>
         requires std::invocable<F, Args...>
-        auto DispatchTaskToQueue_(F&& function, Args&&... args) -> auto
+        auto DispatchTaskToQueue_(F&& function, Args&&... args) -> std::future<std::invoke_result_t<F, Args...>>
         {
             auto future = m_tasks_.Push<>(std::forward<F>(function), std::forward<Args>(args)...);
 
@@ -201,7 +196,7 @@ export namespace fatpound::win32
 
 
     protected:
-        virtual auto HandleMessage_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT override
+        virtual auto HandleMsg_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT override
         {
             switch (msg)
             {
@@ -257,12 +252,12 @@ export namespace fatpound::win32
 
             case WM_CLOSE:
                 m_is_closing_ = true;
-                return 0;
+                break;
 
             case WM_DESTROY:
                 m_hWnd_ = nullptr;
                 ::PostQuitMessage(0);
-                return 0;
+                break;
 
             case scx_customTaskMsgId_:
                 m_tasks_.ExecuteFirstAndPopOff();
@@ -282,7 +277,7 @@ export namespace fatpound::win32
 
 
     protected:
-        FAT_FORCEINLINE void Process_WM_MOUSEMOVE_  (const WPARAM wParam, const LPARAM lParam)
+        FAT_FORCEINLINE void Process_WM_MOUSEMOVE_  (const WPARAM& wParam, const LPARAM& lParam)
         {
             const POINTS pt = MAKEPOINTS(lParam);
 
@@ -337,7 +332,7 @@ export namespace fatpound::win32
         {
             m_pMouse->AddWheelReleaseEvent();
         }
-        FAT_FORCEINLINE void Process_WM_MOUSEWHEEL_ (const int delta)
+        FAT_FORCEINLINE void Process_WM_MOUSEWHEEL_ (const int& delta)
         {
             m_pMouse->ProcessWheelDelta(delta);
         }
@@ -346,30 +341,30 @@ export namespace fatpound::win32
         {
             m_pKeyboard->ClearKeyStateBitset();
         }
-        FAT_FORCEINLINE void Process_WM_KEYDOWN_   (const WPARAM wParam, const LPARAM lParam)
+        FAT_FORCEINLINE void Process_WM_KEYDOWN_   (const WPARAM& wParam, const LPARAM& lParam)
         {
             Process_WM_SYSKEYDOWN_(wParam, lParam);
         }
-        FAT_FORCEINLINE void Process_WM_SYSKEYDOWN_(const WPARAM wParam, const LPARAM lParam)
+        FAT_FORCEINLINE void Process_WM_SYSKEYDOWN_(const WPARAM& wParam, const LPARAM& lParam)
         {
             if ((not (lParam bitand 0x40000000)) or m_pKeyboard->AutoRepeatIsEnabled())
             {
                 m_pKeyboard->AddKeyPressEvent(static_cast<unsigned char>(wParam));
             }
         }
-        FAT_FORCEINLINE void Process_WM_KEYUP_     (const WPARAM wParam)
+        FAT_FORCEINLINE void Process_WM_KEYUP_     (const WPARAM& wParam)
         {
             Process_WM_SYSKEYUP_(wParam);
         }
-        FAT_FORCEINLINE void Process_WM_SYSKEYUP_  (const WPARAM wParam)
+        FAT_FORCEINLINE void Process_WM_SYSKEYUP_  (const WPARAM& wParam)
         {
             m_pKeyboard->AddKeyReleaseEvent(static_cast<unsigned char>(wParam));
         }
-        FAT_FORCEINLINE void Process_WM_CHAR_      (const WPARAM wParam)
+        FAT_FORCEINLINE void Process_WM_CHAR_      (const WPARAM& wParam)
         {
             m_pKeyboard->AddChar(static_cast<unsigned char>(wParam));
         }
-        FAT_FORCEINLINE void Process_WM_SYSCOMMAND_(const WPARAM wParam) noexcept
+        FAT_FORCEINLINE void Process_WM_SYSCOMMAND_(const WPARAM& wParam) noexcept
         {
             if ((wParam bitand 0xFFF0U) == SC_CLOSE)
             {
@@ -384,25 +379,20 @@ export namespace fatpound::win32
 
     protected:
         FATSPACE_CONCURRENCY::TaskQueue m_tasks_;
+        std::shared_ptr<WndClassEx>     m_pWndClassEx_;
+        const SizePack                  mc_client_size_;
 
-        std::shared_ptr<WndClassEx> m_pWndClassEx_;
+        HWND                            m_hWnd_{};
 
-        const FATSPACE_UTIL_GFX::SizePack mc_client_size_;
-
-        HWND m_hWnd_{};
-
-        std::atomic_bool m_is_closing_{};
-        std::binary_semaphore m_start_signal_{ 0 };
-
-        std::jthread m_msg_jthread_;
+        std::atomic_bool                m_is_closing_{};
+        std::binary_semaphore           m_start_signal_{ 0 };
+        std::jthread                    m_msg_jthread_;
 
 
     private:
         void NotifyTaskDispatch_() const
         {
-            const auto&& retval = ::PostMessage(m_hWnd_, scx_customTaskMsgId_, 0U, 0);
-
-            if (retval == 0)
+            if (const auto& retval = ::PostMessage(m_hWnd_, scx_customTaskMsgId_, 0U, 0); retval == 0)
             {
                 throw std::runtime_error{ "Failed to post task notification message!" };
             }

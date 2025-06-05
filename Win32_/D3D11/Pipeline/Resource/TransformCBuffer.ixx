@@ -1,33 +1,37 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#include <FatNamespaces.hpp>
+#ifdef FAT_BUILDING_WITH_MSVC
+    #include <FatNamespaces.hxx>
 
-#include <FatWin32.hpp>
-#include <wrl.h>
+    #ifdef __INTELLISENSE__
+        #include <FatWin32.hpp>
+        #include <d3d11.h>
+    #endif
 
-#include <DirectXMath.h>
+    #include <DirectXMath.h>
 #endif
 
-export module FatPound.Win32.D3D11.Pipeline.Resource.TransformCBuffer;
+export module FatPound.Win32.D3D11.Pipeline.TransformCBuffer;
 
-#if FAT_BUILDING_WITH_MSVC
+#ifdef FAT_BUILDING_WITH_MSVC
 
-import <d3d11.h>;
+#ifndef __INTELLISENSE__
+    import <d3d11.h>;
+#endif
 
-export import FatPound.Win32.D3D11.Pipeline.Resource.VertexCBuffer;
-
+import FatPound.Utility.ViewXM;
 import FatPound.Win32.D3D11.Pipeline.Bindable;
+import FatPound.Win32.D3D11.Pipeline.VertexCBuffer;
 
-import FatPound.Util.ViewXM;
+namespace dx = DirectX;
 
-export namespace fatpound::win32::d3d11::pipeline::resource
+export namespace fatpound::win32::d3d11::pipeline
 {
     template <typename T>
     class TransformCBuffer final : public Bindable
     {
     public:
-        explicit TransformCBuffer(ID3D11Device* const pDevice, const T& parent, FATSPACE_UTIL::ViewXM& viewXM)
+        explicit TransformCBuffer(ID3D11Device* const pDevice, const T& parent, utility::ViewXM& viewXM)
             :
             m_vcbuf_(pDevice),
             m_parent_(parent),
@@ -50,7 +54,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
         {
             m_vcbuf_.Update(
                 pImmediateContext,
-                ::DirectX::XMMatrixTranspose(
+                dx::XMMatrixTranspose(
                     m_parent_.GetTransformXM() *
                     m_viewXM_.GetCameraXM() *
                     m_viewXM_.GetProjectionXM()
@@ -65,11 +69,11 @@ export namespace fatpound::win32::d3d11::pipeline::resource
 
 
     private:
-        VertexCBuffer<::DirectX::XMMATRIX> m_vcbuf_;
+        VertexCBuffer<dx::XMMATRIX> m_vcbuf_;
 
         const T& m_parent_;
 
-        FATSPACE_UTIL::ViewXM& m_viewXM_;
+        utility::ViewXM& m_viewXM_;
     };
 }
 

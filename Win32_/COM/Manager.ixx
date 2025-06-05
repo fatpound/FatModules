@@ -1,27 +1,24 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#include <FatWin32.hpp>
-
-#include <combaseapi.h>
-#endif
-
 export module FatPound.Win32.COM.Manager;
 
-#if FAT_BUILDING_WITH_MSVC
+#ifdef FAT_BUILDING_WITH_MSVC
+
+import <FatWin32.hxx>;
 
 import std;
 
 export namespace fatpound::win32::com
 {
+    /// @brief Manages the initialization and uninitialization of the COM library for the current thread
+    ///
     class Manager final
     {
     public:
         explicit Manager(const DWORD initFlags = COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)
         {
-            const auto hr = ::CoInitializeEx(nullptr, initFlags);
-
-            if (FAILED(hr))
+            if (const auto& hr = ::CoInitializeEx(nullptr, initFlags);
+                FAILED(hr))
             {
                 throw std::runtime_error("Failed to initialize COM!");
             }

@@ -2,6 +2,8 @@ module;
 
 export module FatPound.DSA.LinkedList.Singly;
 
+import FatPound.Traits.Callable;
+
 import std;
 
 export namespace fatpound::dsa::linkedlist
@@ -10,13 +12,20 @@ export namespace fatpound::dsa::linkedlist
     class Singly
     {
     public:
-        explicit Singly()              = default;
+        explicit Singly(std::ostream& os = std::cout)
+            :
+            m_os_(&os)
+        {
+
+        }
+
         explicit Singly(const Singly&) = delete;
         Singly(Singly&& src) noexcept
             :
             m_list_(std::exchange<>(src.m_list_, nullptr)),
             m_end_(std::exchange<>(src.m_end_, nullptr)),
-            m_item_count_(std::exchange<>(src.m_item_count_, 0U))
+            m_item_count_(std::exchange<>(src.m_item_count_, 0U)),
+            m_os_(std::exchange<>(src.m_os_, nullptr))
         {
 
         }
@@ -24,14 +33,19 @@ export namespace fatpound::dsa::linkedlist
         auto operator = (const Singly&) -> Singly& = delete;
         auto operator = (Singly&& src) noexcept -> Singly&
         {
-            if ((this not_eq std::addressof<>(src)) and (typeid(src) == typeid(*this)) and (src.m_list_ not_eq nullptr))
+            if (this not_eq std::addressof<>(src) and typeid(src) == typeid(*this))
             {
-                Delete_();
+                if (src.m_list_ not_eq nullptr)
+                {
+                    ClearList();
 
-                m_list_ = std::exchange<>(src.m_list_, nullptr);
-                m_end_  = std::exchange<>(src.m_end_, nullptr);
+                    m_list_       = std::exchange<>(src.m_list_, nullptr);
+                    m_end_        = std::exchange<>(src.m_end_,  nullptr);
 
-                m_item_count_ = std::exchange<>(src.m_item_count_, 0U);
+                    m_item_count_ = std::exchange<>(src.m_item_count_, 0U);
+                }
+
+                m_os_ = std::exchange<>(src.m_os_, nullptr);
             }
 
             return *this;
@@ -40,7 +54,7 @@ export namespace fatpound::dsa::linkedlist
         {
             if (not m_cleared_from_derived_dtor_)
             {
-                Delete_();
+                Clear();
             }
         }
 
@@ -52,7 +66,7 @@ export namespace fatpound::dsa::linkedlist
             return Find_(item) not_eq nullptr;
         }
 
-        virtual void Add(const T& new_item)
+        virtual void Insert(const T& new_item)
         {
             auto* const new_part = new Node_(new_item);
 
@@ -69,7 +83,7 @@ export namespace fatpound::dsa::linkedlist
 
             m_end_ = new_part;
         }
-        virtual void AddOrdered(const T& new_item)
+        virtual void InsertAtFirst_GreaterEq(const T& new_item)
         {
             auto* const new_part = new Node_(new_item);
 
@@ -168,27 +182,64 @@ export namespace fatpound::dsa::linkedlist
 
             do
             {
-                std::cout << temp << '\t' << temp->item << '\t' << temp->next << '\n';
+                *m_os_ << temp << '\t' << temp->item << '\t' << temp->next << '\n';
 
                 temp = temp->next;
             }
             while (temp not_eq nullptr);
 
-            std::cout << '\n';
+            *m_os_ << '\n';
+        }
+
+
+    public:
+        void SetOstream(std::ostream& os) noexcept
+        {
+            m_os_ = &os;
+        }
+        void ClearList()
+        {
+            if (m_list_ == nullptr)
+            {
+                return;
+            }
+
+            Node_* exes = m_list_;
+            Node_* temp{};
+
+            do
+            {
+                temp = exes->next;
+
+                delete exes;
+
+                exes = temp;
+            }
+            while (exes not_eq nullptr);
+
+            m_list_       = nullptr;
+            m_end_        = nullptr;
+            m_item_count_ = 0U;
+        }
+        void Clear() noexcept
+        {
+            ClearList();
+
+            m_os_ = nullptr;
         }
 
 
     protected:
         struct alignas(16) Node_ final
         {
-            explicit Node_(T new_item) noexcept
+            explicit Node_(const T& new_item) noexcept
                 :
                 item(new_item)
             {
 
             }
 
-            Node_* next = nullptr;
+            Node_* next{};
 
             T item;
         };
@@ -228,38 +279,12 @@ export namespace fatpound::dsa::linkedlist
 
 
     protected:
-        void Delete_() noexcept
-        {
-            if (m_list_ == nullptr)
-            {
-                return;
-            }
-
-            Node_* exes = m_list_;
-            Node_* temp{};
-
-            do
-            {
-                temp = exes->next;
-
-                delete exes;
-
-                exes = temp;
-            }
-            while (exes not_eq nullptr);
-
-            m_list_ = nullptr;
-            m_end_  = nullptr;
-
-            m_item_count_ = 0U;
-        }
-
-
-    protected:
         Node_* m_list_{};
         Node_* m_end_{};
 
         std::size_t m_item_count_{};
+
+        std::ostream* m_os_{};
 
         bool m_cleared_from_derived_dtor_{};
 

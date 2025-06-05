@@ -1,26 +1,36 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#include <FatWin32.hpp>
-#include <wrl.h>
+#ifdef FAT_BUILDING_WITH_MSVC
+    #ifdef __INTELLISENSE__
+        #include <FatWin32.hpp>
+        #include <d3d11.h>
+        #include <wrl.h>
+    #endif
 #endif
 
-export module FatPound.Win32.D3D11.Pipeline.Element.IndexBuffer;
+export module FatPound.Win32.D3D11.Pipeline.IndexBuffer;
 
-#if FAT_BUILDING_WITH_MSVC
+#ifdef FAT_BUILDING_WITH_MSVC
 
-import <d3d11.h>;
+#ifndef __INTELLISENSE__
+    import <d3d11.h>;
+    import FatPound.Win32.WRL.Common;
+#endif
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 
 import std;
 
-export namespace fatpound::win32::d3d11::pipeline::element
+#ifdef __INTELLISENSE__
+    namespace wrl = Microsoft::WRL;
+#endif
+
+export namespace fatpound::win32::d3d11::pipeline
 {
     class IndexBuffer final : public Bindable
     {
     public:
-        template <::std::integral T>
+        template <std::integral T>
         explicit IndexBuffer(ID3D11Device* const pDevice, const std::vector<T>& indices)
             :
             m_count_(static_cast<UINT>(indices.size()))
@@ -35,9 +45,13 @@ export namespace fatpound::win32::d3d11::pipeline::element
                 .StructureByteStride = sizeof(T)
             };
 
-            const D3D11_SUBRESOURCE_DATA sd{ .pSysMem = indices.data() };
+            const D3D11_SUBRESOURCE_DATA sd
+            {
+                .pSysMem = indices.data()
+            };
 
-            if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pIndexBuffer_); FAILED(hr))
+            if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pIndexBuffer_);
+                FAILED(hr))
             {
                 throw std::runtime_error("Could NOT Create Direct3D IndexBuffer in function: " __FUNCSIG__);
             }
@@ -67,7 +81,7 @@ export namespace fatpound::win32::d3d11::pipeline::element
 
 
     protected:
-        ::Microsoft::WRL::ComPtr<ID3D11Buffer> m_pIndexBuffer_;
+        wrl::ComPtr<ID3D11Buffer> m_pIndexBuffer_;
 
         UINT m_count_;
 

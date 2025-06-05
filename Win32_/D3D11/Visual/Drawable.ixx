@@ -1,9 +1,7 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#include <FatNamespaces.hpp>
-
-#include <FatWin32.hpp>
+#ifdef FAT_BUILDING_WITH_MSVC
+#include <FatNamespaces.hxx>
 
 #include <DirectXMath.h>
 
@@ -12,7 +10,7 @@ module;
 
 export module FatPound.Win32.D3D11.Visual.Drawable;
 
-#if FAT_BUILDING_WITH_MSVC
+#ifdef FAT_BUILDING_WITH_MSVC
 
 import <d3d11.h>;
 
@@ -20,12 +18,16 @@ import FatPound.Win32.D3D11.Pipeline;
 
 import std;
 
+namespace dx = DirectX;
+
 export namespace fatpound::win32::d3d11::visual
 {
+    /// @brief Abstract base class representing an object that can be drawn using Direct3D 11, supporting bindable resources and transformation
+    ///
     class Drawable
     {
     public:
-        using BindablePtr_t = std::unique_ptr<FATSPACE_PIPELINE::Bindable>;
+        using BindablePtr_t = std::unique_ptr<pipeline::Bindable>;
         using BindableVec_t = std::vector<BindablePtr_t>;
 
 
@@ -40,7 +42,7 @@ export namespace fatpound::win32::d3d11::visual
 
 
     public:
-        virtual auto GetTransformXM() const noexcept -> ::DirectX::XMMATRIX = 0;
+        virtual auto GetTransformXM() const noexcept -> dx::XMMATRIX = 0;
 
         virtual void Update(const float delta_time) noexcept = 0;
 
@@ -61,13 +63,13 @@ export namespace fatpound::win32::d3d11::visual
 
         
     protected:
-        virtual void AddBind_(std::unique_ptr<FATSPACE_PIPELINE::Bindable> bind) noexcept(IN_RELEASE) final
+        virtual void AddBind_(std::unique_ptr<pipeline::Bindable> bind) noexcept(IN_RELEASE) final
         {
-            assert((typeid(*bind) not_eq typeid(FATSPACE_PIPELINE_ELEMENT::IndexBuffer)) && "*Must* use AddIndexBuffer_() method to bind it!");
+            assert((typeid(*bind) not_eq typeid(pipeline::IndexBuffer)) && "*Must* use AddIndexBuffer_() method to bind it!");
 
             m_binds_.push_back(std::move<>(bind));
         }
-        virtual void AddIndexBuffer_(std::unique_ptr<FATSPACE_PIPELINE_ELEMENT::IndexBuffer> idxbuf) noexcept(IN_RELEASE) final
+        virtual void AddIndexBuffer_(std::unique_ptr<pipeline::IndexBuffer> idxbuf) noexcept(IN_RELEASE) final
         {
             assert((m_pCIndexBuffer_ == nullptr) && "Attempting to add index buffer a second time");
 
@@ -78,7 +80,7 @@ export namespace fatpound::win32::d3d11::visual
 
 
     protected:
-        const FATSPACE_PIPELINE_ELEMENT::IndexBuffer* m_pCIndexBuffer_{};
+        const pipeline::IndexBuffer* m_pCIndexBuffer_{};
 
 
     private:

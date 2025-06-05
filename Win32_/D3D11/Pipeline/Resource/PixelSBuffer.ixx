@@ -1,21 +1,24 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#include <FatWin32.hpp>
-#include <wrl.h>
+#ifdef FAT_BUILDING_WITH_MSVC
+    #ifdef __INTELLISENSE__
+        #include <FatWin32.hpp>
+        #include <d3d11.h>
+    #endif
 #endif
 
-export module FatPound.Win32.D3D11.Pipeline.Resource.PixelSBuffer;
+export module FatPound.Win32.D3D11.Pipeline.PixelSBuffer;
 
-#if FAT_BUILDING_WITH_MSVC
+#ifdef FAT_BUILDING_WITH_MSVC
 
-import <d3d11.h>;
-
-export import FatPound.Win32.D3D11.Pipeline.Resource.SBuffer;
+#ifndef __INTELLISENSE__
+    import <d3d11.h>;
+#endif
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
+import FatPound.Win32.D3D11.Pipeline.SBuffer;
 
-export namespace fatpound::win32::d3d11::pipeline::resource
+export namespace fatpound::win32::d3d11::pipeline
 {
     template <typename T>
     class PixelSBuffer final : public SBuffer<T>

@@ -48,16 +48,13 @@
     <ClCompile Include="Math\Math.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Color.ixx">
+    <ClCompile Include="Utility\Color.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Gfx\SizePack.ixx">
+    <ClCompile Include="Utility\Gfx\SizePack.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Util.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Pipeline\Element\Element.ixx">
+    <ClCompile Include="Utility\Utility.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\D3D11\Pipeline\Element\IndexBuffer.ixx">
@@ -87,9 +84,6 @@
     <ClCompile Include="Win32_\D3D11\Pipeline\Resource\PixelSBuffer.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Pipeline\Resource\Resource.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Win32_\D3D11\Pipeline\Resource\TransformCBuffer.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -102,13 +96,7 @@
     <ClCompile Include="Win32_\D3D11\Pipeline\Pipeline.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Visual\Drawable.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Util\ViewXM.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Visual\Visual.ixx">
+    <ClCompile Include="Utility\ViewXM.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\D3D11\D3D11.ixx">
@@ -123,25 +111,19 @@
     <ClCompile Include="FatPound.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DSA\Tree\Binary\AVL.ixx">
+    <ClCompile Include="DSA\Tree\AVL.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DSA\Tree\Binary\Binary.ixx">
+    <ClCompile Include="DSA\Tree\BST.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DSA\Tree\Binary\BST.ixx">
+    <ClCompile Include="DSA\Tree\IPR.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DSA\Tree\Binary\IPR.ixx">
+    <ClCompile Include="DSA\Tree\B.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DSA\Tree\N_ary\B.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DSA\Tree\N_ary\B_Plus.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DSA\Tree\N_ary\N_ary.ixx">
+    <ClCompile Include="DSA\Tree\B_Plus.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DSA\Tree\Tree.ixx">
@@ -168,16 +150,10 @@
     <ClCompile Include="IO\Keyboard.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IO\KeyEvent.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="IO\Mouse.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IO\MouseEvent.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Util\Timer.ixx">
+    <ClCompile Include="Utility\Timer.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\IWindow.ixx">
@@ -186,10 +162,10 @@
     <ClCompile Include="Win32_\WindowEx.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Gfx\FullScreenQuad.ixx">
+    <ClCompile Include="Utility\Gfx\FullScreenQuad.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Gfx\Gfx.ixx">
+    <ClCompile Include="Utility\Gfx\Gfx.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Memory\Memory.ixx">
@@ -201,13 +177,7 @@
     <ClCompile Include="Win32_\GDI_Plus\GDI_Plus.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Surface.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\WMF\WMF.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\WMF\Manager.ixx">
+    <ClCompile Include="Utility\Surface.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\COM\COM.ixx">
@@ -216,7 +186,7 @@
     <ClCompile Include="Win32_\COM\Manager.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Gfx\ResourcePack.ixx">
+    <ClCompile Include="Utility\Gfx\ResourcePack.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\D3D11\Pipeline\Resource\Sampler.ixx">
@@ -240,25 +210,16 @@
     <ClCompile Include="Math\Common.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Rect.ixx">
+    <ClCompile Include="Math\Geometry\Rectangle.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Util\Common.ixx">
+    <ClCompile Include="Utility\Common.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Visual\DrawableBase.ixx">
+    <ClCompile Include="Math\Geometry\AngularConv.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\AngularConv.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Math\Geometry.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Bitwise\Concepts.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Bitwise\Bitwise.ixx">
+    <ClCompile Include="Math\Geometry\Geometry.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Math\Numbers\Sets.ixx">
@@ -273,6 +234,78 @@
     <ClCompile Include="Math\Numbers\Common.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Win32_\Common.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Traits\Traits.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Traits\Bitwise.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Traits\Callable.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Traits\Extents.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Traits\Formation.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Traits\Indirection.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bit\Bit.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Cryptography\Cryptography.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Random\URand.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Cryptography\XorCipher.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Geometry\Common.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32_\WRL\WRL.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32_\WRL\Common.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Algorithm\Algorithm.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Algorithm\Sorting.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Algorithm\Graph\Graph.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Algorithm\Graph\DFS.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DSA\DirectedGraph.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Algorithm\Graph\BFS.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32_\D3D11\Visual\Visual.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32_\D3D11\Visual\Drawable.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32_\D3D11\Visual\DrawableBase.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Algorithm\Searching.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32_\FatWin32.hpp">
@@ -281,10 +314,19 @@
     <ClInclude Include="Win32_\FatWin32_Settings.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FatNamespaces.hpp">
+    <ClInclude Include="FatNamespaces.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FatDefines.hpp">
+    <ClInclude Include="FatMacros.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FatSTL_Macros.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Win32_\FatWin32.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FatWin32_Macros.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

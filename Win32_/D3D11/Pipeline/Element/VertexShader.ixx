@@ -1,22 +1,33 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#include <FatWin32.hpp>
-#include <wrl.h>
+#ifdef FAT_BUILDING_WITH_MSVC
+    #ifdef __INTELLISENSE__
+        #include <FatWin32.hpp>
+        #include <d3d11.h>
+        #include <d3dcompiler.h>
+        #include <wrl.h>
+    #endif
 #endif
 
-export module FatPound.Win32.D3D11.Pipeline.Element.VertexShader;
+export module FatPound.Win32.D3D11.Pipeline.VertexShader;
 
-#if FAT_BUILDING_WITH_MSVC
+#ifdef FAT_BUILDING_WITH_MSVC
 
-import <d3d11.h>;
-import <d3dcompiler.h>;
+#ifndef __INTELLISENSE__
+    import <d3d11.h>;
+    import <d3dcompiler.h>;
+    import FatPound.Win32.WRL.Common;
+#endif
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 
 import std;
 
-export namespace fatpound::win32::d3d11::pipeline::element
+#ifdef __INTELLISENSE__
+    namespace wrl = Microsoft::WRL;
+#endif
+
+export namespace fatpound::win32::d3d11::pipeline
 {
     class VertexShader final : public Bindable
     {
@@ -29,7 +40,8 @@ export namespace fatpound::win32::d3d11::pipeline::element
                 m_pBytecodeBlob_->GetBufferPointer(),
                 m_pBytecodeBlob_->GetBufferSize(),
                 nullptr,
-                &m_pVertexShader_); FAILED(hr))
+                &m_pVertexShader_);
+                FAILED(hr))
             {
                 throw std::runtime_error("Could NOT Create Direct3D VertexShader in function: " __FUNCSIG__);
             }
@@ -59,8 +71,8 @@ export namespace fatpound::win32::d3d11::pipeline::element
 
 
     protected:
-        ::Microsoft::WRL::ComPtr<ID3DBlob>           m_pBytecodeBlob_;
-        ::Microsoft::WRL::ComPtr<ID3D11VertexShader> m_pVertexShader_;
+        wrl::ComPtr<ID3DBlob>           m_pBytecodeBlob_;
+        wrl::ComPtr<ID3D11VertexShader> m_pVertexShader_;
 
 
     private:

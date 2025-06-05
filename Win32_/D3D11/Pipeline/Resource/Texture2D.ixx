@@ -1,31 +1,41 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#include <FatNamespaces.hpp>
+#ifdef FAT_BUILDING_WITH_MSVC
+    #include <FatNamespaces.hxx>
 
-#include <FatWin32.hpp>
-#include <wrl.h>
+    #ifdef __INTELLISENSE__
+        #include <FatWin32.hpp>
+        #include <d3d11.h>
+        #include <wrl.h>
+    #endif
 #endif
 
-export module FatPound.Win32.D3D11.Pipeline.Resource.Texture2D;
+export module FatPound.Win32.D3D11.Pipeline.Texture2D;
 
-#if FAT_BUILDING_WITH_MSVC
+#ifdef FAT_BUILDING_WITH_MSVC
 
-import <d3d11.h>;
+#ifndef __INTELLISENSE__
+    import <d3d11.h>;
+    import FatPound.Win32.WRL.Common;
+#endif
 
+import FatPound.Utility.Surface;
 import FatPound.Win32.D3D11.Pipeline.Bindable;
-import FatPound.Util.Surface;
 
 import std;
 
-export namespace fatpound::win32::d3d11::pipeline::resource
+#ifdef __INTELLISENSE__
+    namespace wrl = Microsoft::WRL;
+#endif
+
+export namespace fatpound::win32::d3d11::pipeline
 {
     class Texture2D final : public Bindable
     {
     public:
-        explicit Texture2D(ID3D11Device* const pDevice, const D3D11_TEXTURE2D_DESC& tex2dDesc, const D3D11_SHADER_RESOURCE_VIEW_DESC& srvDesc, std::shared_ptr<FATSPACE_UTIL::Surface> pSurface = {})
+        explicit Texture2D(ID3D11Device* const pDevice, const D3D11_TEXTURE2D_DESC& tex2dDesc, const D3D11_SHADER_RESOURCE_VIEW_DESC& srvDesc, std::shared_ptr<FATSPACE_UTILITY::Surface> pSurface = {})
         {
-            ::Microsoft::WRL::ComPtr<ID3D11Texture2D> pTexture;
+            wrl::ComPtr<ID3D11Texture2D> pTexture;
 
             {
                 const D3D11_SUBRESOURCE_DATA sd
@@ -37,13 +47,15 @@ export namespace fatpound::win32::d3d11::pipeline::resource
                 if (const auto& hr = pDevice->CreateTexture2D(
                     &tex2dDesc,
                     sd.pSysMem not_eq nullptr ? &sd : nullptr,
-                    &pTexture); FAILED(hr))
+                    &pTexture);
+                    FAILED(hr))
                 {
                     throw std::runtime_error("Could NOT create Texture2D!");
                 }
             }
 
-            if (const auto& hr = pDevice->CreateShaderResourceView(pTexture.Get(), &srvDesc, &m_pSRV_); FAILED(hr))
+            if (const auto& hr = pDevice->CreateShaderResourceView(pTexture.Get(), &srvDesc, &m_pSRV_);
+                FAILED(hr))
             {
                 throw std::runtime_error("Could NOT create ShaderResourceView!");
             }
@@ -69,7 +81,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
 
 
     private:
-        ::Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> m_pSRV_;
+        wrl::ComPtr<ID3D11ShaderResourceView> m_pSRV_;
     };
 }
 

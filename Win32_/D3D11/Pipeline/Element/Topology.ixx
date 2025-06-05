@@ -1,23 +1,19 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#include <FatWin32.hpp>
-#endif
+export module FatPound.Win32.D3D11.Pipeline.Topology;
 
-export module FatPound.Win32.D3D11.Pipeline.Element.Topology;
-
-#if FAT_BUILDING_WITH_MSVC
+#ifdef FAT_BUILDING_WITH_MSVC
 
 import <d3d11.h>;
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 
-export namespace fatpound::win32::d3d11::pipeline::element
+export namespace fatpound::win32::d3d11::pipeline
 {
     class Topology final : public Bindable
     {
     public:
-        explicit Topology(const D3D11_PRIMITIVE_TOPOLOGY type) noexcept
+        explicit Topology(const D3D11_PRIMITIVE_TOPOLOGY& type) noexcept
             :
             m_type_(type)
         {

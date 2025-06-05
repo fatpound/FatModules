@@ -1,28 +1,39 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#include <FatWin32.hpp>
-#include <wrl.h>
+#ifdef FAT_BUILDING_WITH_MSVC
+    #ifdef __INTELLISENSE__
+        #include <FatWin32.hpp>
+        #include <d3d11.h>
+        #include <wrl.h>
+    #endif
 #endif
 
-export module FatPound.Win32.D3D11.Pipeline.Resource.Sampler;
+export module FatPound.Win32.D3D11.Pipeline.Sampler;
 
-#if FAT_BUILDING_WITH_MSVC
+#ifdef FAT_BUILDING_WITH_MSVC
 
-import <d3d11.h>;
+#ifndef __INTELLISENSE__
+    import <d3d11.h>;
+    import FatPound.Win32.WRL.Common;
+#endif
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 
 import std;
 
-export namespace fatpound::win32::d3d11::pipeline::resource
+#ifdef __INTELLISENSE__
+    namespace wrl = Microsoft::WRL;
+#endif
+
+export namespace fatpound::win32::d3d11::pipeline
 {
     class Sampler final : public Bindable
     {
     public:
         explicit Sampler(ID3D11Device* const pDevice, const D3D11_SAMPLER_DESC& sDesc)
         {
-            if (const auto& hr = pDevice->CreateSamplerState(&sDesc, &m_pSamplerState_); FAILED(hr))
+            if (const auto& hr = pDevice->CreateSamplerState(&sDesc, &m_pSamplerState_);
+                FAILED(hr))
             {
                 throw std::runtime_error("Could NOT create SamplerState");
             }
@@ -48,7 +59,7 @@ export namespace fatpound::win32::d3d11::pipeline::resource
 
 
     private:
-        ::Microsoft::WRL::ComPtr<ID3D11SamplerState> m_pSamplerState_;
+        wrl::ComPtr<ID3D11SamplerState> m_pSamplerState_;
     };
 }
 

@@ -1,21 +1,31 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#include <FatWin32.hpp>
-#include <wrl.h>
+#ifdef FAT_BUILDING_WITH_MSVC
+    #ifdef __INTELLISENSE__
+        #include <FatWin32.hpp>
+        #include <d3d11.h>
+        #include <wrl.h>
+    #endif
 #endif
 
-export module FatPound.Win32.D3D11.Pipeline.Resource.CBuffer;
+export module FatPound.Win32.D3D11.Pipeline.CBuffer;
 
-#if FAT_BUILDING_WITH_MSVC
+#ifdef FAT_BUILDING_WITH_MSVC
 
-import <d3d11.h>;
+#ifndef __INTELLISENSE__
+    import <d3d11.h>;
+    import FatPound.Win32.WRL.Common;
+#endif
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 
 import std;
 
-export namespace fatpound::win32::d3d11::pipeline::resource
+#ifdef __INTELLISENSE__
+    namespace wrl = Microsoft::WRL;
+#endif
+
+export namespace fatpound::win32::d3d11::pipeline
 {
     template <typename T>
     class CBuffer : public Bindable
@@ -33,9 +43,13 @@ export namespace fatpound::win32::d3d11::pipeline::resource
                 .StructureByteStride = 0U
             };
 
-            const D3D11_SUBRESOURCE_DATA sd{ .pSysMem = &consts };
+            const D3D11_SUBRESOURCE_DATA sd
+            {
+                .pSysMem = &consts
+            };
 
-            if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pConstantBuffer_); FAILED(hr))
+            if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pConstantBuffer_);
+                FAILED(hr))
             {
                 throw std::runtime_error("Could NOT Create Direct3D CBuffer in function: " __FUNCSIG__);
             }
@@ -52,7 +66,8 @@ export namespace fatpound::win32::d3d11::pipeline::resource
                 .StructureByteStride = 0U
             };
 
-            if (const auto& hr = pDevice->CreateBuffer(&bd, nullptr, &m_pConstantBuffer_); FAILED(hr))
+            if (const auto& hr = pDevice->CreateBuffer(&bd, nullptr, &m_pConstantBuffer_);
+                FAILED(hr))
             {
                 throw std::runtime_error("Could NOT Create Direct3D CBuffer in function: " __FUNCSIG__);
             }
@@ -70,26 +85,26 @@ export namespace fatpound::win32::d3d11::pipeline::resource
     public:
         virtual void Update(ID3D11DeviceContext* const pImmediateContext, const T& consts) final
         {
-            // refactor later
+            {
+                D3D11_MAPPED_SUBRESOURCE msr;
 
-            D3D11_MAPPED_SUBRESOURCE msr;
+                pImmediateContext->Map(
+                    m_pConstantBuffer_.Get(),
+                    0U,
+                    D3D11_MAP_WRITE_DISCARD,
+                    0U,
+                    &msr
+                );
 
-            pImmediateContext->Map(
-                m_pConstantBuffer_.Get(),
-                0U,
-                D3D11_MAP_WRITE_DISCARD,
-                0U,
-                &msr
-            );
-
-            ::std::memcpy(msr.pData, &consts, sizeof(consts));
+                std::memcpy(msr.pData, &consts, sizeof(consts));
+            }
 
             pImmediateContext->Unmap(m_pConstantBuffer_.Get(), 0U);
         }
 
 
     protected:
-        ::Microsoft::WRL::ComPtr<ID3D11Buffer> m_pConstantBuffer_;
+        wrl::ComPtr<ID3D11Buffer> m_pConstantBuffer_;
 
 
     private:

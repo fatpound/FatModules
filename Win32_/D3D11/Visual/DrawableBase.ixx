@@ -1,22 +1,26 @@
 module;
 
-#if FAT_BUILDING_WITH_MSVC
-#include <FatNamespaces.hpp>
+#ifdef FAT_BUILDING_WITH_MSVC
+#include <FatNamespaces.hxx>
 
 #include <cassert>
 #endif
 
 export module FatPound.Win32.D3D11.Visual.DrawableBase;
 
-#if FAT_BUILDING_WITH_MSVC
+#ifdef FAT_BUILDING_WITH_MSVC
 
-import FatPound.Win32.D3D11.Visual.Drawable;
 import FatPound.Win32.D3D11.Pipeline;
+import FatPound.Win32.D3D11.Visual.Drawable;
 
 import std;
 
 export namespace fatpound::win32::d3d11::visual
 {
+    /// @brief A template base class for drawable objects that manages static index buffers and bindable resources
+    /// 
+    /// @tparam CRTP type
+    /// 
     template <typename T>
     class DrawableBase : public Drawable
     {
@@ -31,9 +35,9 @@ export namespace fatpound::win32::d3d11::visual
 
 
     protected:
-        virtual void AddStaticIndexBuffer_(std::unique_ptr<FATSPACE_PIPELINE_ELEMENT::IndexBuffer> idxbuf) noexcept(IN_RELEASE) final
+        virtual void AddStaticIndexBuffer_(std::unique_ptr<pipeline::IndexBuffer> idxbuf) noexcept(IN_RELEASE) final
         {
-            assert("Attempting to add index buffer a second time" && m_pCIndexBuffer_ == nullptr);
+            assert("Attempting to add index buffer a second time" and m_pCIndexBuffer_ == nullptr);
 
             m_pCIndexBuffer_ = idxbuf.get();
 
@@ -41,11 +45,11 @@ export namespace fatpound::win32::d3d11::visual
         }
         virtual void SetIndexFromStatic_() noexcept(IN_RELEASE) final
         {
-            assert("Attempting to add index buffer a second time" && m_pCIndexBuffer_ == nullptr);
+            assert("Attempting to add index buffer a second time" and m_pCIndexBuffer_ == nullptr);
 
             for (const auto& b : GetStaticBinds_())
             {
-                const auto ptr = dynamic_cast<FATSPACE_PIPELINE_ELEMENT::IndexBuffer*>(b.get());
+                const auto ptr = dynamic_cast<pipeline::IndexBuffer*>(b.get());
 
                 if (ptr not_eq nullptr)
                 {
@@ -55,7 +59,7 @@ export namespace fatpound::win32::d3d11::visual
                 }
             }
 
-            assert("Failed to find index buffer in static binds" && m_pCIndexBuffer_ not_eq nullptr);
+            assert("Failed to find index buffer in static binds" and m_pCIndexBuffer_ not_eq nullptr);
         }
 
 
