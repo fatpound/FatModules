@@ -1,6 +1,6 @@
 module;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef _MSC_VER
     #include <FatNamespaces.hxx>
 
     #ifdef __INTELLISENSE__
@@ -13,7 +13,7 @@ module;
 
 export module FatPound.Win32.D3D11.Pipeline.TransformCBuffer;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef _MSC_VER
 
 #ifndef __INTELLISENSE__
     import <d3d11.h>;

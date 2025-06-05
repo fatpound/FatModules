@@ -2,7 +2,7 @@ module;
 
 export module FatPound.Concurrency.TaskQueue;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef _MSC_VER
 
 import std;
 

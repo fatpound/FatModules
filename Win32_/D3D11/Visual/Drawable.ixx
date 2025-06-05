@@ -1,6 +1,6 @@
 module;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef _MSC_VER
 #include <FatNamespaces.hxx>
 
 #include <DirectXMath.h>
@@ -10,7 +10,7 @@ module;
 
 export module FatPound.Win32.D3D11.Visual.Drawable;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef _MSC_VER
 
 import <d3d11.h>;
 

@@ -2,7 +2,7 @@ module;
 
 export module FatPound.Win32.GDI_Plus.Manager;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef _MSC_VER
 
 import <FatWin32.hxx>;
 

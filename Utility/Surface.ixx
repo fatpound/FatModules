@@ -15,7 +15,7 @@ import FatPound.Utility.Color;
 import FatPound.Utility.Common;
 import FatPound.Utility.Gfx.SizePack;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef _MSC_VER
     import FatPound.Win32.GDI_Plus.Manager;
 #endif
 
@@ -40,7 +40,7 @@ export namespace fatpound::utility
 
 
     public:
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef _MSC_VER
         explicit Surface(const std::filesystem::path& path,         const Size_t& alignBytes = scx_DefaultAlignment)
             :
             Surface(path.wstring(), alignBytes)

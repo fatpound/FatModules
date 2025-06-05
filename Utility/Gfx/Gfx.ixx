@@ -1,6 +1,6 @@
 module;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef _MSC_VER
     #ifdef __INTELLISENSE__
         #include <FatWin32.hpp>
         #include <wrl.h>
@@ -14,7 +14,7 @@ export import FatPound.Utility.Gfx.FullScreenQuad;
 export import FatPound.Utility.Gfx.ResourcePack;
 export import FatPound.Utility.Gfx.SizePack;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef _MSC_VER
 
 import <d3d11.h>;
 

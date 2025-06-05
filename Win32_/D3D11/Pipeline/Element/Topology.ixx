@@ -2,7 +2,7 @@ module;
 
 export module FatPound.Win32.D3D11.Pipeline.Topology;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef _MSC_VER
 
 import <d3d11.h>;
 

@@ -2,7 +2,7 @@ module;
 
 export module FatPound.Win32.WRL.Common;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef _MSC_VER
 
 import <wrl.h>;
 

@@ -1,6 +1,6 @@
 module;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef _MSC_VER
     #include <FatNamespaces.hxx>
     #include <FatMacros.hxx>
     #include <FatWin32_Macros.hxx>
@@ -14,7 +14,7 @@ module;
 
 export module FatPound.Win32.WindowEx;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef _MSC_VER
 
 #ifndef __INTELLISENSE__
     import <FatWin32.hxx>;

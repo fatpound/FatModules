@@ -1,6 +1,6 @@
 module;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef _MSC_VER
     #ifdef __INTELLISENSE__
         #include <FatWin32.hpp>
         #include <d3d11.h>
@@ -10,7 +10,7 @@ module;
 
 export module FatPound.Win32.D3D11.Pipeline.CBuffer;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef _MSC_VER
 
 #ifndef __INTELLISENSE__
     import <d3d11.h>;
