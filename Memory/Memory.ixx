@@ -55,7 +55,9 @@ export namespace fatpound::memory
 
     void AlignedFree(void* const ptr) noexcept
     {
+        // NOLINTBEGIN(cppcoreguidelines-no-malloc, hicpp-no-malloc)
         FAT_MEMORY_ALIGNED_FREER(ptr);
+        // NOLINTEND(cppcoreguidelines-no-malloc, hicpp-no-malloc)
     }
 
     template <traits::Array T>

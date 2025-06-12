@@ -362,8 +362,7 @@ export namespace fatpound::traits
 #define MEM_FUNCDECL_TYPE R(Args...)
 #define MEM_FUNCDECL_TYPE_VARIADIC R(Args..., ...)
 
-// NOLINTBEGIN(cppcoreguidelines-macro-usage)
-// NOLINTBEGIN(bugprone-macro-parentheses)
+// NOLINTBEGIN(cppcoreguidelines-macro-usage, bugprone-macro-parentheses)
 
 #define MEM_FUNCPTR_TYPE(PQUAL) R(C::* PQUAL )(Args...)
 #define MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) R(C::* PQUAL )(Args..., ...)
@@ -597,8 +596,7 @@ struct FAT_EBCO FunctionInfo< MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__ >
     FAT_FUNC_INFO_GENERATOR4_VARIADIC(PQUAL, &&)       \
     FAT_FUNC_INFO_GENERATOR4_VARIADIC(PQUAL, noexcept)
 
-// NOLINTEND(bugprone-macro-parentheses)
-// NOLINTEND(cppcoreguidelines-macro-usage)
+// NOLINTEND(cppcoreguidelines-macro-usage, bugprone-macro-parentheses)
 
     FAT_FUNC_INFO_GENERATOR_BASE(const)
     FAT_FUNC_INFO_GENERATOR(const)

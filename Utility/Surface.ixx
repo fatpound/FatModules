@@ -278,11 +278,18 @@ export namespace fatpound::utility
 
         void Fill(const Color& color) noexcept
         {
+#if defined(__clang__)
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wunsafe-buffer-usage-in-libc-call"
+#endif
             std::memset(
                 *this,
                 static_cast<int>(color),
                 GetWidth<std::size_t>() * GetHeight<std::size_t>() * sizeof(Color)
             );
+#if defined(__clang__)
+    #pragma clang diagnostic pop
+#endif
         }
         void Reset() noexcept
         {
