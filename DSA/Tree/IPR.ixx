@@ -63,32 +63,32 @@ export namespace fatpound::dsa::tree
 
                 if (last->parent->item < last->item)
                 {
-                    na = BST<T>::GetNodeCount_(last->parent->left);
+                    na = BST<T>::GetNodeCountOfSubtree_(last->parent->left);
                     a_location = false;
                 }
                 else
                 {
-                    na = BST<T>::GetNodeCount_(last->parent->right);
+                    na = BST<T>::GetNodeCountOfSubtree_(last->parent->right);
                     a_location = true;
                 }
 
                 if (a_location)
                 {
-                    nb = BST<T>::GetNodeCount_(last->right);
-                    nc = BST<T>::GetNodeCount_(last->left);
+                    nb = BST<T>::GetNodeCountOfSubtree_(last->right);
+                    nc = BST<T>::GetNodeCountOfSubtree_(last->left);
                 }
                 else
                 {
-                    nb = BST<T>::GetNodeCount_(last->left);
-                    nc = BST<T>::GetNodeCount_(last->right);
+                    nb = BST<T>::GetNodeCountOfSubtree_(last->left);
+                    nc = BST<T>::GetNodeCountOfSubtree_(last->right);
                 }
 
                 /*
-                    *(this->m_os_) << "parent  : " << last->parent->item << '\n';
-                    *(this->m_os_) << "node    : " << last->item << '\n';
-                    *(this->m_os_) << "na      : " << na << '\n';
-                    *(this->m_os_) << "nb      : " << nb << '\n';
-                    *(this->m_os_) << "nc      : " << nc << '\n' << '\n';
+                    this->GetOs() << "parent  : " << last->parent->item << '\n';
+                    this->GetOs() << "node    : " << last->item << '\n';
+                    this->GetOs() << "na      : " << na << '\n';
+                    this->GetOs() << "nb      : " << nb << '\n';
+                    this->GetOs() << "nc      : " << nc << '\n' << '\n';
                 */
 
                 // NOLINTBEGIN(readability-simplify-boolean-expr)

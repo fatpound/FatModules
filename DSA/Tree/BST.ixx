@@ -1,5 +1,7 @@
 module;
 
+#include <FatMacros.hxx>
+
 export module FatPound.DSA.Tree.BST;
 
 import std;
@@ -23,9 +25,9 @@ export namespace fatpound::dsa::tree
 
         BST(const BST& src) noexcept
             :
-            m_pRoot_(src.Clone_(src.m_pRoot_)),
-            m_node_count_(src.m_node_count_),
-            m_os_(src.m_os_)
+            m_pRoot_(src.Clone_(src.GetRoot_())),
+            m_node_count_(src.GetNodeCount()),
+            m_os_(src.GetOs())
         {
 
         }
@@ -42,15 +44,15 @@ export namespace fatpound::dsa::tree
         {
             if (this not_eq std::addressof<>(src))
             {
-                if (src.m_pRoot_ not_eq nullptr)
+                if (src.GetRoot_() not_eq nullptr)
                 {
                     ClearTree();
 
-                    m_pRoot_      = src.Clone_(src.m_pRoot_);
-                    m_node_count_ = src.m_node_count_;
+                    m_pRoot_      = src.Clone_(src.GetRoot_());
+                    m_node_count_ = src.GetNodeCount();
                 }
 
-                m_os_ = src.m_os_;
+                m_os_ = src.GetOs();
             }
 
             return *this;
@@ -59,7 +61,7 @@ export namespace fatpound::dsa::tree
         {
             if (this not_eq std::addressof<>(src))
             {
-                if (src.m_pRoot_ not_eq nullptr)
+                if (src.GetRoot_() not_eq nullptr)
                 {
                     ClearTree();
 
@@ -83,9 +85,9 @@ export namespace fatpound::dsa::tree
         // NOLINTBEGIN(clang-analyzer-cplusplus.NewDeleteLeaks)
         virtual void Insert(const T& new_item)
         {
-            [[maybe_unused]] Node_* new_node = Insert_(nullptr, m_pRoot_, new_item);
+            [[maybe_unused]] Node_* new_node = Insert_(nullptr, GetRoot_(), new_item);
 
-            if (m_pRoot_ == nullptr)
+            if (GetRoot_() == nullptr)
             {
                 m_pRoot_ = new_node;
             }
@@ -96,7 +98,7 @@ export namespace fatpound::dsa::tree
 
         virtual void Delete(const T& old_item) noexcept
         {
-            if (auto* node = Find_(m_pRoot_, old_item); node not_eq nullptr)
+            if (auto* node = Find_(GetRoot_(), old_item); node not_eq nullptr)
             {
                 static_cast<void>(Delete_(node));
             }
@@ -104,89 +106,95 @@ export namespace fatpound::dsa::tree
 
 
     public:
-        [[nodiscard]]
-        auto GetTotalNodeCount() const -> Size_t
+        [[nodiscard]] FAT_FORCEINLINE auto GetOs        () const noexcept -> std::ostream&
+        {
+            return *m_os_;
+        }
+        [[nodiscard]] FAT_FORCEINLINE auto GetNodeCount () const -> Size_t
         {
             return m_node_count_;
         }
 
-        [[nodiscard]]
-        auto Contains(const T& item) const noexcept -> bool
+        [[nodiscard]] auto Contains(const T& item) const noexcept -> bool
         {
-            return Find_(m_pRoot_, item) not_eq nullptr;
+            return Find_(GetRoot_(), item) not_eq nullptr;
         }
 
         void ListPreorder         () const
         {
-            ListPreorder_(m_pRoot_);
+            ListPreorder_(GetRoot_());
 
-            *m_os_ << '\n';
+            GetOs() << '\n';
         }
         void ListPreorderReverse  () const
         {
-            ListPreorderReverse_(m_pRoot_);
+            ListPreorderReverse_(GetRoot_());
 
-            *m_os_ << '\n';
+            GetOs() << '\n';
         }
         void ListInorder          () const
         {
-            ListInorder_(m_pRoot_);
+            ListInorder_(GetRoot_());
 
-            *m_os_ << '\n';
+            GetOs() << '\n';
         }
         void ListInorderReverse   () const
         {
-            ListInorderReverse_(m_pRoot_);
+            ListInorderReverse_(GetRoot_());
 
-            *m_os_ << '\n';
+            GetOs() << '\n';
         }
         void ListPostorder        () const
         {
-            ListPostorder_(m_pRoot_);
+            ListPostorder_(GetRoot_());
 
-            *m_os_ << '\n';
+            GetOs() << '\n';
         }
         void ListPostorderReverse () const
         {
-            ListPostorderReverse_(m_pRoot_);
+            ListPostorderReverse_(GetRoot_());
 
-            *m_os_ << '\n';
+            GetOs() << '\n';
         }
         void ListLeaves           () const
         {
-            ListLeaves_(m_pRoot_);
+            ListLeaves_(GetRoot_());
 
-            *m_os_ << '\n';
+            GetOs() << '\n';
         }
         void ListLeavesReverse    () const
         {
-            ListLeavesReverse_(m_pRoot_);
+            ListLeavesReverse_(GetRoot_());
 
-            *m_os_ << '\n';
+            GetOs() << '\n';
         }
         void ListLevelorder       () const
         {
-            const auto height = GetDepth_(m_pRoot_, 0);
+            const auto height = GetDepth_(GetRoot_(), 0);
 
             for (Size_t i = 1U; i <= height; ++i)
             {
-                *m_os_ << "Level " << i << " : ";
+                GetOs() << "Level " << i << " : ";
 
-                ListLevelorder_(m_pRoot_, i);
+                ListLevelorder_(GetRoot_(), i);
 
-                *m_os_ << '\n';
+                GetOs() << '\n';
             }
 
-            *m_os_ << '\n';
+            GetOs() << '\n';
         }
 
+        void SetOstream(std::ostream& os) noexcept
+        {
+            m_os_ = &os;
+        }
         void Mirror()
         {
-            Mirror_(m_pRoot_);
+            Mirror_(GetRoot_());
         }
         void ClearTree()
         {
-            DeleteSubTree_(m_pRoot_);
+            DeleteSubTree_(GetRoot_());
 
             m_pRoot_      = nullptr;
             m_node_count_ = 0U;
@@ -196,10 +204,6 @@ export namespace fatpound::dsa::tree
             ClearTree();
 
             m_os_ = nullptr;
-        }
-        void SetOstream(std::ostream& os) noexcept
-        {
-            m_os_ = &os;
         }
 
 
@@ -244,7 +248,12 @@ export namespace fatpound::dsa::tree
 
 
     protected:
-        auto Clone_                (const Node_* const node                    ) const -> Node_*
+        FAT_FORCEINLINE auto GetRoot_() const noexcept -> Node_*
+        {
+            return m_pRoot_;
+        }
+
+        auto Clone_                 (const Node_* const node                    ) const -> Node_*
         {
             if (node == nullptr)
             {
@@ -258,7 +267,7 @@ export namespace fatpound::dsa::tree
 
             return new_node;
         }
-        auto Find_                 (      Node_* const node, const T& item     ) const noexcept -> Node_*
+        auto Find_                  (      Node_* const node, const T& item     ) const noexcept -> Node_*
         {
             if (node == nullptr)
             {
@@ -286,7 +295,7 @@ export namespace fatpound::dsa::tree
 
             return nullptr;
         }
-        auto Delete_               (      Node_*       node                    ) noexcept -> Node_*
+        auto Delete_                (      Node_*       node                    ) noexcept -> Node_*
         {
             if (node == nullptr)
             {
@@ -354,7 +363,7 @@ export namespace fatpound::dsa::tree
 
             return latest;
         }
-        auto GetMin_               (      Node_*       node                    ) noexcept -> Node_*
+        auto GetMin_                (      Node_*       node                    ) noexcept -> Node_*
         {
             if (node == nullptr)
             {
@@ -368,7 +377,7 @@ export namespace fatpound::dsa::tree
 
             return node;
         }
-        auto GetMax_               (      Node_*       node                    ) noexcept -> Node_*
+        auto GetMax_                (      Node_*       node                    ) noexcept -> Node_*
         {
             if (node == nullptr)
             {
@@ -382,7 +391,7 @@ export namespace fatpound::dsa::tree
 
             return node;
         }
-        auto GetDepth_             (const Node_* const node, const Size_t depth) const noexcept -> Size_t
+        auto GetDepth_              (const Node_* const node, const Size_t depth) const noexcept -> Size_t
         {
             if (node == nullptr)
             {
@@ -394,33 +403,33 @@ export namespace fatpound::dsa::tree
 
             return std::max(left_val, right_val);
         }
-        auto GetDepthLeft_         (const Node_* const node, const Size_t depth) const noexcept -> Size_t
+        auto GetDepthLeft_          (const Node_* const node, const Size_t depth) const noexcept -> Size_t
         {
             return node
                 ? GetDepthLeft_(node->left, depth + 1)
                 : depth
                 ;
         }
-        auto GetDepthRight_        (const Node_* const node, const Size_t depth) const noexcept -> Size_t
+        auto GetDepthRight_         (const Node_* const node, const Size_t depth) const noexcept -> Size_t
         {
             return node
                 ? GetDepthLeft_(node->right, depth + 1)
                 : depth
                 ;
         }
-        auto GetNodeCount_         (const Node_* const node                    ) const noexcept -> Size_t
+        auto GetNodeCountOfSubtree_ (const Node_* const node                    ) const noexcept -> Size_t
         {
             if (node == nullptr)
             {
                 return 0;
             }
 
-            const auto&  left_val = GetNodeCount_(node->left);
-            const auto& right_val = GetNodeCount_(node->right);
+            const auto&  left_val = GetNodeCountOfSubtree_(node->left);
+            const auto& right_val = GetNodeCountOfSubtree_(node->right);
 
             return 1 + left_val + right_val;
         }
-        auto GetInorderSuccessor_  (      Node_*       node                    ) noexcept -> Node_*
+        auto GetInorderSuccessor_   (      Node_*       node                    ) noexcept -> Node_*
         {
             if (node == nullptr)
             {
@@ -444,105 +453,105 @@ export namespace fatpound::dsa::tree
             return prnt;
         }
 
-        void ListPreorder_         (const Node_* const node                    ) const
+        void ListPreorder_          (const Node_* const node                    ) const
         {
             if (node not_eq nullptr)
             {
-                *m_os_ << node->item << ' ';
+                GetOs() << node->item << ' ';
 
                 ListPreorder_(node->left);
                 ListPreorder_(node->right);
             }
         }
-        void ListPreorderReverse_  (const Node_* const node                    ) const
+        void ListPreorderReverse_   (const Node_* const node                    ) const
         {
             if (node not_eq nullptr)
             {
-                *m_os_ << node->item << ' ';
+                GetOs() << node->item << ' ';
 
                 ListPreorderReverse_(node->right);
                 ListPreorderReverse_(node->left);
             }
         }
-        void ListInorder_          (const Node_* const node                    ) const
+        void ListInorder_           (const Node_* const node                    ) const
         {
             if (node not_eq nullptr)
             {
                 ListInorder_(node->left);
 
-                *m_os_ << node->item << ' ';
+                GetOs() << node->item << ' ';
 
                 ListInorder_(node->right);
             }
         }
-        void ListInorderReverse_   (const Node_* const node                    ) const
+        void ListInorderReverse_    (const Node_* const node                    ) const
         {
             if (node not_eq nullptr)
             {
                 ListInorderReverse_(node->right);
 
-                *m_os_ << node->item << ' ';
+                GetOs() << node->item << ' ';
 
                 ListInorderReverse_(node->left);
             }
         }
-        void ListPostorder_        (const Node_* const node                    ) const
+        void ListPostorder_         (const Node_* const node                    ) const
         {
             if (node not_eq nullptr)
             {
                 ListPostorder_(node->left);
                 ListPostorder_(node->right);
 
-                *m_os_ << node->item << ' ';
+                GetOs() << node->item << ' ';
             }
         }
-        void ListPostorderReverse_ (const Node_* const node                    ) const
+        void ListPostorderReverse_  (const Node_* const node                    ) const
         {
             if (node not_eq nullptr)
             {
                 ListPostorderReverse_(node->right);
                 ListPostorderReverse_(node->left);
 
-                *m_os_ << node->item << ' ';
+                GetOs() << node->item << ' ';
             }
         }
-        void ListLeaves_           (const Node_* const node                    ) const
+        void ListLeaves_            (const Node_* const node                    ) const
         {
             if (node not_eq nullptr)
             {
                 if ((node->left == nullptr) and (node->right == nullptr))
                 {
-                    *m_os_ << node->item << ' ';
+                    GetOs() << node->item << ' ';
 
                     return;
                 }
 
-                ListLeaves_(m_pRoot_->left);
-                ListLeaves_(m_pRoot_->right);
+                ListLeaves_(GetRoot_()->left);
+                ListLeaves_(GetRoot_()->right);
             }
         }
-        void ListLeavesReverse_    (const Node_* const node                    ) const
+        void ListLeavesReverse_     (const Node_* const node                    ) const
         {
             if (node not_eq nullptr)
             {
                 if ((node->left == nullptr) and (node->right == nullptr))
                 {
-                    *m_os_ << node->item << ' ';
+                    GetOs() << node->item << ' ';
 
                     return;
                 }
 
-                ListLeavesReverse_(m_pRoot_->right);
-                ListLeavesReverse_(m_pRoot_->left);
+                ListLeavesReverse_(GetRoot_()->right);
+                ListLeavesReverse_(GetRoot_()->left);
             }
         }
-        void ListLevelorder_       (const Node_* const node, const Size_t level) const
+        void ListLevelorder_        (const Node_* const node, const Size_t level) const
         {
             if (node not_eq nullptr)
             {
                 if (level == 1)
                 {
-                    *m_os_ << node->item << ' ';
+                    GetOs() << node->item << ' ';
                 }
                 else if (level > 1)
                 {
@@ -552,11 +561,11 @@ export namespace fatpound::dsa::tree
             }
             else if (level == 1)
             {
-                *m_os_ << "x ";
+                GetOs() << "x ";
             }
         }
 
-        void Mirror_               (      Node_* const node)
+        void Mirror_                (      Node_* const node)
         {
             if (node not_eq nullptr)
             {

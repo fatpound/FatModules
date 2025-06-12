@@ -55,6 +55,7 @@ export namespace fatpound::math::geometry
     /// @param p1: 2nd 3D position vector
     /// 
     /// @return the distance in float type
+    /// 
     auto Distance        (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept -> float
     {
         return Distance3(p0, p1);
