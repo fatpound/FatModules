@@ -111,7 +111,7 @@ export namespace fatpound::win32
             };
         }
 
-        template <typename Wnd = IWindow> static auto CALLBACK HandleMsgSetup_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) noexcept -> LRESULT
+        template <typename Wnd = IWindow> static auto CALLBACK HandleMsgSetup_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT
         {
             // There is no way to pass a member function pointer for a custom Window class' WndProc to Window Creation.
             // One can only pass a function pointer which is type of => LRESULT(CALLBACK *)(HWND, UINT, WPARAM, LPARAM)
@@ -156,8 +156,13 @@ export namespace fatpound::win32
                 // user data is fine => "This data is intended for use by the application that created the window. Its value is initially zero."
                 ::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
 
+#pragma warning (push)
+#pragma warning (disable : 5039)
+                // https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warnings-c5000-through-c5199?view=msvc-170
+                // 
                 // Then, set the new WndProc function's (HandleMsgThunk_) address
                 ::SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&ClassEx::HandleMsgThunk_<Wnd>));
+#pragma warning (pop)
 
 
                 // now its time to see the new WndProc in work
@@ -171,7 +176,7 @@ export namespace fatpound::win32
 
             return ::DefWindowProc(hWnd, msg, wParam, lParam);
         }
-        template <typename Wnd = IWindow> static auto CALLBACK HandleMsgThunk_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) noexcept -> LRESULT
+        template <typename Wnd = IWindow> static auto CALLBACK HandleMsgThunk_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT
         {
             // Get 'userdata' which is a pointer to our custom Window class, from the hWnd
             // Then use that pointer and just call the member function
