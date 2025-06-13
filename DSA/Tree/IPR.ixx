@@ -22,9 +22,9 @@ export namespace fatpound::dsa::tree
         // NOLINTBEGIN(clang-analyzer-cplusplus.NewDeleteLeaks)
         virtual void Insert(const T& new_item) override final
         {
-            [[maybe_unused]] Node_* const new_node = AVL<T>::Insert_(nullptr, this->m_pRoot_, new_item);
+            [[maybe_unused]] Node_* const new_node = AVL<T>::Insert_(nullptr, this->GetRoot_(), new_item);
 
-            if (this->m_pRoot_ == nullptr)
+            if (this->IsEmpty())
             {
                 this->m_pRoot_ = new_node;
             }

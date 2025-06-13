@@ -31,7 +31,7 @@ export namespace fatpound::dsa::tree
 
 
     public:
-        auto GetOs() const noexcept -> std::ostream&
+        FAT_FORCEINLINE auto GetOs() const noexcept -> std::ostream&
         {
             return *m_os_;
         }
@@ -264,7 +264,6 @@ export namespace fatpound::dsa::tree
             new_node->lesser = temp_vec[center]->second;
             temp_vec[center]->second = new_node;
         }
-
         void Clear_()
         {
             if (m_root_ == nullptr)

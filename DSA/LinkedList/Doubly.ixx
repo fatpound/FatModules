@@ -22,7 +22,7 @@ export namespace fatpound::dsa::linkedlist
         explicit Doubly(const Doubly&) = delete;
         Doubly(Doubly&& src) noexcept
             :
-            m_list_(std::exchange<>(src.m_list_, nullptr)),
+            m_start_(std::exchange<>(src.m_start_, nullptr)),
             m_end_(std::exchange<>(src.m_end_, nullptr)),
             m_item_count_(std::exchange<>(src.m_item_count_, 0U)),
             m_os_(std::exchange<>(src.m_os_, nullptr))
@@ -35,13 +35,12 @@ export namespace fatpound::dsa::linkedlist
         {
             if (this not_eq std::addressof<>(src) and typeid(src) == typeid(*this))
             {
-                if (src.GetStartNode_() not_eq nullptr)
+                if (src.IsNotEmpty())
                 {
                     ClearList();
 
-                    m_list_       = std::exchange<>(src.m_list_, nullptr);
-                    m_end_        = std::exchange<>(src.m_end_,  nullptr);
-
+                    m_start_      = std::exchange<>(src.m_start_, nullptr);
+                    m_end_        = std::exchange<>(src.m_end_,   nullptr);
                     m_item_count_ = std::exchange<>(src.m_item_count_, 0U);
                 }
 
@@ -69,37 +68,36 @@ export namespace fatpound::dsa::linkedlist
         {
             auto* const new_part = new Node_(new_item);
 
-            ++m_item_count_;
-
-            if (GetStartNode_() == nullptr)
+            if (IsEmpty())
             {
-                m_list_ = new_part;
-                m_end_  = new_part;
+                m_start_ = new_part;
+                m_end_   = new_part;
 
                 return;
             }
 
             GetEndNode_()->next = new_part;
-            new_part->prev = GetEndNode_();
-            m_end_ = new_part;
+            new_part->prev      = GetEndNode_();
+            m_end_              = new_part;
+
+            ++m_item_count_;
         }
         virtual void InsertAtFirst_GreaterEq(const T& new_item)
         {
             auto* const new_part = new Node_(new_item);
 
-            ++m_item_count_;
-
-            if (GetStartNode_() == nullptr)
+            if (IsEmpty())
             {
-                m_list_ = new_part;
+                m_start_ = new_part;
+
                 return;
             }
 
             if (new_item < GetStartNode_()->item)
             {
-                new_part->next = GetStartNode_();
+                new_part->next        = GetStartNode_();
                 GetStartNode_()->prev = new_part;
-                m_list_ = new_part;
+                m_start_              = new_part;
 
                 return;
             }
@@ -110,10 +108,10 @@ export namespace fatpound::dsa::linkedlist
             {
                 if (temp->item <= new_item && new_item <= temp->next->item)
                 {
-                    new_part->next = temp->next;
-                    new_part->prev = temp;
+                    new_part->next   = temp->next;
+                    new_part->prev   = temp;
                     temp->next->prev = new_part;
-                    temp->next = new_part;
+                    temp->next       = new_part;
 
                     return;
                 }
@@ -121,16 +119,13 @@ export namespace fatpound::dsa::linkedlist
                 temp = temp->next;
             }
 
-            temp->next = new_part;
+            temp->next     = new_part;
             new_part->prev = temp;
+
+            ++m_item_count_;
         }
         virtual void Reverse() noexcept
         {
-            if (GetStartNode_() == nullptr)
-            {
-                return;
-            }
-
             if (GetItemCount() < 2U)
             {
                 return;
@@ -146,24 +141,14 @@ export namespace fatpound::dsa::linkedlist
 
             std::swap<>(temp->prev, temp->next);
 
-            m_list_ = temp;
+            m_start_ = temp;
         }
         virtual void Print() const
         {
-            if (GetStartNode_() == nullptr)
-            {
-                throw std::runtime_error("Tried to Print an empty Doubly!");
-            }
-
-            Node_* temp = GetStartNode_();
-
-            do
+            for (Node_* temp = GetStartNode_(); temp not_eq nullptr; temp = temp->next)
             {
                 GetOs() << temp->prev << '\t' << temp << '\t' << temp->item << '\t' << temp->next << '\n';
-
-                temp = temp->next;
             }
-            while (temp not_eq nullptr);
 
             GetOs() << '\n';
         }
@@ -178,6 +163,14 @@ export namespace fatpound::dsa::linkedlist
         {
             return m_item_count_;
         }
+        FAT_FORCEINLINE auto IsEmpty      () const noexcept -> bool
+        {
+            return m_item_count_ == 0U;
+        }
+        FAT_FORCEINLINE auto IsNotEmpty   () const noexcept -> bool
+        {
+            return not IsEmpty();
+        }
 
         void SetOstream(std::ostream& os) noexcept
         {
@@ -185,7 +178,7 @@ export namespace fatpound::dsa::linkedlist
         }
         void ClearList()
         {
-            if (GetStartNode_() == nullptr)
+            if (IsEmpty())
             {
                 return;
             }
@@ -203,9 +196,8 @@ export namespace fatpound::dsa::linkedlist
             }
             while (exes not_eq nullptr);
 
-            m_list_ = nullptr;
-            m_end_  = nullptr;
-
+            m_start_      = nullptr;
+            m_end_        = nullptr;
             m_item_count_ = 0U;
         }
         void Clear()
@@ -236,17 +228,9 @@ export namespace fatpound::dsa::linkedlist
     protected:
         [[nodiscard]] virtual auto Find_(const T& item) const noexcept -> Node_* final
         {
-            if (GetItemCount() == 0U)
+            if (IsEmpty())
             {
                 return nullptr;
-            }
-
-            if (GetItemCount() == 1U)
-            {
-                return GetStartNode_()->item == item
-                    ? GetStartNode_()
-                    : nullptr
-                    ;
             }
 
             Node_* temp = GetStartNode_();
@@ -261,14 +245,14 @@ export namespace fatpound::dsa::linkedlist
                 temp = temp->next;
             }
 
-            return nullptr;
+            return nullptr; // same as temp
         }
 
 
     protected:
         FAT_FORCEINLINE auto GetStartNode_ () const noexcept -> Node_*
         {
-            return m_list_;
+            return m_start_;
         }
         FAT_FORCEINLINE auto GetEndNode_   () const noexcept -> Node_*
         {
@@ -277,7 +261,7 @@ export namespace fatpound::dsa::linkedlist
 
 
     protected:
-        Node_* m_list_{};
+        Node_* m_start_{};
         Node_* m_end_{};
 
         std::size_t m_item_count_{};

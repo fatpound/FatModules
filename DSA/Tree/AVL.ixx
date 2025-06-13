@@ -19,9 +19,9 @@ export namespace fatpound::dsa::tree
         // NOLINTBEGIN(clang-analyzer-cplusplus.NewDeleteLeaks)
         virtual void Insert(const T& new_item) override
         {
-            [[maybe_unused]] Node_* new_node = Insert_(nullptr, this->m_pRoot_, new_item);
+            [[maybe_unused]] Node_* new_node = Insert_(nullptr, this->GetRoot_(), new_item);
 
-            if (this->m_pRoot_ == nullptr)
+            if (this->IsEmpty())
             {
                 this->m_pRoot_ = new_node;
             }
@@ -36,9 +36,9 @@ export namespace fatpound::dsa::tree
 
         virtual void Delete(const T& old_item) noexcept override
         {
-            Node_* node = BST<T>::Find_(this->m_pRoot_, old_item);
+            Node_* node = BST<T>::Find_(this->GetRoot_(), old_item);
 
-            if (node == this->m_pRoot_)
+            if (node == this->GetRoot_())
             {
                 // inorder_successor
                 Node_* const iosuc = BST<T>::GetInorderSuccessor_(node);
@@ -141,7 +141,7 @@ export namespace fatpound::dsa::tree
             }
         }
 
-        void RotateLeft_ (Node_* X, Node_* Y) noexcept
+        void RotateLeft_ (Node_* const X, Node_* const Y) noexcept
         {
             Node_* parent_of_parent = X->parent;
 
@@ -173,7 +173,7 @@ export namespace fatpound::dsa::tree
                 }
             }
         }
-        void RotateRight_(Node_* X, Node_* Y) noexcept
+        void RotateRight_(Node_* const X, Node_* const Y) noexcept
         {
             Node_* parent_of_parent = X->parent;
 

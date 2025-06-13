@@ -33,7 +33,7 @@ export namespace fatpound::dsa::tree
 
 
     public:
-        auto GetOs() const noexcept -> std::ostream&
+        FAT_FORCEINLINE auto GetOs() const noexcept -> std::ostream&
         {
             return *m_os_;
         }
@@ -106,7 +106,7 @@ export namespace fatpound::dsa::tree
 
             if (root_ == nullptr)
             {
-                root_ = new Node_(new_item, nullptr, nullptr);
+                root_         = new Node_(new_item, nullptr, nullptr);
                 root_->lesser = new Node_(new_item, nullptr, root_);
 
                 return;
@@ -114,7 +114,7 @@ export namespace fatpound::dsa::tree
 
             Insert_(root_, new_item);
 
-            item_count_++;
+            ++item_count_;
         }
         void SetOstream(std::ostream& os)
         {
@@ -400,7 +400,6 @@ export namespace fatpound::dsa::tree
 
             GetOs() << '\t';
         }
-
         void Clear_()
         {
             if (root_ == nullptr)

@@ -44,7 +44,7 @@ export namespace fatpound::dsa::tree
         {
             if (this not_eq std::addressof<>(src))
             {
-                if (src.GetRoot_() not_eq nullptr)
+                if (src.IsNotEmpty())
                 {
                     ClearTree();
 
@@ -61,7 +61,7 @@ export namespace fatpound::dsa::tree
         {
             if (this not_eq std::addressof<>(src))
             {
-                if (src.GetRoot_() not_eq nullptr)
+                if (src.IsNotEmpty())
                 {
                     ClearTree();
 
@@ -87,7 +87,7 @@ export namespace fatpound::dsa::tree
         {
             [[maybe_unused]] Node_* new_node = Insert_(nullptr, GetRoot_(), new_item);
 
-            if (GetRoot_() == nullptr)
+            if (IsEmpty())
             {
                 m_pRoot_ = new_node;
             }
@@ -115,9 +115,17 @@ export namespace fatpound::dsa::tree
             return m_node_count_;
         }
 
-        [[nodiscard]] auto Contains(const T& item) const noexcept -> bool
+        [[nodiscard]]   auto Contains   (const T& item) const noexcept -> bool
         {
             return Find_(GetRoot_(), item) not_eq nullptr;
+        }
+        FAT_FORCEINLINE auto IsEmpty    () const noexcept -> bool
+        {
+            return m_node_count_ == 0U;
+        }
+        FAT_FORCEINLINE auto IsNotEmpty () const noexcept -> bool
+        {
+            return not IsEmpty();
         }
 
         void ListPreorder         () const
@@ -564,7 +572,6 @@ export namespace fatpound::dsa::tree
                 GetOs() << "x ";
             }
         }
-
         void Mirror_                (      Node_* const node)
         {
             if (node not_eq nullptr)
