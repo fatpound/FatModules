@@ -130,7 +130,7 @@ export namespace fatpound::file
                             : (outPath / fs::relative(path, inPath))
                             ;
 
-                        EncryptDecrypt(path, key, out_path));
+                        EncryptDecrypt(path, key, out_path);
                     }
                 }
             },
