@@ -19,18 +19,13 @@ namespace fatpound::file
     /// @param     key: The key to use for the XOR cipher
     /// @param outPath: The path where the output file will be written. If empty or the same as inPath, a temporary file path is generated and assigned
     /// 
-    void EncryptDecrypt_Impl (const std::filesystem::path& inPath, const std::size_t& key, std::filesystem::path& outPath)
+    void EncryptDecrypt_Impl (const std::filesystem::path& inPath, const std::size_t& key, const std::filesystem::path& outPath)
     {
         std::ifstream inputFile(inPath, std::ios::binary);
 
         if (not inputFile.is_open())
         {
             throw std::runtime_error("Input file cannot be opened!");
-        }
-
-        if (outPath.empty() or inPath == outPath)
-        {
-            outPath = std::filesystem::temp_directory_path().string() + inPath.stem().string() + "_temp.fat000";
         }
 
         std::ofstream outputFile(outPath, std::ios::binary);
@@ -77,14 +72,30 @@ export namespace fatpound::file
     /// 
     /// @param  inPath: The path to the input file to be encrypted or decrypted
     /// @param     key: The key used for encryption or decryption
-    /// @param outPath: The path to the output file. If not specified, a default path is used
+    /// @param outPath: The path to the output file AND its name. If not specified, the file will be encrypted in-place
     /// 
     void EncryptDecrypt      (const std::filesystem::path& inPath, const std::size_t& key, std::filesystem::path outPath = {})
     {
+        namespace fs = std::filesystem;
+
+        const auto& outWasEmpty = outPath.parent_path().empty() or (inPath == outPath);
+
+        if (outWasEmpty)
+        {
+            outPath = fs::temp_directory_path() / (inPath.stem().string() + "_temp.fat000");
+        }
+        else if (const auto& dirPath = outPath.parent_path(); not dirPath.empty())
+        {
+            std::filesystem::create_directories(dirPath);
+        }
+
         EncryptDecrypt_Impl(inPath, key, outPath);
 
-        std::filesystem::remove(inPath);
-        std::filesystem::rename(outPath, inPath);
+        if (outWasEmpty)
+        {
+            fs::remove(inPath);
+            fs::rename(outPath, inPath);
+        }
     }
 
 
@@ -108,13 +119,18 @@ export namespace fatpound::file
         using DirIt = std::variant<fs::recursive_directory_iterator, fs::directory_iterator>;
 
         std::visit<>(
-            [&key, &outPath](auto&& it) -> void
+            [&inPath, &key, &outPath](auto&& it) -> void
             {
                 for (const auto& path : it)
                 {
                     if (fs::is_regular_file(path))
                     {
-                        EncryptDecrypt(path, key, outPath);
+                        const auto& out_path = outPath.empty()
+                            ?  outPath
+                            : (outPath / fs::relative(path, inPath))
+                            ;
+
+                        EncryptDecrypt(path, key, out_path));
                     }
                 }
             },
