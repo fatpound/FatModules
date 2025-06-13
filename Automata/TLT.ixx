@@ -157,7 +157,7 @@ export namespace fatpound::automata
                     continue;
                 }
 
-                const auto& cfg_it = std::ranges::find_if(mc_cfgrammar_, [&](const auto& pair) { return pair.first[0] == ch; });
+                const auto& cfg_it = std::ranges::find_if(mc_cfgrammar_, [ch](const auto& pair) { return pair.first[0] == ch; });
 
                 const std::string leftstr(node->m_item.cbegin(), node->m_item.cbegin() + static_cast<std::ptrdiff_t>(i));
                 const std::string rightstr(node->m_item.cbegin() + static_cast<std::ptrdiff_t>(i + 1U), node->m_item.cend());

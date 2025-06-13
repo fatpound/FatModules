@@ -66,7 +66,14 @@ export namespace fatpound::win32
 #pragma endregion
         {
             auto future = DispatchTaskToQueue_<false>(
-                [=, this]() -> void
+                [
+                    &title,
+                    this,
+                    position,
+                    styles,
+                    exStyles
+                ]
+                () -> void
                 {
 #if IN_DEBUG or IS_GFX_FRAMEWORK
 
@@ -74,8 +81,8 @@ export namespace fatpound::win32
                     {
                         .left   = 0L,
                         .top    = 0L,
-                        .right  = rect.left + static_cast<LONG>(mc_client_size_.m_width),
-                        .bottom = rect.top  + static_cast<LONG>(mc_client_size_.m_height)
+                        .right  = rect.left + GetClientWidth<LONG>(),
+                        .bottom = rect.top  + GetClientHeight<LONG>()
                     };
 
                     if (const auto& retval = ::AdjustWindowRectEx(&rect, styles, false, exStyles); retval == 0)
@@ -98,8 +105,8 @@ export namespace fatpound::win32
                         rect.right  - rect.left,
                         rect.bottom - rect.top,
 #else
-                        static_cast<LONG>(mc_client_size_.m_width),
-                        static_cast<LONG>(mc_client_size_.m_height),
+                        GetClientWidth<LONG>(),
+                        GetClientHeight<LONG>(),
 
 #endif
 
@@ -131,23 +138,23 @@ export namespace fatpound::win32
         {
             [[maybe_unused]]
             const auto future = DispatchTaskToQueue_<>(
-                [this]() noexcept -> void
+                [hWnd = GetHandle()]() noexcept -> void
                 {
                     [[maybe_unused]]
-                    const auto&& retval = ::DestroyWindow(m_hWnd_);
+                    const auto&& retval = ::DestroyWindow(hWnd);
                 }
             );
         }
 
-
+        
     public:
         virtual auto SetTitle  (const std::wstring& title) -> std::future<void> override final
         {
             auto future = DispatchTaskToQueue_<>(
-                [=, this]() noexcept -> void
+                [&title, hWnd = GetHandle()]() noexcept -> void
                 {
                     [[maybe_unused]]
-                    const auto&& retval = ::SetWindowText(m_hWnd_, title.c_str());
+                    const auto&& retval = ::SetWindowText(hWnd, title.c_str());
                 }
             );
 
