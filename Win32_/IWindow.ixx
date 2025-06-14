@@ -47,9 +47,10 @@ export namespace fatpound::win32
     {
     public:
         explicit ClassEx(const WNDCLASSEX& wcx)
+            :
+            m_hInstance_(wcx.hInstance),
+            m_atom_(::RegisterClassEx(&wcx))
         {
-            m_atom_ = ::RegisterClassEx(&wcx);
-
             if (m_atom_ == 0)
             {
                 throw std::runtime_error { "ATOM could not be created!\n" "Consider checking WNDCLASSEX::lpszClassName" };
@@ -63,7 +64,7 @@ export namespace fatpound::win32
         }
         explicit ClassEx(const wchar_t* const clsName = L"#fatpound.Default.IWindow.ClassEx#")
             :
-            ClassEx(CreateDefaultWNDCLASSEX_<>(m_hInstance_ = ModuleHandleOf(nullptr), clsName))
+            ClassEx(CreateDefaultWNDCLASSEX_<>(ModuleHandleOf(nullptr), clsName))
         {
 
         }
@@ -92,7 +93,7 @@ export namespace fatpound::win32
 
 
     protected:
-        template <typename Wnd = IWindow> static auto CreateDefaultWNDCLASSEX_(const HINSTANCE& hInst, const wchar_t* const clsName, UINT style = CS_OWNDC) noexcept -> WNDCLASSEX
+        template <typename Wnd = IWindow> static auto CreateDefaultWNDCLASSEX_(const HINSTANCE& hInst, const wchar_t* const clsName, const UINT& style = CS_OWNDC) noexcept -> WNDCLASSEX
         {
             return
             {

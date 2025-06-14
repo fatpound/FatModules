@@ -17,7 +17,7 @@ namespace fatpound::file
     /// 
     /// @param  inPath: The path to the input file to be encrypted or decrypted
     /// @param     key: The key to use for the XOR cipher
-    /// @param outPath: The path where the output file will be written. If empty or the same as inPath, a temporary file path is generated and assigned
+    /// @param outPath: The path where the output file will be written. If empty or the same as inPath, a temporary file path is used
     /// 
     void EncryptDecrypt_Impl (const std::filesystem::path& inPath, const std::size_t& key, const std::filesystem::path& outPath)
     {
