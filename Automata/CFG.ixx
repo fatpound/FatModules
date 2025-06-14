@@ -105,7 +105,7 @@ export namespace fatpound::automata
 
         static auto GetLanguageName_  (const std::string& linestr) -> std::string
         {
-            return std::string(linestr.cbegin(), linestr.cbegin() + static_cast<std::ptrdiff_t>(GetLanguageCIIdx_(linestr)));
+            return { linestr.cbegin(), linestr.cbegin() + static_cast<std::ptrdiff_t>(GetLanguageCIIdx_(linestr)) };
         }
         static auto GetLanguageCIIdx_ (const std::string& linestr) -> std::size_t
         {
