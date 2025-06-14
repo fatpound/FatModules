@@ -56,8 +56,7 @@ export namespace fatpound::automata
 
 
     public:
-        [[nodiscard]]
-        auto GetWords() const -> std::vector<std::string>
+        [[nodiscard]] auto GetWords() const -> std::vector<std::string>
         {
             return m_results_;
         }
@@ -110,7 +109,7 @@ export namespace fatpound::automata
         {
             explicit Node_(std::string item) noexcept
                 :
-                m_item(std::move<>(item))
+                m_item(item)
             {
 
             }
@@ -130,7 +129,7 @@ export namespace fatpound::automata
 
 
     private:
-        void CreateTree_     (Node_* node)
+        void CreateTree_     (Node_* const node)
         {
             m_results_.reserve(node->m_leaves.size());
 
@@ -146,13 +145,13 @@ export namespace fatpound::automata
                 CreateInnerTree_(leaf);
             }
         }
-        void CreateInnerTree_(Node_* node)
+        void CreateInnerTree_(Node_* const node)
         {
             for (std::size_t i{}; i < node->m_item.size(); ++i)
             {
-                const auto& ch = node->m_item[i];
+                const auto ch = node->m_item[i];
 
-                if (not static_cast<bool>(std::isupper(ch)))
+                if (std::isupper(ch) == 0)
                 {
                     continue;
                 }
@@ -162,7 +161,7 @@ export namespace fatpound::automata
                 const std::string leftstr(node->m_item.cbegin(), node->m_item.cbegin() + static_cast<std::ptrdiff_t>(i));
                 const std::string rightstr(node->m_item.cbegin() + static_cast<std::ptrdiff_t>(i + 1U), node->m_item.cend());
 
-                const std::size_t index = static_cast<std::size_t>(cfg_it - mc_cfgrammar_.cbegin());
+                const auto index = static_cast<std::size_t>(cfg_it - mc_cfgrammar_.cbegin());
 
                 node->m_leaves.reserve(node->m_leaves.size() + cfg_it->second.size());
 
@@ -170,16 +169,12 @@ export namespace fatpound::automata
                 {
                     // string str = cfgstr;
 
-                    bool recursed = false;
+                    bool recursed{};
 
                     if (cfgstr.contains(ch))
                     {
                         if (m_recursers_[index] >= scx_recurse_limit_)
                         {
-                            // const auto& [first, last] = std::ranges::remove_if(str, [](const auto& ch) { return std::isupper(ch); });
-                            // 
-                            // str.erase(first, last);
-
                             continue;
                         }
 

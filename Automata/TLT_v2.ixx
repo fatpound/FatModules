@@ -56,19 +56,18 @@ namespace fatpound::automata
 
 
     public:
-        [[nodiscard]]
-        auto GetWords() const -> Result_t
+        [[nodiscard]] auto GetWords() const -> Result_t
         {
             return m_results_;
         }
 
-        void PrintWords() const
+        void PrintWords(std::ostream& os = std::cout) const
         {
             for (const auto& item : m_results_)
             {
                 if (item.second)
                 {
-                    std::cout << item.first << '\n';
+                    os << item.first << '\n';
                 }
             }
         }
@@ -94,7 +93,7 @@ namespace fatpound::automata
             }
             explicit Node_(std::string item) noexcept
                 :
-                m_item(std::move<>(item))
+                m_item(item)
             {
 
             }
@@ -108,18 +107,15 @@ namespace fatpound::automata
 
     private:
         // NOLINTBEGIN(readability-function-cognitive-complexity)
-        [[nodiscard]]
-        auto GenerateResults_(const std::string& init_str = "", const std::size_t& index = {}, const std::size_t& recursed = {}) const -> Result_t
+        [[nodiscard]] auto GenerateResults_(const std::string& init_str = "", const std::size_t& index = {}, const std::size_t& recursed = {}) const -> Result_t
         {
             Result_t strings;
 
             for (const auto& node : m_trees_[index]->m_leaves)
             {
-                Result_t tempstrings;
+                Result_t tempstrings{ { init_str, false } };
 
-                tempstrings.emplace_back(init_str, false);
-
-                for (const auto& ch : node->m_item)
+                for (const auto ch : node->m_item)
                 {
                     Result_t newTempStrings;
 
@@ -131,42 +127,31 @@ namespace fatpound::automata
 
                         const auto it = std::find_if<>(m_trees_.cbegin() + static_cast<std::ptrdiff_t>(index), m_trees_.cend(), [ch](const auto& tree) -> bool { return ch == tree->m_item[0]; });
 
-                        if (it == m_trees_.cend())
+                        if (it == m_trees_.cend() or recursed >= scx_RecursionLimit_)
                         {
                             str += ch;
+
+                            continue;
                         }
-                        else
+
                         {
                             const auto tree_index   = static_cast<std::size_t>(it - m_trees_.cbegin());
-                            const auto will_recurse = static_cast<std::size_t>((tree_index == index) ? 1 : 0);
+                            const auto will_recurse = static_cast<std::size_t>(tree_index == index);
 
-                            if (recursed < scx_RecursionLimit_)
+                            if (strPair.first.empty())
                             {
-                                // const auto size = tempstrings.size();
-
-                                // bool deleted = false;
-
-                                const std::string tempstr = strPair.first;
-
-                                if (tempstr.empty())
-                                {
-                                    continue;
-                                }
-
-                                const auto vec = GenerateResults_(tempstr, tree_index, recursed + will_recurse);
-
-                                for (const auto& pair : vec)
-                                {
-                                    newTempStrings.emplace_back(pair);
-                                }
-
-                                newTempStrings.erase(newTempStrings.begin() + static_cast<std::ptrdiff_t>(insertedindex));
+                                continue;
                             }
-                            else
+
+                            const auto vec = GenerateResults_(strPair.first, tree_index, recursed + will_recurse);
+
+                            for (const auto& pair : vec)
                             {
-                                str += ch;
+                                newTempStrings.emplace_back(pair);
                             }
                         }
+
+                        newTempStrings.erase(newTempStrings.begin() + static_cast<std::ptrdiff_t>(insertedindex));
                     }
 
                     tempstrings = std::move<>(newTempStrings);
@@ -182,8 +167,7 @@ namespace fatpound::automata
         }
         // NOLINTEND(readability-function-cognitive-complexity)
 
-        [[nodiscard]]
-        auto IsTerminal_(const std::string& str) const -> bool
+        [[nodiscard]] auto IsTerminal_(const std::string& str) const -> bool
         {
             for (const auto& tree : m_trees_)
             {
