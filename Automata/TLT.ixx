@@ -62,7 +62,7 @@ export namespace fatpound::automata
             return m_results_;
         }
 
-        void PrintWords() const
+        void PrintWords(std::ostream& os = std::cout) const
         {
             std::vector<std::string> finals;
             std::vector<std::string> repeaters;
@@ -83,21 +83,21 @@ export namespace fatpound::automata
             {
                 for (const auto& str : finals)
                 {
-                    std::cout << str << '\n';
+                    os << str << '\n';
                 }
             }
 
             if (not repeaters.empty())
             {
-                std::cout << "\nRepeaters :\n\n";
+                os << "\nRepeaters :\n\n";
 
                 for (const auto& str : repeaters)
                 {
-                    std::cout << str << '\n';
+                    os << str << '\n';
                 }
             }
 
-            std::cout << '\n';
+            os << '\n';
         }
 
 

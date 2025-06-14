@@ -47,8 +47,8 @@ export namespace fatpound::automata
 
             Alphabet_t alphabet;
 
-            ReadFirstLine_(inputFile, alphabet);
-            ReadSecondLine_(inputFile, alphabet);
+            ReadLine1_(inputFile, alphabet);
+            ReadLine2_(inputFile, alphabet, m_grammar_);
         }
 
         explicit CFG()               = delete;
@@ -72,17 +72,66 @@ export namespace fatpound::automata
 
 
     private:
-        static void ReadFirstLine_(std::ifstream& inputFile, Alphabet_t& alphabet)
+        static auto GenerateLanguageSymbols_(const Symbol_t& symbol, const Alphabet_t& alphabet) -> std::vector<Symbol_t>
+        {
+            std::vector<Symbol_t> symbols;
+
+            std::istringstream iss(symbol);
+
+            std::string tempstr;
+
+            while (std::getline<>(iss, tempstr, scx_SymbolDelimiter_))
+            {
+                if (std::ranges::find(symbols, tempstr) not_eq symbols.cend())
+                {
+                    continue;
+                }
+
+                for (const auto& ch : tempstr)
+                {
+                    if ((std::islower(ch) not_eq 0)
+                        and
+                        std::ranges::find(alphabet, ch) == alphabet.cend())
+                    {
+                        throw std::runtime_error("The letter " + std::string{ ch } + " is not in the alphabet!");
+                    }
+                }
+
+                symbols.push_back(tempstr);
+            }
+
+            return symbols;
+        }
+
+        static auto GetLanguageName_  (const std::string& linestr) -> std::string
+        {
+            return std::string(linestr.cbegin(), linestr.cbegin() + static_cast<std::ptrdiff_t>(GetLanguageCIIdx_(linestr)));
+        }
+        static auto GetLanguageCIIdx_ (const std::string& linestr) -> std::size_t
+        {
+            const auto idx = linestr.find(scx_LanguageContentIndicator_);
+
+            if (idx not_eq std::string::npos)
+            {
+                return idx;
+            }
+
+            throw std::runtime_error("Cannot find language content indicator in line!");
+        }
+
+        static void ReadLine1_(std::ifstream& inputFile,       Alphabet_t& alphabet)
         {
             {
-                std::string str;
-                std::getline<>(inputFile, str);
+                std::stringstream ss;
 
-                std::stringstream ss{ str };
+                {
+                    std::string str;
+                    std::getline<>(inputFile, str);
 
-                char ch{};
+                    ss << str;
+                }
 
-                while (ss >> ch)
+                for (char ch{}; ss >> ch; void())
                 {
                     alphabet.push_back(ch);
                 }
@@ -93,67 +142,22 @@ export namespace fatpound::automata
             const auto&   [beg, end] = std::ranges::unique(alphabet);
             alphabet.erase(beg, end);
         }
-
-
-    private:
-        void ReadSecondLine_(std::ifstream& inputFile, const Alphabet_t& alphabet)
+        static void ReadLine2_(std::ifstream& inputFile, const Alphabet_t& alphabet, Grammar_t& grammar)
         {
-            std::string str;
-
-            while (std::getline<>(inputFile, str, scx_LanguageDelimiter_))
+            for (std::string str; std::getline<>(inputFile, str, scx_LanguageDelimiter_); void())
             {
                 {
                     const auto& [beg, end] = std::ranges::remove_if(str, [](const auto& ch) noexcept -> bool { return std::isspace(ch) not_eq 0; });
                     str.erase(beg, end);
                 }
 
-                std::string word;
-
-                {
-                    const auto& index = str.find(scx_LanguageContentIndicator_);
-
-                    if (index == std::string::npos)
-                    {
-                        continue;
-                    }
-
-                    word = std::string(str.cbegin(), str.cbegin() + static_cast<std::ptrdiff_t>(index));
-
-                    str.erase(0, index + std::string_view{ scx_LanguageContentIndicator_ }.size());
-                }
-
-                std::vector<std::string> leaves;
-
-                {
-                    std::istringstream iss(str);
-
-                    std::string tempstr;
-
-                    while (std::getline<>(iss, tempstr, scx_SymbolDelimiter_))
-                    {
-                        if (std::ranges::find(leaves, tempstr) not_eq leaves.cend())
-                        {
-                            continue;
-                        }
-
-                        for (const auto& ch : tempstr)
-                        {
-                            if (static_cast<bool>(std::islower(ch))
-                                and
-                                std::ranges::find(alphabet, ch) == alphabet.cend())
-                            {
-                                throw std::runtime_error("The letter " + std::string{ ch } + " is not in the alphabet!");
-                            }
-                        }
-
-                        leaves.push_back(tempstr);
-                    }
-                }
-
-                m_grammar_.emplace_back(std::move<>(word), std::move<>(leaves));
+                grammar.emplace_back(
+                    GetLanguageName_(str),
+                    GenerateLanguageSymbols_(str.substr(GetLanguageCIIdx_(str) + std::string_view{ scx_LanguageContentIndicator_ }.size()), alphabet)
+                );
             }
         }
-
+        
 
     private:
         Grammar_t m_grammar_;
