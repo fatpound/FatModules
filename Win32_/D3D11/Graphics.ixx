@@ -1,8 +1,8 @@
 module;
 
 #ifdef FAT_BUILDING_WITH_MSVC
-    #include <FatNamespaces.hxx>
-    #include <FatMacros.hxx>
+    #include <_macros/Compiler.hxx>
+    #include <_macros/Namespaces.hxx>
 
     #pragma comment(lib, "d3d11")
     #pragma comment(lib, "D3DCompiler")

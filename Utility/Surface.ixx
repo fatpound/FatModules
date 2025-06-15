@@ -1,13 +1,13 @@
 module;
 
-#include <FatNamespaces.hxx>
-#include <FatMacros.hxx>
+#include <_macros/Compiler.hxx>
+#include <_macros/Namespaces.hxx>
 
 #include <cassert>
 
 export module FatPound.Utility.Surface;
 
-import <FatWin32.hxx>;
+import <Win32_/WinAPI.hxx>;
 
 import FatPound.Memory;
 import FatPound.Traits.Bitwise;

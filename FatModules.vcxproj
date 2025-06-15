@@ -120,13 +120,13 @@
     <ClCompile Include="Win32_\WRL\WRL.ixx" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FatMacros.hxx" />
-    <ClInclude Include="FatNamespaces.hxx" />
-    <ClInclude Include="FatSTL_Macros.hxx" />
-    <ClInclude Include="FatWin32_Macros.hxx" />
-    <ClInclude Include="Win32_\FatWin32.hpp" />
-    <ClInclude Include="Win32_\FatWin32.hxx" />
-    <ClInclude Include="Win32_\FatWin32_Settings.hpp" />
+    <ClInclude Include="_macros\Compiler.hxx" />
+    <ClInclude Include="_macros\Experimental.hxx" />
+    <ClInclude Include="_macros\Namespaces.hxx" />
+    <ClInclude Include="_macros\STL.hxx" />
+    <ClInclude Include="Win32_\WinAPI.hpp" />
+    <ClInclude Include="Win32_\WinAPI.hxx" />
+    <ClInclude Include="Win32_\WinAPI_Settings.hpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Win32_\D3D11\Shader\PSFrameBuffer.hlsl">

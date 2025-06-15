@@ -4,7 +4,7 @@ export module FatPound.Win32.COM.Manager;
 
 #ifdef FAT_BUILDING_WITH_MSVC
 
-import <FatWin32.hxx>;
+import <Win32_/WinAPI.hxx>;
 
 import std;
 

@@ -1,6 +1,6 @@
 module;
 
-#include <FatSTL_Macros.hxx>
+#include <_macros/STL.hxx>
 
 #ifdef FAT_BUILDING_WITH_MSVC
     #include <DirectXMath.h>

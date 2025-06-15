@@ -4,7 +4,7 @@
 
 #ifdef FAT_BUILDING_WITH_MSVC
 
-#include <FatWin32_Settings.hpp>
+#include <Win32_/WinAPI_Settings.hpp>
 
 #include <Windows.h>
 

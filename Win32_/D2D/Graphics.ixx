@@ -1,10 +1,10 @@
 module;
 
 #ifdef FAT_BUILDING_WITH_MSVC
-    #include <FatNamespaces.hxx>
-    #include <FatMacros.hxx>
+    #include <_macros/Compiler.hxx>
+    #include <_macros/Namespaces.hxx>
 
-    #include <FatWin32.hpp>
+    #include <Win32_/WinAPI.hpp>
     #include <d2d1.h> // for fast compilation since the only module using d2d1 header is this, but I might change this in the future
 
     #ifdef __INTELLISENSE__
@@ -21,7 +21,7 @@ export module FatPound.Win32.D2D.Graphics;
 #ifdef FAT_BUILDING_WITH_MSVC
 
 #ifndef __INTELLISENSE__
-    // import <FatWin32.hxx>;
+    // import <Win32_/WinAPI.hxx>;
     import FatPound.Win32.WRL.Common;
 #endif
 

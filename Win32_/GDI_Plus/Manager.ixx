@@ -4,7 +4,7 @@ export module FatPound.Win32.GDI_Plus.Manager;
 
 #ifdef FAT_BUILDING_WITH_MSVC
 
-import <FatWin32.hxx>;
+import <Win32_/WinAPI.hxx>;
 
 export namespace fatpound::win32::gdi_plus
 {

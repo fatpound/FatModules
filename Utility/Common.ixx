@@ -1,12 +1,12 @@
 module;
 
-#include <FatSTL_Macros.hxx>
+#include <_macros/STL.hxx>
 
 export module FatPound.Utility.Common;
 
 #ifdef FAT_BUILDING_WITH_MSVC
 
-import <FatWin32.hxx>;
+import <Win32_/WinAPI.hxx>;
 
 #endif
 

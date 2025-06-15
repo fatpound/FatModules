@@ -308,25 +308,25 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Win32_\FatWin32.hpp">
+    <ClInclude Include="Win32_\WinAPI.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Win32_\FatWin32_Settings.hpp">
+    <ClInclude Include="Win32_\WinAPI_Settings.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FatNamespaces.hxx">
+    <ClInclude Include="_macros\Namespaces.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FatMacros.hxx">
+    <ClInclude Include="_macros\Compiler.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FatSTL_Macros.hxx">
+    <ClInclude Include="_macros\STL.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Win32_\FatWin32.hxx">
+    <ClInclude Include="Win32_\WinAPI.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FatWin32_Macros.hxx">
+    <ClInclude Include="_macros\Experimental.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

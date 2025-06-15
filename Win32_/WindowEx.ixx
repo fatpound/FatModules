@@ -1,12 +1,12 @@
 module;
 
 #ifdef FAT_BUILDING_WITH_MSVC
-    #include <FatNamespaces.hxx>
-    #include <FatMacros.hxx>
-    #include <FatWin32_Macros.hxx>
+    #include <_macros/Compiler.hxx>
+    #include <_macros/Experimental.hxx>
+    #include <_macros/Namespaces.hxx>
 
     #ifdef __INTELLISENSE__
-        #include <FatWin32.hpp>
+        #include <Win32_/WinAPI.hpp>
     #endif
 
     #include <DirectXMath.h>
@@ -17,7 +17,7 @@ export module FatPound.Win32.WindowEx;
 #ifdef FAT_BUILDING_WITH_MSVC
 
 #ifndef __INTELLISENSE__
-    import <FatWin32.hxx>;
+    import <Win32_/WinAPI.hxx>;
 #endif
 
 import FatPound.Concurrency;
@@ -43,15 +43,23 @@ export namespace fatpound::win32
     class WindowEx : public IWindow
     {
     public:
+#if IN_DEBUG
+        static constexpr DWORD scx_DefaultWndStyleEx = WS_VISIBLE bitor WS_CAPTION bitor WS_MINIMIZEBOX bitor WS_OVERLAPPED bitor WS_SYSMENU;
+#else
+        static constexpr DWORD scx_DefaultWndStyleEx = WS_VISIBLE bitor WS_POPUP;
+#endif
+
+
+    public:
         explicit WindowEx(
-            std::shared_ptr<WndClassEx>            pWndClassEx,
-            const std::wstring                     title,
-            const SizePack                         clientDimensions,
-            std::shared_ptr<io::Keyboard>          pKeyboard         = std::make_shared<io::Keyboard>(),
-            std::shared_ptr<io::Mouse>             pMouse            = std::make_shared<io::Mouse>(),
-            const std::optional<dx::XMINT2>        position          = std::nullopt,
-            const DWORD                            styles            = WS_VISIBLE bitor FAT_WNDSTYLE_EX,
-            const DWORD                            exStyles          = {})
+            std::shared_ptr<WndClassEx>        pWndClassEx,
+            const std::wstring                 title,
+            const SizePack                     clientDimensions,
+            std::shared_ptr<io::Keyboard>      pKeyboard         = std::make_shared<io::Keyboard>(),
+            std::shared_ptr<io::Mouse>         pMouse            = std::make_shared<io::Mouse>(),
+            const std::optional<dx::XMINT2>    position          = std::nullopt,
+            const DWORD                        styles            = scx_DefaultWndStyleEx,
+            const DWORD                        exStyles          = {})
             :
             m_pKeyboard{ std::move<>(pKeyboard) },
             m_pMouse{ std::move<>(pMouse) },
@@ -67,8 +75,8 @@ export namespace fatpound::win32
         {
             auto future = DispatchTaskToQueue_<false>(
                 [
-                    &title,
                     this,
+                    title = title.c_str(),
                     position,
                     styles,
                     exStyles
@@ -95,7 +103,7 @@ export namespace fatpound::win32
                     m_hWnd_ = ::CreateWindowEx(
                         exStyles,
                         MAKEINTATOM(m_pWndClassEx_->GetAtom()),
-                        title.c_str(),
+                        title,
                         styles,
                         position.has_value() ? position->x : CW_USEDEFAULT,
                         position.has_value() ? position->y : CW_USEDEFAULT,

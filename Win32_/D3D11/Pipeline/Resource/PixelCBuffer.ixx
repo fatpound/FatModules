@@ -2,7 +2,7 @@ module;
 
 #ifdef FAT_BUILDING_WITH_MSVC
     #ifdef __INTELLISENSE__
-        #include <FatWin32.hpp>
+        #include <Win32_/WinAPI.hpp>
         #include <d3d11.h>
     #endif
 #endif
