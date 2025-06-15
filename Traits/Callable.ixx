@@ -44,7 +44,7 @@ export namespace fatpound::traits
     template <typename R, typename... Args>
     struct FATLIB_EBCO FunctionInfo<R(*)(Args...)> : virtual FunctionInfo<R(Args...)>
     {
-        using CallablePtr_t_no_ptr_cv = R(*)(Args...);
+        using CallablePtr_no_ptr_cv_t = R(*)(Args...);
     };
 
     template <typename R, typename... Args>
@@ -74,7 +74,7 @@ export namespace fatpound::traits
         virtual FunctionInfo<R(Args...) noexcept>
     {
         using CallablePtr_t           = R(*)(Args...) noexcept;
-        using CallablePtr_t_no_ptr_cv = R(*)(Args...) noexcept;
+        using CallablePtr_no_ptr_cv_t = R(*)(Args...) noexcept;
 
         static constexpr bool is_noexcept_specified = true;
     };
@@ -108,7 +108,7 @@ export namespace fatpound::traits
     template <typename R, typename... Args>
     struct FATLIB_EBCO FunctionInfo<R(*)(Args..., ...)> : virtual FunctionInfo<R(Args..., ...)>
     {
-        using CallablePtr_t_no_ptr_cv = R(*)(Args..., ...);
+        using CallablePtr_no_ptr_cv_t = R(*)(Args..., ...);
     };
 
     template <typename R, typename... Args>
@@ -136,7 +136,7 @@ export namespace fatpound::traits
     {
         using Callable_t              = R(Args..., ...) noexcept;
         using CallablePtr_t           = R(*)(Args..., ...) noexcept;
-        using CallablePtr_t_no_ptr_cv = R(*)(Args..., ...) noexcept;
+        using CallablePtr_no_ptr_cv_t = R(*)(Args..., ...) noexcept;
     };
 
     template <typename R, typename... Args>
@@ -172,9 +172,9 @@ export namespace fatpound::traits
         using Callable_t                      = void;
         using CallableDecl_t                  = R(Args...);
         using CallablePtr_t                   = R(C::*)(Args...);
-        using CallablePtr_t_no_ptr_cv         = R(C::*)(Args...); // removing pointer cv qualifiers
-        using CallablePtr_t_no_cvrn           = R(C::*)(Args...); // removing all cvr-n but pointer cv qualifiers
-        using CallablePtr_t_no_cvrn_no_ptr_cv = R(C::*)(Args...); // removing all cvr-n
+        using CallablePtr_no_ptr_cv_t         = R(C::*)(Args...); // removing pointer cv qualifiers
+        using CallablePtr_no_cvrn_t           = R(C::*)(Args...); // removing all cvr-n but pointer cv qualifiers
+        using CallablePtr_no_cvrn_no_ptr_cv_t = R(C::*)(Args...); // removing all cvr-n
 
         static constexpr bool is_const_qualified{};
         static constexpr bool is_volatile_qualified{};
@@ -193,23 +193,23 @@ export namespace fatpound::traits
         using Callable_t                      = void;
         using CallableDecl_t                  = R(Args..., ...);
         using CallablePtr_t                   = R(C::*)(Args..., ...);
-        using CallablePtr_t_no_ptr_cv         = R(C::*)(Args..., ...); // removing pointer cv qualifiers
-        using CallablePtr_t_no_cvrn           = R(C::*)(Args..., ...); // removing all cvr-n but pointer cv qualifiers
-        using CallablePtr_t_no_cvrn_no_ptr_cv = R(C::*)(Args..., ...); // removing all cvr-n
+        using CallablePtr_no_ptr_cv_t         = R(C::*)(Args..., ...); // removing pointer cv qualifiers
+        using CallablePtr_no_cvrn_t           = R(C::*)(Args..., ...); // removing all cvr-n but pointer cv qualifiers
+        using CallablePtr_no_cvrn_no_ptr_cv_t = R(C::*)(Args..., ...); // removing all cvr-n
     };
 
     template <typename C, typename R, typename... Args>
     struct FATLIB_EBCO FunctionInfo<R(C::* const)(Args...)> : virtual FunctionInfo<R(C::*)(Args...)>
     {
         using CallablePtr_t         = R(C::* const)(Args...);
-        using CallablePtr_t_no_cvrn = R(C::* const)(Args...);
+        using CallablePtr_no_cvrn_t = R(C::* const)(Args...);
     };
 
     template <typename C, typename R, typename... Args>
     struct FATLIB_EBCO FunctionInfo<R(C::* volatile)(Args...)> : virtual FunctionInfo<R(C::*)(Args...)>
     {
         using CallablePtr_t         = R(C::* volatile)(Args...);
-        using CallablePtr_t_no_cvrn = R(C::* volatile)(Args...);
+        using CallablePtr_no_cvrn_t = R(C::* volatile)(Args...);
     };
 
     template <typename C, typename R, typename... Args>
@@ -219,7 +219,7 @@ export namespace fatpound::traits
         virtual FunctionInfo<R(C::* volatile)(Args...)>
     {
         using CallablePtr_t         = R(C::* const volatile)(Args...);
-        using CallablePtr_t_no_cvrn = R(C::* const volatile)(Args...);
+        using CallablePtr_no_cvrn_t = R(C::* const volatile)(Args...);
     };
 
     ///////////////////////////
@@ -229,14 +229,14 @@ export namespace fatpound::traits
     struct FATLIB_EBCO FunctionInfo<R(C::* const)(Args..., ...)> : virtual FunctionInfo<R(C::*)(Args..., ...)>
     {
         using CallablePtr_t         = R(C::* const)(Args..., ...);
-        using CallablePtr_t_no_cvrn = R(C::* const)(Args..., ...);
+        using CallablePtr_no_cvrn_t = R(C::* const)(Args..., ...);
     };
 
     template <typename C, typename R, typename... Args>
     struct FATLIB_EBCO FunctionInfo<R(C::* volatile)(Args..., ...)> : virtual FunctionInfo<R(C::*)(Args..., ...)>
     {
         using CallablePtr_t         = R(C::* volatile)(Args..., ...);
-        using CallablePtr_t_no_cvrn = R(C::* volatile)(Args..., ...);
+        using CallablePtr_no_cvrn_t = R(C::* volatile)(Args..., ...);
     };
 
     template <typename C, typename R, typename... Args>
@@ -246,7 +246,7 @@ export namespace fatpound::traits
         virtual FunctionInfo<R(C::* volatile)(Args..., ...)>
     {
         using CallablePtr_t         = R(C::* const volatile)(Args..., ...);
-        using CallablePtr_t_no_cvrn = R(C::* const volatile)(Args..., ...);
+        using CallablePtr_no_cvrn_t = R(C::* const volatile)(Args..., ...);
     };
 
     /////////////////////////////////////////////////////////////////////////////
@@ -256,7 +256,7 @@ export namespace fatpound::traits
     {
         using CallableDecl_t          = R(Args...) const;
         using CallablePtr_t           = R(C::*)(Args...) const;
-        using CallablePtr_t_no_ptr_cv = R(C::*)(Args...) const;
+        using CallablePtr_no_ptr_cv_t = R(C::*)(Args...) const;
 
         static constexpr bool is_const_qualified = true;
     };
@@ -266,7 +266,7 @@ export namespace fatpound::traits
     {
         using CallableDecl_t          = R(Args...) volatile;
         using CallablePtr_t           = R(C::*)(Args...) volatile;
-        using CallablePtr_t_no_ptr_cv = R(C::*)(Args...) volatile;
+        using CallablePtr_no_ptr_cv_t = R(C::*)(Args...) volatile;
 
         static constexpr bool is_volatile_qualified = true;
     };
@@ -276,7 +276,7 @@ export namespace fatpound::traits
     {
         using CallableDecl_t          = R(Args...) &;
         using CallablePtr_t           = R(C::*)(Args...) &;
-        using CallablePtr_t_no_ptr_cv = R(C::*)(Args...) &;
+        using CallablePtr_no_ptr_cv_t = R(C::*)(Args...) &;
 
         static constexpr bool is_lvalue_reference_qualified = true;
         static constexpr bool is_not_reference_qualified    = false;
@@ -287,7 +287,7 @@ export namespace fatpound::traits
     {
         using CallableDecl_t          = R(Args...) &&;
         using CallablePtr_t           = R(C::*)(Args...) &&;
-        using CallablePtr_t_no_ptr_cv = R(C::*)(Args...) &&;
+        using CallablePtr_no_ptr_cv_t = R(C::*)(Args...) &&;
 
         static constexpr bool is_rvalue_reference_qualified = true;
         static constexpr bool is_not_reference_qualified    = false;
@@ -298,7 +298,7 @@ export namespace fatpound::traits
     {
         using CallableDecl_t          = R(Args...) noexcept;
         using CallablePtr_t           = R(C::*)(Args...) noexcept;
-        using CallablePtr_t_no_ptr_cv = R(C::*)(Args...) noexcept;
+        using CallablePtr_no_ptr_cv_t = R(C::*)(Args...) noexcept;
 
         static constexpr bool is_noexcept_specified = true;
     };
@@ -311,7 +311,7 @@ export namespace fatpound::traits
     {
         using CallableDecl_t          = R(Args..., ...) const;
         using CallablePtr_t           = R(C::*)(Args..., ...) const;
-        using CallablePtr_t_no_ptr_cv = R(C::*)(Args..., ...) const;
+        using CallablePtr_no_ptr_cv_t = R(C::*)(Args..., ...) const;
 
         static constexpr bool is_const_qualified = true;
     };
@@ -321,7 +321,7 @@ export namespace fatpound::traits
     {
         using CallableDecl_t          = R(Args..., ...) volatile;
         using CallablePtr_t           = R(C::*)(Args..., ...) volatile;
-        using CallablePtr_t_no_ptr_cv = R(C::*)(Args..., ...) volatile;
+        using CallablePtr_no_ptr_cv_t = R(C::*)(Args..., ...) volatile;
 
         static constexpr bool is_volatile_qualified = true;
     };
@@ -331,7 +331,7 @@ export namespace fatpound::traits
     {
         using CallableDecl_t          = R(Args..., ...) &;
         using CallablePtr_t           = R(C::*)(Args..., ...) &;
-        using CallablePtr_t_no_ptr_cv = R(C::*)(Args..., ...) &;
+        using CallablePtr_no_ptr_cv_t = R(C::*)(Args..., ...) &;
 
         static constexpr bool is_lvalue_reference_qualified = true;
         static constexpr bool is_not_reference_qualified    = false;
@@ -342,7 +342,7 @@ export namespace fatpound::traits
     {
         using CallableDecl_t          = R(Args..., ...) &&;
         using CallablePtr_t           = R(C::*)(Args..., ...) &&;
-        using CallablePtr_t_no_ptr_cv = R(C::*)(Args..., ...) &&;
+        using CallablePtr_no_ptr_cv_t = R(C::*)(Args..., ...) &&;
 
         static constexpr bool is_rvalue_reference_qualified = true;
         static constexpr bool is_not_reference_qualified    = false;
@@ -353,7 +353,7 @@ export namespace fatpound::traits
     {
         using CallableDecl_t          = R(Args..., ...) noexcept;
         using CallablePtr_t           = R(C::*)(Args..., ...) noexcept;
-        using CallablePtr_t_no_ptr_cv = R(C::*)(Args..., ...) noexcept;
+        using CallablePtr_no_ptr_cv_t = R(C::*)(Args..., ...) noexcept;
 
         static constexpr bool is_noexcept_specified = true;
     };
@@ -386,16 +386,16 @@ struct FATLIB_EBCO FunctionInfo< MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__ >
 {                                                                             \
     using CallableDecl_t          = MEM_FUNCDECL_TYPE       __VA_ARGS__;      \
     using CallablePtr_t           = MEM_FUNCPTR_TYPE(PQUAL) __VA_ARGS__;      \
-    using CallablePtr_t_no_ptr_cv = MEM_FUNCPTR_TYPE()      __VA_ARGS__;      \
-    using CallablePtr_t_no_cvrn   = MEM_FUNCPTR_TYPE(PQUAL);                  \
+    using CallablePtr_no_ptr_cv_t = MEM_FUNCPTR_TYPE()      __VA_ARGS__;      \
+    using CallablePtr_no_cvrn_t   = MEM_FUNCPTR_TYPE(PQUAL);                  \
 };
 
 #define FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, ...)                              \
 {                                                                                  \
     using CallableDecl_t          = MEM_FUNCDECL_TYPE_VARIADIC       __VA_ARGS__;  \
     using CallablePtr_t           = MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__;  \
-    using CallablePtr_t_no_ptr_cv = MEM_FUNCPTR_TYPE_VARIADIC()      __VA_ARGS__;  \
-    using CallablePtr_t_no_cvrn   = MEM_FUNCPTR_TYPE_VARIADIC(PQUAL);              \
+    using CallablePtr_no_ptr_cv_t = MEM_FUNCPTR_TYPE_VARIADIC()      __VA_ARGS__;  \
+    using CallablePtr_no_cvrn_t   = MEM_FUNCPTR_TYPE_VARIADIC(PQUAL);              \
 };
 
 #define FATLIB_FUNC_INFO_GENERATOR(PQUAL)                                                                                                     \
@@ -566,8 +566,8 @@ struct FATLIB_EBCO FunctionInfo< MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__ >
         virtual FunctionInfo<R(C::*      )(Args...) FQS>            \
     {                                                               \
         using CallablePtr_t           = R(C::* PQUAL)(Args...) FQS; \
-        using CallablePtr_t_no_ptr_cv = R(C::*      )(Args...) FQS; \
-        using CallablePtr_t_no_cvrn   = R(C::* PQUAL)(Args...);     \
+        using CallablePtr_no_ptr_cv_t = R(C::*      )(Args...) FQS; \
+        using CallablePtr_no_cvrn_t   = R(C::* PQUAL)(Args...);     \
     };
 
 #define FATLIB_FUNC_INFO_GENERATOR4_VARIADIC(PQUAL, FQS)                    \
@@ -578,8 +578,8 @@ struct FATLIB_EBCO FunctionInfo< MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__ >
         virtual FunctionInfo<R(C::*      )(Args..., ...) FQS>            \
     {                                                                    \
         using CallablePtr_t           = R(C::* PQUAL)(Args..., ...) FQS; \
-        using CallablePtr_t_no_ptr_cv = R(C::*      )(Args..., ...) FQS; \
-        using CallablePtr_t_no_cvrn   = R(C::* PQUAL)(Args..., ...);     \
+        using CallablePtr_no_ptr_cv_t = R(C::*      )(Args..., ...) FQS; \
+        using CallablePtr_no_cvrn_t   = R(C::* PQUAL)(Args..., ...);     \
     };
 
 #define FATLIB_FUNC_INFO_GENERATOR_BASE(PQUAL)   \
@@ -711,9 +711,9 @@ namespace fatpound::traits
         static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::Callable_t,                      void>,                                             " Callable_t"                      " check failed!");                                                                                                                                                \
         static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallableDecl_t,                  void( __VA_ARGS__ ) FQS >,                         " CallableDecl_t"                  " check failed!");                                                                                                                                                \
         static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallablePtr_t,                   void(___unused___::* PQUAL )( __VA_ARGS__ ) FQS>,  " CallablePtr_t"                   " check failed!");                                                                                                                                                \
-        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallablePtr_t_no_ptr_cv,         void(___unused___::*       )( __VA_ARGS__ ) FQS >, " CallablePtr_t_no_ptr_cv"         " check failed!");                                                                                                                                                \
-        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallablePtr_t_no_cvrn,           void(___unused___::* PQUAL )( __VA_ARGS__ )>,      " CallablePtr_t_no_cvrn"           " check failed!");                                                                                                                                                \
-        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallablePtr_t_no_cvrn_no_ptr_cv, void(___unused___::*       )( __VA_ARGS__ )>,      " CallablePtr_t_no_cvrn_no_ptr_cv" " check failed!");                                                                                                                                                \
+        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallablePtr_no_ptr_cv_t,         void(___unused___::*       )( __VA_ARGS__ ) FQS >, " CallablePtr_no_ptr_cv_t"         " check failed!");                                                                                                                                                \
+        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallablePtr_no_cvrn_t,           void(___unused___::* PQUAL )( __VA_ARGS__ )>,      " CallablePtr_no_cvrn_t"           " check failed!");                                                                                                                                                \
+        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallablePtr_no_cvrn_no_ptr_cv_t, void(___unused___::*       )( __VA_ARGS__ )>,      " CallablePtr_no_cvrn_no_ptr_cv_t" " check failed!");                                                                                                                                                \
                                                                                                                                                                                                                                                                                                                                                                                       \
         static_assert(        cons FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_const_qualified,            "   cons qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
         static_assert(         vol FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_volatile_qualified,         "    vol qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
@@ -725,7 +725,7 @@ namespace fatpound::traits
 
 
 
-        ///////////////////////////////////////////   ret_t,  funcname,            PQUAL,                          FQS,  cons,  vol, lref,   rref, nonref, noexc,  vary,  parameters       
+        ///////////////////////////////////////////      ret_t,  funcname,            PQUAL,                          FQS,  cons,  vol, lref,   rref, nonref, noexc,  vary,  parameters       
                                                                                        
         FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo00,                 ,                             ,   not,  not,  not,    not,       ,   not,   not,             )
         FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo01,                 ,                       const ,      ,  not,  not,    not,       ,   not,   not,             )
