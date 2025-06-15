@@ -15,7 +15,7 @@ import FatPound.Utility.Color;
 import FatPound.Utility.Common;
 import FatPound.Utility.Gfx.SizePack;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
     import FatPound.Win32.GDI_Plus.Manager;
 #endif
 
@@ -40,7 +40,7 @@ export namespace fatpound::utility
 
 
     public:
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
         explicit Surface(const std::filesystem::path& path,         const Size_t& alignBytes = scx_DefaultAlignment)
             :
             Surface(path.wstring(), alignBytes)
@@ -193,35 +193,35 @@ export namespace fatpound::utility
 
 
     public:
-        template <traits::IntegralOrFloating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetWidth      () const noexcept -> T
+        template <traits::IntegralOrFloating T = Size_t> [[nodiscard]] FATLIB_FORCEINLINE auto GetWidth      () const noexcept -> T
         {
             return static_cast<T>(m_size_pack_.m_width);
         }
-        template <traits::IntegralOrFloating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetHeight     () const noexcept -> T
+        template <traits::IntegralOrFloating T = Size_t> [[nodiscard]] FATLIB_FORCEINLINE auto GetHeight     () const noexcept -> T
         {
             return static_cast<T>(m_size_pack_.m_height);
         }
-        template <traits::IntegralOrFloating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetAlignment  () const noexcept -> T
+        template <traits::IntegralOrFloating T = Size_t> [[nodiscard]] FATLIB_FORCEINLINE auto GetAlignment  () const noexcept -> T
         {
             return static_cast<T>(m_align_byte_);
         }
-        template <traits::IntegralOrFloating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetPixelPitch () const noexcept -> T
+        template <traits::IntegralOrFloating T = Size_t> [[nodiscard]] FATLIB_FORCEINLINE auto GetPixelPitch () const noexcept -> T
         {
             return static_cast<T>(m_pixel_pitch_);
         }
-        template <traits::IntegralOrFloating T = Size_t> [[nodiscard]] FAT_FORCEINLINE auto GetPitch      () const noexcept -> T
+        template <traits::IntegralOrFloating T = Size_t> [[nodiscard]] FATLIB_FORCEINLINE auto GetPitch      () const noexcept -> T
         {
             return static_cast<T>(m_pixel_pitch_ * sizeof(Color));
         }
 
-        template <std::unsigned_integral T> [[nodiscard]] FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
+        template <std::unsigned_integral T> [[nodiscard]] FATLIB_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
         {
             assert(x < GetWidth<T>());
             assert(y < GetHeight<T>());
 
             return m_pBuffer_[(y * m_pixel_pitch_) + x];
         }
-        template <std::unsigned_integral T>               FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
+        template <std::unsigned_integral T>               FATLIB_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
         {
             assert(x < GetWidth<T>());
             assert(y < GetHeight<T>());
@@ -229,7 +229,7 @@ export namespace fatpound::utility
             m_pBuffer_[(y * m_pixel_pitch_) + x] = color;
         }
 
-        template <std::signed_integral T>   [[nodiscard]] FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
+        template <std::signed_integral T>   [[nodiscard]] FATLIB_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
         {
             assert(x >= 0);
             assert(y >= 0);
@@ -239,7 +239,7 @@ export namespace fatpound::utility
                 static_cast<std::make_unsigned_t<T>>(y)
             );
         }
-        template <std::signed_integral T>                 FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
+        template <std::signed_integral T>                 FATLIB_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
         {
             assert(x >= 0);
             assert(y >= 0);

@@ -155,19 +155,19 @@ export namespace fatpound::dsa::linkedlist
 
 
     public:
-        [[nodiscard]] FAT_FORCEINLINE auto GetOs        () const noexcept -> std::ostream&
+        [[nodiscard]] FATLIB_FORCEINLINE auto GetOs        () const noexcept -> std::ostream&
         {
             return *m_os_;
         }
-        [[nodiscard]] FAT_FORCEINLINE auto GetItemCount () const noexcept -> std::size_t
+        [[nodiscard]] FATLIB_FORCEINLINE auto GetItemCount () const noexcept -> std::size_t
         {
             return m_item_count_;
         }
-        [[nodiscard]] FAT_FORCEINLINE auto IsEmpty      () const noexcept -> bool
+        [[nodiscard]] FATLIB_FORCEINLINE auto IsEmpty      () const noexcept -> bool
         {
             return m_item_count_ == 0U;
         }
-        [[nodiscard]] FAT_FORCEINLINE auto IsNotEmpty   () const noexcept -> bool
+        [[nodiscard]] FATLIB_FORCEINLINE auto IsNotEmpty   () const noexcept -> bool
         {
             return not IsEmpty();
         }
@@ -250,11 +250,11 @@ export namespace fatpound::dsa::linkedlist
 
 
     protected:
-        [[nodiscard]] FAT_FORCEINLINE auto GetStartNode_ () const noexcept -> Node_*
+        [[nodiscard]] FATLIB_FORCEINLINE auto GetStartNode_ () const noexcept -> Node_*
         {
             return m_start_;
         }
-        [[nodiscard]] FAT_FORCEINLINE auto GetEndNode_   () const noexcept -> Node_*
+        [[nodiscard]] FATLIB_FORCEINLINE auto GetEndNode_   () const noexcept -> Node_*
         {
             return m_end_;
         }

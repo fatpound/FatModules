@@ -1,6 +1,6 @@
 module;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
     #include <_macros/Compiler.hxx>
     #include <_macros/Namespaces.hxx>
 
@@ -18,7 +18,7 @@ module;
 
 export module FatPound.Win32.D2D.Graphics;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
 
 #ifndef __INTELLISENSE__
     // import <Win32_/WinAPI.hxx>;
@@ -80,11 +80,11 @@ export namespace fatpound::win32::d2d
 
 
     public:
-        template <traits::IntegralOrFloating T> FAT_FORCEINLINE constexpr auto GetWidth()  const noexcept -> T
+        template <traits::IntegralOrFloating T> FATLIB_FORCEINLINE constexpr auto GetWidth()  const noexcept -> T
         {
             return static_cast<T>(mc_dimensions_.m_width);
         }
-        template <traits::IntegralOrFloating T> FAT_FORCEINLINE constexpr auto GetHeight() const noexcept -> T
+        template <traits::IntegralOrFloating T> FATLIB_FORCEINLINE constexpr auto GetHeight() const noexcept -> T
         {
             return static_cast<T>(mc_dimensions_.m_height);
         }

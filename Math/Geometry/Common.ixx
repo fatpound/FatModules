@@ -2,7 +2,7 @@ module;
 
 #include <_macros/STL.hxx>
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
     #include <DirectXMath.h>
 #endif
 
@@ -14,13 +14,13 @@ import FatPound.Traits.Bitwise;
 
 import std;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
     namespace dx = DirectX;
 #endif
 
 export namespace fatpound::math::geometry
 {
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
 
     auto operator +      (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept -> dx::XMVECTOR
     {

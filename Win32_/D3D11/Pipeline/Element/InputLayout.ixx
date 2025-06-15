@@ -1,6 +1,6 @@
 module;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
     #ifdef __INTELLISENSE__
         #include <Win32_/WinAPI.hpp>
         #include <d3d11.h>
@@ -10,7 +10,7 @@ module;
 
 export module FatPound.Win32.D3D11.Pipeline.InputLayout;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
 
 #ifndef __INTELLISENSE__
     import <d3d11.h>;

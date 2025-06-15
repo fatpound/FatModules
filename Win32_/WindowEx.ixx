@@ -1,6 +1,6 @@
 module;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
     #include <_macros/Compiler.hxx>
     #include <_macros/Experimental.hxx>
     #include <_macros/Namespaces.hxx>
@@ -14,7 +14,7 @@ module;
 
 export module FatPound.Win32.WindowEx;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
 
 #ifndef __INTELLISENSE__
     import <Win32_/WinAPI.hxx>;
@@ -179,11 +179,11 @@ export namespace fatpound::win32
 
 
     public:
-        template <traits::IntegralOrFloating T> FAT_FORCEINLINE auto GetClientWidth  () const noexcept -> T
+        template <traits::IntegralOrFloating T> FATLIB_FORCEINLINE auto GetClientWidth  () const noexcept -> T
         {
             return static_cast<T>(mc_client_size_.m_width);
         }
-        template <traits::IntegralOrFloating T> FAT_FORCEINLINE auto GetClientHeight () const noexcept -> T
+        template <traits::IntegralOrFloating T> FATLIB_FORCEINLINE auto GetClientHeight () const noexcept -> T
         {
             return static_cast<T>(mc_client_size_.m_height);
         }
@@ -292,7 +292,7 @@ export namespace fatpound::win32
 
 
     protected:
-        FAT_FORCEINLINE void Process_WM_MOUSEMOVE_  (const WPARAM& wParam, const LPARAM& lParam)
+        FATLIB_FORCEINLINE void Process_WM_MOUSEMOVE_  (const WPARAM& wParam, const LPARAM& lParam)
         {
             const POINTS pt = MAKEPOINTS(lParam);
 
@@ -323,63 +323,63 @@ export namespace fatpound::win32
                 }
             }
         }
-        FAT_FORCEINLINE void Process_WM_LBUTTONDOWN_()
+        FATLIB_FORCEINLINE void Process_WM_LBUTTONDOWN_()
         {
             m_pMouse->AddLeftPressEvent();
         }
-        FAT_FORCEINLINE void Process_WM_LBUTTONUP_  ()
+        FATLIB_FORCEINLINE void Process_WM_LBUTTONUP_  ()
         {
             m_pMouse->AddLeftReleaseEvent();
         }
-        FAT_FORCEINLINE void Process_WM_RBUTTONDOWN_()
+        FATLIB_FORCEINLINE void Process_WM_RBUTTONDOWN_()
         {
             m_pMouse->AddRightPressEvent();
         }
-        FAT_FORCEINLINE void Process_WM_RBUTTONUP_  ()
+        FATLIB_FORCEINLINE void Process_WM_RBUTTONUP_  ()
         {
             m_pMouse->AddRightReleaseEvent();
         }
-        FAT_FORCEINLINE void Process_WM_MBUTTONDOWN_()
+        FATLIB_FORCEINLINE void Process_WM_MBUTTONDOWN_()
         {
             m_pMouse->AddWheelPressEvent();
         }
-        FAT_FORCEINLINE void Process_WM_MBUTTONUP_  ()
+        FATLIB_FORCEINLINE void Process_WM_MBUTTONUP_  ()
         {
             m_pMouse->AddWheelReleaseEvent();
         }
-        FAT_FORCEINLINE void Process_WM_MOUSEWHEEL_ (const int& delta)
+        FATLIB_FORCEINLINE void Process_WM_MOUSEWHEEL_ (const int& delta)
         {
             m_pMouse->ProcessWheelDelta(delta);
         }
 
-        FAT_FORCEINLINE void Process_WM_KILLFOCUS_ () noexcept
+        FATLIB_FORCEINLINE void Process_WM_KILLFOCUS_ () noexcept
         {
             m_pKeyboard->ClearKeyStateBitset();
         }
-        FAT_FORCEINLINE void Process_WM_KEYDOWN_   (const WPARAM& wParam, const LPARAM& lParam)
+        FATLIB_FORCEINLINE void Process_WM_KEYDOWN_   (const WPARAM& wParam, const LPARAM& lParam)
         {
             Process_WM_SYSKEYDOWN_(wParam, lParam);
         }
-        FAT_FORCEINLINE void Process_WM_SYSKEYDOWN_(const WPARAM& wParam, const LPARAM& lParam)
+        FATLIB_FORCEINLINE void Process_WM_SYSKEYDOWN_(const WPARAM& wParam, const LPARAM& lParam)
         {
             if ((not (lParam bitand 0x40000000)) or m_pKeyboard->AutoRepeatIsEnabled())
             {
                 m_pKeyboard->AddKeyPressEvent(static_cast<unsigned char>(wParam));
             }
         }
-        FAT_FORCEINLINE void Process_WM_KEYUP_     (const WPARAM& wParam)
+        FATLIB_FORCEINLINE void Process_WM_KEYUP_     (const WPARAM& wParam)
         {
             Process_WM_SYSKEYUP_(wParam);
         }
-        FAT_FORCEINLINE void Process_WM_SYSKEYUP_  (const WPARAM& wParam)
+        FATLIB_FORCEINLINE void Process_WM_SYSKEYUP_  (const WPARAM& wParam)
         {
             m_pKeyboard->AddKeyReleaseEvent(static_cast<unsigned char>(wParam));
         }
-        FAT_FORCEINLINE void Process_WM_CHAR_      (const WPARAM& wParam)
+        FATLIB_FORCEINLINE void Process_WM_CHAR_      (const WPARAM& wParam)
         {
             m_pKeyboard->AddChar(static_cast<unsigned char>(wParam));
         }
-        FAT_FORCEINLINE void Process_WM_SYSCOMMAND_(const WPARAM& wParam) noexcept
+        FATLIB_FORCEINLINE void Process_WM_SYSCOMMAND_(const WPARAM& wParam) noexcept
         {
             if ((wParam bitand 0xFFF0U) == SC_CLOSE)
             {

@@ -1,12 +1,12 @@
 module;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
     #include <DirectXMath.h>
 #endif
 
 export module FatPound.Math.Geometry.Shape.Circle;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
 
 import FatPound.Math.Multiplicative;
 import FatPound.Math.Numbers.Common;

@@ -2,7 +2,7 @@ module;
 
 export module FatPound.Win32.IWindow;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
 
 import <Win32_/WinAPI.hxx>;
 

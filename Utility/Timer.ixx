@@ -25,20 +25,20 @@ export namespace fatpound::utility
 
 
     public:
-        [[nodiscard]] FAT_FORCEINLINE auto GetElapsed_ms() const noexcept -> float
+        [[nodiscard]] FATLIB_FORCEINLINE auto GetElapsed_ms() const noexcept -> float
         {
             return std::chrono::duration<float, std::milli>(m_last_ - m_start_).count();
         }
-        [[nodiscard]] FAT_FORCEINLINE auto GetElapsed_s()  const noexcept -> float
+        [[nodiscard]] FATLIB_FORCEINLINE auto GetElapsed_s()  const noexcept -> float
         {
             return GetElapsed_ms() / 1000.0F;
         }
 
-        FAT_FORCEINLINE void Start() noexcept
+        FATLIB_FORCEINLINE void Start() noexcept
         {
             m_start_ = std::chrono::steady_clock::now();
         }
-        FAT_FORCEINLINE void Stop() noexcept
+        FATLIB_FORCEINLINE void Stop() noexcept
         {
             m_last_ = std::chrono::steady_clock::now();
         }

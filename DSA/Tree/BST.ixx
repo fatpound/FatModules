@@ -106,20 +106,20 @@ export namespace fatpound::dsa::tree
 
 
     public:
-        [[nodiscard]] FAT_FORCEINLINE auto GetOs        () const noexcept -> std::ostream&
+        [[nodiscard]] FATLIB_FORCEINLINE auto GetOs        () const noexcept -> std::ostream&
         {
             return *m_os_;
         }
-        [[nodiscard]] FAT_FORCEINLINE auto GetNodeCount () const -> Size_t
+        [[nodiscard]] FATLIB_FORCEINLINE auto GetNodeCount () const -> Size_t
         {
             return m_node_count_;
         }
 
-        [[nodiscard]] FAT_FORCEINLINE auto IsEmpty    () const noexcept -> bool
+        [[nodiscard]] FATLIB_FORCEINLINE auto IsEmpty    () const noexcept -> bool
         {
             return m_node_count_ == 0U;
         }
-        [[nodiscard]] FAT_FORCEINLINE auto IsNotEmpty () const noexcept -> bool
+        [[nodiscard]] FATLIB_FORCEINLINE auto IsNotEmpty () const noexcept -> bool
         {
             return not IsEmpty();
         }
@@ -257,7 +257,7 @@ export namespace fatpound::dsa::tree
 
 
     protected:
-        [[nodiscard]] FAT_FORCEINLINE auto GetRoot_() const noexcept -> Node_*
+        [[nodiscard]] FATLIB_FORCEINLINE auto GetRoot_() const noexcept -> Node_*
         {
             return m_pRoot_;
         }

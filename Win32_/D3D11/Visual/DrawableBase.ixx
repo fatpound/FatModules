@@ -1,6 +1,6 @@
 module;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
 #include <_macros/Namespaces.hxx>
 
 #include <cassert>
@@ -8,7 +8,7 @@ module;
 
 export module FatPound.Win32.D3D11.Visual.DrawableBase;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
 
 import FatPound.Win32.D3D11.Pipeline;
 import FatPound.Win32.D3D11.Visual.Drawable;

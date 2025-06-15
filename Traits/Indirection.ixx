@@ -39,7 +39,7 @@ module : private;
 
 namespace fatpound::traits
 {
-    class FAT_EBCO ___unused___ final
+    class FATLIB_EBCO ___unused___ final
     {
         explicit ___unused___()                        = delete;
         explicit ___unused___(const ___unused___&)     = delete;

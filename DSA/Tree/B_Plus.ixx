@@ -33,7 +33,7 @@ export namespace fatpound::dsa::tree
 
 
     public:
-        [[nodiscard]] FAT_FORCEINLINE auto GetOs() const noexcept -> std::ostream&
+        [[nodiscard]] FATLIB_FORCEINLINE auto GetOs() const noexcept -> std::ostream&
         {
             return *m_os_;
         }

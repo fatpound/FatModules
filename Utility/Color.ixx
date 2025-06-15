@@ -93,52 +93,52 @@ export namespace fatpound::utility
 
 
     public:
-        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetValue () const noexcept -> Value_t
+        [[nodiscard]] FATLIB_FORCEINLINE constexpr auto GetValue () const noexcept -> Value_t
         {
             return *this;
         }
-        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetA     () const noexcept -> std::uint8_t
+        [[nodiscard]] FATLIB_FORCEINLINE constexpr auto GetA     () const noexcept -> std::uint8_t
         {
             return m_value_ >> AlphaShift;
         }
-        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetR     () const noexcept -> std::uint8_t
+        [[nodiscard]] FATLIB_FORCEINLINE constexpr auto GetR     () const noexcept -> std::uint8_t
         {
             return (m_value_ >> RedShift) bitand 0xFFU;
         }
-        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetG     () const noexcept -> std::uint8_t
+        [[nodiscard]] FATLIB_FORCEINLINE constexpr auto GetG     () const noexcept -> std::uint8_t
         {
             return (m_value_ >> GreenShift) bitand 0xFFU;
         }
-        [[nodiscard]] FAT_FORCEINLINE constexpr auto GetB     () const noexcept -> std::uint8_t
+        [[nodiscard]] FATLIB_FORCEINLINE constexpr auto GetB     () const noexcept -> std::uint8_t
         {
             return m_value_ bitand 0xFFU;
         }
 
-        FAT_FORCEINLINE constexpr auto SetValue (const      Value_t& value) noexcept -> Color&
+        FATLIB_FORCEINLINE constexpr auto SetValue (const      Value_t& value) noexcept -> Color&
         {
             m_value_ = value;
 
             return *this;
         }
-        FAT_FORCEINLINE constexpr auto SetA     (const std::uint8_t& alpha) noexcept -> Color&
+        FATLIB_FORCEINLINE constexpr auto SetA     (const std::uint8_t& alpha) noexcept -> Color&
         {
             m_value_ = (m_value_ bitand AlphaMask) bitor (static_cast<std::uint32_t>(alpha) << AlphaShift);
 
             return *this;
         }
-        FAT_FORCEINLINE constexpr auto SetR     (const std::uint8_t&   red) noexcept -> Color&
+        FATLIB_FORCEINLINE constexpr auto SetR     (const std::uint8_t&   red) noexcept -> Color&
         {
             m_value_ = (m_value_ bitand RedMask) bitor (static_cast<std::uint32_t>(red) << RedShift);
 
             return *this;
         }
-        FAT_FORCEINLINE constexpr auto SetG     (const std::uint8_t& green) noexcept -> Color&
+        FATLIB_FORCEINLINE constexpr auto SetG     (const std::uint8_t& green) noexcept -> Color&
         {
             m_value_ = (m_value_ bitand GreenMask) bitor (static_cast<std::uint32_t>(green) << GreenShift);
 
             return *this;
         }
-        FAT_FORCEINLINE constexpr auto SetB     (const std::uint8_t&  blue) noexcept -> Color&
+        FATLIB_FORCEINLINE constexpr auto SetB     (const std::uint8_t&  blue) noexcept -> Color&
         {
             m_value_ = (m_value_ bitand BlueMask) bitor (static_cast<std::uint32_t>(blue));
 
