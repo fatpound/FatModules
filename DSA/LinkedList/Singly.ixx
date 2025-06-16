@@ -4,8 +4,6 @@ module;
 
 export module FatPound.DSA.LinkedList.Singly;
 
-import FatPound.Traits.Callable;
-
 import std;
 
 export namespace fatpound::dsa::linkedlist

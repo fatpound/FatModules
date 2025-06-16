@@ -43,7 +43,7 @@ export namespace fatpound::win32
     class WindowEx : public IWindow
     {
     public:
-#if IN_DEBUG
+#ifdef IN_DEBUG
         static constexpr DWORD scx_DefaultWndStyleEx = WS_VISIBLE bitor WS_CAPTION bitor WS_MINIMIZEBOX bitor WS_OVERLAPPED bitor WS_SYSMENU;
 #else
         static constexpr DWORD scx_DefaultWndStyleEx = WS_VISIBLE bitor WS_POPUP;
@@ -83,7 +83,7 @@ export namespace fatpound::win32
                 ]
                 () -> void
                 {
-#if IN_DEBUG or IS_GFX_FRAMEWORK
+#if defined(IN_DEBUG) or defined(IS_GFX_FRAMEWORK)
 
                     RECT rect
                     {
@@ -108,7 +108,7 @@ export namespace fatpound::win32
                         position.has_value() ? position->x : CW_USEDEFAULT,
                         position.has_value() ? position->y : CW_USEDEFAULT,
 
-#if IN_DEBUG or IS_GFX_FRAMEWORK
+#if defined(IN_DEBUG) or defined(IS_GFX_FRAMEWORK)
 
                         rect.right  - rect.left,
                         rect.bottom - rect.top,

@@ -39,15 +39,15 @@ module : private;
 
 namespace fatpound::traits
 {
-    class FATLIB_EBCO ___unused___ final
+    struct FATLIB_EBCO _unused_ final
     {
-        explicit ___unused___()                        = delete;
-        explicit ___unused___(const ___unused___&)     = delete;
-        explicit ___unused___(___unused___&&) noexcept = delete;
+        explicit _unused_()                    = delete;
+        explicit _unused_(const _unused_&)     = delete;
+        explicit _unused_(_unused_&&) noexcept = delete;
 
-        auto operator = (const ___unused___&)     -> ___unused___& = delete;
-        auto operator = (___unused___&&) noexcept -> ___unused___& = delete;
-        ~___unused___() noexcept                                   = delete;
+        auto operator = (const _unused_&)     -> _unused_& = delete;
+        auto operator = (_unused_&&) noexcept -> _unused_& = delete;
+        ~_unused_() noexcept                               = delete;
         
         //********************//
 
@@ -55,13 +55,13 @@ namespace fatpound::traits
 
         int val;
 
-        static_assert(MemberFunctionPointer<decltype(&___unused___::foo)>);
-        static_assert(  MemberObjectPointer<decltype(&___unused___::val)>);
-        static_assert(        MemberPointer<decltype(&___unused___::foo)>);
-        static_assert(              Pointer<decltype(&___unused___::foo)>);
-        static_assert(              Pointer<decltype(&___unused___::val)>);
-        static_assert(not  NonMemberPointer<decltype(&___unused___::foo)>);
-        static_assert(not  NonMemberPointer<decltype(&___unused___::val)>);
+        static_assert(MemberFunctionPointer<decltype(&_unused_::foo)>);
+        static_assert(  MemberObjectPointer<decltype(&_unused_::val)>);
+        static_assert(        MemberPointer<decltype(&_unused_::foo)>);
+        static_assert(              Pointer<decltype(&_unused_::foo)>);
+        static_assert(              Pointer<decltype(&_unused_::val)>);
+        static_assert(not  NonMemberPointer<decltype(&_unused_::foo)>);
+        static_assert(not  NonMemberPointer<decltype(&_unused_::val)>);
     };
 }
 

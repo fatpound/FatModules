@@ -8,6 +8,8 @@ import FatPound.Traits.Formation;
 
 import std;
 
+// NOLINTBEGIN(altera-struct-pack-align, fuchsia-virtual-inheritance)
+
 export namespace fatpound::traits
 {
     template <typename T>
@@ -26,6 +28,8 @@ export namespace fatpound::traits
         using Nth_Argument_t = std::tuple_element<N, TupleOfArgs_t>::type;
 
         static constexpr auto fixed_arity = sizeof...(Args);
+
+        static constexpr bool is_noexcept_specified{};
         static constexpr bool is_variadic{};
     };
 
@@ -68,11 +72,10 @@ export namespace fatpound::traits
     // noexcept specializations
 
     template <typename R, typename... Args>
-    struct FATLIB_EBCO FunctionInfo<R(*)(Args...) noexcept>
-        :
-        virtual FunctionInfo<R(*)(Args...)>,
-        virtual FunctionInfo<R(Args...) noexcept>
+    struct FATLIB_EBCO FunctionInfo<R(*)(Args...) noexcept> : virtual FunctionInfo<R(*)(Args...)>
     {
+        using Callable_t              = R(Args...)    noexcept;
+        using CallableDecl_t          = R(Args...)    noexcept;
         using CallablePtr_t           = R(*)(Args...) noexcept;
         using CallablePtr_no_ptr_cv_t = R(*)(Args...) noexcept;
 
@@ -135,8 +138,11 @@ export namespace fatpound::traits
     struct FATLIB_EBCO FunctionInfo<R(*)(Args..., ...) noexcept> : virtual FunctionInfo<R(*)(Args..., ...)>
     {
         using Callable_t              = R(Args..., ...) noexcept;
+        using CallableDecl_t          = R(Args..., ...) noexcept;
         using CallablePtr_t           = R(*)(Args..., ...) noexcept;
         using CallablePtr_no_ptr_cv_t = R(*)(Args..., ...) noexcept;
+
+        static constexpr bool is_noexcept_specified = true;
     };
 
     template <typename R, typename... Args>
@@ -370,180 +376,182 @@ export namespace fatpound::traits
 #define V_INHERIT(PQUAL, FQS) virtual FunctionInfo< MEM_FUNCPTR_TYPE(PQUAL) FQS >
 #define V_INHERIT_VARIADIC(PQUAL, FQS) virtual FunctionInfo< MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) FQS >
 
-#define FATLIB_FUNC_INFO_GENERATOR1(PQUAL, ...)                         \
-template <typename C, typename R, typename... Args>                  \
-struct FATLIB_EBCO FunctionInfo< MEM_FUNCPTR_TYPE(PQUAL) __VA_ARGS__ >
-
-#define FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, ...)                \
-template <typename C, typename R, typename... Args>                  \
-struct FATLIB_EBCO FunctionInfo< MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__ >
-
-#define FATLIB_FUNC_INFO_GENERATOR2(PQUAL, ...)                         \
-    :                                                                \
-    __VA_ARGS__                                                      
-
-#define FATLIB_FUNC_INFO_GENERATOR3(PQUAL, ...)                                  \
-{                                                                             \
-    using CallableDecl_t          = MEM_FUNCDECL_TYPE       __VA_ARGS__;      \
-    using CallablePtr_t           = MEM_FUNCPTR_TYPE(PQUAL) __VA_ARGS__;      \
-    using CallablePtr_no_ptr_cv_t = MEM_FUNCPTR_TYPE()      __VA_ARGS__;      \
-    using CallablePtr_no_cvrn_t   = MEM_FUNCPTR_TYPE(PQUAL);                  \
+#define FATLIB_FUNC_INFO_GENERATOR1(PQUAL, ...)                                      \
+template <typename C, typename R, typename... Args>                                  \
+struct FATLIB_EBCO FunctionInfo< MEM_FUNCPTR_TYPE(PQUAL) __VA_ARGS__ >               
+                                                                                     
+#define FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, ...)                             \
+template <typename C, typename R, typename... Args>                                  \
+struct FATLIB_EBCO FunctionInfo< MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__ >      
+                                                                                     
+#define FATLIB_FUNC_INFO_GENERATOR2(PQUAL, ...)                                      \
+    :                                                                                \
+    __VA_ARGS__                                                                      
+                                                                                     
+#define FATLIB_FUNC_INFO_GENERATOR3(PQUAL, ...)                                      \
+{                                                                                    \
+    using CallableDecl_t          = MEM_FUNCDECL_TYPE       __VA_ARGS__;             \
+    using CallablePtr_t           = MEM_FUNCPTR_TYPE(PQUAL) __VA_ARGS__;             \
+    using CallablePtr_no_ptr_cv_t = MEM_FUNCPTR_TYPE()      __VA_ARGS__;             \
+    using CallablePtr_no_cvrn_t   = MEM_FUNCPTR_TYPE(PQUAL);                         \
+};                                                                                   
+                                                                                     
+#define FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, ...)                             \
+{                                                                                    \
+    using CallableDecl_t          = MEM_FUNCDECL_TYPE_VARIADIC       __VA_ARGS__;    \
+    using CallablePtr_t           = MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__;    \
+    using CallablePtr_no_ptr_cv_t = MEM_FUNCPTR_TYPE_VARIADIC()      __VA_ARGS__;    \
+    using CallablePtr_no_cvrn_t   = MEM_FUNCPTR_TYPE_VARIADIC(PQUAL);                \
 };
 
-#define FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, ...)                              \
-{                                                                                  \
-    using CallableDecl_t          = MEM_FUNCDECL_TYPE_VARIADIC       __VA_ARGS__;  \
-    using CallablePtr_t           = MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__;  \
-    using CallablePtr_no_ptr_cv_t = MEM_FUNCPTR_TYPE_VARIADIC()      __VA_ARGS__;  \
-    using CallablePtr_no_cvrn_t   = MEM_FUNCPTR_TYPE_VARIADIC(PQUAL);              \
-};
+#define FATLIB_FUNC_INFO_GENERATOR(PQUAL)                                                                                                        \
+                                                                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const &)                                                                                                  \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, &))                                                             \
+    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const &)                                                                                                  \
+                                                                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const &&)                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, &&))                                                            \
+    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const &&)                                                                                                 \
+                                                                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const noexcept)                                                                                           \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, noexcept))                                                      \
+    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const noexcept)                                                                                           \
+                                                                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const & noexcept)                                                                                         \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, &), V_INHERIT(PQUAL, noexcept))                                 \
+    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const & noexcept)                                                                                         \
+                                                                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const && noexcept)                                                                                        \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, &&), V_INHERIT(PQUAL, noexcept))                                \
+    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const && noexcept)                                                                                        \
+                                                                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, volatile &)                                                                                               \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &))                                                          \
+    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, volatile &)                                                                                               \
+                                                                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, volatile &&)                                                                                              \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &&))                                                         \
+    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, volatile &&)                                                                                              \
+                                                                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, volatile noexcept)                                                                                        \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, noexcept))                                                   \
+    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, volatile noexcept)                                                                                        \
+                                                                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, volatile & noexcept)                                                                                      \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &), V_INHERIT(PQUAL, noexcept))                              \
+    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, volatile & noexcept)                                                                                      \
+                                                                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, volatile && noexcept)                                                                                     \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &&), V_INHERIT(PQUAL, noexcept))                             \
+    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, volatile && noexcept)                                                                                     \
+                                                                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const volatile)                                                                                           \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, volatile))                                                      \
+    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const volatile)                                                                                           \
+                                                                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const volatile &)                                                                                         \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &))                                 \
+    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const volatile &)                                                                                         \
+                                                                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const volatile &&)                                                                                        \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &&))                                \
+    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const volatile &&)                                                                                        \
+                                                                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const volatile noexcept)                                                                                  \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, noexcept))                          \
+    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const volatile noexcept)                                                                                  \
+                                                                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const volatile & noexcept)                                                                                \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &), V_INHERIT(PQUAL, noexcept))     \
+    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const volatile & noexcept)                                                                                \
+                                                                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const volatile && noexcept)                                                                               \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &&), V_INHERIT(PQUAL, noexcept))    \
+    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const volatile && noexcept)                                                                               \
+                                                                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, & noexcept)                                                                                               \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, &), V_INHERIT(PQUAL, noexcept))                                                          \
+    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, & noexcept)                                                                                               \
+                                                                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, && noexcept)                                                                                              \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, &&), V_INHERIT(PQUAL, noexcept))                                                         \
+    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, && noexcept)                                                                                              \
 
-#define FATLIB_FUNC_INFO_GENERATOR(PQUAL)                                                                                                     \
-                                                                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const &)                                                                                               \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, &))                                                          \
-    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const &)                                                                                               \
-                                                                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const &&)                                                                                              \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, &&))                                                         \
-    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const &&)                                                                                              \
-                                                                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const noexcept)                                                                                        \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, noexcept))                                                   \
-    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const noexcept)                                                                                        \
-                                                                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const & noexcept)                                                                                      \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, &), V_INHERIT(PQUAL, noexcept))                              \
-    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const & noexcept)                                                                                      \
-                                                                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const && noexcept)                                                                                     \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, &&), V_INHERIT(PQUAL, noexcept))                             \
-    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const && noexcept)                                                                                     \
-                                                                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, volatile &)                                                                                            \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &))                                                       \
-    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, volatile &)                                                                                            \
-                                                                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, volatile &&)                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &&))                                                      \
-    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, volatile &&)                                                                                           \
-                                                                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, volatile noexcept)                                                                                     \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, noexcept))                                                \
-    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, volatile noexcept)                                                                                     \
-                                                                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, volatile & noexcept)                                                                                   \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &), V_INHERIT(PQUAL, noexcept))                           \
-    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, volatile & noexcept)                                                                                   \
-                                                                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, volatile && noexcept)                                                                                  \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &&), V_INHERIT(PQUAL, noexcept))                          \
-    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, volatile && noexcept)                                                                                  \
-                                                                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const volatile)                                                                                        \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, volatile))                                                   \
-    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const volatile)                                                                                        \
-                                                                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const volatile &)                                                                                      \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &))                              \
-    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const volatile &)                                                                                      \
-                                                                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const volatile &&)                                                                                     \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &&))                             \
-    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const volatile &&)                                                                                     \
-                                                                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const volatile noexcept)                                                                               \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, noexcept))                       \
-    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const volatile noexcept)                                                                               \
-                                                                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const volatile & noexcept)                                                                             \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &), V_INHERIT(PQUAL, noexcept))  \
-    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const volatile & noexcept)                                                                             \
-                                                                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, const volatile && noexcept)                                                                            \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, const), V_INHERIT(PQUAL, volatile), V_INHERIT(PQUAL, &&), V_INHERIT(PQUAL, noexcept)) \
-    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, const volatile && noexcept)                                                                            \
-                                                                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, & noexcept)                                                                                            \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, &), V_INHERIT(PQUAL, noexcept))                                                       \
-    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, & noexcept)                                                                                            \
-                                                                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR1(PQUAL, && noexcept)                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT(PQUAL, &&), V_INHERIT(PQUAL, noexcept))                                                      \
-    FATLIB_FUNC_INFO_GENERATOR3(PQUAL, && noexcept)                                                                                           \
 
-#define FATLIB_FUNC_INFO_GENERATOR_VARIADIC(PQUAL)                                                                                            \
-                                                                                                                                            \
-    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const &)                                                                                        \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, &))                                           \
-    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const &)                                                                                          \
-                                                                                                                                                \
-    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const &&)                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, &&))                                              \
-    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const &&)                                                                                             \
-                                                                                                                                                    \
-    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const noexcept)                                                                                         \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, noexcept))                                            \
-    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const noexcept)                                                                                           \
-                                                                                                                                                        \
-    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const & noexcept)                                                                                           \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, &), V_INHERIT_VARIADIC(PQUAL, noexcept))                  \
-    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const & noexcept)                                                                                             \
-                                                                                                                                                            \
-    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const && noexcept)                                                                                              \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, &&), V_INHERIT_VARIADIC(PQUAL, noexcept))                     \
-    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const && noexcept)                                                                                                \
-                                                                                                                                                                \
-    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, volatile &)                                                                                                         \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, &))                                                            \
-    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, volatile &)                                                                                                           \
-                                                                                                                                                                    \
-    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, volatile &&)                                                                                                            \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, &&))                                                               \
-    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, volatile &&)                                                                                                              \
-                                                                                                                                                                        \
-    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, volatile noexcept)                                                                                                          \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, noexcept))                                                             \
-    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, volatile noexcept)                                                                                                            \
-                                                                                                                                                                            \
-    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, volatile & noexcept)                                                                                                            \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, &), V_INHERIT_VARIADIC(PQUAL, noexcept))                                   \
-    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, volatile & noexcept)                                                                                                              \
-                                                                                                                                                                               \
-    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, volatile && noexcept)                                                                                                             \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, &&), V_INHERIT_VARIADIC(PQUAL, noexcept))                                   \
-    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, volatile && noexcept)                                                                                                             \
-                                                                                                                                                                               \
-    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const volatile)                                                                                                                   \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, volatile))                                                                     \
-    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const volatile)                                                                                                                   \
-                                                                                                                                                                               \
-    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const volatile &)                                                                                                                 \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, &))                                       \
-    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const volatile &)                                                                                                                 \
-                                                                                                                                                                               \
-    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const volatile &&)                                                                                                                \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, &&))                                      \
-    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const volatile &&)                                                                                                                \
-                                                                                                                                                                               \
-    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const volatile noexcept)                                                                                                          \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, noexcept))                                \
-    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const volatile noexcept)                                                                                                          \
-                                                                                                                                                                               \
-    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const volatile & noexcept)                                                                                                        \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, &), V_INHERIT_VARIADIC(PQUAL, noexcept))  \
-    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const volatile & noexcept)                                                                                                        \
-                                                                                                                                                                               \
-    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const volatile && noexcept)                                                                                                       \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, &&), V_INHERIT_VARIADIC(PQUAL, noexcept)) \
-    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const volatile && noexcept)                                                                                                       \
-                                                                                                                                                                               \
-    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, & noexcept)                                                                                                                       \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, &), V_INHERIT_VARIADIC(PQUAL, noexcept))                                                                         \
-    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, & noexcept)                                                                                                                       \
-                                                                                                                                                                               \
-    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, && noexcept)                                                                                                                      \
-    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, &&), V_INHERIT_VARIADIC(PQUAL, noexcept))                                                                        \
+
+#define FATLIB_FUNC_INFO_GENERATOR_VARIADIC(PQUAL)                                                                                               \
+                                                                                                                                                  \
+    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const &)                                                                                           \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, &))                                              \
+    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const &)                                                                                             \
+                                                                                                                                                      \
+    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const &&)                                                                                              \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, &&))                                                 \
+    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const &&)                                                                                                \
+                                                                                                                                                          \
+    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const noexcept)                                                                                            \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, noexcept))                                               \
+    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const noexcept)                                                                                              \
+                                                                                                                                                              \
+    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const & noexcept)                                                                                              \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, &), V_INHERIT_VARIADIC(PQUAL, noexcept))                     \
+    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const & noexcept)                                                                                                \
+                                                                                                                                                                  \
+    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const && noexcept)                                                                                                 \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, &&), V_INHERIT_VARIADIC(PQUAL, noexcept))                        \
+    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const && noexcept)                                                                                                   \
+                                                                                                                                                                      \
+    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, volatile &)                                                                                                            \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, &))                                                               \
+    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, volatile &)                                                                                                              \
+                                                                                                                                                                          \
+    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, volatile &&)                                                                                                               \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, &&))                                                                  \
+    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, volatile &&)                                                                                                                 \
+                                                                                                                                                                              \
+    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, volatile noexcept)                                                                                                             \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, noexcept))                                                                \
+    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, volatile noexcept)                                                                                                               \
+                                                                                                                                                                                  \
+    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, volatile & noexcept)                                                                                                               \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, &), V_INHERIT_VARIADIC(PQUAL, noexcept))                                      \
+    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, volatile & noexcept)                                                                                                                 \
+                                                                                                                                                                                     \
+    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, volatile && noexcept)                                                                                                                \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, &&), V_INHERIT_VARIADIC(PQUAL, noexcept))                                      \
+    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, volatile && noexcept)                                                                                                                \
+                                                                                                                                                                                     \
+    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const volatile)                                                                                                                      \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, volatile))                                                                        \
+    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const volatile)                                                                                                                      \
+                                                                                                                                                                                     \
+    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const volatile &)                                                                                                                    \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, &))                                          \
+    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const volatile &)                                                                                                                    \
+                                                                                                                                                                                     \
+    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const volatile &&)                                                                                                                   \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, &&))                                         \
+    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const volatile &&)                                                                                                                   \
+                                                                                                                                                                                     \
+    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const volatile noexcept)                                                                                                             \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, noexcept))                                   \
+    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const volatile noexcept)                                                                                                             \
+                                                                                                                                                                                     \
+    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const volatile & noexcept)                                                                                                           \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, &), V_INHERIT_VARIADIC(PQUAL, noexcept))     \
+    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const volatile & noexcept)                                                                                                           \
+                                                                                                                                                                                     \
+    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, const volatile && noexcept)                                                                                                          \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, const), V_INHERIT_VARIADIC(PQUAL, volatile), V_INHERIT_VARIADIC(PQUAL, &&), V_INHERIT_VARIADIC(PQUAL, noexcept))    \
+    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, const volatile && noexcept)                                                                                                          \
+                                                                                                                                                                                     \
+    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, & noexcept)                                                                                                                          \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, &), V_INHERIT_VARIADIC(PQUAL, noexcept))                                                                            \
+    FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, & noexcept)                                                                                                                          \
+                                                                                                                                                                                     \
+    FATLIB_FUNC_INFO_GENERATOR1_VARIADIC(PQUAL, && noexcept)                                                                                                                         \
+    FATLIB_FUNC_INFO_GENERATOR2(PQUAL, V_INHERIT_VARIADIC(PQUAL, &&), V_INHERIT_VARIADIC(PQUAL, noexcept))                                                                           \
     FATLIB_FUNC_INFO_GENERATOR3_VARIADIC(PQUAL, && noexcept)
 
 #ifdef _MSC_VER
@@ -558,45 +566,44 @@ struct FATLIB_EBCO FunctionInfo< MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__ >
 
     // with cv-qualified (member function) pointers
 
-#define FATLIB_FUNC_INFO_GENERATOR4(PQUAL, FQS)                        \
-    template <typename C, typename R, typename... Args>             \
-    struct FATLIB_EBCO FunctionInfo<R(C::* PQUAL)(Args...) FQS>        \
-        :                                                           \
-        virtual FunctionInfo<R(C::* PQUAL)(Args...)>,               \
-        virtual FunctionInfo<R(C::*      )(Args...) FQS>            \
-    {                                                               \
-        using CallablePtr_t           = R(C::* PQUAL)(Args...) FQS; \
-        using CallablePtr_no_ptr_cv_t = R(C::*      )(Args...) FQS; \
-        using CallablePtr_no_cvrn_t   = R(C::* PQUAL)(Args...);     \
-    };
-
+#define FATLIB_FUNC_INFO_GENERATOR4(PQUAL, FQS)                             \
+    template <typename C, typename R, typename... Args>                     \
+    struct FATLIB_EBCO FunctionInfo<R(C::* PQUAL)(Args...) FQS>             \
+        :                                                                   \
+        virtual FunctionInfo<R(C::* PQUAL)(Args...)>,                       \
+        virtual FunctionInfo<R(C::*      )(Args...) FQS>                    \
+    {                                                                       \
+        using CallablePtr_t           = R(C::* PQUAL)(Args...) FQS;         \
+        using CallablePtr_no_ptr_cv_t = R(C::*      )(Args...) FQS;         \
+        using CallablePtr_no_cvrn_t   = R(C::* PQUAL)(Args...);             \
+    };                                                                      
+                                                                            
 #define FATLIB_FUNC_INFO_GENERATOR4_VARIADIC(PQUAL, FQS)                    \
-    template <typename C, typename R, typename... Args>                  \
+    template <typename C, typename R, typename... Args>                     \
     struct FATLIB_EBCO FunctionInfo<R(C::* PQUAL)(Args..., ...) FQS>        \
-        :                                                                \
-        virtual FunctionInfo<R(C::* PQUAL)(Args..., ...)>,               \
-        virtual FunctionInfo<R(C::*      )(Args..., ...) FQS>            \
-    {                                                                    \
-        using CallablePtr_t           = R(C::* PQUAL)(Args..., ...) FQS; \
-        using CallablePtr_no_ptr_cv_t = R(C::*      )(Args..., ...) FQS; \
-        using CallablePtr_no_cvrn_t   = R(C::* PQUAL)(Args..., ...);     \
+        :                                                                   \
+        virtual FunctionInfo<R(C::* PQUAL)(Args..., ...)>,                  \
+        virtual FunctionInfo<R(C::*      )(Args..., ...) FQS>               \
+    {                                                                       \
+        using CallablePtr_t           = R(C::* PQUAL)(Args..., ...) FQS;    \
+        using CallablePtr_no_ptr_cv_t = R(C::*      )(Args..., ...) FQS;    \
+        using CallablePtr_no_cvrn_t   = R(C::* PQUAL)(Args..., ...);        \
     };
 
-#define FATLIB_FUNC_INFO_GENERATOR_BASE(PQUAL)   \
-    FATLIB_FUNC_INFO_GENERATOR4(PQUAL, const)    \
-    FATLIB_FUNC_INFO_GENERATOR4(PQUAL, volatile) \
-    FATLIB_FUNC_INFO_GENERATOR4(PQUAL, &)        \
-    FATLIB_FUNC_INFO_GENERATOR4(PQUAL, &&)       \
-    FATLIB_FUNC_INFO_GENERATOR4(PQUAL, noexcept)
-
-#define FATLIB_FUNC_INFO_GENERATOR_BASE_VARIADIC(PQUAL)   \
-    FATLIB_FUNC_INFO_GENERATOR4_VARIADIC(PQUAL, const)    \
-    FATLIB_FUNC_INFO_GENERATOR4_VARIADIC(PQUAL, volatile) \
-    FATLIB_FUNC_INFO_GENERATOR4_VARIADIC(PQUAL, &)        \
-    FATLIB_FUNC_INFO_GENERATOR4_VARIADIC(PQUAL, &&)       \
+#define FATLIB_FUNC_INFO_GENERATOR_BASE(PQUAL)               \
+    FATLIB_FUNC_INFO_GENERATOR4(PQUAL, const)                \
+    FATLIB_FUNC_INFO_GENERATOR4(PQUAL, volatile)             \
+    FATLIB_FUNC_INFO_GENERATOR4(PQUAL, &)                    \
+    FATLIB_FUNC_INFO_GENERATOR4(PQUAL, &&)                   \
+    FATLIB_FUNC_INFO_GENERATOR4(PQUAL, noexcept)             
+                                                             
+#define FATLIB_FUNC_INFO_GENERATOR_BASE_VARIADIC(PQUAL)      \
+    FATLIB_FUNC_INFO_GENERATOR4_VARIADIC(PQUAL, const)       \
+    FATLIB_FUNC_INFO_GENERATOR4_VARIADIC(PQUAL, volatile)    \
+    FATLIB_FUNC_INFO_GENERATOR4_VARIADIC(PQUAL, &)           \
+    FATLIB_FUNC_INFO_GENERATOR4_VARIADIC(PQUAL, &&)          \
     FATLIB_FUNC_INFO_GENERATOR4_VARIADIC(PQUAL, noexcept)
 
-// NOLINTEND(cppcoreguidelines-macro-usage, bugprone-macro-parentheses)
 
     FATLIB_FUNC_INFO_GENERATOR_BASE(const)
     FATLIB_FUNC_INFO_GENERATOR(const)
@@ -616,24 +623,24 @@ struct FATLIB_EBCO FunctionInfo< MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__ >
     FATLIB_FUNC_INFO_GENERATOR_BASE_VARIADIC(const volatile)
     FATLIB_FUNC_INFO_GENERATOR_VARIADIC(const volatile)
 
-#undef FATLIB_FUNC_INFO_GENERATOR_BASE
+
 #undef FATLIB_FUNC_INFO_GENERATOR_BASE_VARIADIC
-#undef FATLIB_FUNC_INFO_GENERATOR4
+#undef FATLIB_FUNC_INFO_GENERATOR_BASE
 #undef FATLIB_FUNC_INFO_GENERATOR4_VARIADIC
-#undef FATLIB_FUNC_INFO_GENERATOR_CVPTR
-#undef FATLIB_FUNC_INFO_GENERATOR3
-#undef FATLIB_FUNC_INFO_GENERATOR3_VARIADIC
-#undef FATLIB_FUNC_INFO_GENERATOR2
-#undef FATLIB_FUNC_INFO_GENERATOR1
-#undef FATLIB_FUNC_INFO_GENERATOR1_VARIADIC
-#undef FATLIB_FUNC_INFO_GENERATOR
+#undef FATLIB_FUNC_INFO_GENERATOR4
 #undef FATLIB_FUNC_INFO_GENERATOR_VARIADIC
-#undef V_INHERIT
+#undef FATLIB_FUNC_INFO_GENERATOR
+#undef FATLIB_FUNC_INFO_GENERATOR3_VARIADIC
+#undef FATLIB_FUNC_INFO_GENERATOR3
+#undef FATLIB_FUNC_INFO_GENERATOR2
+#undef FATLIB_FUNC_INFO_GENERATOR1_VARIADIC
+#undef FATLIB_FUNC_INFO_GENERATOR1
 #undef V_INHERIT_VARIADIC
-#undef MEM_FUNCPTR_TYPE
+#undef V_INHERIT
 #undef MEM_FUNCPTR_TYPE_VARIADIC
-#undef MEM_FUNCDECL_TYPE
+#undef MEM_FUNCPTR_TYPE
 #undef MEM_FUNCDECL_TYPE_VARIADIC
+#undef MEM_FUNCDECL_TYPE
 
     template <typename T>
     concept Function = std::is_function_v<T>;
@@ -662,267 +669,365 @@ namespace fatpound::traits
 {
     // static assertion tests for lambdas
 
-    static_assert(        not Function<decltype([]{})>);
-    static_assert(             Functor<decltype([]{})>);
-    static_assert(    HasFCallOperator<decltype([]{})>);
-    static_assert(            Callable<decltype([]{})>);
+    static_assert(    not Function<decltype([]{})>);
+    static_assert(         Functor<decltype([]{})>);
+    static_assert(HasFCallOperator<decltype([]{})>);
+    static_assert(        Callable<decltype([]{})>);
 
-    static_assert(    FunctionInfo<decltype(&decltype([]()          {})::operator ())>::is_const_qualified);
-    static_assert(not FunctionInfo<decltype(&decltype([]() mutable  {})::operator ())>::is_const_qualified);
-    static_assert(not FunctionInfo<decltype(&decltype([]()          {})::operator ())>::is_volatile_qualified);
-    
-    static_assert(not FunctionInfo<decltype(&decltype([]()          {})::operator ())>::is_lvalue_reference_qualified);
-    static_assert(not FunctionInfo<decltype(&decltype([]()          {})::operator ())>::is_rvalue_reference_qualified);
-    static_assert(    FunctionInfo<decltype(&decltype([]()          {})::operator ())>::is_not_reference_qualified);
-    
-    static_assert(not FunctionInfo<decltype(&decltype([]()          {})::operator ())>::is_noexcept_specified);
-    static_assert(    FunctionInfo<decltype(&decltype([]() noexcept {})::operator ())>::is_noexcept_specified);
-    
-    static_assert(not FunctionInfo<decltype(&decltype([]()          {})::operator ())>::is_variadic);
-    static_assert(    FunctionInfo<decltype(&decltype([](...)       {})::operator ())>::is_variadic);
+    // NOLINTBEGIN(cert-dcl50-cpp)
+
+#define FATLIB_FUNC_INFO_LAMBDA_STATIC_ASSERT_GENERATOR(arity, ...)                                                                                              \
+                                                                                                                                                                 \
+    static_assert(          FunctionInfo<decltype(&decltype([]( __VA_ARGS__                    )          {})::operator ())>::is_const_qualified           );    \
+    static_assert(      not FunctionInfo<decltype(&decltype([]( __VA_ARGS__                    ) mutable  {})::operator ())>::is_const_qualified           );    \
+    static_assert(      not FunctionInfo<decltype(&decltype([]( __VA_ARGS__                    )          {})::operator ())>::is_volatile_qualified        );    \
+    static_assert(      not FunctionInfo<decltype(&decltype([]( __VA_ARGS__                    )          {})::operator ())>::is_lvalue_reference_qualified);    \
+    static_assert(      not FunctionInfo<decltype(&decltype([]( __VA_ARGS__                    )          {})::operator ())>::is_rvalue_reference_qualified);    \
+    static_assert(          FunctionInfo<decltype(&decltype([]( __VA_ARGS__                    )          {})::operator ())>::is_not_reference_qualified   );    \
+    static_assert(      not FunctionInfo<decltype(&decltype([]( __VA_ARGS__                    )          {})::operator ())>::is_noexcept_specified        );    \
+    static_assert(          FunctionInfo<decltype(&decltype([]( __VA_ARGS__                    ) noexcept {})::operator ())>::is_noexcept_specified        );    \
+    static_assert(      not FunctionInfo<decltype(&decltype([]( __VA_ARGS__                    )          {})::operator ())>::is_variadic                  );    \
+                                                                                                                                                                 \
+    static_assert(          FunctionInfo<decltype(&decltype([]( __VA_ARGS__  __VA_OPT__(,) ... )          {})::operator ())>::is_const_qualified           );    \
+    static_assert(      not FunctionInfo<decltype(&decltype([]( __VA_ARGS__  __VA_OPT__(,) ... ) mutable  {})::operator ())>::is_const_qualified           );    \
+    static_assert(      not FunctionInfo<decltype(&decltype([]( __VA_ARGS__  __VA_OPT__(,) ... )          {})::operator ())>::is_volatile_qualified        );    \
+    static_assert(      not FunctionInfo<decltype(&decltype([]( __VA_ARGS__  __VA_OPT__(,) ... )          {})::operator ())>::is_lvalue_reference_qualified);    \
+    static_assert(      not FunctionInfo<decltype(&decltype([]( __VA_ARGS__  __VA_OPT__(,) ... )          {})::operator ())>::is_rvalue_reference_qualified);    \
+    static_assert(          FunctionInfo<decltype(&decltype([]( __VA_ARGS__  __VA_OPT__(,) ... )          {})::operator ())>::is_not_reference_qualified   );    \
+    static_assert(      not FunctionInfo<decltype(&decltype([]( __VA_ARGS__  __VA_OPT__(,) ... )          {})::operator ())>::is_noexcept_specified        );    \
+    static_assert(          FunctionInfo<decltype(&decltype([]( __VA_ARGS__  __VA_OPT__(,) ... ) noexcept {})::operator ())>::is_noexcept_specified        );    \
+    static_assert(          FunctionInfo<decltype(&decltype([]( __VA_ARGS__  __VA_OPT__(,) ... )          {})::operator ())>::is_variadic                  );    \
+                                                                                                                                                                 \
+    static_assert( arity == FunctionInfo<decltype(&decltype([]( __VA_ARGS__                    )          {})::operator ())>::fixed_arity                  );    \
+    static_assert( arity == FunctionInfo<decltype(&decltype([]( __VA_ARGS__                    ) mutable  {})::operator ())>::fixed_arity                  );    \
+    static_assert( arity == FunctionInfo<decltype(&decltype([]( __VA_ARGS__                    ) noexcept {})::operator ())>::fixed_arity                  );    \
+    static_assert( arity == FunctionInfo<decltype(&decltype([]( __VA_ARGS__  __VA_OPT__(,) ... )          {})::operator ())>::fixed_arity                  );    \
+    static_assert( arity == FunctionInfo<decltype(&decltype([]( __VA_ARGS__  __VA_OPT__(,) ... ) mutable  {})::operator ())>::fixed_arity                  );    \
+    static_assert( arity == FunctionInfo<decltype(&decltype([]( __VA_ARGS__  __VA_OPT__(,) ... ) noexcept {})::operator ())>::fixed_arity                  );
+
+
+    FATLIB_FUNC_INFO_LAMBDA_STATIC_ASSERT_GENERATOR(0, )
+    FATLIB_FUNC_INFO_LAMBDA_STATIC_ASSERT_GENERATOR(1, int)
+    FATLIB_FUNC_INFO_LAMBDA_STATIC_ASSERT_GENERATOR(2, int, float)
+
+
+    // NOLINTEND(cert-dcl50-cpp)
 
     //////////////////////////////////
 
-    struct FATLIB_EBCO ___unused___ final
+    struct FATLIB_EBCO _unused_ final
     {
-        explicit ___unused___()                        = delete;
-        explicit ___unused___(const ___unused___&)     = delete;
-        explicit ___unused___(___unused___&&) noexcept = delete;
+        explicit _unused_()                    = delete;
+        explicit _unused_(const _unused_&)     = delete;
+        explicit _unused_(_unused_&&) noexcept = delete;
 
-        auto operator = (const ___unused___&)     -> ___unused___& = delete;
-        auto operator = (___unused___&&) noexcept -> ___unused___& = delete;
-        ~___unused___() noexcept                                   = delete;
+        auto operator = (const _unused_&)     -> _unused_& = delete;
+        auto operator = (_unused_&&) noexcept -> _unused_& = delete;
+        ~_unused_() noexcept                               = delete;
         
         //********************//
 
         auto operator () () -> int;
 
-        static_assert(HasFCallOperator<               ___unused___>);
-        static_assert(HasFCallOperator<const          ___unused___>);
-        static_assert(HasFCallOperator<      volatile ___unused___>);
-        static_assert(HasFCallOperator<const volatile ___unused___>);
+        static_assert(HasFCallOperator<               _unused_>);
+        static_assert(HasFCallOperator<const          _unused_>);
+        static_assert(HasFCallOperator<      volatile _unused_>);
+        static_assert(HasFCallOperator<const volatile _unused_>);
 
 
-#define FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(ret_t, funcname, PQUAL, FQS, cons, vol, lref, rref, nonref, noexc, vary, ...)                                                                                                                                                                                                                                                     \
-                                                                                                                                                                                                                                                                                                                                                                                      \
-        ret_t funcname ( __VA_ARGS__ ) FQS;                                                                                                                                                                                                                                                                                                                                           \
-                                                                                                                                                                                                                                                                                                                                                                                      \
-        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::Class_t,                         ___unused___>,                                     " Class_t"                         " check failed!");                                                                                                                                                \
-        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::Callable_t,                      void>,                                             " Callable_t"                      " check failed!");                                                                                                                                                \
-        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallableDecl_t,                  void( __VA_ARGS__ ) FQS >,                         " CallableDecl_t"                  " check failed!");                                                                                                                                                \
-        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallablePtr_t,                   void(___unused___::* PQUAL )( __VA_ARGS__ ) FQS>,  " CallablePtr_t"                   " check failed!");                                                                                                                                                \
-        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallablePtr_no_ptr_cv_t,         void(___unused___::*       )( __VA_ARGS__ ) FQS >, " CallablePtr_no_ptr_cv_t"         " check failed!");                                                                                                                                                \
-        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallablePtr_no_cvrn_t,           void(___unused___::* PQUAL )( __VA_ARGS__ )>,      " CallablePtr_no_cvrn_t"           " check failed!");                                                                                                                                                \
-        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::CallablePtr_no_cvrn_no_ptr_cv_t, void(___unused___::*       )( __VA_ARGS__ )>,      " CallablePtr_no_cvrn_no_ptr_cv_t" " check failed!");                                                                                                                                                \
-                                                                                                                                                                                                                                                                                                                                                                                      \
-        static_assert(        cons FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_const_qualified,            "   cons qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
-        static_assert(         vol FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_volatile_qualified,         "    vol qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
-        static_assert(        lref FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_lvalue_reference_qualified, "   lref qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
-        static_assert(        rref FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_rvalue_reference_qualified, "   rref qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
-        static_assert(      nonref FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_not_reference_qualified,    " nonref qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
-        static_assert(       noexc FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_noexcept_specified,         "  noexc qual check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);   \
-        static_assert(        vary FunctionInfo< PQUAL decltype(&___unused___:: funcname )>::is_variadic,                   "   vary func check ==> " #ret_t " (::* " #PQUAL " to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);
+#if defined(__clang__)
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wcompound-token-split-by-macro"
+    #pragma clang diagnostic ignored "-Wcompound-token-split-by-space"
+#endif
+
+
+#define FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE1(klasscope, stat, ret_t, funcname, PQUAL, FQS, cons, vol, lref, rref, nonref, noexc, vary, arity, ...)                                                                                                                                                                                                                                                                                                                   \
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     \
+        stat auto funcname ( __VA_ARGS__ ) FQS -> ret_t ;                                                                                                                                                                                                                                                                                                                                                                                                                            \
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     \
+        static_assert( arity == FunctionInfo< PQUAL decltype(&_unused_::funcname)>::fixed_arity, "arity is not equal to the fixed arity!");                                                                                                                                                                                                                                                                                                                                          \
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     \
+        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&_unused_:: funcname )>::CallablePtr_t                  , ret_t ( klasscope * PQUAL )(  __VA_ARGS__ ) FQS >, "CallablePtr_t"                   " check failed ==>"  #ret_t " (" #klasscope "* " #PQUAL " ptr to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);    \
+        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&_unused_:: funcname )>::CallablePtr_no_ptr_cv_t        , ret_t ( klasscope *       )(  __VA_ARGS__ ) FQS >, "CallablePtr_no_ptr_cv_t"         " check failed ==>"  #ret_t " (" #klasscope "* " #PQUAL " ptr to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);    \
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     \
+        static_assert(       noexc FunctionInfo< PQUAL decltype(&_unused_:: funcname )>::is_noexcept_specified                                                             , "is_noexcept_specified"           " check failed ==> " #ret_t " (" #klasscope "* " #PQUAL " ptr to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);    \
+        static_assert(        vary FunctionInfo< PQUAL decltype(&_unused_:: funcname )>::is_variadic                                                                       , "is_variadic"                     " check failed ==> " #ret_t " (" #klasscope "* " #PQUAL " ptr to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);
 
 
 
-        ///////////////////////////////////////////      ret_t,  funcname,            PQUAL,                          FQS,  cons,  vol, lref,   rref, nonref, noexc,  vary,  parameters       
-                                                                                       
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo00,                 ,                             ,   not,  not,  not,    not,       ,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo01,                 ,                       const ,      ,  not,  not,    not,       ,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo02,                 ,                    volatile ,   not,     ,  not,    not,       ,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo03,                 ,                           & ,   not,  not,     ,    not,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo04,                 ,                          && ,   not,  not,  not,       ,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo05,                 ,                    noexcept ,   not,  not,  not,    not,       ,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo06,                 ,                    const  & ,      ,  not,     ,    not,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo07,                 ,                    const && ,      ,  not,  not,       ,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo08,                 ,              const noexcept ,      ,  not,  not,    not,       ,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo09,                 ,            const & noexcept ,      ,  not,     ,    not,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo10,                 ,           const && noexcept ,      ,  not,  not,       ,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo11,                 ,                 volatile  & ,   not,     ,     ,    not,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo12,                 ,                 volatile && ,   not,     ,  not,       ,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo13,                 ,        volatile    noexcept ,   not,     ,  not,    not,       ,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo14,                 ,        volatile  & noexcept ,   not,     ,     ,    not,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo15,                 ,        volatile && noexcept ,   not,     ,  not,       ,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo16,                 ,           const volatile  & ,      ,     ,     ,    not,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo17,                 ,           const volatile && ,      ,     ,  not,       ,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo18,                 ,     const volatile noexcept ,      ,     ,  not,    not,       ,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo19,                 ,   const volatile & noexcept ,      ,     ,     ,    not,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo20,                 ,  const volatile && noexcept ,      ,     ,  not,       ,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo21,                 ,                  & noexcept ,   not,  not,     ,    not,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo22,                 ,                 && noexcept ,   not,  not,  not,       ,    not,      ,   not,             )
-                                                                                  
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo23,            const,                             ,   not,  not,  not,    not,       ,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo24,            const,                       const ,      ,  not,  not,    not,       ,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo25,            const,                    volatile ,   not,     ,  not,    not,       ,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo26,            const,                           & ,   not,  not,     ,    not,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo27,            const,                          && ,   not,  not,  not,       ,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo28,            const,                    noexcept ,   not,  not,  not,    not,       ,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo29,            const,                    const  & ,      ,  not,     ,    not,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo30,            const,                    const && ,      ,  not,  not,       ,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo31,            const,              const noexcept ,      ,  not,  not,    not,       ,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo32,            const,            const & noexcept ,      ,  not,     ,    not,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo33,            const,           const && noexcept ,      ,  not,  not,       ,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo34,            const,                 volatile  & ,   not,     ,     ,    not,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo35,            const,                 volatile && ,   not,     ,  not,       ,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo36,            const,        volatile    noexcept ,   not,     ,  not,    not,       ,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo37,            const,        volatile  & noexcept ,   not,     ,     ,    not,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo38,            const,        volatile && noexcept ,   not,     ,  not,       ,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo39,            const,           const volatile  & ,      ,     ,     ,    not,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo40,            const,           const volatile && ,      ,     ,  not,       ,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo41,            const,     const volatile noexcept ,      ,     ,  not,    not,       ,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo42,            const,   const volatile & noexcept ,      ,     ,     ,    not,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo43,            const,  const volatile && noexcept ,      ,     ,  not,       ,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo44,            const,                  & noexcept ,   not,  not,     ,    not,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo45,            const,                 && noexcept ,   not,  not,  not,       ,    not,      ,   not,             )
-                                                                               
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo46,         volatile,                             ,   not,  not,  not,    not,       ,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo47,         volatile,                       const ,      ,  not,  not,    not,       ,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo48,         volatile,                    volatile ,   not,     ,  not,    not,       ,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo49,         volatile,                           & ,   not,  not,     ,    not,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo50,         volatile,                          && ,   not,  not,  not,       ,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo51,         volatile,                    noexcept ,   not,  not,  not,    not,       ,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo52,         volatile,                    const  & ,      ,  not,     ,    not,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo53,         volatile,                    const && ,      ,  not,  not,       ,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo54,         volatile,              const noexcept ,      ,  not,  not,    not,       ,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo55,         volatile,            const & noexcept ,      ,  not,     ,    not,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo56,         volatile,           const && noexcept ,      ,  not,  not,       ,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo57,         volatile,                 volatile  & ,   not,     ,     ,    not,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo58,         volatile,                 volatile && ,   not,     ,  not,       ,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo59,         volatile,        volatile    noexcept ,   not,     ,  not,    not,       ,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo60,         volatile,        volatile  & noexcept ,   not,     ,     ,    not,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo61,         volatile,        volatile && noexcept ,   not,     ,  not,       ,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo62,         volatile,           const volatile  & ,      ,     ,     ,    not,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo63,         volatile,           const volatile && ,      ,     ,  not,       ,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo64,         volatile,     const volatile noexcept ,      ,     ,  not,    not,       ,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo65,         volatile,   const volatile & noexcept ,      ,     ,     ,    not,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo66,         volatile,  const volatile && noexcept ,      ,     ,  not,       ,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo67,         volatile,                  & noexcept ,   not,  not,     ,    not,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo68,         volatile,                 && noexcept ,   not,  not,  not,       ,    not,      ,   not,             )
+#define FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE2(ret_t, funcname, PQUAL, FQS, noexc, vary, arity, ...)                                                                                                                                                                                                                                                                                                                                                                   \
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE1(, static, ret_t, funcname, PQUAL, FQS, N/A, N/A, N/A, N/A, N/A, noexc, vary, arity, __VA_ARGS__ )                                                                                                                                                                                                                                                                                                                       \
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     \
+        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&_unused_:: funcname )>::Callable_t                     , ret_t ( __VA_ARGS__ ) FQS >                      , "Callable_t"                      " check failed ==> " #ret_t                " * " #PQUAL " ptr to: " #funcname ")(" # __VA_ARGS__ ") " #FQS                                                                                                        ", noexcept => " #noexc ", variadic => " #vary);    \
+        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&_unused_:: funcname )>::CallableDecl_t                 , ret_t ( __VA_ARGS__ ) FQS >                      , "CallableDecl_t"                  " check failed ==> " #ret_t                " * " #PQUAL " ptr to: " #funcname ")(" # __VA_ARGS__ ") " #FQS                                                                                                        ", noexcept => " #noexc ", variadic => " #vary);
 
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo69,   const volatile,                             ,   not,  not,  not,    not,       ,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo70,   const volatile,                       const ,      ,  not,  not,    not,       ,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo71,   const volatile,                    volatile ,   not,     ,  not,    not,       ,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo72,   const volatile,                           & ,   not,  not,     ,    not,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo73,   const volatile,                          && ,   not,  not,  not,       ,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo74,   const volatile,                    noexcept ,   not,  not,  not,    not,       ,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo75,   const volatile,                    const  & ,      ,  not,     ,    not,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo76,   const volatile,                    const && ,      ,  not,  not,       ,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo77,   const volatile,              const noexcept ,      ,  not,  not,    not,       ,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo78,   const volatile,            const & noexcept ,      ,  not,     ,    not,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo79,   const volatile,           const && noexcept ,      ,  not,  not,       ,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo80,   const volatile,                 volatile  & ,   not,     ,     ,    not,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo81,   const volatile,                 volatile && ,   not,     ,  not,       ,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo82,   const volatile,        volatile    noexcept ,   not,     ,  not,    not,       ,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo83,   const volatile,        volatile  & noexcept ,   not,     ,     ,    not,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo84,   const volatile,        volatile && noexcept ,   not,     ,  not,       ,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo85,   const volatile,           const volatile  & ,      ,     ,     ,    not,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo86,   const volatile,           const volatile && ,      ,     ,  not,       ,    not,   not,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo87,   const volatile,     const volatile noexcept ,      ,     ,  not,    not,       ,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo88,   const volatile,   const volatile & noexcept ,      ,     ,     ,    not,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo89,   const volatile,  const volatile && noexcept ,      ,     ,  not,       ,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo90,   const volatile,                  & noexcept ,   not,  not,     ,    not,    not,      ,   not,             )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     foo91,   const volatile,                 && noexcept ,   not,  not,  not,       ,    not,      ,   not,             )
 
-        // variadic specializiation tests
 
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar00,                 ,                             ,   not,  not,  not,    not,       ,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar01,                 ,                       const ,      ,  not,  not,    not,       ,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar02,                 ,                    volatile ,   not,     ,  not,    not,       ,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar03,                 ,                           & ,   not,  not,     ,    not,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar04,                 ,                          && ,   not,  not,  not,       ,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar05,                 ,                    noexcept ,   not,  not,  not,    not,       ,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar06,                 ,                    const  & ,      ,  not,     ,    not,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar07,                 ,                    const && ,      ,  not,  not,       ,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar08,                 ,              const noexcept ,      ,  not,  not,    not,       ,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar09,                 ,            const & noexcept ,      ,  not,     ,    not,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar10,                 ,           const && noexcept ,      ,  not,  not,       ,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar11,                 ,                 volatile  & ,   not,     ,     ,    not,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar12,                 ,                 volatile && ,   not,     ,  not,       ,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar13,                 ,        volatile    noexcept ,   not,     ,  not,    not,       ,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar14,                 ,        volatile  & noexcept ,   not,     ,     ,    not,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar15,                 ,        volatile && noexcept ,   not,     ,  not,       ,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar16,                 ,           const volatile  & ,      ,     ,     ,    not,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar17,                 ,           const volatile && ,      ,     ,  not,       ,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar18,                 ,     const volatile noexcept ,      ,     ,  not,    not,       ,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar19,                 ,   const volatile & noexcept ,      ,     ,     ,    not,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar20,                 ,  const volatile && noexcept ,      ,     ,  not,       ,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar21,                 ,                  & noexcept ,   not,  not,     ,    not,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar22,                 ,                 && noexcept ,   not,  not,  not,       ,    not,      ,      ,     ...     )
+#define FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(ret_t, funcname, PQUAL, FQS, cons, vol, lref, rref, nonref, noexc, vary, arity, ...)                                                                                                                                                                                                                                                                                                                                    \
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE1(_unused_:: , , ret_t, funcname, PQUAL, FQS, cons, vol, lref, rref, nonref, noexc, vary, arity, __VA_ARGS__ )                                                                                                                                                                                                                                                                                                            \
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     \
+        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&_unused_:: funcname )>::Class_t                        , _unused_>                                        , "Class_t"                         " check failed ==> " #ret_t     " (_unused_::* " #PQUAL " ptr to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);    \
+        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&_unused_:: funcname )>::Callable_t                     , void>                                            , "Callable_t"                      " check failed ==> " #ret_t     " (_unused_::* " #PQUAL " ptr to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);    \
+        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&_unused_:: funcname )>::CallableDecl_t                 , ret_t ( __VA_ARGS__ ) FQS >                      , "CallableDecl_t"                  " check failed ==> " #ret_t     " (_unused_::* " #PQUAL " ptr to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);    \
+        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&_unused_:: funcname )>::CallablePtr_no_cvrn_t          , ret_t ( _unused_:: * PQUAL )(  __VA_ARGS__ )>    , "CallablePtr_no_cvrn_t"           " check failed ==> " #ret_t     " (_unused_::* " #PQUAL " ptr to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);    \
+        static_assert(std::same_as<FunctionInfo< PQUAL decltype(&_unused_:: funcname )>::CallablePtr_no_cvrn_no_ptr_cv_t, ret_t ( _unused_:: *       )(  __VA_ARGS__ )>    , "CallablePtr_no_cvrn_no_ptr_cv_t" " check failed ==> " #ret_t     " (_unused_::* " #PQUAL " ptr to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);    \
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     \
+        static_assert(        cons FunctionInfo< PQUAL decltype(&_unused_:: funcname )>::is_const_qualified                                                                , "is_const_qualified"              " check failed ==> " #ret_t     " (_unused_::* " #PQUAL " ptr to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);    \
+        static_assert(         vol FunctionInfo< PQUAL decltype(&_unused_:: funcname )>::is_volatile_qualified                                                             , "is_volatile_qualified"           " check failed ==> " #ret_t     " (_unused_::* " #PQUAL " ptr to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);    \
+        static_assert(        lref FunctionInfo< PQUAL decltype(&_unused_:: funcname )>::is_lvalue_reference_qualified                                                     , "is_lvalue_reference_qualified"   " check failed ==> " #ret_t     " (_unused_::* " #PQUAL " ptr to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);    \
+        static_assert(        rref FunctionInfo< PQUAL decltype(&_unused_:: funcname )>::is_rvalue_reference_qualified                                                     , "is_rvalue_reference_qualified"   " check failed ==> " #ret_t     " (_unused_::* " #PQUAL " ptr to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);    \
+        static_assert(      nonref FunctionInfo< PQUAL decltype(&_unused_:: funcname )>::is_not_reference_qualified                                                        , "is_not_reference_qualified"      " check failed ==> " #ret_t     " (_unused_::* " #PQUAL " ptr to: " #funcname ")(" # __VA_ARGS__ ") " #FQS ", const => " #cons ", volatile => " #vol ", lref => " #lref ", rref => " #rref ", nonref => " #nonref ", noexcept => " #noexc ", variadic => " #vary);
 
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar23,            const,                             ,   not,  not,  not,    not,       ,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar24,            const,                       const ,      ,  not,  not,    not,       ,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar25,            const,                    volatile ,   not,     ,  not,    not,       ,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar26,            const,                           & ,   not,  not,     ,    not,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar27,            const,                          && ,   not,  not,  not,       ,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar28,            const,                    noexcept ,   not,  not,  not,    not,       ,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar29,            const,                    const  & ,      ,  not,     ,    not,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar30,            const,                    const && ,      ,  not,  not,       ,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar31,            const,              const noexcept ,      ,  not,  not,    not,       ,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar32,            const,            const & noexcept ,      ,  not,     ,    not,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar33,            const,           const && noexcept ,      ,  not,  not,       ,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar34,            const,                 volatile  & ,   not,     ,     ,    not,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar35,            const,                 volatile && ,   not,     ,  not,       ,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar36,            const,        volatile    noexcept ,   not,     ,  not,    not,       ,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar37,            const,        volatile  & noexcept ,   not,     ,     ,    not,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar38,            const,        volatile && noexcept ,   not,     ,  not,       ,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar39,            const,           const volatile  & ,      ,     ,     ,    not,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar40,            const,           const volatile && ,      ,     ,  not,       ,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar41,            const,     const volatile noexcept ,      ,     ,  not,    not,       ,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar42,            const,   const volatile & noexcept ,      ,     ,     ,    not,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar43,            const,  const volatile && noexcept ,      ,     ,  not,       ,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar44,            const,                  & noexcept ,   not,  not,     ,    not,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar45,            const,                 && noexcept ,   not,  not,  not,       ,    not,      ,      ,     ...     )
 
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar46,         volatile,                             ,   not,  not,  not,    not,       ,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar47,         volatile,                       const ,      ,  not,  not,    not,       ,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar48,         volatile,                    volatile ,   not,     ,  not,    not,       ,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar49,         volatile,                           & ,   not,  not,     ,    not,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar50,         volatile,                          && ,   not,  not,  not,       ,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar51,         volatile,                    noexcept ,   not,  not,  not,    not,       ,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar52,         volatile,                    const  & ,      ,  not,     ,    not,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar53,         volatile,                    const && ,      ,  not,  not,       ,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar54,         volatile,              const noexcept ,      ,  not,  not,    not,       ,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar55,         volatile,            const & noexcept ,      ,  not,     ,    not,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar56,         volatile,           const && noexcept ,      ,  not,  not,       ,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar57,         volatile,                 volatile  & ,   not,     ,     ,    not,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar58,         volatile,                 volatile && ,   not,     ,  not,       ,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar59,         volatile,        volatile    noexcept ,   not,     ,  not,    not,       ,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar60,         volatile,        volatile  & noexcept ,   not,     ,     ,    not,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar61,         volatile,        volatile && noexcept ,   not,     ,  not,       ,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar62,         volatile,           const volatile  & ,      ,     ,     ,    not,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar63,         volatile,           const volatile && ,      ,     ,  not,       ,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar64,         volatile,     const volatile noexcept ,      ,     ,  not,    not,       ,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar65,         volatile,   const volatile & noexcept ,      ,     ,     ,    not,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar66,         volatile,  const volatile && noexcept ,      ,     ,  not,       ,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar67,         volatile,                  & noexcept ,   not,  not,     ,    not,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar68,         volatile,                 && noexcept ,   not,  not,  not,       ,    not,      ,      ,     ...     )
 
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar69,   const volatile,                             ,   not,  not,  not,    not,       ,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar70,   const volatile,                       const ,      ,  not,  not,    not,       ,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar71,   const volatile,                    volatile ,   not,     ,  not,    not,       ,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar72,   const volatile,                           & ,   not,  not,     ,    not,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar73,   const volatile,                          && ,   not,  not,  not,       ,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar74,   const volatile,                    noexcept ,   not,  not,  not,    not,       ,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar75,   const volatile,                    const  & ,      ,  not,     ,    not,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar76,   const volatile,                    const && ,      ,  not,  not,       ,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar77,   const volatile,              const noexcept ,      ,  not,  not,    not,       ,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar78,   const volatile,            const & noexcept ,      ,  not,     ,    not,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar79,   const volatile,           const && noexcept ,      ,  not,  not,       ,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar80,   const volatile,                 volatile  & ,   not,     ,     ,    not,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar81,   const volatile,                 volatile && ,   not,     ,  not,       ,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar82,   const volatile,        volatile    noexcept ,   not,     ,  not,    not,       ,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar83,   const volatile,        volatile  & noexcept ,   not,     ,     ,    not,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar84,   const volatile,        volatile && noexcept ,   not,     ,  not,       ,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar85,   const volatile,           const volatile  & ,      ,     ,     ,    not,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar86,   const volatile,           const volatile && ,      ,     ,  not,       ,    not,   not,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar87,   const volatile,     const volatile noexcept ,      ,     ,  not,    not,       ,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar88,   const volatile,   const volatile & noexcept ,      ,     ,     ,    not,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar89,   const volatile,  const volatile && noexcept ,      ,     ,  not,       ,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar90,   const volatile,                  & noexcept ,   not,  not,     ,    not,    not,      ,      ,     ...     )
-        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(   void,     bar91,   const volatile,                 && noexcept ,   not,  not,  not,       ,    not,      ,      ,     ...     )
+#define FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(ret_t, extra_funcname, arity, ...)                                                                                                                                                                            \
+                                                                                                                                                                                                                                                                     \
+        /* /////////////////////////////////////////////////    ret_t,                  funcname,             PQUAL,                            FQS,                                          noexc,  vary,      arity,                 parameters */                \
+                                                                                                                                                                                                                                                                     \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE2(   ret_t,   S_foo00##extra_funcname,                  ,                               ,  /**************************************/  not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE2(   ret_t,   S_foo01##extra_funcname,                  ,                       noexcept,  /**************************************/     ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE2(   ret_t,   S_foo02##extra_funcname,    const         ,                               ,  /**************************************/  not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE2(   ret_t,   S_foo03##extra_funcname,    const         ,                       noexcept,  /**************************************/     ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE2(   ret_t,   S_foo04##extra_funcname,          volatile,                               ,  /**************************************/  not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE2(   ret_t,   S_foo05##extra_funcname,          volatile,                       noexcept,  /**************************************/     ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE2(   ret_t,   S_foo06##extra_funcname,    const volatile,                               ,  /**************************************/  not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE2(   ret_t,   S_foo07##extra_funcname,    const volatile,                       noexcept,  /**************************************/     ,   not,      arity,   __VA_ARGS__                           )    \
+                                                                                                                                                                                                                                                                     \
+        /* variadic specializiation tests */                                                                                                                                                                                                                         \
+                                                                                                                                                                                                                                                                     \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE2(   ret_t,   S_bar00##extra_funcname,                  ,                               ,  /**************************************/  not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE2(   ret_t,   S_bar01##extra_funcname,                  ,                       noexcept,  /**************************************/     ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE2(   ret_t,   S_bar02##extra_funcname,    const         ,                               ,  /**************************************/  not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE2(   ret_t,   S_bar03##extra_funcname,    const         ,                       noexcept,  /**************************************/     ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE2(   ret_t,   S_bar04##extra_funcname,          volatile,                               ,  /**************************************/  not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE2(   ret_t,   S_bar05##extra_funcname,          volatile,                       noexcept,  /**************************************/     ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE2(   ret_t,   S_bar06##extra_funcname,    const volatile,                               ,  /**************************************/  not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE2(   ret_t,   S_bar07##extra_funcname,    const volatile,                       noexcept,  /**************************************/     ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+                                                                                                                                                                                                                                                                     \
+                                                                                                                                                                                                                                                                     \
+        /* /////////////////////////////////////////////////    ret_t,                  funcname,             PQUAL,                            FQS,   cons,    vol,   lref,   rref, nonref,  noexc,  vary,      arity,                 parameters */                \
+                                                                                                                                                                                                                                                                     \
+                                                                                                                                                                                                                                                                     \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo00##extra_funcname,                  ,                               ,    not,    not,    not,    not,       ,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo01##extra_funcname,                  ,     const                     ,       ,    not,    not,    not,       ,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo02##extra_funcname,                  ,           volatile            ,    not,       ,    not,    not,       ,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo03##extra_funcname,                  ,                    &          ,    not,    not,       ,    not,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo04##extra_funcname,                  ,                    &&         ,    not,    not,    not,       ,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo05##extra_funcname,                  ,                       noexcept,    not,    not,    not,    not,       ,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo06##extra_funcname,                  ,     const          &          ,       ,    not,       ,    not,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo07##extra_funcname,                  ,     const          &&         ,       ,    not,    not,       ,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo08##extra_funcname,                  ,     const             noexcept,       ,    not,    not,    not,       ,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo09##extra_funcname,                  ,     const          &  noexcept,       ,    not,       ,    not,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo10##extra_funcname,                  ,     const          && noexcept,       ,    not,    not,       ,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo11##extra_funcname,                  ,           volatile &          ,    not,       ,       ,    not,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo12##extra_funcname,                  ,           volatile &&         ,    not,       ,    not,       ,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo13##extra_funcname,                  ,           volatile    noexcept,    not,       ,    not,    not,       ,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo14##extra_funcname,                  ,           volatile &  noexcept,    not,       ,       ,    not,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo15##extra_funcname,                  ,           volatile && noexcept,    not,       ,    not,       ,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo16##extra_funcname,                  ,     const volatile &          ,       ,       ,       ,    not,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo17##extra_funcname,                  ,     const volatile &&         ,       ,       ,    not,       ,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo18##extra_funcname,                  ,     const volatile    noexcept,       ,       ,    not,    not,       ,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo19##extra_funcname,                  ,     const volatile &  noexcept,       ,       ,       ,    not,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo20##extra_funcname,                  ,     const volatile && noexcept,       ,       ,    not,       ,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo21##extra_funcname,                  ,                    &  noexcept,    not,    not,       ,    not,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo22##extra_funcname,                  ,                    && noexcept,    not,    not,    not,       ,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+                                                                                                                                                                                                                                                                     \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo23##extra_funcname,    const         ,                               ,    not,    not,    not,    not,       ,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo24##extra_funcname,    const         ,     const                     ,       ,    not,    not,    not,       ,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo25##extra_funcname,    const         ,           volatile            ,    not,       ,    not,    not,       ,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo26##extra_funcname,    const         ,                    &          ,    not,    not,       ,    not,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo27##extra_funcname,    const         ,                    &&         ,    not,    not,    not,       ,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo28##extra_funcname,    const         ,                       noexcept,    not,    not,    not,    not,       ,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo29##extra_funcname,    const         ,     const          &          ,       ,    not,       ,    not,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo30##extra_funcname,    const         ,     const          &&         ,       ,    not,    not,       ,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo31##extra_funcname,    const         ,     const             noexcept,       ,    not,    not,    not,       ,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo32##extra_funcname,    const         ,     const          &  noexcept,       ,    not,       ,    not,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo33##extra_funcname,    const         ,     const          && noexcept,       ,    not,    not,       ,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo34##extra_funcname,    const         ,           volatile &          ,    not,       ,       ,    not,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo35##extra_funcname,    const         ,           volatile &&         ,    not,       ,    not,       ,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo36##extra_funcname,    const         ,           volatile    noexcept,    not,       ,    not,    not,       ,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo37##extra_funcname,    const         ,           volatile &  noexcept,    not,       ,       ,    not,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo38##extra_funcname,    const         ,           volatile && noexcept,    not,       ,    not,       ,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo39##extra_funcname,    const         ,     const volatile &          ,       ,       ,       ,    not,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo40##extra_funcname,    const         ,     const volatile &&         ,       ,       ,    not,       ,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo41##extra_funcname,    const         ,     const volatile    noexcept,       ,       ,    not,    not,       ,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo42##extra_funcname,    const         ,     const volatile &  noexcept,       ,       ,       ,    not,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo43##extra_funcname,    const         ,     const volatile && noexcept,       ,       ,    not,       ,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo44##extra_funcname,    const         ,                    &  noexcept,    not,    not,       ,    not,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo45##extra_funcname,    const         ,                    && noexcept,    not,    not,    not,       ,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+                                                                                                                                                                                                                                                                     \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo46##extra_funcname,          volatile,                               ,    not,    not,    not,    not,       ,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo47##extra_funcname,          volatile,     const                     ,       ,    not,    not,    not,       ,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo48##extra_funcname,          volatile,           volatile            ,    not,       ,    not,    not,       ,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo49##extra_funcname,          volatile,                    &          ,    not,    not,       ,    not,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo50##extra_funcname,          volatile,                    &&         ,    not,    not,    not,       ,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo51##extra_funcname,          volatile,                       noexcept,    not,    not,    not,    not,       ,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo52##extra_funcname,          volatile,     const          &          ,       ,    not,       ,    not,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo53##extra_funcname,          volatile,     const          &&         ,       ,    not,    not,       ,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo54##extra_funcname,          volatile,     const             noexcept,       ,    not,    not,    not,       ,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo55##extra_funcname,          volatile,     const          &  noexcept,       ,    not,       ,    not,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo56##extra_funcname,          volatile,     const          && noexcept,       ,    not,    not,       ,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo57##extra_funcname,          volatile,           volatile &          ,    not,       ,       ,    not,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo58##extra_funcname,          volatile,           volatile &&         ,    not,       ,    not,       ,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo59##extra_funcname,          volatile,           volatile    noexcept,    not,       ,    not,    not,       ,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo60##extra_funcname,          volatile,           volatile &  noexcept,    not,       ,       ,    not,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo61##extra_funcname,          volatile,           volatile && noexcept,    not,       ,    not,       ,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo62##extra_funcname,          volatile,     const volatile &          ,       ,       ,       ,    not,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo63##extra_funcname,          volatile,     const volatile &&         ,       ,       ,    not,       ,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo64##extra_funcname,          volatile,     const volatile    noexcept,       ,       ,    not,    not,       ,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo65##extra_funcname,          volatile,     const volatile &  noexcept,       ,       ,       ,    not,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo66##extra_funcname,          volatile,     const volatile && noexcept,       ,       ,    not,       ,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo67##extra_funcname,          volatile,                    &  noexcept,    not,    not,       ,    not,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo68##extra_funcname,          volatile,                    && noexcept,    not,    not,    not,       ,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+                                                                                                                                                                                                                                                                     \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo69##extra_funcname,    const volatile,                               ,    not,    not,    not,    not,       ,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo70##extra_funcname,    const volatile,     const                     ,       ,    not,    not,    not,       ,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo71##extra_funcname,    const volatile,           volatile            ,    not,       ,    not,    not,       ,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo72##extra_funcname,    const volatile,                    &          ,    not,    not,       ,    not,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo73##extra_funcname,    const volatile,                    &&         ,    not,    not,    not,       ,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo74##extra_funcname,    const volatile,                       noexcept,    not,    not,    not,    not,       ,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo75##extra_funcname,    const volatile,     const          &          ,       ,    not,       ,    not,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo76##extra_funcname,    const volatile,     const          &&         ,       ,    not,    not,       ,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo77##extra_funcname,    const volatile,     const             noexcept,       ,    not,    not,    not,       ,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo78##extra_funcname,    const volatile,     const          &  noexcept,       ,    not,       ,    not,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo79##extra_funcname,    const volatile,     const          && noexcept,       ,    not,    not,       ,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo80##extra_funcname,    const volatile,           volatile &          ,    not,       ,       ,    not,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo81##extra_funcname,    const volatile,           volatile &&         ,    not,       ,    not,       ,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo82##extra_funcname,    const volatile,           volatile    noexcept,    not,       ,    not,    not,       ,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo83##extra_funcname,    const volatile,           volatile &  noexcept,    not,       ,       ,    not,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo84##extra_funcname,    const volatile,           volatile && noexcept,    not,       ,    not,       ,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo85##extra_funcname,    const volatile,     const volatile &          ,       ,       ,       ,    not,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo86##extra_funcname,    const volatile,     const volatile &&         ,       ,       ,    not,       ,    not,    not,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo87##extra_funcname,    const volatile,     const volatile    noexcept,       ,       ,    not,    not,       ,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo88##extra_funcname,    const volatile,     const volatile &  noexcept,       ,       ,       ,    not,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo89##extra_funcname,    const volatile,     const volatile && noexcept,       ,       ,    not,       ,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo90##extra_funcname,    const volatile,                    &  noexcept,    not,    not,       ,    not,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     foo91##extra_funcname,    const volatile,                    && noexcept,    not,    not,    not,       ,    not,       ,   not,      arity,   __VA_ARGS__                           )    \
+                                                                                                                                                                                                                                                                     \
+        /* variadic specializiation tests */                                                                                                                                                                                                                         \
+                                                                                                                                                                                                                                                                     \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar00##extra_funcname,                  ,                               ,    not,    not,    not,    not,       ,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar01##extra_funcname,                  ,     const                     ,       ,    not,    not,    not,       ,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar02##extra_funcname,                  ,           volatile            ,    not,       ,    not,    not,       ,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar03##extra_funcname,                  ,                    &          ,    not,    not,       ,    not,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar04##extra_funcname,                  ,                    &&         ,    not,    not,    not,       ,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar05##extra_funcname,                  ,                       noexcept,    not,    not,    not,    not,       ,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar06##extra_funcname,                  ,     const          &          ,       ,    not,       ,    not,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar07##extra_funcname,                  ,     const          &&         ,       ,    not,    not,       ,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar08##extra_funcname,                  ,     const             noexcept,       ,    not,    not,    not,       ,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar09##extra_funcname,                  ,     const          &  noexcept,       ,    not,       ,    not,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar10##extra_funcname,                  ,     const          && noexcept,       ,    not,    not,       ,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar11##extra_funcname,                  ,           volatile &          ,    not,       ,       ,    not,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar12##extra_funcname,                  ,           volatile &&         ,    not,       ,    not,       ,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar13##extra_funcname,                  ,           volatile    noexcept,    not,       ,    not,    not,       ,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar14##extra_funcname,                  ,           volatile &  noexcept,    not,       ,       ,    not,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar15##extra_funcname,                  ,           volatile && noexcept,    not,       ,    not,       ,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar16##extra_funcname,                  ,     const volatile &          ,       ,       ,       ,    not,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar17##extra_funcname,                  ,     const volatile &&         ,       ,       ,    not,       ,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar18##extra_funcname,                  ,     const volatile    noexcept,       ,       ,    not,    not,       ,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar19##extra_funcname,                  ,     const volatile &  noexcept,       ,       ,       ,    not,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar20##extra_funcname,                  ,     const volatile && noexcept,       ,       ,    not,       ,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar21##extra_funcname,                  ,                    &  noexcept,    not,    not,       ,    not,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar22##extra_funcname,                  ,                    && noexcept,    not,    not,    not,       ,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+                                                                                                                                                                                                                                                                     \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar23##extra_funcname,    const         ,                               ,    not,    not,    not,    not,       ,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar24##extra_funcname,    const         ,     const                     ,       ,    not,    not,    not,       ,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar25##extra_funcname,    const         ,           volatile            ,    not,       ,    not,    not,       ,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar26##extra_funcname,    const         ,                    &          ,    not,    not,       ,    not,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar27##extra_funcname,    const         ,                    &&         ,    not,    not,    not,       ,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar28##extra_funcname,    const         ,                       noexcept,    not,    not,    not,    not,       ,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar29##extra_funcname,    const         ,     const          &          ,       ,    not,       ,    not,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar30##extra_funcname,    const         ,     const          &&         ,       ,    not,    not,       ,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar31##extra_funcname,    const         ,     const             noexcept,       ,    not,    not,    not,       ,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar32##extra_funcname,    const         ,     const          &  noexcept,       ,    not,       ,    not,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar33##extra_funcname,    const         ,     const          && noexcept,       ,    not,    not,       ,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar34##extra_funcname,    const         ,           volatile &          ,    not,       ,       ,    not,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar35##extra_funcname,    const         ,           volatile &&         ,    not,       ,    not,       ,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar36##extra_funcname,    const         ,           volatile    noexcept,    not,       ,    not,    not,       ,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar37##extra_funcname,    const         ,           volatile &  noexcept,    not,       ,       ,    not,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar38##extra_funcname,    const         ,           volatile && noexcept,    not,       ,    not,       ,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar39##extra_funcname,    const         ,     const volatile &          ,       ,       ,       ,    not,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar40##extra_funcname,    const         ,     const volatile &&         ,       ,       ,    not,       ,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar41##extra_funcname,    const         ,     const volatile    noexcept,       ,       ,    not,    not,       ,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar42##extra_funcname,    const         ,     const volatile &  noexcept,       ,       ,       ,    not,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar43##extra_funcname,    const         ,     const volatile && noexcept,       ,       ,    not,       ,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar44##extra_funcname,    const         ,                    &  noexcept,    not,    not,       ,    not,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar45##extra_funcname,    const         ,                    && noexcept,    not,    not,    not,       ,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+                                                                                                                                                                                                                                                                     \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar46##extra_funcname,          volatile,                               ,    not,    not,    not,    not,       ,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar47##extra_funcname,          volatile,     const                     ,       ,    not,    not,    not,       ,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar48##extra_funcname,          volatile,           volatile            ,    not,       ,    not,    not,       ,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar49##extra_funcname,          volatile,                    &          ,    not,    not,       ,    not,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar50##extra_funcname,          volatile,                    &&         ,    not,    not,    not,       ,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar51##extra_funcname,          volatile,                       noexcept,    not,    not,    not,    not,       ,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar52##extra_funcname,          volatile,     const          &          ,       ,    not,       ,    not,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar53##extra_funcname,          volatile,     const          &&         ,       ,    not,    not,       ,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar54##extra_funcname,          volatile,     const             noexcept,       ,    not,    not,    not,       ,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar55##extra_funcname,          volatile,     const          &  noexcept,       ,    not,       ,    not,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar56##extra_funcname,          volatile,     const          && noexcept,       ,    not,    not,       ,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar57##extra_funcname,          volatile,           volatile &          ,    not,       ,       ,    not,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar58##extra_funcname,          volatile,           volatile &&         ,    not,       ,    not,       ,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar59##extra_funcname,          volatile,           volatile    noexcept,    not,       ,    not,    not,       ,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar60##extra_funcname,          volatile,           volatile &  noexcept,    not,       ,       ,    not,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar61##extra_funcname,          volatile,           volatile && noexcept,    not,       ,    not,       ,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar62##extra_funcname,          volatile,     const volatile &          ,       ,       ,       ,    not,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar63##extra_funcname,          volatile,     const volatile &&         ,       ,       ,    not,       ,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar64##extra_funcname,          volatile,     const volatile    noexcept,       ,       ,    not,    not,       ,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar65##extra_funcname,          volatile,     const volatile &  noexcept,       ,       ,       ,    not,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar66##extra_funcname,          volatile,     const volatile && noexcept,       ,       ,    not,       ,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar67##extra_funcname,          volatile,                    &  noexcept,    not,    not,       ,    not,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar68##extra_funcname,          volatile,                    && noexcept,    not,    not,    not,       ,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+                                                                                                                                                                                                                                                                     \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar69##extra_funcname,    const volatile,                               ,    not,    not,    not,    not,       ,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar70##extra_funcname,    const volatile,     const                     ,       ,    not,    not,    not,       ,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar71##extra_funcname,    const volatile,           volatile            ,    not,       ,    not,    not,       ,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar72##extra_funcname,    const volatile,                    &          ,    not,    not,       ,    not,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar73##extra_funcname,    const volatile,                    &&         ,    not,    not,    not,       ,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar74##extra_funcname,    const volatile,                       noexcept,    not,    not,    not,    not,       ,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar75##extra_funcname,    const volatile,     const          &          ,       ,    not,       ,    not,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar76##extra_funcname,    const volatile,     const          &&         ,       ,    not,    not,       ,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar77##extra_funcname,    const volatile,     const             noexcept,       ,    not,    not,    not,       ,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar78##extra_funcname,    const volatile,     const          &  noexcept,       ,    not,       ,    not,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar79##extra_funcname,    const volatile,     const          && noexcept,       ,    not,    not,       ,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar80##extra_funcname,    const volatile,           volatile &          ,    not,       ,       ,    not,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar81##extra_funcname,    const volatile,           volatile &&         ,    not,       ,    not,       ,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar82##extra_funcname,    const volatile,           volatile    noexcept,    not,       ,    not,    not,       ,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar83##extra_funcname,    const volatile,           volatile &  noexcept,    not,       ,       ,    not,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar84##extra_funcname,    const volatile,           volatile && noexcept,    not,       ,    not,       ,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar85##extra_funcname,    const volatile,     const volatile &          ,       ,       ,       ,    not,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar86##extra_funcname,    const volatile,     const volatile &&         ,       ,       ,    not,       ,    not,    not,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar87##extra_funcname,    const volatile,     const volatile    noexcept,       ,       ,    not,    not,       ,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar88##extra_funcname,    const volatile,     const volatile &  noexcept,       ,       ,       ,    not,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar89##extra_funcname,    const volatile,     const volatile && noexcept,       ,       ,    not,       ,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar90##extra_funcname,    const volatile,                    &  noexcept,    not,    not,       ,    not,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )    \
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar91##extra_funcname,    const volatile,                    && noexcept,    not,    not,    not,       ,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )
+
+        ///
+        /// fat::pound
+        ///
+
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(void, _a, 0, )
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(void, _b, 1, int)
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(void, _c, 2, int, double)
+        FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(float, _d, 0, )
+
+
+// NOLINTEND(cppcoreguidelines-macro-usage, bugprone-macro-parentheses)
+
+#if defined(__clang__)
+    #pragma clang diagnostic pop
+#endif
 
 #undef FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR
+#undef FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3
+#undef FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE2
+#undef FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE1
     };
 }
 
 #endif
+
+// NOLINTEND(altera-struct-pack-align, fuchsia-virtual-inheritance)

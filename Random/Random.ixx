@@ -8,7 +8,6 @@ export import FatPound.Random.URand;
 
 import FatPound.Math.Numbers.Primes;
 import FatPound.Traits.Bitwise;
-import FatPound.Traits.Callable;
 import FatPound.Utility.Color;
 
 import std;
