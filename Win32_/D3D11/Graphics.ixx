@@ -437,13 +437,19 @@ export namespace fatpound::win32::d3d11
                               },
                 .SampleDesc   =
                               {
-                                  .Count   = (Framework ? 1U : GetMSAACount()),
-                                  .Quality = (Framework ? 0U : GetMSAAQuality() - 1U)
+                                  .Count            = (Framework ? 1U : GetMSAACount()),
+                                  .Quality          = (Framework ? 0U : GetMSAAQuality() - 1U)
                               },
                 .BufferUsage  = DXGI_USAGE_RENDER_TARGET_OUTPUT,
                 .BufferCount  = 2U,
                 .OutputWindow = GetHwnd(),
-                .Windowed     = not (IN_RELEASE and NotFramework),
+
+#ifdef IN_RELEASE
+                .Windowed     = NotFramework,
+#else
+                .Windowed     = true,
+#endif
+
                 .SwapEffect   = DXGI_SWAP_EFFECT_DISCARD,
                 .Flags        = 0U
             };
@@ -507,7 +513,10 @@ export namespace fatpound::win32::d3d11
                 {
                     .Format        = DXGI_FORMAT_D32_FLOAT,
                     .ViewDimension = ((m_msaa_count_ == 1U) ? D3D11_DSV_DIMENSION_TEXTURE2D : D3D11_DSV_DIMENSION_TEXTURE2DMS),
-                    .Texture2D     = { .MipSlice = ((m_msaa_count_ == 1U) ? 0U : 1U) }
+                    .Texture2D     =
+                                   {
+                                       .MipSlice = ((m_msaa_count_ == 1U) ? 0U : 1U)
+                                   }
                 };
 
                 if (const auto& hr = GetDevice()->CreateDepthStencilView(pTexture2d.Get(), &dsvDesc, &m_res_pack_.m_pDSV);

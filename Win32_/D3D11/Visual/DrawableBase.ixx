@@ -35,7 +35,7 @@ export namespace fatpound::win32::d3d11::visual
 
 
     protected:
-        virtual void AddStaticIndexBuffer_(std::unique_ptr<pipeline::IndexBuffer> idxbuf) noexcept(IN_RELEASE) final
+        virtual void AddStaticIndexBuffer_(std::unique_ptr<pipeline::IndexBuffer> idxbuf) final
         {
             assert("Attempting to add index buffer a second time" and m_pCIndexBuffer_ == nullptr);
 
@@ -43,7 +43,7 @@ export namespace fatpound::win32::d3d11::visual
 
             tl_bindable_vec_.push_back(std::move<>(idxbuf));
         }
-        virtual void SetIndexFromStatic_() noexcept(IN_RELEASE) final
+        virtual void SetIndexFromStatic_() final
         {
             assert("Attempting to add index buffer a second time" and m_pCIndexBuffer_ == nullptr);
 
@@ -64,7 +64,7 @@ export namespace fatpound::win32::d3d11::visual
 
 
     private:
-        virtual auto GetStaticBinds_() const noexcept(IN_RELEASE) -> const BindableVec_t& override
+        virtual auto GetStaticBinds_() const -> const BindableVec_t& override
         {
             return tl_bindable_vec_;
         }
