@@ -278,7 +278,7 @@ export namespace fatpound::utility
 
         void Fill(const Color& color) noexcept
         {
-#if defined(__clang__)
+#ifdef __clang__
     #pragma clang diagnostic push
     #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
 #endif
@@ -287,7 +287,7 @@ export namespace fatpound::utility
                 static_cast<int>(color),
                 GetWidth<std::size_t>() * GetHeight<std::size_t>() * sizeof(Color)
             );
-#if defined(__clang__)
+#ifdef __clang__
     #pragma clang diagnostic pop
 #endif
         }
@@ -311,7 +311,7 @@ export namespace fatpound::utility
     private:
         void DeepCopyFrom_(const Surface& src) noexcept
         {
-#if defined(__clang__)
+#ifdef __clang__
     #pragma clang diagnostic push
     #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
 #endif
@@ -330,7 +330,7 @@ export namespace fatpound::utility
                 );
                 // NOLINTEND(cppcoreguidelines-pro-bounds-pointer-arithmetic)
             }
-#if defined(__clang__)
+#ifdef __clang__
     #pragma clang diagnostic pop
 #endif
         }

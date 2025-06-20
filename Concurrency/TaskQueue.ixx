@@ -1,5 +1,7 @@
 module;
 
+// for lock_guards without CTAD, see: https://clang.llvm.org/docs/DiagnosticsReference.html#wctad-maybe-unsupported
+
 export module FatPound.Concurrency.TaskQueue;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
@@ -30,7 +32,7 @@ export namespace fatpound::concurrency
             WrappedTask wtask{};
 
             {
-                const std::lock_guard lck{ m_mtx_ };
+                const std::lock_guard<std::mutex> lck{ m_mtx_ };
 
                 wtask = std::move<>(m_tasks_.front());
 
@@ -63,7 +65,7 @@ export namespace fatpound::concurrency
     private:
         void Push_(WrappedTask wtask)
         {
-            const std::lock_guard lck{ m_mtx_ };
+            const std::lock_guard<std::mutex> lck{ m_mtx_ };
 
             m_tasks_.push_back(std::move<>(wtask));
         }

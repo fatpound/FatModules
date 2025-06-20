@@ -157,13 +157,17 @@ export namespace fatpound::win32
                 // user data is fine => "This data is intended for use by the application that created the window. Its value is initially zero."
                 ::SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(pWnd));
 
-#pragma warning (push)
-#pragma warning (disable : 5039)
+#ifdef _MSC_VER
+    #pragma warning (push)
+    #pragma warning (disable : 5039)
+#endif
                 // https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warnings-c5000-through-c5199?view=msvc-170
                 // 
                 // Then, set the new WndProc function's (HandleMsgThunk_) address
                 ::SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&ClassEx::HandleMsgThunk_<Wnd>));
-#pragma warning (pop)
+#ifdef _MSC_VER
+    #pragma warning (pop)
+#endif
 
 
                 // now its time to see the new WndProc in work

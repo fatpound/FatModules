@@ -35,7 +35,7 @@ export namespace fatpound::win32::d3d11::pipeline
             if (const auto& hr = pDevice->CreateSamplerState(&sDesc, &m_pSamplerState_);
                 FAILED(hr))
             {
-                throw std::runtime_error("Could NOT create SamplerState");
+                throw std::runtime_error("Could NOT create SamplerState!");
             }
         }
 

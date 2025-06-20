@@ -1,13 +1,10 @@
 module;
 
+// for lock_guards without CTAD, see: https://clang.llvm.org/docs/DiagnosticsReference.html#wctad-maybe-unsupported
+
 export module FatPound.IO.Mouse;
 
 import std;
-
-#if defined(__clang__)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wctad-maybe-unsupported"
-#endif
 
 export namespace fatpound::io
 {
@@ -79,7 +76,7 @@ export namespace fatpound::io
                 return std::nullopt;
             }
 
-            const std::lock_guard guard{ m_mtx_ };
+            const std::lock_guard<std::mutex> guard{ m_mtx_ };
 
             auto mouseE = m_event_buffer_.front();
             m_event_buffer_.pop();
@@ -102,7 +99,7 @@ export namespace fatpound::io
 
         [[nodiscard]] auto EventBufferIsEmpty() const noexcept -> bool
         {
-            const std::lock_guard guard{ m_mtx_ };
+            const std::lock_guard<std::mutex> guard{ m_mtx_ };
 
             return m_event_buffer_.empty();
         }
@@ -127,7 +124,7 @@ export namespace fatpound::io
 
         void AddMouseMoveEvent(const int x, const int y)
         {
-            const std::lock_guard guard{ m_mtx_ };
+            const std::lock_guard<std::mutex> guard{ m_mtx_ };
 
             m_pos_x_ = x;
             m_pos_y_ = y;
@@ -138,7 +135,7 @@ export namespace fatpound::io
         }
         void AddMouseEnterEvent()
         {
-            const std::lock_guard guard{ m_mtx_ };
+            const std::lock_guard<std::mutex> guard{ m_mtx_ };
 
             m_is_in_window_ = true;
 
@@ -148,7 +145,7 @@ export namespace fatpound::io
         }
         void AddMouseLeaveEvent()
         {
-            const std::lock_guard guard{ m_mtx_ };
+            const std::lock_guard<std::mutex> guard{ m_mtx_ };
 
             m_is_in_window_ = false;
 
@@ -159,7 +156,7 @@ export namespace fatpound::io
 
         void AddLeftPressEvent         ()
         {
-            const std::lock_guard guard{ m_mtx_ };
+            const std::lock_guard<std::mutex> guard{ m_mtx_ };
 
             m_left_is_pressed_ = true;
 
@@ -169,7 +166,7 @@ export namespace fatpound::io
         }
         void AddLeftReleaseEvent       ()
         {
-            const std::lock_guard guard{ m_mtx_ };
+            const std::lock_guard<std::mutex> guard{ m_mtx_ };
 
             m_left_is_pressed_ = false;
 
@@ -179,7 +176,7 @@ export namespace fatpound::io
         }
         void AddRightPressEvent        ()
         {
-            const std::lock_guard guard{ m_mtx_ };
+            const std::lock_guard<std::mutex> guard{ m_mtx_ };
 
             m_right_is_pressed_ = true;
 
@@ -189,7 +186,7 @@ export namespace fatpound::io
         }
         void AddRightReleaseEvent      ()
         {
-            const std::lock_guard guard{ m_mtx_ };
+            const std::lock_guard<std::mutex> guard{ m_mtx_ };
 
             m_right_is_pressed_ = false;
 
@@ -199,7 +196,7 @@ export namespace fatpound::io
         }
         void AddWheelPressEvent        ()
         {
-            const std::lock_guard guard{ m_mtx_ };
+            const std::lock_guard<std::mutex> guard{ m_mtx_ };
 
             m_wheel_is_pressed_ = true;
 
@@ -209,7 +206,7 @@ export namespace fatpound::io
         }
         void AddWheelReleaseEvent      ()
         {
-            const std::lock_guard guard{ m_mtx_ };
+            const std::lock_guard<std::mutex> guard{ m_mtx_ };
 
             m_wheel_is_pressed_ = false;
 
@@ -231,20 +228,20 @@ export namespace fatpound::io
         }
         void AddWheelUpEvent           ()
         {
-            const std::lock_guard guard{ m_mtx_ };
+            const std::lock_guard<std::mutex> guard{ m_mtx_ };
 
             AddWheelUpEvent_NoGuard();
         }
         void AddWheelDownEvent         ()
         {
-            const std::lock_guard guard{ m_mtx_ };
+            const std::lock_guard<std::mutex> guard{ m_mtx_ };
 
             AddWheelDownEvent_NoGuard();
         }
 
         void ProcessWheelDelta(const WheelDelta_t delta)
         {
-            const std::lock_guard guard{ m_mtx_ };
+            const std::lock_guard<std::mutex> guard{ m_mtx_ };
 
             m_wheel_delta_carry_ += delta;
 
@@ -300,9 +297,5 @@ export namespace fatpound::io
 
     using MouseEvent = Mouse::Event;
 }
-
-#if defined(__clang__)
-#pragma clang diagnostic pop
-#endif
 
 module : private;

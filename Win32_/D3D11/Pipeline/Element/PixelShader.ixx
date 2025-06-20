@@ -45,7 +45,7 @@ export namespace fatpound::win32::d3d11::pipeline
                 &m_pPixelShader_);
                 FAILED(hr))
             {
-                throw std::runtime_error("Could NOT Create Direct3D PixelShader in function: " __FUNCSIG__);
+                throw std::runtime_error("Could NOT create PixelShader!");
             }
         }
 

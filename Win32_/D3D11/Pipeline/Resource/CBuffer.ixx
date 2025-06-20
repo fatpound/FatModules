@@ -51,7 +51,7 @@ export namespace fatpound::win32::d3d11::pipeline
             if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pConstantBuffer_);
                 FAILED(hr))
             {
-                throw std::runtime_error("Could NOT Create Direct3D CBuffer in function: " __FUNCSIG__);
+                throw std::runtime_error("Could NOT create CBuffer!");
             }
         }
         explicit CBuffer(ID3D11Device* const pDevice)
@@ -69,7 +69,7 @@ export namespace fatpound::win32::d3d11::pipeline
             if (const auto& hr = pDevice->CreateBuffer(&bd, nullptr, &m_pConstantBuffer_);
                 FAILED(hr))
             {
-                throw std::runtime_error("Could NOT Create Direct3D CBuffer in function: " __FUNCSIG__);
+                throw std::runtime_error("Could NOT create CBuffer!");
             }
         }
 

@@ -53,7 +53,7 @@ export namespace fatpound::win32::d3d11::pipeline
             if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pIndexBuffer_);
                 FAILED(hr))
             {
-                throw std::runtime_error("Could NOT Create Direct3D IndexBuffer in function: " __FUNCSIG__);
+                throw std::runtime_error("Could NOT create IndexBuffer!");
             }
         }
 

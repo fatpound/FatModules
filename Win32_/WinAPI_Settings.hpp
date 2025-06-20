@@ -3,7 +3,16 @@
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
 #ifndef _WIN32_WINNT
+    #ifdef __clang__
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Wreserved-macro-identifier"
+    #endif
+    
     #define _WIN32_WINNT _WIN32_WINNT_WIN10 // target Windows 10 or later
+
+    #ifdef __clang__
+        #pragma clang diagnostic pop
+    #endif
 #endif
 
 #include <sdkddkver.h>

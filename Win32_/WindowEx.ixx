@@ -66,17 +66,21 @@ export namespace fatpound::win32
             m_pWndClassEx_{ std::move<>(pWndClassEx) },
             mc_client_size_{ .m_width = clientDimensions.m_width, .m_height = clientDimensions.m_height },
             /////////////////////
-#pragma region (thread w/o C4355)
-#pragma warning (push)
-#pragma warning (disable : 4355)
+#ifdef _MSC_VER
+    #pragma region (thread w/o C4355)
+    #pragma warning (push)
+    #pragma warning (disable : 4355)
+#endif
             m_msg_jthread_{ &WindowEx::MessageKernel_, this }
-#pragma warning (pop)
-#pragma endregion
+#ifdef _MSC_VER
+    #pragma warning (pop)
+    #pragma endregion
+#endif
         {
             auto future = DispatchTaskToQueue_<false>(
                 [
                     this,
-                    title = title.c_str(),
+                    theTitle = title.c_str(),
                     position,
                     styles,
                     exStyles
@@ -103,7 +107,7 @@ export namespace fatpound::win32
                     m_hWnd_ = ::CreateWindowEx(
                         exStyles,
                         MAKEINTATOM(m_pWndClassEx_->GetAtom()),
-                        title,
+                        theTitle,
                         styles,
                         position.has_value() ? position->x : CW_USEDEFAULT,
                         position.has_value() ? position->y : CW_USEDEFAULT,
@@ -294,7 +298,14 @@ export namespace fatpound::win32
     protected:
         FATLIB_FORCEINLINE void Process_WM_MOUSEMOVE_  (const WPARAM& wParam, const LPARAM& lParam)
         {
-            const POINTS pt = MAKEPOINTS(lParam);
+#ifdef __clang__
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wcast-qual"
+#endif
+            const auto& pt = MAKEPOINTS(lParam);
+#ifdef __clang__
+    #pragma clang diagnostic pop
+#endif
 
             if (pt.x >= 0
                 and pt.x < GetClientWidth<SHORT>()

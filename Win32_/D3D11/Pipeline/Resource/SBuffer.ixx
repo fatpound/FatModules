@@ -52,7 +52,7 @@ export namespace fatpound::win32::d3d11::pipeline
                 if (const auto& hr = pDevice->CreateBuffer(&sbd, &initData, &m_pStructuredBuffer_);
                     FAILED(hr))
                 {
-                    throw std::runtime_error("Could NOT Create Direct3D SBuffer in function: " __FUNCSIG__);
+                    throw std::runtime_error("Could NOT create SBuffer!");
                 }
             }
 
@@ -62,15 +62,22 @@ export namespace fatpound::win32::d3d11::pipeline
                     .Format        = DXGI_FORMAT_UNKNOWN,
                     .ViewDimension = D3D11_SRV_DIMENSION_BUFFER,
                     .Buffer        =
+#ifdef __clang__
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wmissing-designated-field-initializers"
+#endif
                                    {
                                        .ElementWidth = static_cast<UINT>(structures.size())
                                    }
+#ifdef __clang__
+    #pragma clang diagnostic pop
+#endif
                 };
 
                 if (const auto& hr = pDevice->CreateShaderResourceView(m_pStructuredBuffer_.Get(), &srvDesc, &m_pShaderResourceView_);
                     FAILED(hr))
                 {
-                    throw std::runtime_error("Could NOT Create Direct3D ShaderResourceView in function: " __FUNCSIG__);
+                    throw std::runtime_error("Could NOT create ShaderResourceView!");
                 }
             }
 
