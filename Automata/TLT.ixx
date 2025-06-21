@@ -56,13 +56,12 @@ export namespace fatpound::automata
 
 
     public:
-        [[nodiscard]]
-        auto GetWords() const -> std::vector<std::string>
+        [[nodiscard]] auto GetWords() const -> std::vector<std::string>
         {
             return m_results_;
         }
 
-        void PrintWords() const
+        void PrintWords(std::ostream& os = std::cout) const
         {
             std::vector<std::string> finals;
             std::vector<std::string> repeaters;
@@ -83,21 +82,21 @@ export namespace fatpound::automata
             {
                 for (const auto& str : finals)
                 {
-                    std::cout << str << '\n';
+                    os << str << '\n';
                 }
             }
 
             if (not repeaters.empty())
             {
-                std::cout << "\nRepeaters :\n\n";
+                os << "\nRepeaters :\n\n";
 
                 for (const auto& str : repeaters)
                 {
-                    std::cout << str << '\n';
+                    os << str << '\n';
                 }
             }
 
-            std::cout << '\n';
+            os << '\n';
         }
 
 
@@ -130,7 +129,7 @@ export namespace fatpound::automata
 
 
     private:
-        void CreateTree_     (Node_* node)
+        void CreateTree_     (Node_* const node)
         {
             m_results_.reserve(node->m_leaves.size());
 
@@ -146,23 +145,23 @@ export namespace fatpound::automata
                 CreateInnerTree_(leaf);
             }
         }
-        void CreateInnerTree_(Node_* node)
+        void CreateInnerTree_(Node_* const node)
         {
             for (std::size_t i{}; i < node->m_item.size(); ++i)
             {
-                const auto& ch = node->m_item[i];
+                const auto ch = node->m_item[i];
 
-                if (not static_cast<bool>(std::isupper(ch)))
+                if (std::isupper(ch) == 0)
                 {
                     continue;
                 }
 
-                const auto& cfg_it = std::ranges::find_if(mc_cfgrammar_, [&](const auto& pair) { return pair.first[0] == ch; });
+                const auto& cfg_it = std::ranges::find_if(mc_cfgrammar_, [ch](const auto& pair) { return pair.first[0] == ch; });
 
                 const std::string leftstr(node->m_item.cbegin(), node->m_item.cbegin() + static_cast<std::ptrdiff_t>(i));
                 const std::string rightstr(node->m_item.cbegin() + static_cast<std::ptrdiff_t>(i + 1U), node->m_item.cend());
 
-                const std::size_t index = static_cast<std::size_t>(cfg_it - mc_cfgrammar_.cbegin());
+                const auto index = static_cast<std::size_t>(cfg_it - mc_cfgrammar_.cbegin());
 
                 node->m_leaves.reserve(node->m_leaves.size() + cfg_it->second.size());
 
@@ -170,16 +169,12 @@ export namespace fatpound::automata
                 {
                     // string str = cfgstr;
 
-                    bool recursed = false;
+                    bool recursed{};
 
                     if (cfgstr.contains(ch))
                     {
                         if (m_recursers_[index] >= scx_recurse_limit_)
                         {
-                            // const auto& [first, last] = std::ranges::remove_if(str, [](const auto& ch) { return std::isupper(ch); });
-                            // 
-                            // str.erase(first, last);
-
                             continue;
                         }
 

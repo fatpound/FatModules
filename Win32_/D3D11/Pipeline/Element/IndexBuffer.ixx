@@ -1,8 +1,8 @@
 module;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
     #ifdef __INTELLISENSE__
-        #include <FatWin32.hpp>
+        #include <Win32_/WinAPI.hpp>
         #include <d3d11.h>
         #include <wrl.h>
     #endif
@@ -10,7 +10,7 @@ module;
 
 export module FatPound.Win32.D3D11.Pipeline.IndexBuffer;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
 
 #ifndef __INTELLISENSE__
     import <d3d11.h>;
@@ -53,7 +53,7 @@ export namespace fatpound::win32::d3d11::pipeline
             if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pIndexBuffer_);
                 FAILED(hr))
             {
-                throw std::runtime_error("Could NOT Create Direct3D IndexBuffer in function: " __FUNCSIG__);
+                throw std::runtime_error("Could NOT create IndexBuffer!");
             }
         }
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #define FATPOUND_FULL_WIN_TARGETED
-#include <FatWin32.hpp>
+#include <Win32_/WinAPI.hpp>
 #undef FATPOUND_FULL_WIN_TARGETED
 #include <gdiplus.h>
 #include <combaseapi.h>

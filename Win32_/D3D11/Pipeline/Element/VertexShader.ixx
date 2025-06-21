@@ -1,8 +1,8 @@
 module;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
     #ifdef __INTELLISENSE__
-        #include <FatWin32.hpp>
+        #include <Win32_/WinAPI.hpp>
         #include <d3d11.h>
         #include <d3dcompiler.h>
         #include <wrl.h>
@@ -11,7 +11,7 @@ module;
 
 export module FatPound.Win32.D3D11.Pipeline.VertexShader;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
 
 #ifndef __INTELLISENSE__
     import <d3d11.h>;
@@ -43,7 +43,7 @@ export namespace fatpound::win32::d3d11::pipeline
                 &m_pVertexShader_);
                 FAILED(hr))
             {
-                throw std::runtime_error("Could NOT Create Direct3D VertexShader in function: " __FUNCSIG__);
+                throw std::runtime_error("Could NOT create VertexShader!");
             }
         }
 

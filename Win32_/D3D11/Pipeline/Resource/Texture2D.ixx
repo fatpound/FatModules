@@ -1,10 +1,10 @@
 module;
 
-#ifdef FAT_BUILDING_WITH_MSVC
-    #include <FatNamespaces.hxx>
+#ifdef FATLIB_BUILDING_WITH_MSVC
+    #include <_macros/Namespaces.hxx>
 
     #ifdef __INTELLISENSE__
-        #include <FatWin32.hpp>
+        #include <Win32_/WinAPI.hpp>
         #include <d3d11.h>
         #include <wrl.h>
     #endif
@@ -12,7 +12,7 @@ module;
 
 export module FatPound.Win32.D3D11.Pipeline.Texture2D;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
 
 #ifndef __INTELLISENSE__
     import <d3d11.h>;
@@ -40,8 +40,9 @@ export namespace fatpound::win32::d3d11::pipeline
             {
                 const D3D11_SUBRESOURCE_DATA sd
                 {
-                    .pSysMem     = *pSurface,
-                    .SysMemPitch =  pSurface->GetPitch<UINT>()
+                    .pSysMem          = *pSurface,
+                    .SysMemPitch      =  pSurface->GetPitch<UINT>(),
+                    .SysMemSlicePitch = {}
                 };
 
                 if (const auto& hr = pDevice->CreateTexture2D(

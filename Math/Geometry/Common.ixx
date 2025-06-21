@@ -1,6 +1,10 @@
 module;
 
-#include <FatSTL_Macros.hxx>
+#include <_macros/STL.hxx>
+
+#ifdef FATLIB_BUILDING_WITH_MSVC
+    #include <DirectXMath.h>
+#endif
 
 export module FatPound.Math.Geometry.Common;
 
@@ -10,9 +14,70 @@ import FatPound.Traits.Bitwise;
 
 import std;
 
+#ifdef FATLIB_BUILDING_WITH_MSVC
+    namespace dx = DirectX;
+#endif
+
 export namespace fatpound::math::geometry
 {
-    template <traits::UIntegralOrFloating T> constexpr auto SquarePerimeter   (const T& length) -> T
+#ifdef FATLIB_BUILDING_WITH_MSVC
+
+    auto operator +      (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept -> dx::XMVECTOR
+    {
+        return dx::XMVectorAdd(p0, p1);
+    }
+    auto operator -      (const dx::XMVECTOR& p1, const dx::XMVECTOR& p0) noexcept -> dx::XMVECTOR
+    {
+        return dx::XMVectorSubtract(p1, p0);
+    }
+
+    auto DistanceVector2 (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept
+    {
+        return dx::XMVector2Length(p1 - p0);
+    }
+    auto DistanceVector3 (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept
+    {
+        return dx::XMVector3Length(p1 - p0);
+    }
+    auto Distance2       (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept -> float
+    {
+        return dx::XMVectorGetX(DistanceVector2(p0, p1));
+    }
+    auto Distance3       (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept -> float
+    {
+        return dx::XMVectorGetX(DistanceVector3(p0, p1));
+    }
+
+
+    /// @brief Calculates distance, 3D by default
+    /// 
+    /// @param p0: 1st 3D position vector
+    /// @param p1: 2nd 3D position vector
+    /// 
+    /// @return the distance in float type
+    /// 
+    auto Distance        (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept -> float
+    {
+        return Distance3(p0, p1);
+    }
+
+
+    auto Distance        (const dx::XMFLOAT2& p0, const dx::XMFLOAT2& p1) noexcept -> float
+    {
+        return Distance2(dx::XMLoadFloat2(&p0), dx::XMLoadFloat2(&p1));
+    }
+    auto Distance        (const dx::XMFLOAT3& p0, const dx::XMFLOAT3& p1) noexcept -> float
+    {
+        return Distance3(dx::XMLoadFloat3(&p0), dx::XMLoadFloat3(&p1));
+    }
+    auto CompareDistance (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept
+    {
+        return dx::XMVectorGetX(dx::XMVector3LengthSq(p0)) > dx::XMVectorGetX(dx::XMVector3LengthSq(p1));
+    }
+
+#endif
+
+    template <traits::UIntegralOrFloating T> constexpr auto SquarePerimeter   (const T& length) noexcept -> T
     {
         return length * static_cast<T>(4);
     }
@@ -20,32 +85,21 @@ export namespace fatpound::math::geometry
     {
         return Square<>(length);
     }
-    template <traits::UIntegralOrFloating T> constexpr auto CircleDiameter    (const T& radius) -> T
-    {
-        return radius * static_cast<T>(2);
-    }
-    template <traits::UIntegralOrFloating T> constexpr auto CirclePerimeter   (const T& radius) -> T
-    {
-        return CircleDiameter<T>(radius) * numbers::Pi<T>;
-    }
-    template <traits::UIntegralOrFloating T> constexpr auto CircleArea        (const T& radius) -> T
-    {
-        return Square<>(radius) * numbers::Pi<T>;
-    }
-    template <traits::UIntegralOrFloating T> constexpr auto TrianglePerimeter (const T& a, const T& b, const T& c) -> T
+    template <traits::UIntegralOrFloating T> constexpr auto TrianglePerimeter (const T& a, const T& b, const T& c) noexcept -> T
     {
         return a + b + c;
     }
-    template <traits::UIntegralOrFloating T> CX_MATH26 auto TriangleArea      (const T& a, const T& b, const T& c) -> T
+    template <traits::UIntegralOrFloating T> CX_MATH26 auto TriangleArea      (const T& a, const T& b, const T& c) noexcept -> T
     {
         const auto s = TrianglePerimeter<>(a, b, c) / static_cast<T>(2);
 
         return std::sqrt(s * (s - a) * (s - b) * (s - c));
     }
-    template <traits::UIntegralOrFloating T> constexpr auto TriangleArea      (const T& height, const T& base) -> T
+    template <traits::UIntegralOrFloating T> constexpr auto TriangleArea      (const T& height, const T& base) noexcept -> T
     {
         return (base * height) / 2.0;
     }
+
 
     /// @brief Checks whether three side lengths can form a triangle
     /// 
@@ -57,7 +111,7 @@ export namespace fatpound::math::geometry
     /// 
     /// @return true if the three side lengths satisfy the triangle inequality and can form a triangle; otherwise, false
     /// 
-    template <traits::UIntegralOrFloating T> constexpr auto FormsATriangle    (const T& a, const T& b, const T& c) -> bool
+    template <traits::UIntegralOrFloating T> constexpr auto FormsATriangle    (const T& a, const T& b, const T& c) noexcept -> bool
     {
         return     (std::abs(b - c) < a and a < b + c)
                and (std::abs(a - c) < b and b < a + c)

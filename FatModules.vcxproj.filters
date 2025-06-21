@@ -210,9 +210,6 @@
     <ClCompile Include="Math\Common.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Geometry\Rectangle.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Utility\Common.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -294,39 +291,33 @@
     <ClCompile Include="Algorithm\Graph\BFS.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Visual\Visual.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Visual\Drawable.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\D3D11\Visual\DrawableBase.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Algorithm\Searching.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Geometry\Shape\Circle.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Win32_\FatWin32.hpp">
+    <ClInclude Include="Win32_\WinAPI.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Win32_\FatWin32_Settings.hpp">
+    <ClInclude Include="Win32_\WinAPI_Settings.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FatNamespaces.hxx">
+    <ClInclude Include="_macros\Namespaces.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FatMacros.hxx">
+    <ClInclude Include="_macros\Compiler.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FatSTL_Macros.hxx">
+    <ClInclude Include="_macros\STL.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Win32_\FatWin32.hxx">
+    <ClInclude Include="Win32_\WinAPI.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FatWin32_Macros.hxx">
+    <ClInclude Include="_macros\Experimental.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

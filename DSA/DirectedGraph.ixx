@@ -48,7 +48,7 @@ export namespace fatpound::dsa
             {
                 for (std::size_t j{}; j < m_node_count_; ++j)
                 {
-                    if (m_adj_[i][j] not_eq 0U)
+                    if (m_adj_[i][j] not_eq 0)
                     {
                         m_nexts_[i].push_back(j);
 

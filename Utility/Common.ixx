@@ -1,12 +1,12 @@
 module;
 
-#include <FatSTL_Macros.hxx>
+#include <_macros/STL.hxx>
 
 export module FatPound.Utility.Common;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
 
-import <FatWin32.hxx>;
+import <Win32_/WinAPI.hxx>;
 
 #endif
 
@@ -26,7 +26,7 @@ export namespace fatpound::utility
     constexpr std::string_view     DecimalDigits = DecDigits;
     constexpr std::string_view HexadecimalDigits = HexDigits;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
 
     auto ToWString(const std::string& str) -> std::wstring
     {

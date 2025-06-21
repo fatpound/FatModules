@@ -1,8 +1,8 @@
 module;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
     #ifdef __INTELLISENSE__
-        #include <FatWin32.hpp>
+        #include <Win32_/WinAPI.hpp>
         #include <wrl.h>
         #include <d3d11.h>
     #endif
@@ -14,7 +14,7 @@ export import FatPound.Utility.Gfx.FullScreenQuad;
 export import FatPound.Utility.Gfx.ResourcePack;
 export import FatPound.Utility.Gfx.SizePack;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
 
 import <d3d11.h>;
 

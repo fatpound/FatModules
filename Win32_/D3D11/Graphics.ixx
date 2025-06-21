@@ -1,8 +1,8 @@
 module;
 
-#ifdef FAT_BUILDING_WITH_MSVC
-    #include <FatNamespaces.hxx>
-    #include <FatMacros.hxx>
+#ifdef FATLIB_BUILDING_WITH_MSVC
+    #include <_macros/Compiler.hxx>
+    #include <_macros/Namespaces.hxx>
 
     #pragma comment(lib, "d3d11")
     #pragma comment(lib, "D3DCompiler")
@@ -10,7 +10,7 @@ module;
 
 export module FatPound.Win32.D3D11.Graphics;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
 
 import <d3d11.h>;
 
@@ -107,13 +107,13 @@ export namespace fatpound::win32::d3d11
             return static_cast<T>(mc_dimensions_.m_height);
         }
 
-        template <std::integral T> [[nodiscard]] FAT_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color               requires(Framework)
+        template <std::integral T> [[nodiscard]] FATLIB_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color               requires(Framework)
         {
-            return m_res_pack_.m_surface.GetPixel<>(x, y);
+            return m_res_pack_.m_surface.template GetPixel<>(x, y);
         }
-        template <std::integral T>               FAT_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept requires(Framework)
+        template <std::integral T>               FATLIB_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept requires(Framework)
         {
-            m_res_pack_.m_surface.PutPixel<>(x, y, color);
+            m_res_pack_.m_surface.template PutPixel<>(x, y, color);
         }
 
         template <bool FullBlack = true, Float_t red = 1.0F, Float_t green = 1.0F, Float_t blue = 1.0F, Float_t alpha = 1.0F>
@@ -153,7 +153,7 @@ export namespace fatpound::win32::d3d11
             if (const auto& hr = GetSwapChain()->Present(static_cast<UINT>(VSynced), 0U);
                 FAILED(hr))
             {
-                throw std::runtime_error("SwapChain could NOT Present!");;
+                throw std::runtime_error("SwapChain could NOT Present!");
             }
         }
 
@@ -329,7 +329,8 @@ export namespace fatpound::win32::d3d11
                         .ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D,
                         .Texture2D     =
                                        {
-                                           .MipLevels = texDesc.MipLevels
+                                           .MostDetailedMip = {},
+                                           .MipLevels       = texDesc.MipLevels
                                        }
                     };
 
@@ -352,7 +353,10 @@ export namespace fatpound::win32::d3d11
                     .AddressU       = D3D11_TEXTURE_ADDRESS_CLAMP,
                     .AddressV       = D3D11_TEXTURE_ADDRESS_CLAMP,
                     .AddressW       = D3D11_TEXTURE_ADDRESS_CLAMP,
+                    .MipLODBias     = {},
+                    .MaxAnisotropy  = {},
                     .ComparisonFunc = D3D11_COMPARISON_NEVER,
+                    .BorderColor    = {},
                     .MinLOD         = 0.0F,
                     .MaxLOD         = D3D11_FLOAT32_MAX
                 };
@@ -374,7 +378,7 @@ export namespace fatpound::win32::d3d11
                 nullptr,
                 D3D_DRIVER_TYPE_HARDWARE,
                 nullptr,
-#if IN_RELEASE
+#ifdef IN_RELEASE
                 0U,
 #else
                 D3D11_CREATE_DEVICE_DEBUG,
@@ -437,13 +441,19 @@ export namespace fatpound::win32::d3d11
                               },
                 .SampleDesc   =
                               {
-                                  .Count   = (Framework ? 1U : GetMSAACount()),
-                                  .Quality = (Framework ? 0U : GetMSAAQuality() - 1U)
+                                  .Count            = (Framework ? 1U : GetMSAACount()),
+                                  .Quality          = (Framework ? 0U : GetMSAAQuality() - 1U)
                               },
                 .BufferUsage  = DXGI_USAGE_RENDER_TARGET_OUTPUT,
                 .BufferCount  = 2U,
                 .OutputWindow = GetHwnd(),
-                .Windowed     = not (IN_RELEASE and NotFramework),
+
+#ifdef IN_RELEASE
+                .Windowed     = NotFramework,
+#else
+                .Windowed     = true,
+#endif
+
                 .SwapEffect   = DXGI_SWAP_EFFECT_DISCARD,
                 .Flags        = 0U
             };
@@ -507,7 +517,11 @@ export namespace fatpound::win32::d3d11
                 {
                     .Format        = DXGI_FORMAT_D32_FLOAT,
                     .ViewDimension = ((m_msaa_count_ == 1U) ? D3D11_DSV_DIMENSION_TEXTURE2D : D3D11_DSV_DIMENSION_TEXTURE2DMS),
-                    .Texture2D     = { .MipSlice = ((m_msaa_count_ == 1U) ? 0U : 1U) }
+                    .Flags         = {},
+                    .Texture2D     =
+                                   {
+                                       .MipSlice = ((m_msaa_count_ == 1U) ? 0U : 1U)
+                                   }
                 };
 
                 if (const auto& hr = GetDevice()->CreateDepthStencilView(pTexture2d.Get(), &dsvDesc, &m_res_pack_.m_pDSV);

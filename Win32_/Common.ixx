@@ -1,8 +1,8 @@
 module;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
     #define FATPOUND_FULL_WIN_TARGETED
-    #include <FatWin32.hpp>
+    #include <Win32_/WinAPI.hpp>
     #undef  FATPOUND_FULL_WIN_TARGETED
     #include <winDNS.h>
     #include <subauth.h>
@@ -10,7 +10,7 @@ module;
 
 export module FatPound.Win32.Common;
 
-#ifdef FAT_BUILDING_WITH_MSVC
+#ifdef FATLIB_BUILDING_WITH_MSVC
 
 import std;
 
