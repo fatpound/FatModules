@@ -186,59 +186,59 @@ export namespace fatpound::math::numbers
     
     template <std::signed_integral T>   constexpr auto IsPrime_GT4        (const T& num) noexcept -> bool
     {
-        return IsPrime_GT4<std::make_unsigned_t<T>>(num);
+        return IsPrime_GT4<>(std::make_unsigned_t<T>(num));
     }
     template <std::signed_integral T>   constexpr auto IsPrime            (const T& num) noexcept -> bool
     {
-        return num < 2 ? false : IsPrime<std::make_unsigned_t<T>>(num);
+        return num < 2 ? false : IsPrime<>(std::make_unsigned_t<T>(num));
     }
     template <std::signed_integral T>   constexpr auto PrevPrime_GT5      (const T& num) noexcept -> T
     {
-        return PrevPrime_GT5<std::make_unsigned_t<T>>(num);
+        return PrevPrime_GT5<>(std::make_unsigned_t<T>(num));
     }
     template <std::signed_integral T>   constexpr auto PrevPrime          (const T& num) noexcept -> T
     {
-        return num < 3 ? 0 : PrevPrime<std::make_unsigned_t<T>>(num);
+        return num < 3 ? 0 : PrevPrime<>(std::make_unsigned_t<T>(num));
     }
     template <std::signed_integral T>   constexpr auto NextPrime_GT4      (const T& num) noexcept -> T
     {
-        return NextPrime_GT4<std::make_unsigned_t<T>>(num);
+        return NextPrime_GT4<>(std::make_unsigned_t<T>(num));
     }
     template <std::signed_integral T>   constexpr auto NextPrime          (const T& num) noexcept -> T
     {
-        return num < 2 ? 2 : NextPrime<std::make_unsigned_t<T>>(num);
+        return num < 2 ? 2 : NextPrime<>(std::make_unsigned_t<T>(num));
     }
     template <std::signed_integral T>   constexpr auto ClosestPrime_GT5   (const T& num) noexcept -> T
     {
-        return ClosestPrime_GT5<std::make_unsigned_t<T>>(num);
+        return ClosestPrime_GT5<>(std::make_unsigned_t<T>(num));
     }
     template <std::signed_integral T>   constexpr auto ClosestPrime       (const T& num) noexcept -> T
     {
-        return num < 2 ? 2 : ClosestPrime<std::make_unsigned_t<T>>(num);
+        return num < 2 ? 2 : ClosestPrime<>(std::make_unsigned_t<T>(num));
     }
     template <std::signed_integral T>   constexpr auto NthPrime_GT2       (const T& idx) noexcept -> T
     {
-        return NthPrime_GT2<std::make_unsigned_t<T>>(idx);
+        return NthPrime_GT2<>(std::make_unsigned_t<T>(idx));
     }
     template <std::signed_integral T>   constexpr auto NthPrime           (const T& idx) noexcept -> T
     {
-        return idx < 1 ? 0 : NthPrime<std::make_unsigned_t<T>>(idx);
+        return idx < 1 ? 0 : NthPrime<>(std::make_unsigned_t<T>(idx));
     }
     template <std::signed_integral T>   constexpr auto NthSuperPrime_GT2  (const T& idx) noexcept -> T
     {
-        return NthSuperPrime_GT2<std::make_unsigned_t<T>>(idx);
+        return NthSuperPrime_GT2<>(std::make_unsigned_t<T>(idx));
     }
     template <std::signed_integral T>   constexpr auto NthSuperPrime      (const T& idx) noexcept -> T
     {
-        return idx < 1 ? 0 : NthSuperPrime<std::make_unsigned_t<T>>(idx);
+        return idx < 1 ? 0 : NthSuperPrime<>(std::make_unsigned_t<T>(idx));
     }
     template <std::signed_integral T>   constexpr auto IsStrongPrime_GT10 (const T& num) -> bool
     {
-        return IsStrongPrime_GT10<std::make_unsigned_t<T>>(num);
+        return IsStrongPrime_GT10<>(std::make_unsigned_t<T>(num));
     }
     template <std::signed_integral T>   constexpr auto IsStrongPrime      (const T& num) -> bool
     {
-        return num < 3 ? false : IsStrongPrime<std::make_unsigned_t<T>>(num);
+        return num < 3 ? false : IsStrongPrime<>(std::make_unsigned_t<T>(num));
     }
 }
 
