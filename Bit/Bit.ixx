@@ -9,7 +9,7 @@ namespace fatpound::bit
     /// @brief Generates a bitmask with bits set from startBit to endBit (inclusive) for unsigned integral types
     /// 
     /// @tparam   ForOne: If true, the mask has ones in the specified range; if false, the mask has zeros in the specified range and ones elsewhere
-    /// @tparam        T: The unsigned integral type to use for the mask (defaults to std::size_t)
+    /// @tparam        T: The unsigned integral type to use for the mask (default => std::size_t)
     /// 
     ///  @param   endBit: The index of the  most significant bit to include in the mask
     ///  @param startBit: The index of the least significant bit to include in the mask
