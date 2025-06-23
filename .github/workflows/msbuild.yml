@@ -3,9 +3,14 @@ name: FatModules MSBuild x64 Debug
 
 on:
   push:
-    branches: [ "github-actions-test" ]
+    branches:
+      - main
+      - github-actions-test
+      
   pull_request:
-    branches: [ "github-actions-test" ]
+    branches:
+      - main
+      - github-actions-test
     
 
 permissions:
