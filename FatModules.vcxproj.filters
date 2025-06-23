@@ -321,8 +321,4 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Win32_\D3D11\Shader\PSFrameBuffer.hlsl" />
-    <FxCompile Include="Win32_\D3D11\Shader\VSFrameBuffer.hlsl" />
-  </ItemGroup>
 </Project>
