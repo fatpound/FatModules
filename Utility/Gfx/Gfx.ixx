@@ -3,8 +3,8 @@ module;
 #ifdef FATLIB_BUILDING_WITH_MSVC
     #ifdef __INTELLISENSE__
         #include <Win32_/WinAPI.hpp>
-        #include <wrl.h>
         #include <d3d11.h>
+        #include <wrl.h>
     #endif
 #endif
 
