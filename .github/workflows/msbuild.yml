@@ -1,0 +1,27 @@
+name: FatModules MSBuild x64 Debug
+
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+    
+
+permissions:
+  contents: read
+
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1
+
+    - name: Build .vcxproj
+      run: msbuild FatModules.vcxproj /p:Configuration=Debug /p:Platform=x64
