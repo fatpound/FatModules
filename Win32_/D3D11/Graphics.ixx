@@ -449,7 +449,7 @@ export namespace fatpound::win32::d3d11
                 .OutputWindow = GetHwnd(),
 
 #ifdef IN_RELEASE
-                .Windowed     = NotFramework,
+                .Windowed     = Framework,
 #else
                 .Windowed     = true,
 #endif
