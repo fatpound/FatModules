@@ -248,6 +248,7 @@ namespace fatpound::traits
     template <typename... Ts> struct _type_holder_ final {};
     template <auto... Values> struct _item_holder_ final {};
 
+    // NOLINTBEGIN(bugprone-macro-parentheses)
 
 #define FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR1(item, holder_t, A, B, C, D)                                \
     static_assert(std::same_as<       Append##item##_t<holder_t<>          ,        A>,        holder_t<A>>);                \
@@ -328,6 +329,7 @@ namespace fatpound::traits
     FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR2(    , _type_holder_, int, char, double, float, bool, void)
     FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR2(Item, _item_holder_,   1,    2,      3,     4,    5,    6)
 
+    // NOLINTBEGIN(cppcoreguidelines-macro-usage)
 
 #define FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR3(A, B, C, D, E, F, G)                                                                            \
                                                                                                                                                                   \
@@ -368,6 +370,9 @@ namespace fatpound::traits
 #undef FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR3
 #undef FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR2
 #undef FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR1
+
+    // NOLINTEND(cppcoreguidelines-macro-usage)
+    // NOLINTEND(bugprone-macro-parentheses)
 }
 
 #endif

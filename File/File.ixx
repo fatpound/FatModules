@@ -99,10 +99,8 @@ export namespace fatpound::file
         {
             return count + static_cast<std::size_t>(std::filesystem::file_size(path) not_eq 0);
         }
-        else
-        {
-            return count;
-        }
+
+        return count;
     }
 
 
@@ -160,6 +158,8 @@ export namespace fatpound::file
             throw std::runtime_error("The given path is NOT a directory!");
         }
 
+        // NOLINTBEGIN(cppcoreguidelines-macro-usage)
+
         using DirIt = std::variant<fs::recursive_directory_iterator, fs::directory_iterator>;
         
         return std::visit<>(
@@ -194,6 +194,8 @@ export namespace fatpound::file
                 ? DirIt{ fs::recursive_directory_iterator{ path, fs::directory_options::skip_permission_denied } }
                 : DirIt{ fs::directory_iterator          { path, fs::directory_options::skip_permission_denied } }
         );
+
+        // NOLINTEND(cppcoreguidelines-macro-usage)
     }
 
 
@@ -298,6 +300,8 @@ export namespace fatpound::file
             throw std::runtime_error("Input path is NOT a directory!");
         }
 
+        // NOLINTBEGIN(cppcoreguidelines-macro-usage)
+
         using DirIt = std::variant<fs::recursive_directory_iterator, fs::directory_iterator>;
 
         std::visit<>(
@@ -334,6 +338,8 @@ export namespace fatpound::file
                 ? DirIt{ fs::recursive_directory_iterator{ inPath, fs::directory_options::skip_permission_denied } }
                 : DirIt{ fs::directory_iterator          { inPath, fs::directory_options::skip_permission_denied } }
         );
+
+        // NOLINTEND(cppcoreguidelines-macro-usage)
     }
 
 
