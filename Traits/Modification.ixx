@@ -245,60 +245,123 @@ module : private;
 
 namespace fatpound::traits
 {
-    template <typename... Ts>
-    struct _type_holder_ final {};
-
-    template <auto... Values>
-    struct _item_holder_ final {};
+    template <typename... Ts> struct _type_holder_ final {};
+    template <auto... Values> struct _item_holder_ final {};
 
 
-    // Type tests
-    using _uT1_         = _type_holder_<int, float>;
-    using _uT1Expected_ = _type_holder_<int, float, double>;
-    static_assert(std::same_as<Append_t<_uT1_, double>, _uT1Expected_>);
+#define FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR1(item, holder_t, A, B, C, D)                                \
+    static_assert(std::same_as<       Append##item##_t<holder_t<>          ,        A>,        holder_t<A>>);                \
+    static_assert(std::same_as<       Append##item##_t<holder_t<A>         ,        B>,        holder_t<A, B>>);             \
+    static_assert(std::same_as<       Append##item##_t<holder_t<A, B>      ,        C>,        holder_t<A, B, C>>);          \
+    static_assert(std::same_as<       Append##item##_t<holder_t<A, B, C>   ,        D>,        holder_t<A, B, C, D>>);       \
+                                                                                                                             \
+    static_assert(std::same_as<       Append##item##_t<holder_t<A>         ,        A>,        holder_t<A, A>>);             \
+    static_assert(std::same_as<       Append##item##_t<holder_t<A, B>      ,        B>,        holder_t<A, B, B>>);          \
+    static_assert(std::same_as<       Append##item##_t<holder_t<A, B, C>   ,        C>,        holder_t<A, B, C, C>>);       \
+    static_assert(std::same_as<       Append##item##_t<holder_t<A, B, C, D>,        D>,        holder_t<A, B, C, D, D>>);    \
+                                                                                                                             \
+    static_assert(std::same_as< Append##item##Unique_t<holder_t<>          ,        A>,        holder_t<A>>);                \
+    static_assert(std::same_as< Append##item##Unique_t<holder_t<A>         ,        B>,        holder_t<A, B>>);             \
+    static_assert(std::same_as< Append##item##Unique_t<holder_t<A, B>      ,        C>,        holder_t<A, B, C>>);          \
+    static_assert(std::same_as< Append##item##Unique_t<holder_t<A, B, C>   ,        D>,        holder_t<A, B, C, D>>);       \
+                                                                                                                             \
+    static_assert(std::same_as< Append##item##Unique_t<holder_t<A>         ,        A>,        holder_t<A>>);                \
+    static_assert(std::same_as< Append##item##Unique_t<holder_t<A, B>      ,        B>,        holder_t<A, B>>);             \
+    static_assert(std::same_as< Append##item##Unique_t<holder_t<A, B, C>   ,        C>,        holder_t<A, B, C>>);          \
+    static_assert(std::same_as< Append##item##Unique_t<holder_t<A, B, C, D>,        D>,        holder_t<A, B, C, D>>);       \
+                                                                                                                             \
+                                                                                                                             \
+    static_assert(std::same_as<      Prepend##item##_t<holder_t<>          ,        A>,        holder_t<A>>);                \
+    static_assert(std::same_as<      Prepend##item##_t<holder_t<A>         ,        B>,        holder_t<B, A>>);             \
+    static_assert(std::same_as<      Prepend##item##_t<holder_t<B, A>      ,        C>,        holder_t<C, B, A>>);          \
+    static_assert(std::same_as<      Prepend##item##_t<holder_t<C, B, A>   ,        D>,        holder_t<D, C, B, A>>);       \
+                                                                                                                             \
+    static_assert(std::same_as<      Prepend##item##_t<holder_t<A>         ,        A>,        holder_t<A, A>>);             \
+    static_assert(std::same_as<      Prepend##item##_t<holder_t<B, A>      ,        B>,        holder_t<B, B, A>>);          \
+    static_assert(std::same_as<      Prepend##item##_t<holder_t<C, B, A>   ,        C>,        holder_t<C, C, B, A>>);       \
+    static_assert(std::same_as<      Prepend##item##_t<holder_t<D, C, B, A>,        D>,        holder_t<D, D, C, B, A>>);    \
+                                                                                                                             \
+    static_assert(std::same_as<Prepend##item##Unique_t<holder_t<>          ,        A>,        holder_t<A>>);                \
+    static_assert(std::same_as<Prepend##item##Unique_t<holder_t<A>         ,        B>,        holder_t<B, A>>);             \
+    static_assert(std::same_as<Prepend##item##Unique_t<holder_t<B, A>      ,        C>,        holder_t<C, B, A>>);          \
+    static_assert(std::same_as<Prepend##item##Unique_t<holder_t<C, B, A>   ,        D>,        holder_t<D, C, B, A>>);       \
+                                                                                                                             \
+    static_assert(std::same_as<Prepend##item##Unique_t<holder_t<A>         ,        A>,        holder_t<A>>);                \
+    static_assert(std::same_as<Prepend##item##Unique_t<holder_t<B, A>      ,        B>,        holder_t<B, A>>);             \
+    static_assert(std::same_as<Prepend##item##Unique_t<holder_t<C, B, A>   ,        C>,        holder_t<C, B, A>>);          \
+    static_assert(std::same_as<Prepend##item##Unique_t<holder_t<D, C, B, A>,        D>,        holder_t<D, C, B, A>>);
 
-    using _uT2_         = _type_holder_<int, float>;
-    using _uT2Expected_ = _type_holder_<int, float>;
-    static_assert(std::same_as<AppendUnique_t<_uT2_, int>, _uT2Expected_>);
 
-    using _uT3_         = _type_holder_<int, float>;
-    using _uT3Expected_ = _type_holder_<double, int, float>;
-    static_assert(std::same_as<Prepend_t<_uT3_, double>, _uT3Expected_>);
-
-    using _uT4_         = _type_holder_<int, float>;
-    using _uT4Expected_ = _type_holder_<int, float>;
-    static_assert(std::same_as<PrependUnique_t<_uT4_, int>, _uT4Expected_>);
-
-    using _uT5_         = _type_holder_<int, float, double>;
-    using _uT5Expected_ = _type_holder_<double, float, int>;
-    static_assert(std::same_as<Reverse_t<_uT5_>, _uT5Expected_>);
+    FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR1(    , _type_holder_, int, char, double, float)
+    FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR1(Item, _item_holder_,   1,    2,      3,     4)
 
 
-    // Item tests
-    using _uI1_         = _item_holder_<2, 3>;
-    using _uI1Expected_ = _item_holder_<2, 3, 1>;
-    static_assert(std::same_as<AppendItem_t<_uI1_, 1>, _uI1Expected_>);
+#define FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR2(item, holder_t, A, B, C, D, E, F)                    \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<>>                     , holder_t<>>);                       \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<A>>                    , holder_t<A>>);                      \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<A, B>>                 , holder_t<B, A>>);                   \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<A, B, C>>              , holder_t<C, B, A>>);                \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<A, B, C, D>>           , holder_t<D, C, B, A>>);             \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<A, B, C, D, E>>        , holder_t<E, D, C, B, A>>);          \
+                                                                                                                       \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<A, A>>                 , holder_t<A, A>>);                   \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<A, B, A>>              , holder_t<A, B, A>>);                \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<A, A, B>>              , holder_t<B, A, A>>);                \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<A, B, B>>              , holder_t<B, B, A>>);                \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<C, A, B, A>>           , holder_t<A, B, A, C>>);             \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<A, B, C, B, D>>        , holder_t<D, B, C, B, A>>);          \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<A, A, B, A, A>>        , holder_t<A, A, B, A, A>>);          \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<C, C, C, C>>           , holder_t<C, C, C, C>>);             \
+                                                                                                                       \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<B, A, B>>              , holder_t<B, A, B>>);                \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<A, B, B, A>>           , holder_t<A, B, B, A>>);             \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<D, C, B, C, D>>        , holder_t<D, C, B, C, D>>);          \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<A, B, C, C, B, A>>     , holder_t<A, B, C, C, B, A>>);       \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<E, D, C, B, C, D, E>>  , holder_t<E, D, C, B, C, D, E>>);    \
+                                                                                                                       \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<D, A, C, B>>           , holder_t<B, C, A, D>>);             \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<F, E, D, C, B, A>>     , holder_t<A, B, C, D, E, F>>);       \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<A, C, E, B, D, F>>     , holder_t<F, D, B, E, C, A>>);       \
+    static_assert(std::same_as<Reverse##item##_t<holder_t<C, A, F, C, E, B, D>>  , holder_t<D, B, E, C, F, A, C>>);
 
-    using _uI2_         = _item_holder_<1, 2, 3>;
-    using _uI2Expected_ = _item_holder_<1, 2, 3>;
-    static_assert(std::same_as<AppendItemUnique_t<_uI2_, 1>, _uI2Expected_>);
-        
-    using _uI3_         = _item_holder_<2, 3>;
-    using _uI3Expected_ = _item_holder_<1, 2, 3>;
-    static_assert(std::same_as<PrependItem_t<_uI3_, 1>, _uI3Expected_>);
 
-    using _uI4_         = _item_holder_<1, 2, 3>;
-    using _uI4Expected_ = _item_holder_<1, 2, 3>;
-    static_assert(std::same_as<PrependItemUnique_t<_uI4_, 1>, _uI4Expected_>);
+    FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR2(    , _type_holder_, int, char, double, float, bool, void)
+    FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR2(Item, _item_holder_,   1,    2,      3,     4,    5,    6)
 
-    using _uI5_         = _item_holder_<1, 2, 3>;
-    using _uI5Expected_ = _item_holder_<3, 2, 1>;
-    static_assert(std::same_as<ReverseItem_t<_uI5_>, _uI5Expected_>);
-    
 
-    static_assert(    MinItem_v<_item_holder_<4, 2, 9>> == 2);
-    static_assert(    MaxItem_v<_item_holder_<4, 2, 9>> == 9);
-    static_assert(CountIfItem_v<_item_holder_<1, 2, 3, 4, 5, 6, 7>, decltype([](const auto& item) consteval noexcept -> bool { return item > 4; })> == 3);
+#define FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR3(A, B, C, D, E, F, G)                                                                            \
+                                                                                                                                                                  \
+    static_assert(    MinItem_v<_item_holder_<A>>                          == A);                                                                                 \
+    static_assert(    MinItem_v<_item_holder_<C, B, D, A>>                 == A);                                                                                 \
+    static_assert(    MinItem_v<_item_holder_<D, C, B>>                    == B);                                                                                 \
+    static_assert(    MinItem_v<_item_holder_<C, D, C, E>>                 == C);                                                                                 \
+    static_assert(    MinItem_v<_item_holder_<E, D, B, F, B, G>>           == B);                                                                                 \
+    static_assert(    MinItem_v<_item_holder_<F, F, F>>                    == F);                                                                                 \
+                                                                                                                                                                  \
+    static_assert(    MaxItem_v<_item_holder_<A>>                          == A);                                                                                 \
+    static_assert(    MaxItem_v<_item_holder_<C, B, D, A>>                 == D);                                                                                 \
+    static_assert(    MaxItem_v<_item_holder_<A, B, C>>                    == C);                                                                                 \
+    static_assert(    MaxItem_v<_item_holder_<C, A, C, B>>                 == C);                                                                                 \
+    static_assert(    MaxItem_v<_item_holder_<E, D, G, F, B, G>>           == G);                                                                                 \
+    static_assert(    MaxItem_v<_item_holder_<A, A, A, A>>                 == A);                                                                                 \
+                                                                                                                                                                  \
+    static_assert(CountIfItem_v<_item_holder_<A, B, D, E, C, F>, decltype([](const auto& item) consteval noexcept -> bool { return item > C;        })> == 3);    \
+    static_assert(CountIfItem_v<_item_holder_<A, B, C>,          decltype([](const auto& item) consteval noexcept -> bool { return item > C;        })> == 0);    \
+    static_assert(CountIfItem_v<_item_holder_<D, E, F, G>,       decltype([](const auto& item) consteval noexcept -> bool { return item > C;        })> == 4);    \
+    static_assert(CountIfItem_v<_item_holder_<>,                 decltype([](const auto& item) consteval noexcept -> bool { return item > C;        })> == 0);    \
+                                                                                                                                                                  \
+    static_assert(CountIfItem_v<_item_holder_<A, B, C, B, D, B>, decltype([](const auto& item) consteval noexcept -> bool { return item == B;       })> == 3);    \
+    static_assert(CountIfItem_v<_item_holder_<A, C, D, E>,       decltype([](const auto& item) consteval noexcept -> bool { return item == B;       })> == 0);    \
+    static_assert(CountIfItem_v<_item_holder_<B>,                decltype([](const auto& item) consteval noexcept -> bool { return item == B;       })> == 1);    \
+    static_assert(CountIfItem_v<_item_holder_<B, B, B, B>,       decltype([](const auto& item) consteval noexcept -> bool { return item == B;       })> == 4);    \
+                                                                                                                                                                  \
+    static_assert(CountIfItem_v<_item_holder_<A, B, C, D, E, F>, decltype([](const auto& item) consteval noexcept -> bool { return (item % 2) == 0; })> == 3);    \
+    static_assert(CountIfItem_v<_item_holder_<A, C, E, G>,       decltype([](const auto& item) consteval noexcept -> bool { return (item % 2) == 0; })> == 0);    \
+    static_assert(CountIfItem_v<_item_holder_<B, D, F>,          decltype([](const auto& item) consteval noexcept -> bool { return (item % 2) == 0; })> == 3);    \
+    static_assert(CountIfItem_v<_item_holder_<A, B, A, D, A, F>, decltype([](const auto& item) consteval noexcept -> bool { return (item % 2) == 0; })> == 3);
+
+    FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR3(1, 2, 3, 4, 5, 6, 7)
+    FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR3((-7), (-6), (-5), (-4), (-3), (-2), (-1))
 }
 
 #endif
