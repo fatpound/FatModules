@@ -79,7 +79,7 @@ export namespace fatpound::random
     template <traits::UIntegralOrFloating T>
     auto RandNumber(const T& min, const T& max, std::uniform_random_bit_generator auto& rng) -> T
     {
-        std::uniform_int_distribution<T> dist{ min, max };
+        std::conditional_t<std::unsigned_integral<T>, std::uniform_int_distribution<T>, std::uniform_real_distribution<T>> dist{ min, max };
 
         return RandNumber<>(rng, dist);
     }
