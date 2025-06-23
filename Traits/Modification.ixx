@@ -360,8 +360,14 @@ namespace fatpound::traits
     static_assert(CountIfItem_v<_item_holder_<B, D, F>,          decltype([](const auto& item) consteval noexcept -> bool { return (item % 2) == 0; })> == 3);    \
     static_assert(CountIfItem_v<_item_holder_<A, B, A, D, A, F>, decltype([](const auto& item) consteval noexcept -> bool { return (item % 2) == 0; })> == 3);
 
+
     FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR3(1, 2, 3, 4, 5, 6, 7)
     FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR3((-7), (-6), (-5), (-4), (-3), (-2), (-1))
+
+
+#undef FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR3
+#undef FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR2
+#undef FATLIB_MODIFICATION_TRAITS_STATIC_ASSERT_TESTS_GENERATOR1
 }
 
 #endif
