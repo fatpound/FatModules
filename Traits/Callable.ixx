@@ -646,19 +646,18 @@ struct FATLIB_EBCO FunctionInfo< MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__ >
     concept Function = std::is_function_v<T>;
 
     template <typename T>
-    concept HasFCallOperator = (ClassOrStruct<T> or Union<T>) and requires()
+    concept HasFCallOperator = requires()
     {
+        requires (ClassOrStruct<T> or Union<T>);
+
         &T::operator ();
     };
 
     template <typename T>
-    concept Functor = Instantiable<T> and not Function<T> and requires(T t)
-    {
-        t();
-    };
+    concept Functor_NonTemplated = Instantiable<T> and (not Function<T>) and HasFCallOperator<T>;
 
     template <typename T>
-    concept Callable = Function<T> or Functor<T>;
+    concept Callable = Function<T> or Functor_NonTemplated<T>;
 }
 
 module : private;
@@ -669,10 +668,13 @@ namespace fatpound::traits
 {
     // static assertion tests for lambdas
 
-    static_assert(    not Function<decltype([]{})>);
-    static_assert(         Functor<decltype([]{})>);
-    static_assert(HasFCallOperator<decltype([]{})>);
-    static_assert(        Callable<decltype([]{})>);
+    static_assert(            not Function<decltype([]{})>);
+    static_assert(        HasFCallOperator<decltype([]{})>);
+    static_assert(    Functor_NonTemplated<decltype([]{})>);
+    static_assert(    Functor_NonTemplated<decltype([](const  int& a, const  int& b) constexpr -> bool { return a > b; })>);
+    static_assert(not Functor_NonTemplated<decltype([](const auto& a, const auto& b) constexpr -> bool { return a > b; })>);
+    static_assert(                Callable<decltype([]{})>);
+
 
     // NOLINTBEGIN(cert-dcl50-cpp)
 

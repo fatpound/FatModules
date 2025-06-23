@@ -297,6 +297,9 @@
     <ClCompile Include="Math\Geometry\Shape\Circle.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Traits\Modification.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32_\WinAPI.hpp">
