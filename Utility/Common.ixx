@@ -26,26 +26,50 @@ export namespace fatpound::utility
     constexpr std::string_view     DecimalDigits = DecDigits;
     constexpr std::string_view HexadecimalDigits = HexDigits;
 
+
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
-    auto ToWString(const std::string& str) -> std::wstring
+    auto To_WString(const std::string& str) -> std::wstring
     {
-        std::wstring wstr(str.size(), '\0');
+        if (str.empty())
+        {
+            return {};
+        }
 
-        ::MultiByteToWideChar(
+        const auto& required_size = ::MultiByteToWideChar(
             CP_UTF8,
-            0,
+            MB_ERR_INVALID_CHARS,
+            str.c_str(),
+            static_cast<int>(str.size()),
+            nullptr,
+            0
+        );
+
+        if (required_size == 0)
+        {
+            throw std::runtime_error("Failed to calculate required size for string conversion!");
+        }
+
+        std::wstring wstr(static_cast<std::size_t>(required_size), L'\0');
+
+        const auto& bytes_written = ::MultiByteToWideChar(
+            CP_UTF8,
+            MB_ERR_INVALID_CHARS,
             str.c_str(),
             static_cast<int>(str.size()),
             wstr.data(),
-            static_cast<int>(wstr.size())
+            required_size
         );
+
+        if (bytes_written == 0)
+        {
+            throw std::runtime_error("Failed to convert string to wstring!");
+        }
 
         return wstr;
     }
 
 #endif
-
 
 
     /// @brief Converts an 8-bit unsigned integer to its two-character hexadecimal string representation
