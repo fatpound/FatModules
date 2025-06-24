@@ -14,61 +14,61 @@ import std;
 
 export namespace fatpound::random
 {
-    template <template <typename> typename T, typename U>
-    concept StdUniformDist = std::same_as<T<U>, std::conditional_t<std::integral<U>, std::uniform_int_distribution<U>, std::uniform_real_distribution<U>>>;
+    template <template <typename> typename Dist, typename T>
+    concept StdUniformDist = std::same_as<Dist<T>, std::conditional_t<std::integral<T>, std::uniform_int_distribution<T>, std::uniform_real_distribution<T>>>;
     
-    template <template <typename> typename T, typename U>
-    concept StdOtherBernoulliDist = std::integral<U> and requires()
+    template <template <typename> typename Dist, typename T>
+    concept StdOtherBernoulliDist = std::integral<T> and requires()
     {
         requires
-               std::same_as<T<U>, std::binomial_distribution<U>>
-            or std::same_as<T<U>, std::negative_binomial_distribution<U>>
-            or std::same_as<T<U>, std::geometric_distribution<U>>;
+               std::same_as<Dist<T>, std::binomial_distribution<T>>
+            or std::same_as<Dist<T>, std::negative_binomial_distribution<T>>
+            or std::same_as<Dist<T>, std::geometric_distribution<T>>;
     };
 
-    template <template <typename> typename T, typename U>
-    concept StdPoissonDist = traits::IntegralOrFloating<U> and requires()
+    template <template <typename> typename Dist, typename T>
+    concept StdPoissonDist = traits::IntegralOrFloating<T> and requires()
     {
         requires
-              (std::same_as<T<U>, std::poisson_distribution<U>> and std::integral<U>)
-            or std::same_as<T<U>, std::exponential_distribution<U>>
-            or std::same_as<T<U>, std::gamma_distribution<U>>
-            or std::same_as<T<U>, std::weibull_distribution<U>>
-            or std::same_as<T<U>, std::extreme_value_distribution<U>>;
+              (std::same_as<Dist<T>, std::poisson_distribution<T>> and std::integral<T>)
+            or std::same_as<Dist<T>, std::exponential_distribution<T>>
+            or std::same_as<Dist<T>, std::gamma_distribution<T>>
+            or std::same_as<Dist<T>, std::weibull_distribution<T>>
+            or std::same_as<Dist<T>, std::extreme_value_distribution<T>>;
     };
 
-    template <template <typename> typename T, typename U>
-    concept StdNormalDist = std::floating_point<U> and requires()
+    template <template <typename> typename Dist, typename T>
+    concept StdNormalDist = std::floating_point<T> and requires()
     {
         requires
-               std::same_as<T<U>, std::normal_distribution<U>>
-            or std::same_as<T<U>, std::lognormal_distribution<U>>
-            or std::same_as<T<U>, std::chi_squared_distribution<U>>
-            or std::same_as<T<U>, std::cauchy_distribution<U>>
-            or std::same_as<T<U>, std::fisher_f_distribution<U>>
-            or std::same_as<T<U>, std::student_t_distribution<U>>;
+               std::same_as<Dist<T>, std::normal_distribution<T>>
+            or std::same_as<Dist<T>, std::lognormal_distribution<T>>
+            or std::same_as<Dist<T>, std::chi_squared_distribution<T>>
+            or std::same_as<Dist<T>, std::cauchy_distribution<T>>
+            or std::same_as<Dist<T>, std::fisher_f_distribution<T>>
+            or std::same_as<Dist<T>, std::student_t_distribution<T>>;
     };
 
-    template <template <typename> typename T, typename U>
-    concept StdSamplingDist = traits::IntegralOrFloating<U> and requires()
+    template <template <typename> typename Dist, typename T>
+    concept StdSamplingDist = traits::IntegralOrFloating<T> and requires()
     {
         requires
-              (std::same_as<T<U>, std::discrete_distribution<U>> and std::integral<U>)
-            or std::same_as<T<U>, std::piecewise_constant_distribution<U>>
-            or std::same_as<T<U>, std::piecewise_linear_distribution<U>>;
+              (std::same_as<Dist<T>, std::discrete_distribution<T>> and std::integral<T>)
+            or std::same_as<Dist<T>, std::piecewise_constant_distribution<T>>
+            or std::same_as<Dist<T>, std::piecewise_linear_distribution<T>>;
     };
 
-    template <template <typename> typename T, typename U>
-    concept StdUniformOrNormalDist = StdUniformDist<T, U> or StdNormalDist<T, U>;
+    template <template <typename> typename Dist, typename T>
+    concept StdUniformOrNormalDist = StdUniformDist<Dist, T> or StdNormalDist<Dist, T>;
 
-    template <template <typename> typename T, typename U>
-    concept StdDistNoBernoulli = StdUniformOrNormalDist<T, U> or StdOtherBernoulliDist<T, U> or StdPoissonDist<T, U> or StdSamplingDist<T, U>;
+    template <template <typename> typename Dist, typename T>
+    concept StdDistNoBernoulli = StdUniformOrNormalDist<Dist, T> or StdOtherBernoulliDist<Dist, T> or StdPoissonDist<Dist, T> or StdSamplingDist<Dist, T>;
 
 
 
-    template <std::unsigned_integral T, template <typename> typename D>
-    requires StdUniformOrNormalDist<D, T>
-    auto RandPrimeNumber(std::uniform_random_bit_generator auto& rng, D<T>& dist) -> T
+    template <std::unsigned_integral T, template <typename> typename Dist>
+    requires StdUniformOrNormalDist<Dist, T>
+    auto RandPrimeNumber(std::uniform_random_bit_generator auto& rng, Dist<T>& dist) -> T
     {
         const auto& num = static_cast<T>(dist(rng));
 
@@ -92,9 +92,9 @@ export namespace fatpound::random
 
 
 
-    template <utility::Color::ChannelA_t Alpha = 255U, traits::UIntegralOrFloating T = std::size_t, template <typename> typename D>
-    requires StdUniformOrNormalDist<D, T>
-    auto RandColor(std::uniform_random_bit_generator auto& rng, D<T>& dist) -> utility::Color
+    template <utility::Color::ChannelA_t Alpha = 255U, traits::UIntegralOrFloating T = std::size_t, template <typename> typename Dist>
+    requires StdUniformOrNormalDist<Dist, T>
+    auto RandColor(std::uniform_random_bit_generator auto& rng, Dist<T>& dist) -> utility::Color
     {
         if constexpr (std::unsigned_integral<T>)
         {
@@ -108,9 +108,9 @@ export namespace fatpound::random
 
 
 
-    template <utility::Color::ChannelA_t Alpha = 255U, traits::UIntegralOrFloating T = std::size_t, template <typename> typename D>
-    requires StdUniformOrNormalDist<D, T>
-    auto RandColorString(const std::string& prefix, const bool& withAlpha, std::uniform_random_bit_generator auto& rng, D<T>& dist) -> std::string
+    template <utility::Color::ChannelA_t Alpha = 255U, traits::UIntegralOrFloating T = std::size_t, template <typename> typename Dist>
+    requires StdUniformOrNormalDist<Dist, T>
+    auto RandColorString(const std::string& prefix, const bool& withAlpha, std::uniform_random_bit_generator auto& rng, Dist<T>& dist) -> std::string
     {
         return RandColor<Alpha>(rng, dist).GetString(prefix, withAlpha);
     }
