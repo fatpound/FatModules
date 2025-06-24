@@ -10,6 +10,7 @@ namespace fatpound::algorithm
     ///
     /// @tparam Largest: If true, retrieves the n-th largest unique element; if false, retrieves the n-th smallest
     /// @tparam       T: The type of elements in the vector, which must be totally ordered
+    /// 
     ///  @param     vec: The vector of elements to search
     ///  @param       n: The 1-based index specifying which unique element to retrieve
     ///
