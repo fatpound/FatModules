@@ -1,4 +1,4 @@
-name: MSBuild -- x64 -- Debug
+name: MSBuild -- x64 -- Release
 
 
 on:
@@ -24,9 +24,10 @@ jobs:
       uses: actions/checkout@v4
       with:
         submodules: recursive
+        token: ${{ secrets.FATPOUND_ACCESS_TOKEN }}
 
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1
+      uses: microsoft/setup-msbuild@v2
 
     - name: Build .vcxproj
       run: msbuild FatModules.vcxproj /p:Configuration=Debug /p:Platform=x64 /v:minimal
