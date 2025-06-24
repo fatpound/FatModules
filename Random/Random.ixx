@@ -64,31 +64,13 @@ export namespace fatpound::random
     template <template <typename> typename T, typename U>
     concept StdDistNoBernoulli = StdUniformOrNormalDist<T, U> or StdOtherBernoulliDist<T, U> or StdPoissonDist<T, U> or StdSamplingDist<T, U>;
 
-    auto RandBool(std::uniform_random_bit_generator auto& rng, std::bernoulli_distribution& bdist) -> bool
-    {
-        return bdist(rng);
-    }
 
-    template <traits::UIntegralOrFloating T, template <typename> typename D>
-    requires StdUniformOrNormalDist<D, T>
-    auto RandNumber(std::uniform_random_bit_generator auto& rng, D<T>& dist) -> T
-    {
-        return static_cast<T>(dist(rng));
-    }
-
-    template <traits::UIntegralOrFloating T>
-    auto RandNumber(const T& min, const T& max, std::uniform_random_bit_generator auto& rng) -> T
-    {
-        std::conditional_t<std::unsigned_integral<T>, std::uniform_int_distribution<T>, std::uniform_real_distribution<T>> dist{ min, max };
-
-        return RandNumber<>(rng, dist);
-    }
 
     template <std::unsigned_integral T, template <typename> typename D>
     requires StdUniformOrNormalDist<D, T>
     auto RandPrimeNumber(std::uniform_random_bit_generator auto& rng, D<T>& dist) -> T
     {
-        const auto& num = RandNumber<>(rng, dist);
+        const auto& num = static_cast<T>(dist(rng));
 
         if (FATSPACE_NUMBERS::IsPrime<>(num))
         {
@@ -108,47 +90,15 @@ export namespace fatpound::random
         return static_cast<T>(0U);
     }
 
-    template <std::unsigned_integral T>
-    auto RandPrimeNumber(const T& min, const T& max, std::uniform_random_bit_generator auto& rng) -> T
-    {
-        std::uniform_int_distribution<T> dist{ min, max };
 
-        return RandPrimeNumber<>(rng, dist);
-    }
-    
-    template <std::unsigned_integral T, template <typename> typename D>
-    requires StdUniformOrNormalDist<D, T>
-    auto RollDice(std::uniform_random_bit_generator auto& rng, D<T>& dist) -> T
-    {
-        return RandNumber<>(rng, dist);
-    }
-    
-    template <std::unsigned_integral T>
-    auto RollDice(std::uniform_random_bit_generator auto& rng) -> T
-    {
-        std::uniform_int_distribution<std::size_t> dist{ 1U, 6U };
 
-        return RollDice<>(rng, dist);
-    }
-
-    template <bool FullAlpha = true, traits::UIntegralOrFloating T = std::size_t, template <typename> typename D>
+    template <utility::Color::ChannelA_t Alpha = 255U, traits::UIntegralOrFloating T = std::size_t, template <typename> typename D>
     requires StdUniformOrNormalDist<D, T>
     auto RandColor(std::uniform_random_bit_generator auto& rng, D<T>& dist) -> utility::Color
     {
         if constexpr (std::unsigned_integral<T>)
         {
-            using utility::Color;
-
-            const auto& xrgb = static_cast<Color::Value_t>(RandNumber<>(rng, dist));
-
-            if constexpr (FullAlpha)
-            {
-                return Color{ xrgb, static_cast<Color::ChannelA_t>(255U) };
-            }
-            else
-            {
-                return Color{ xrgb, bool{} };
-            }
+            return utility::Color{ dist(rng), Alpha };
         }
         else
         {
@@ -156,12 +106,16 @@ export namespace fatpound::random
         }
     }
 
-    template <bool FullAlpha = true, traits::UIntegralOrFloating T = std::size_t, template <typename> typename D>
+
+
+    template <utility::Color::ChannelA_t Alpha = 255U, traits::UIntegralOrFloating T = std::size_t, template <typename> typename D>
     requires StdUniformOrNormalDist<D, T>
     auto RandColorString(const std::string& prefix, const bool& withAlpha, std::uniform_random_bit_generator auto& rng, D<T>& dist) -> std::string
     {
-        return RandColor<FullAlpha>(rng, dist).GetString(prefix, withAlpha);
+        return RandColor<Alpha>(rng, dist).GetString(prefix, withAlpha);
     }
+
+
 
     auto RandString(const std::unsigned_integral auto& length, const std::string_view& charset, std::uniform_random_bit_generator auto& rng) -> std::string
     {
@@ -181,6 +135,8 @@ export namespace fatpound::random
              | std::views::transform([&charset, &dist, &rng](auto) { return charset[dist(rng)]; })
              | std::ranges::to<std::string>();
     }
+
+
 
     auto RandPassword(
         const std::unsigned_integral auto& length,
