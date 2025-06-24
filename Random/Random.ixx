@@ -17,18 +17,24 @@ export namespace fatpound::random
     template <template <typename> typename Dist, typename T>
     concept StdUniformDist = std::same_as<Dist<T>, std::conditional_t<std::integral<T>, std::uniform_int_distribution<T>, std::uniform_real_distribution<T>>>;
     
+
     template <template <typename> typename Dist, typename T>
-    concept StdOtherBernoulliDist = std::integral<T> and requires()
+    concept StdOtherBernoulliDist = requires()
     {
+        requires std::integral<T>;
+
         requires
                std::same_as<Dist<T>, std::binomial_distribution<T>>
             or std::same_as<Dist<T>, std::negative_binomial_distribution<T>>
             or std::same_as<Dist<T>, std::geometric_distribution<T>>;
     };
 
+
     template <template <typename> typename Dist, typename T>
-    concept StdPoissonDist = traits::IntegralOrFloating<T> and requires()
+    concept StdPoissonDist = requires()
     {
+        requires traits::IntegralOrFloating<T>;
+
         requires
               (std::same_as<Dist<T>, std::poisson_distribution<T>> and std::integral<T>)
             or std::same_as<Dist<T>, std::exponential_distribution<T>>
@@ -37,9 +43,12 @@ export namespace fatpound::random
             or std::same_as<Dist<T>, std::extreme_value_distribution<T>>;
     };
 
+
     template <template <typename> typename Dist, typename T>
-    concept StdNormalDist = std::floating_point<T> and requires()
+    concept StdNormalDist = requires()
     {
+        requires std::floating_point<T>;
+
         requires
                std::same_as<Dist<T>, std::normal_distribution<T>>
             or std::same_as<Dist<T>, std::lognormal_distribution<T>>
@@ -49,17 +58,22 @@ export namespace fatpound::random
             or std::same_as<Dist<T>, std::student_t_distribution<T>>;
     };
 
+
     template <template <typename> typename Dist, typename T>
-    concept StdSamplingDist = traits::IntegralOrFloating<T> and requires()
+    concept StdSamplingDist = requires()
     {
+        requires traits::IntegralOrFloating<T>;
+
         requires
               (std::same_as<Dist<T>, std::discrete_distribution<T>> and std::integral<T>)
             or std::same_as<Dist<T>, std::piecewise_constant_distribution<T>>
             or std::same_as<Dist<T>, std::piecewise_linear_distribution<T>>;
     };
 
+
     template <template <typename> typename Dist, typename T>
     concept StdUniformOrNormalDist = StdUniformDist<Dist, T> or StdNormalDist<Dist, T>;
+
 
     template <template <typename> typename Dist, typename T>
     concept StdDistNoBernoulli = StdUniformOrNormalDist<Dist, T> or StdOtherBernoulliDist<Dist, T> or StdPoissonDist<Dist, T> or StdSamplingDist<Dist, T>;
