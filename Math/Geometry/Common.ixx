@@ -35,7 +35,7 @@ export namespace fatpound::math::geometry
     {
         return dx::XMVectorGetX(dx::XMVector2LengthSq(p0)) > dx::XMVectorGetX(dx::XMVector2LengthSq(p1));
     }
-    auto CompareDistance  (const dx::XMFLOAT2& p0, const dx::XMFLOAT2& p1)
+    auto CompareDistance  (const dx::XMFLOAT2& p0, const dx::XMFLOAT2& p1) noexcept
     {
         return CompareDistance2(dx::XMLoadFloat2(&p0), dx::XMLoadFloat2(&p1));
     }
