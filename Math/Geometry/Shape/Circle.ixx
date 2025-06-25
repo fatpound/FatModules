@@ -73,17 +73,17 @@ export namespace fatpound::math::geometry
 
 
     public:
-        template <traits::UIntegralOrFloating U> constexpr auto Area      (const U& radius) -> U
+        template <traits::UIntegralOrFloating T> static constexpr auto Area      (const T& radius) -> T
         {
-            return Square<>(radius) * numbers::Pi<U>;
+            return Square<>(radius) * numbers::Pi<T>;
         }
-        template <traits::UIntegralOrFloating U> constexpr auto Diameter  (const U& radius) -> U
+        template <traits::UIntegralOrFloating T> static constexpr auto Diameter  (const T& radius) -> T
         {
-            return radius * static_cast<U>(2.0);
+            return radius * static_cast<T>(2.0);
         }
-        template <traits::UIntegralOrFloating U> constexpr auto Perimeter (const U& radius) -> U
+        template <traits::UIntegralOrFloating T> static constexpr auto Perimeter (const T& radius) -> T
         {
-            return Diameter<>(radius) * numbers::Pi<U>;
+            return Diameter<>(radius) * numbers::Pi<T>;
         }
 
 
