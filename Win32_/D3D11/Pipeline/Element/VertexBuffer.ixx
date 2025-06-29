@@ -47,7 +47,9 @@ export namespace fatpound::win32::d3d11::pipeline
 
             const D3D11_SUBRESOURCE_DATA sd
             {
-                .pSysMem = vertices.data()
+                .pSysMem          = vertices.data(),
+                .SysMemPitch      = {},
+                .SysMemSlicePitch = {}
             };
 
             if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pVertexBuffer_);
@@ -73,7 +75,9 @@ export namespace fatpound::win32::d3d11::pipeline
 
             const D3D11_SUBRESOURCE_DATA sd
             {
-                .pSysMem = vertices.data()
+                .pSysMem          = vertices.data(),
+                .SysMemPitch      = {},
+                .SysMemSlicePitch = {}
             };
 
             if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pVertexBuffer_);

@@ -46,7 +46,9 @@ export namespace fatpound::win32::d3d11::pipeline
 
                 const D3D11_SUBRESOURCE_DATA initData
                 {
-                    .pSysMem = structures.data()
+                    .pSysMem          = structures.data(),
+                    .SysMemPitch      = {},
+                    .SysMemSlicePitch = {}
                 };
 
                 if (const auto& hr = pDevice->CreateBuffer(&sbd, &initData, &m_pStructuredBuffer_);

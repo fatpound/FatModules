@@ -47,7 +47,9 @@ export namespace fatpound::win32::d3d11::pipeline
 
             const D3D11_SUBRESOURCE_DATA sd
             {
-                .pSysMem = indices.data()
+                .pSysMem          = indices.data(),
+                .SysMemPitch      = {},
+                .SysMemSlicePitch = {}
             };
 
             if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pIndexBuffer_);

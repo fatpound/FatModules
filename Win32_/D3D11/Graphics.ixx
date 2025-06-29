@@ -492,18 +492,20 @@ export namespace fatpound::win32::d3d11
                 {
                     const D3D11_TEXTURE2D_DESC tex2dDesc
                     {
-                        .Width      = GetWidth<UINT>(),
-                        .Height     = GetHeight<UINT>(),
-                        .MipLevels  = 1U,
-                        .ArraySize  = 1U,
-                        .Format     = DXGI_FORMAT_D32_FLOAT,
-                        .SampleDesc =
-                                    {
-                                        .Count   = GetMSAACount(),
-                                        .Quality = GetMSAAQuality() - 1U
-                                    },
-                        .Usage      = D3D11_USAGE_DEFAULT,
-                        .BindFlags  = D3D11_BIND_DEPTH_STENCIL
+                        .Width          = GetWidth<UINT>(),
+                        .Height         = GetHeight<UINT>(),
+                        .MipLevels      = 1U,
+                        .ArraySize      = 1U,
+                        .Format         = DXGI_FORMAT_D32_FLOAT,
+                        .SampleDesc     =
+                                        {
+                                            .Count   = GetMSAACount(),
+                                            .Quality = GetMSAAQuality() - 1U
+                                        },
+                        .Usage          = D3D11_USAGE_DEFAULT,
+                        .BindFlags      = D3D11_BIND_DEPTH_STENCIL,
+                        .CPUAccessFlags = {},
+                        .MiscFlags      = {}
                     };
 
                     if (const auto& hr = GetDevice()->CreateTexture2D(&tex2dDesc, nullptr, pTexture2d.GetAddressOf());
@@ -619,15 +621,14 @@ export namespace fatpound::win32::d3d11
 
 
     private:
-        ResourcePack_t m_res_pack_{};
+        ResourcePack_t           m_res_pack_{};
 
-        const HWND mc_hWnd_;
-        
-        const SizePack mc_dimensions_;
+        const HWND               mc_hWnd_;
+        const SizePack           mc_dimensions_;
 
-        UINT m_msaa_count_{};
-        UINT m_msaa_quality_{};
-        UINT m_dxgi_mode_{};
+        UINT                     m_msaa_count_{};
+        UINT                     m_msaa_quality_{};
+        UINT                     m_dxgi_mode_{};
 
         std::unique_ptr<Surface> m_pSurface_;
     };
