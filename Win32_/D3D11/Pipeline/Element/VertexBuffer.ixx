@@ -106,9 +106,8 @@ export namespace fatpound::win32::d3d11::pipeline
 
 
     protected:
-        wrl::ComPtr<ID3D11Buffer> m_pVertexBuffer_;
-
-        UINT m_stride_;
+        wrl::ComPtr<ID3D11Buffer>   m_pVertexBuffer_;
+        UINT                        m_stride_;
 
 
     private:

@@ -71,8 +71,8 @@ export namespace fatpound::win32::d3d11::pipeline
 
 
     protected:
-        wrl::ComPtr<ID3DBlob>           m_pBytecodeBlob_;
-        wrl::ComPtr<ID3D11VertexShader> m_pVertexShader_;
+        wrl::ComPtr<ID3DBlob>             m_pBytecodeBlob_;
+        wrl::ComPtr<ID3D11VertexShader>   m_pVertexShader_;
 
 
     private:

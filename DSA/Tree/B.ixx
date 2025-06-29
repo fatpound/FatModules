@@ -119,10 +119,9 @@ export namespace fatpound::dsa::tree
 
             explicit Node_() = default;
 
-            std::vector<std::pair<T, Node_*>*> items;
-
-            Node_* lesser{};
-            Node_* parent{};
+            std::vector<std::pair<T, Node_*>*>   items;
+            Node_*                               lesser{};
+            Node_*                               parent{};
         };
 
 
@@ -303,11 +302,10 @@ export namespace fatpound::dsa::tree
 
 
     private:
-        Node_* m_root_{};
+        Node_*          m_root_{};
+        std::size_t     m_depth_{};
 
-        std::size_t m_depth_{};
-
-        std::ostream* m_os_;
+        std::ostream*   m_os_;
     };
 }
 

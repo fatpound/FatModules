@@ -621,16 +621,16 @@ export namespace fatpound::win32::d3d11
 
 
     private:
-        ResourcePack_t           m_res_pack_{};
-
-        const HWND               mc_hWnd_;
-        const SizePack           mc_dimensions_;
-
-        UINT                     m_msaa_count_{};
-        UINT                     m_msaa_quality_{};
-        UINT                     m_dxgi_mode_{};
-
-        std::unique_ptr<Surface> m_pSurface_;
+        ResourcePack_t             m_res_pack_{};
+                                   
+        const HWND                 mc_hWnd_;
+        const SizePack             mc_dimensions_;
+                                   
+        UINT                       m_msaa_count_{};
+        UINT                       m_msaa_quality_{};
+        UINT                       m_dxgi_mode_{};
+                                   
+        std::unique_ptr<Surface>   m_pSurface_;
     };
 }
 

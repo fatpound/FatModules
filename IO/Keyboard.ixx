@@ -25,9 +25,8 @@ export namespace fatpound::io
                 Invalid
             };
 
-            Type type{ Type::Invalid };
-        
-            std::underlying_type_t<Type> code{};
+            Type                           type{ Type::Invalid };
+            std::underlying_type_t<Type>   code{};
         };
 
 
@@ -159,14 +158,13 @@ export namespace fatpound::io
 
 
     private:
-        std::queue<KeyEvent> m_key_event_queue_;
-        std::queue<unsigned char> m_char_buffer_;
+        std::queue<KeyEvent>                                 m_key_event_queue_;
+        std::queue<unsigned char>                            m_char_buffer_;
 
-        std::bitset<std::numeric_limits<KeyCode_t>::max()> m_key_states_;
+        std::bitset<std::numeric_limits<KeyCode_t>::max()>   m_key_states_;
 
-        std::atomic_bool m_auto_repeat_enabled_;
-
-        mutable std::mutex m_mtx_;
+        std::atomic_bool                                     m_auto_repeat_enabled_;
+        mutable std::mutex                                   m_mtx_;
     };
 
     using KeyEvent = Keyboard::KeyEvent;

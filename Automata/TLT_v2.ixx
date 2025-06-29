@@ -98,9 +98,8 @@ namespace fatpound::automata
 
             }
 
-            std::vector<Node_*> m_leaves;
-
-            std::string m_item;
+            std::vector<Node_*>   m_leaves;
+            std::string           m_item;
         };
         // NOLINTEND(altera-struct-pack-align)
 
@@ -213,9 +212,8 @@ namespace fatpound::automata
 
 
     private:
-        Result_t m_results_;
-
-        std::vector<Node_*> m_trees_;
+        Result_t              m_results_;
+        std::vector<Node_*>   m_trees_;
     };
 }
 

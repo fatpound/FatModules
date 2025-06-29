@@ -404,15 +404,15 @@ export namespace fatpound::win32
 
 
     protected:
-        FATSPACE_CONCURRENCY::TaskQueue m_tasks_;
-        std::shared_ptr<WndClassEx>     m_pWndClassEx_;
-        const SizePack                  mc_client_size_;
+        FATSPACE_CONCURRENCY::TaskQueue   m_tasks_;
+        std::shared_ptr<WndClassEx>       m_pWndClassEx_;
+        const SizePack                    mc_client_size_;
 
-        HWND                            m_hWnd_{};
+        HWND                              m_hWnd_{};
 
-        std::atomic_bool                m_is_closing_{};
-        std::binary_semaphore           m_start_signal_{ 0 };
-        std::jthread                    m_msg_jthread_;
+        std::atomic_bool                  m_is_closing_{};
+        std::binary_semaphore             m_start_signal_{ 0 };
+        std::jthread                      m_msg_jthread_;
 
 
     private:

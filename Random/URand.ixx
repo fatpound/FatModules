@@ -59,11 +59,11 @@ export namespace fatpound::random
 
 
     private:
-        std::vector<std::size_t>                   m_vec_;
-        std::minstd_rand                           m_rng_;
-        std::uniform_int_distribution<std::size_t> m_dist_;
+        std::vector<std::size_t>                     m_vec_;
+        std::minstd_rand                             m_rng_;
+        std::uniform_int_distribution<std::size_t>   m_dist_;
 
-        std::size_t                                m_current_;
+        std::size_t                                  m_current_;
     };
 
     using UniqueRand = URand;

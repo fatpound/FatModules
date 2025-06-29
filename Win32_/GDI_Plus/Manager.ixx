@@ -45,9 +45,8 @@ export namespace fatpound::win32::gdi_plus
 
 
     private:
-        inline static ULONG_PTR s_gdiPlus_token_{};
-
-        inline static int s_ref_count_{};
+        inline static ULONG_PTR      s_gdiPlus_token_{};
+        inline static unsigned int   s_ref_count_{};    // not std::size_t to not depend on std module
     };
 }
 

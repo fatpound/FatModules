@@ -154,8 +154,8 @@ export namespace fatpound::math::geometry
 
 
     private:
-        dx::XMVECTOR m_center_;
-        T            m_radius_;
+        dx::XMVECTOR   m_center_;
+        T              m_radius_;
     };
 
     using CircleLD = Circle<long double>;

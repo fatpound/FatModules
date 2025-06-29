@@ -96,11 +96,11 @@ export namespace fatpound::dsa
 
 
     private:
-        std::vector<std::vector<std::ptrdiff_t>> m_adj_;
-        std::vector<std::vector<std::size_t>>    m_nexts_;
+        std::vector<std::vector<std::ptrdiff_t>>   m_adj_;
+        std::vector<std::vector<std::size_t>>      m_nexts_;
 
-        std::size_t                              m_node_count_{};
-        std::size_t                              m_edge_count_{};
+        std::size_t                                m_node_count_{};
+        std::size_t                                m_edge_count_{};
     };
 }
 

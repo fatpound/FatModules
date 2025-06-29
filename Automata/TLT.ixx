@@ -114,9 +114,8 @@ export namespace fatpound::automata
 
             }
 
-            std::vector<Node_*> m_leaves;
-
-            std::string m_item;
+            std::vector<Node_*>   m_leaves;
+            std::string           m_item;
         };
         // NOLINTEND(altera-struct-pack-align)
 
@@ -239,13 +238,12 @@ export namespace fatpound::automata
 
 
     private:
-        const CFG::Grammar_t mc_cfgrammar_;
+        const CFG::Grammar_t       mc_cfgrammar_;
 
-        std::vector<std::string> m_results_;
+        std::vector<std::string>   m_results_;
+        std::vector<std::size_t>   m_recursers_;
 
-        std::vector<std::size_t> m_recursers_;
-
-        Node_* m_pTree_{};
+        Node_*                     m_pTree_{};
     };
 }
 

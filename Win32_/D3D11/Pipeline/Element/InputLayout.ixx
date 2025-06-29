@@ -61,7 +61,7 @@ export namespace fatpound::win32::d3d11::pipeline
 
 
     protected:
-        wrl::ComPtr<ID3D11InputLayout> m_pInputLayout_;
+        wrl::ComPtr<ID3D11InputLayout>   m_pInputLayout_;
 
 
     private:

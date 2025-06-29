@@ -50,8 +50,8 @@ export namespace fatpound::utility
 
 
     private:
-        dx::XMMATRIX m_camera_{};
-        dx::XMMATRIX m_projection_{};
+        dx::XMMATRIX   m_camera_{};
+        dx::XMMATRIX   m_projection_{};
     };
 }
 

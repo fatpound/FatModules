@@ -48,8 +48,8 @@ export namespace fatpound::utility
 
 
     private:
-        std::chrono::steady_clock::time_point m_start_;
-        std::chrono::steady_clock::time_point m_last_;
+        std::chrono::steady_clock::time_point   m_start_;
+        std::chrono::steady_clock::time_point   m_last_;
     };
 }
 

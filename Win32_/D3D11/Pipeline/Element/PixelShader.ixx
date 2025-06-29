@@ -66,7 +66,7 @@ export namespace fatpound::win32::d3d11::pipeline
 
 
     protected:
-        wrl::ComPtr<ID3D11PixelShader> m_pPixelShader_;
+        wrl::ComPtr<ID3D11PixelShader>   m_pPixelShader_;
 
 
     private:

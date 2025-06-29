@@ -200,8 +200,8 @@ export namespace fatpound::win32
 
 
     protected:
-        HINSTANCE m_hInstance_{};
-        ATOM      m_atom_{};
+        HINSTANCE   m_hInstance_{};
+        ATOM        m_atom_{};
 
 
     private:

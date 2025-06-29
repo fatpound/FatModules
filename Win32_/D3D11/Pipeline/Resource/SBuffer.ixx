@@ -96,8 +96,8 @@ export namespace fatpound::win32::d3d11::pipeline
 
 
     protected:
-        wrl::ComPtr<ID3D11ShaderResourceView> m_pShaderResourceView_{};
-        wrl::ComPtr<ID3D11Buffer>             m_pStructuredBuffer_{};
+        wrl::ComPtr<ID3D11ShaderResourceView>   m_pShaderResourceView_{};
+        wrl::ComPtr<ID3D11Buffer>               m_pStructuredBuffer_{};
 
 
     private:

@@ -337,12 +337,12 @@ export namespace fatpound::utility
 
 
     private:
-        Ptr_t m_pBuffer_;
+        Ptr_t           m_pBuffer_;
 
-        gfx::SizePack m_size_pack_;
+        gfx::SizePack   m_size_pack_;
 
-        Size_t m_align_byte_{};
-        Size_t m_pixel_pitch_{};
+        Size_t          m_align_byte_{};
+        Size_t          m_pixel_pitch_{};
     };
 }
 

@@ -160,7 +160,7 @@ export namespace fatpound::automata
         
 
     private:
-        Grammar_t m_grammar_;
+        Grammar_t   m_grammar_;
     };
 }
 

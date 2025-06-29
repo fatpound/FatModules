@@ -37,7 +37,7 @@ export namespace fatpound::win32::d3d11::pipeline
 
 
     protected:
-        D3D11_PRIMITIVE_TOPOLOGY m_type_;
+        D3D11_PRIMITIVE_TOPOLOGY   m_type_;
 
 
     private:
