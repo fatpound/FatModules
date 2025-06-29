@@ -208,7 +208,7 @@ export namespace fatpound::dsa::tree
 
 
     protected:
-        Node_*   m_last_added_{};
+        Node_*  m_last_added_{};
 
 
     private:

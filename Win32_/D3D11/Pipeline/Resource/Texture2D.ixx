@@ -82,7 +82,7 @@ export namespace fatpound::win32::d3d11::pipeline
 
 
     private:
-        wrl::ComPtr<ID3D11ShaderResourceView>   m_pSRV_;
+        wrl::ComPtr<ID3D11ShaderResourceView>  m_pSRV_;
     };
 }
 
