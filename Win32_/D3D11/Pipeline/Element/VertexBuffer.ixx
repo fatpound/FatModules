@@ -30,7 +30,6 @@ export namespace fatpound::win32::d3d11::pipeline
     class VertexBuffer : public Bindable
     {
     public:
-        template <typename T>
         explicit VertexBuffer(ID3D11Device* const pDevice, const D3D11_BUFFER_DESC& bufDesc, const void* const pVerticesData)
             :
             m_stride_(bufDesc.StructureByteStride) // same as sizeof(T)

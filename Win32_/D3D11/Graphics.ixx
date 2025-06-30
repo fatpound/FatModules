@@ -26,6 +26,7 @@ import std;
 using FATSPACE_UTILITY::Color;
 using FATSPACE_UTILITY::Surface;
 using FATSPACE_UTILITY_GFX::SizePack;
+using FATSPACE_UTILITY_GFX::FullScreenQuad;
 
 export namespace fatpound::win32::d3d11
 {
@@ -275,7 +276,23 @@ export namespace fatpound::win32::d3d11
 
                 binds.push_back(std::move(pVS));
                 binds.push_back(std::make_unique<pipeline::PixelShader>(GetDevice(), PShaderPath));
-                binds.push_back(std::make_unique<pipeline::VertexBuffer>(GetDevice(), FATSPACE_UTILITY_GFX::FullScreenQuad::GenerateVertices()));
+
+                {
+                    const auto& vertices = FullScreenQuad::GenerateVertices();
+
+                    const D3D11_BUFFER_DESC bd
+                    {
+                        .ByteWidth           = static_cast<UINT>(vertices.size() * sizeof(FullScreenQuad::Vertex)),
+                        .Usage               = D3D11_USAGE_DEFAULT,
+                        .BindFlags           = D3D11_BIND_VERTEX_BUFFER,
+                        .CPUAccessFlags      = 0U,
+                        .MiscFlags           = 0U,
+                        .StructureByteStride = sizeof(FullScreenQuad::Vertex)
+                    };
+
+                    binds.push_back(std::make_unique<pipeline::VertexBuffer>(GetDevice(), bd, vertices));
+                }
+
                 binds.push_back(std::make_unique<pipeline::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
 
                 const std::vector<D3D11_INPUT_ELEMENT_DESC> iedesc
