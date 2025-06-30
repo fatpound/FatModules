@@ -12,7 +12,7 @@ import FatPound.Win32.D3D11.Pipeline.CBuffer;
 export namespace fatpound::win32::d3d11::pipeline
 {
     template <typename T>
-    class VertexCBuffer final : public CBuffer<T>
+    class VertexCBuffer : public CBuffer<T>
     {
         using CBuffer<T>::CBuffer;
 

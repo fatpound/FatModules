@@ -29,7 +29,7 @@ import std;
 
 export namespace fatpound::win32::d3d11::pipeline
 {
-    class PixelShader final : public Bindable
+    class PixelShader : public Bindable
     {
     public:
         explicit PixelShader(ID3D11Device* const pDevice, const std::wstring& path)

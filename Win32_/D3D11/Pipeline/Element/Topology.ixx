@@ -10,7 +10,7 @@ import FatPound.Win32.D3D11.Pipeline.Bindable;
 
 export namespace fatpound::win32::d3d11::pipeline
 {
-    class Topology final : public Bindable
+    class Topology : public Bindable
     {
     public:
         explicit Topology(const D3D11_PRIMITIVE_TOPOLOGY& type) noexcept

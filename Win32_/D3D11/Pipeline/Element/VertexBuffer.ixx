@@ -27,64 +27,42 @@ import std;
 
 export namespace fatpound::win32::d3d11::pipeline
 {
-    class VertexBuffer final : public Bindable
+    class VertexBuffer : public Bindable
     {
     public:
-        template <typename T, std::size_t N>
-        explicit VertexBuffer(ID3D11Device* const pDevice, const std::array<T, N>& vertices)
+        template <typename T>
+        explicit VertexBuffer(ID3D11Device* const pDevice, const D3D11_BUFFER_DESC& bufDesc, const void* const pVerticesData)
             :
-            m_stride_(sizeof(T))
+            m_stride_(bufDesc.StructureByteStride) // same as sizeof(T)
         {
-            const D3D11_BUFFER_DESC bd
-            {
-                .ByteWidth           = static_cast<UINT>(m_stride_ * vertices.size()),
-                .Usage               = D3D11_USAGE_DEFAULT,
-                .BindFlags           = D3D11_BIND_VERTEX_BUFFER,
-                .CPUAccessFlags      = 0U,
-                .MiscFlags           = 0U,
-                .StructureByteStride = m_stride_
-            };
-
             const D3D11_SUBRESOURCE_DATA sd
             {
-                .pSysMem          = vertices.data(),
+                .pSysMem          = pVerticesData,
                 .SysMemPitch      = {},
                 .SysMemSlicePitch = {}
             };
 
-            if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pVertexBuffer_);
+            if (const auto& hr = pDevice->CreateBuffer(&bufDesc, &sd, &m_pVertexBuffer_);
                 FAILED(hr))
             {
                 throw std::runtime_error("Could NOT create VertexBuffer!");
             }
         }
-        template <typename T>
-        explicit VertexBuffer(ID3D11Device* const pDevice, const std::vector<T>& vertices)
+
+        template <typename T, std::size_t N>
+        explicit VertexBuffer(ID3D11Device* const pDevice, const D3D11_BUFFER_DESC& bufDesc, const std::array<T, N>& vertices)
             :
-            m_stride_(sizeof(T))
+            VertexBuffer(pDevice, bufDesc, vertices.data())
         {
-            const D3D11_BUFFER_DESC bd
-            {
-                .ByteWidth           = static_cast<UINT>(m_stride_ * vertices.size()),
-                .Usage               = D3D11_USAGE_DEFAULT,
-                .BindFlags           = D3D11_BIND_VERTEX_BUFFER,
-                .CPUAccessFlags      = 0U,
-                .MiscFlags           = 0U,
-                .StructureByteStride = m_stride_
-            };
 
-            const D3D11_SUBRESOURCE_DATA sd
-            {
-                .pSysMem          = vertices.data(),
-                .SysMemPitch      = {},
-                .SysMemSlicePitch = {}
-            };
+        }
 
-            if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pVertexBuffer_);
-                FAILED(hr))
-            {
-                throw std::runtime_error("Could NOT create VertexBuffer!");
-            }
+        template <typename T>
+        explicit VertexBuffer(ID3D11Device* const pDevice, const D3D11_BUFFER_DESC& bufDesc, const std::vector<T>& vertices)
+            :
+            VertexBuffer(pDevice, bufDesc, vertices.data())
+        {
+
         }
 
         explicit VertexBuffer()                        = delete;
@@ -99,7 +77,7 @@ export namespace fatpound::win32::d3d11::pipeline
     public:
         virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override final
         {
-            constexpr UINT offset{};
+            const UINT offset{};
 
             pImmediateContext->IASetVertexBuffers(0U, 1U, m_pVertexBuffer_.GetAddressOf(), &m_stride_, &offset);
         }

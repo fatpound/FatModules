@@ -28,7 +28,7 @@ namespace dx = DirectX;
 export namespace fatpound::win32::d3d11::pipeline
 {
     template <typename T>
-    class TransformCBuffer final : public Bindable
+    class TransformCBuffer : public Bindable
     {
     public:
         explicit TransformCBuffer(ID3D11Device* const pDevice, const T& parent, utility::ViewXM& viewXM)

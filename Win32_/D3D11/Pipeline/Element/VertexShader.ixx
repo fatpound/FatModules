@@ -29,7 +29,7 @@ import std;
 
 export namespace fatpound::win32::d3d11::pipeline
 {
-    class VertexShader final : public Bindable
+    class VertexShader : public Bindable
     {
     public:
         explicit VertexShader(ID3D11Device* const pDevice, const std::wstring& path)

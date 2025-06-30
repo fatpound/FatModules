@@ -27,22 +27,14 @@ import std;
 
 export namespace fatpound::win32::d3d11::pipeline
 {
+    // This is inteded for use as a base class, not an actual bindable
+    //
     template <typename T>
     class CBuffer : public Bindable
     {
     public:
-        explicit CBuffer(ID3D11Device* const pDevice, const T& consts)
+        explicit CBuffer(ID3D11Device* const pDevice, const D3D11_BUFFER_DESC& bufDesc, const T& consts)
         {
-            const D3D11_BUFFER_DESC bd
-            {
-                .ByteWidth           = sizeof(T),
-                .Usage               = D3D11_USAGE_DYNAMIC,
-                .BindFlags           = D3D11_BIND_CONSTANT_BUFFER,
-                .CPUAccessFlags      = D3D11_CPU_ACCESS_WRITE,
-                .MiscFlags           = 0U,
-                .StructureByteStride = 0U
-            };
-
             const D3D11_SUBRESOURCE_DATA sd
             {
                 .pSysMem          = &consts,
@@ -50,25 +42,15 @@ export namespace fatpound::win32::d3d11::pipeline
                 .SysMemSlicePitch = {}
             };
 
-            if (const auto& hr = pDevice->CreateBuffer(&bd, &sd, &m_pConstantBuffer_);
+            if (const auto& hr = pDevice->CreateBuffer(&bufDesc, &sd, &m_pConstantBuffer_);
                 FAILED(hr))
             {
                 throw std::runtime_error("Could NOT create CBuffer!");
             }
         }
-        explicit CBuffer(ID3D11Device* const pDevice)
+        explicit CBuffer(ID3D11Device* const pDevice, const D3D11_BUFFER_DESC& bufDesc)
         {
-            const D3D11_BUFFER_DESC bd
-            {
-                .ByteWidth           = sizeof(T),
-                .Usage               = D3D11_USAGE_DYNAMIC,
-                .BindFlags           = D3D11_BIND_CONSTANT_BUFFER,
-                .CPUAccessFlags      = D3D11_CPU_ACCESS_WRITE,
-                .MiscFlags           = 0U,
-                .StructureByteStride = 0U
-            };
-
-            if (const auto& hr = pDevice->CreateBuffer(&bd, nullptr, &m_pConstantBuffer_);
+            if (const auto& hr = pDevice->CreateBuffer(&bufDesc, nullptr, &m_pConstantBuffer_);
                 FAILED(hr))
             {
                 throw std::runtime_error("Could NOT create CBuffer!");

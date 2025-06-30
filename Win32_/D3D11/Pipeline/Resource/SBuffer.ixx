@@ -27,56 +27,33 @@ import std;
 
 export namespace fatpound::win32::d3d11::pipeline
 {
+    // This is inteded for use as a base class, not an actual bindable
+    //
     template <typename T>
     class SBuffer : public Bindable
     {
     public:
-        explicit SBuffer(ID3D11Device* const pDevice, ID3D11DeviceContext* const pImmediateContext, const std::vector<T>& structures)
+        explicit SBuffer(ID3D11Device* const pDevice, ID3D11DeviceContext* const pImmediateContext, const D3D11_BUFFER_DESC& bufDesc, const D3D11_SHADER_RESOURCE_VIEW_DESC& srvDesc, const std::vector<T>& structures)
         {
             {
-                const D3D11_BUFFER_DESC sbd
+                wrl::ComPtr<ID3D11Buffer> pBuffer;
+                 
                 {
-                    .ByteWidth           = sizeof(T) * static_cast<UINT>(structures.size()),
-                    .Usage               = D3D11_USAGE_DEFAULT,
-                    .BindFlags           = D3D11_BIND_SHADER_RESOURCE,
-                    .CPUAccessFlags      = 0U,
-                    .MiscFlags           = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED,
-                    .StructureByteStride = sizeof(T)
-                };
+                    const D3D11_SUBRESOURCE_DATA initData
+                    {
+                        .pSysMem          = structures.data(),
+                        .SysMemPitch      = {},
+                        .SysMemSlicePitch = {}
+                    };
 
-                const D3D11_SUBRESOURCE_DATA initData
-                {
-                    .pSysMem          = structures.data(),
-                    .SysMemPitch      = {},
-                    .SysMemSlicePitch = {}
-                };
-
-                if (const auto& hr = pDevice->CreateBuffer(&sbd, &initData, &m_pStructuredBuffer_);
-                    FAILED(hr))
-                {
-                    throw std::runtime_error("Could NOT create SBuffer!");
+                    if (const auto& hr = pDevice->CreateBuffer(&bufDesc, &initData, &pBuffer);
+                        FAILED(hr))
+                    {
+                        throw std::runtime_error("Could NOT create SBuffer!");
+                    }
                 }
-            }
 
-            {
-                const D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc
-                {
-                    .Format        = DXGI_FORMAT_UNKNOWN,
-                    .ViewDimension = D3D11_SRV_DIMENSION_BUFFER,
-                    .Buffer        =
-#ifdef __clang__
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wmissing-designated-field-initializers"
-#endif
-                                   {
-                                       .ElementWidth = static_cast<UINT>(structures.size())
-                                   }
-#ifdef __clang__
-    #pragma clang diagnostic pop
-#endif
-                };
-
-                if (const auto& hr = pDevice->CreateShaderResourceView(m_pStructuredBuffer_.Get(), &srvDesc, &m_pShaderResourceView_);
+                if (const auto& hr = pDevice->CreateShaderResourceView(pBuffer.Get(), &srvDesc, &m_pShaderResourceView_);
                     FAILED(hr))
                 {
                     throw std::runtime_error("Could NOT create ShaderResourceView!");
@@ -96,8 +73,7 @@ export namespace fatpound::win32::d3d11::pipeline
 
 
     protected:
-        wrl::ComPtr<ID3D11ShaderResourceView>   m_pShaderResourceView_{};
-        wrl::ComPtr<ID3D11Buffer>               m_pStructuredBuffer_{};
+        wrl::ComPtr<ID3D11ShaderResourceView>  m_pShaderResourceView_{};
 
 
     private:

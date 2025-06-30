@@ -21,7 +21,7 @@ import FatPound.Win32.D3D11.Pipeline.SBuffer;
 export namespace fatpound::win32::d3d11::pipeline
 {
     template <typename T>
-    class PixelSBuffer final : public SBuffer<T>
+    class PixelSBuffer : public SBuffer<T>
     {
         using SBuffer<T>::SBuffer;
 
