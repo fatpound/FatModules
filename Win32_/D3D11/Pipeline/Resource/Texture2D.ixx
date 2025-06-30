@@ -35,27 +35,43 @@ export namespace fatpound::win32::d3d11::pipeline
     public:
         explicit Texture2D(ID3D11Device* const pDevice, const D3D11_TEXTURE2D_DESC& tex2dDesc, const D3D11_SHADER_RESOURCE_VIEW_DESC& srvDesc, std::shared_ptr<FATSPACE_UTILITY::Surface> pSurface)
         {
-            wrl::ComPtr<ID3D11Texture2D> pTexture;
+            wrl::ComPtr<ID3D11Texture2D> pTex2d;
 
+            if (pSurface not_eq nullptr)
             {
                 const D3D11_SUBRESOURCE_DATA sd
                 {
                     .pSysMem          = *pSurface,
-                    .SysMemPitch      =  pSurface not_eq nullptr ? pSurface->GetPitch<UINT>() : 0U,
+                    .SysMemPitch      =  pSurface->GetPitch<UINT>(),
                     .SysMemSlicePitch = {}
                 };
 
-                if (const auto& hr = pDevice->CreateTexture2D(
-                    &tex2dDesc,
-                    sd.pSysMem not_eq nullptr ? &sd : nullptr,
-                    &pTexture);
+                if (const auto& hr = pDevice->CreateTexture2D(&tex2dDesc, &sd, &pTex2d);
                     FAILED(hr))
                 {
                     throw std::runtime_error("Could NOT create Texture2D!");
                 }
             }
+            else
+            {
+                throw std::runtime_error("pSurface is empty!");
+            }
 
-            if (const auto& hr = pDevice->CreateShaderResourceView(pTexture.Get(), &srvDesc, &m_pSRV_);
+            if (const auto& hr = pDevice->CreateShaderResourceView(pTex2d.Get(), &srvDesc, &m_pSRV_);
+                FAILED(hr))
+            {
+                throw std::runtime_error("Could NOT create ShaderResourceView!");
+            }
+        }
+        explicit Texture2D(ID3D11Device* const pDevice, const D3D11_TEXTURE2D_DESC& tex2dDesc, const D3D11_SHADER_RESOURCE_VIEW_DESC& srvDesc, wrl::ComPtr<ID3D11Texture2D>& pTex2d)
+        {
+            if (const auto& hr = pDevice->CreateTexture2D(&tex2dDesc, nullptr, &pTex2d);
+                FAILED(hr))
+            {
+                throw std::runtime_error("Could NOT create Texture2D!");
+            }
+
+            if (const auto& hr = pDevice->CreateShaderResourceView(pTex2d.Get(), &srvDesc, &m_pSRV_);
                 FAILED(hr))
             {
                 throw std::runtime_error("Could NOT create ShaderResourceView!");
@@ -74,7 +90,7 @@ export namespace fatpound::win32::d3d11::pipeline
     public:
         virtual void Bind(ID3D11DeviceContext* pImmediateContext) override final
         {
-            pImmediateContext->PSSetShaderResources(0, 1, m_pSRV_.GetAddressOf());
+            pImmediateContext->PSSetShaderResources(0U, 1U, m_pSRV_.GetAddressOf());
         }
 
 

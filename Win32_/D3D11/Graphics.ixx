@@ -264,7 +264,8 @@ export namespace fatpound::win32::d3d11
         }
         void InitFramework_                    (const std::wstring& VShaderPath, const std::wstring& PShaderPath) requires(Framework)
         {
-            InitFrameworkBackbuffer_();
+            InitFrameworkBackbufferTexture_();
+            InitFrameworkBackbufferSampler_();
 
             std::vector<std::unique_ptr<pipeline::Bindable>> binds;
 
@@ -293,82 +294,56 @@ export namespace fatpound::win32::d3d11
                 bindable->Bind(GetImmediateContext());
             }
         }
-        void InitFrameworkBackbuffer_          () requires(Framework)
+        void InitFrameworkBackbufferTexture_   () requires(Framework)
         {
+            const D3D11_TEXTURE2D_DESC tex2dDesc
             {
-                wrl::ComPtr<ID3D11ShaderResourceView> pSRV;
+                .Width          = GetWidth<UINT>(),
+                .Height         = GetHeight<UINT>(),
+                .MipLevels      = 1U,
+                .ArraySize      = 1U,
+                .Format         = DXGI_FORMAT_B8G8R8A8_UNORM,
+                .SampleDesc     =
+                                {
+                                    .Count   = 1U,
+                                    .Quality = 0U 
+                                },
+                .Usage          = D3D11_USAGE_DYNAMIC,
+                .BindFlags      = D3D11_BIND_SHADER_RESOURCE,
+                .CPUAccessFlags = D3D11_CPU_ACCESS_WRITE,
+                .MiscFlags      = 0U
+            };
 
-                {
-                    const D3D11_TEXTURE2D_DESC texDesc
-                    {
-                        .Width          = GetWidth<UINT>(),
-                        .Height         = GetHeight<UINT>(),
-                        .MipLevels      = 1U,
-                        .ArraySize      = 1U,
-                        .Format         = DXGI_FORMAT_B8G8R8A8_UNORM,
-                        .SampleDesc     =
-                                        {
-                                            .Count   = 1U,
-                                            .Quality = 0U 
-                                        },
-                        .Usage          = D3D11_USAGE_DYNAMIC,
-                        .BindFlags      = D3D11_BIND_SHADER_RESOURCE,
-                        .CPUAccessFlags = D3D11_CPU_ACCESS_WRITE,
-                        .MiscFlags      = 0U
-                    };
-
-                    if (const auto& hr = GetDevice()->CreateTexture2D(&texDesc, nullptr, m_res_pack_.m_pSysbufferTex2d.GetAddressOf());
-                        FAILED(hr))
-                    {
-                        throw std::runtime_error("Could NOT create Texture2D!");
-                    }
-
-                    const D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc
-                    {
-                        .Format        = texDesc.Format,
-                        .ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D,
-                        .Texture2D     =
-                                       {
-                                           .MostDetailedMip = {},
-                                           .MipLevels       = texDesc.MipLevels
-                                       }
-                    };
-
-                    if (const auto& hr = GetDevice()->CreateShaderResourceView(GetSysbufferTexture(), &srvDesc, pSRV.GetAddressOf());
-                        FAILED(hr))
-                    {
-                        throw std::runtime_error("Could NOT create ShaderResourceView!");
-                    }
-                }
-
-                GetImmediateContext()->PSSetShaderResources(0U, 1U, pSRV.GetAddressOf());
-            }
-
-            wrl::ComPtr<ID3D11SamplerState> pSS;
-
+            const D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc
             {
-                const D3D11_SAMPLER_DESC sDesc
-                {
-                    .Filter         = D3D11_FILTER_MIN_MAG_MIP_POINT,
-                    .AddressU       = D3D11_TEXTURE_ADDRESS_CLAMP,
-                    .AddressV       = D3D11_TEXTURE_ADDRESS_CLAMP,
-                    .AddressW       = D3D11_TEXTURE_ADDRESS_CLAMP,
-                    .MipLODBias     = {},
-                    .MaxAnisotropy  = {},
-                    .ComparisonFunc = D3D11_COMPARISON_NEVER,
-                    .BorderColor    = {},
-                    .MinLOD         = 0.0F,
-                    .MaxLOD         = D3D11_FLOAT32_MAX
-                };
+                .Format        = tex2dDesc.Format,
+                .ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D,
+                .Texture2D     =
+                               {
+                                   .MostDetailedMip = {},
+                                   .MipLevels       = tex2dDesc.MipLevels
+                               }
+            };
 
-                if (const auto& hr = GetDevice()->CreateSamplerState(&sDesc, pSS.GetAddressOf());
-                    FAILED(hr))
-                {
-                    throw std::runtime_error("Could NOT create SamplerState");
-                }
-            }
+            FATSPACE_D3D11::pipeline::Texture2D{ GetDevice(), tex2dDesc, srvDesc, m_res_pack_.m_pSysbufferTex2d }.Bind(GetImmediateContext());
+        }
+        void InitFrameworkBackbufferSampler_   () requires(Framework)
+        {
+            const D3D11_SAMPLER_DESC sDesc
+            {
+                .Filter         = D3D11_FILTER_MIN_MAG_MIP_POINT,
+                .AddressU       = D3D11_TEXTURE_ADDRESS_CLAMP,
+                .AddressV       = D3D11_TEXTURE_ADDRESS_CLAMP,
+                .AddressW       = D3D11_TEXTURE_ADDRESS_CLAMP,
+                .MipLODBias     = {},
+                .MaxAnisotropy  = {},
+                .ComparisonFunc = D3D11_COMPARISON_NEVER,
+                .BorderColor    = {},
+                .MinLOD         = 0.0F,
+                .MaxLOD         = D3D11_FLOAT32_MAX
+            };
 
-            GetImmediateContext()->PSSetSamplers(0, 1, pSS.GetAddressOf());
+            FATSPACE_D3D11::pipeline::Sampler{ GetDevice(), sDesc }.Bind(GetImmediateContext());
         }
         void InitDevice_                       ()
         {

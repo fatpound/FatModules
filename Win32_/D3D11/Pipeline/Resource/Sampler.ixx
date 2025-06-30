@@ -51,7 +51,7 @@ export namespace fatpound::win32::d3d11::pipeline
     public:
         virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override final
         {
-            pImmediateContext->PSSetSamplers(0, 1, m_pSamplerState_.GetAddressOf());
+            pImmediateContext->PSSetSamplers(0U, 1U, m_pSamplerState_.GetAddressOf());
         }
 
 
