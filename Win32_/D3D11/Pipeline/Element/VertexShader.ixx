@@ -34,11 +34,28 @@ export namespace fatpound::win32::d3d11::pipeline
     public:
         explicit VertexShader(ID3D11Device* const pDevice, const std::wstring& path)
         {
-            ::D3DReadFileToBlob(path.c_str(), &m_pBytecodeBlob_);
+            wrl::ComPtr<ID3DBlob> pBlob;
+
+            if (FAILED(::D3DReadFileToBlob(path.c_str(), &pBlob)))
+            {
+                throw std::runtime_error("CANNOT read Vertex Shader to D3D Blob!");
+            }
 
             if (const auto& hr = pDevice->CreateVertexShader(
-                m_pBytecodeBlob_->GetBufferPointer(),
-                m_pBytecodeBlob_->GetBufferSize(),
+                pBlob->GetBufferPointer(),
+                pBlob->GetBufferSize(),
+                nullptr,
+                &m_pVertexShader_);
+                FAILED(hr))
+            {
+                throw std::runtime_error("Could NOT create VertexShader!");
+            }
+        }
+        explicit VertexShader(ID3D11Device* const pDevice, const wrl::ComPtr<ID3DBlob>& pBlob)
+        {
+            if (const auto& hr = pDevice->CreateVertexShader(
+                pBlob->GetBufferPointer(),
+                pBlob->GetBufferSize(),
                 nullptr,
                 &m_pVertexShader_);
                 FAILED(hr))
@@ -63,16 +80,8 @@ export namespace fatpound::win32::d3d11::pipeline
         }
 
 
-    public:
-        auto GetBytecode() const noexcept -> ID3DBlob*
-        {
-            return m_pBytecodeBlob_.Get();
-        }
-
-
     protected:
-        wrl::ComPtr<ID3DBlob>             m_pBytecodeBlob_;
-        wrl::ComPtr<ID3D11VertexShader>   m_pVertexShader_;
+        wrl::ComPtr<ID3D11VertexShader> m_pVertexShader_;
 
 
     private:

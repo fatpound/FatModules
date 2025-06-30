@@ -13,6 +13,7 @@ export module FatPound.Win32.D3D11.Graphics;
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
 import <d3d11.h>;
+import <d3dcompiler.h>;
 
 import FatPound.Traits.Bitwise;
 import FatPound.Utility.Color;
@@ -271,10 +272,27 @@ export namespace fatpound::win32::d3d11
             std::vector<std::unique_ptr<pipeline::Bindable>> binds;
 
             {
-                auto pVS = std::make_unique<pipeline::VertexShader>(GetDevice(), VShaderPath);
-                auto pBlob = pVS->GetBytecode();
+                {
+                    wrl::ComPtr<ID3DBlob> pVSBlob;
 
-                binds.push_back(std::move(pVS));
+                    if (FAILED(::D3DReadFileToBlob(VShaderPath.c_str(), &pVSBlob)))
+                    {
+                        throw std::runtime_error("CANNOT read file to D3D Blob!");
+                    }
+
+                    binds.push_back(std::make_unique<pipeline::VertexShader>(GetDevice(), pVSBlob));
+
+                    const std::vector<D3D11_INPUT_ELEMENT_DESC> iedesc
+                    {
+                        {
+                            { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+                            { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
+                        }
+                    };
+
+                    binds.push_back(std::make_unique<pipeline::InputLayout>(GetDevice(), iedesc, pVSBlob));
+                }
+
                 binds.push_back(std::make_unique<pipeline::PixelShader>(GetDevice(), PShaderPath));
 
                 {
@@ -294,16 +312,6 @@ export namespace fatpound::win32::d3d11
                 }
 
                 binds.push_back(std::make_unique<pipeline::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
-
-                const std::vector<D3D11_INPUT_ELEMENT_DESC> iedesc
-                {
-                    {
-                        { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-                        { "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT,    0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
-                    }
-                };
-
-                binds.push_back(std::make_unique<pipeline::InputLayout>(GetDevice(), iedesc, pBlob));
             }
 
             for (auto& bindable : binds)
