@@ -31,9 +31,9 @@ export namespace fatpound::win32::d3d11::pipeline
     class TransformCBuffer : public Bindable
     {
     public:
-        explicit TransformCBuffer(ID3D11Device* const pDevice, const T& parent, utility::ViewXM& viewXM)
+        explicit TransformCBuffer(ID3D11Device* const pDevice, const D3D11_BUFFER_DESC& bufDesc, const T& parent, utility::ViewXM& viewXM)
             :
-            m_vcbuf_(pDevice),
+            m_vcbuf_(pDevice, bufDesc),
             m_parent_(parent),
             m_viewXM_(viewXM)
         {
