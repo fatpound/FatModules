@@ -45,21 +45,21 @@ export namespace fatpound::win32::d3d11::pipeline
 
         auto operator = (const Sampler&)     -> Sampler& = delete;
         auto operator = (Sampler&&) noexcept -> Sampler& = delete;
-        virtual ~Sampler() noexcept override final       = default;
+        virtual ~Sampler() noexcept override             = default;
 
 
     public:
-        virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override final
+        virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override
         {
             pImmediateContext->PSSetSamplers(0U, 1U, m_pSamplerState_.GetAddressOf());
         }
 
 
     protected:
+        wrl::ComPtr<ID3D11SamplerState>  m_pSamplerState_;
 
 
     private:
-        wrl::ComPtr<ID3D11SamplerState>  m_pSamplerState_;
     };
 }
 

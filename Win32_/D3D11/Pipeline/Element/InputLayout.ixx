@@ -50,11 +50,11 @@ export namespace fatpound::win32::d3d11::pipeline
 
         auto operator = (const InputLayout&)     -> InputLayout& = delete;
         auto operator = (InputLayout&&) noexcept -> InputLayout& = delete;
-        virtual ~InputLayout() noexcept override final           = default;
+        virtual ~InputLayout() noexcept override                 = default;
 
 
     public:
-        virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override final
+        virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override
         {
             pImmediateContext->IASetInputLayout(m_pInputLayout_.Get());
         }

@@ -27,8 +27,6 @@ import std;
 
 export namespace fatpound::win32::d3d11::pipeline
 {
-    // This is inteded for use as a base class, not an actual bindable
-    //
     template <typename T>
     class SBuffer : public Bindable
     {
@@ -73,7 +71,7 @@ export namespace fatpound::win32::d3d11::pipeline
 
 
     protected:
-        wrl::ComPtr<ID3D11ShaderResourceView>  m_pShaderResourceView_{};
+        wrl::ComPtr<ID3D11ShaderResourceView>  m_pShaderResourceView_;
 
 
     private:

@@ -27,8 +27,6 @@ import std;
 
 export namespace fatpound::win32::d3d11::pipeline
 {
-    // This is inteded for use as a base class, not an actual bindable
-    //
     template <typename T>
     class CBuffer : public Bindable
     {
@@ -67,7 +65,7 @@ export namespace fatpound::win32::d3d11::pipeline
 
 
     public:
-        virtual void Update(ID3D11DeviceContext* const pImmediateContext, const T& consts) final
+        virtual void Update(ID3D11DeviceContext* const pImmediateContext, const T& consts)
         {
             {
                 D3D11_MAPPED_SUBRESOURCE msr;

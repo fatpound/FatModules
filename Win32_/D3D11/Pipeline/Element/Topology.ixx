@@ -1,10 +1,19 @@
 module;
 
+#ifdef FATLIB_BUILDING_WITH_MSVC
+    #ifdef __INTELLISENSE__
+        #include <Win32_/WinAPI.hpp>
+        #include <d3d11.h>
+    #endif
+#endif
+
 export module FatPound.Win32.D3D11.Pipeline.Topology;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
-import <d3d11.h>;
+#ifndef __INTELLISENSE__
+    import <d3d11.h>;
+#endif
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 
@@ -26,11 +35,11 @@ export namespace fatpound::win32::d3d11::pipeline
 
         auto operator = (const Topology&)     -> Topology& = delete;
         auto operator = (Topology&&) noexcept -> Topology& = delete;
-        virtual ~Topology() noexcept override final        = default;
+        virtual ~Topology() noexcept override              = default;
 
 
     public:
-        virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override final
+        virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override
         {
             pImmediateContext->IASetPrimitiveTopology(m_type_);
         }

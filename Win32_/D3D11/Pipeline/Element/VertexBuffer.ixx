@@ -70,13 +70,13 @@ export namespace fatpound::win32::d3d11::pipeline
 
         auto operator = (const VertexBuffer&)     -> VertexBuffer& = delete;
         auto operator = (VertexBuffer&&) noexcept -> VertexBuffer& = delete;
-        virtual ~VertexBuffer() noexcept override final            = default;
+        virtual ~VertexBuffer() noexcept override                  = default;
 
 
     public:
-        virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override final
+        virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override
         {
-            const UINT offset{};
+            constexpr UINT offset{};
 
             pImmediateContext->IASetVertexBuffers(0U, 1U, m_pVertexBuffer_.GetAddressOf(), &m_stride_, &offset);
         }

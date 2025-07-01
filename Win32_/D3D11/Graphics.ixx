@@ -194,13 +194,13 @@ export namespace fatpound::win32::d3d11
         {
             return mc_hWnd_;
         }
-        auto GetDevice           () const noexcept -> ID3D11Device*
-        {
-            return m_res_pack_.m_pDevice.Get();
-        }
         auto GetSwapChain        () const noexcept -> IDXGISwapChain*
         {
             return m_res_pack_.m_pSwapChain.Get();
+        }
+        auto GetDevice           () const noexcept -> ID3D11Device*
+        {
+            return m_res_pack_.m_pDevice.Get();
         }
         auto GetImmediateContext () const noexcept -> ID3D11DeviceContext*
         {
@@ -208,15 +208,15 @@ export namespace fatpound::win32::d3d11
         }
         auto GetRenderTargetView () const noexcept -> ID3D11RenderTargetView*
         {
-            return m_res_pack_.m_pRTV.Get();
+            return m_res_pack_.m_render_target.GetView();
         }
-        auto GetDepthStencilView () const noexcept -> ID3D11DepthStencilView*
+        auto GetDepthStencilView () const noexcept -> ID3D11DepthStencilView* requires(NotFramework)
         {
-            return m_res_pack_.m_pDSV.Get();
+            return m_res_pack_.m_depth_stencil.GetView();
         }
         auto GetSysbufferTexture () const noexcept -> ID3D11Texture2D* requires(Framework)
         {
-            return m_res_pack_.m_pSysbufferTex2d.Get();
+            return m_res_pack_.m_sysbufferTex2d.GetBuffer();
         }
 
         auto GetMSAACount        () const noexcept
@@ -331,7 +331,7 @@ export namespace fatpound::win32::d3d11
                 .SampleDesc     =
                                 {
                                     .Count   = 1U,
-                                    .Quality = 0U 
+                                    .Quality = 0U
                                 },
                 .Usage          = D3D11_USAGE_DYNAMIC,
                 .BindFlags      = D3D11_BIND_SHADER_RESOURCE,
@@ -350,7 +350,9 @@ export namespace fatpound::win32::d3d11
                                }
             };
 
-            FATSPACE_D3D11::pipeline::Texture2D{ GetDevice(), tex2dDesc, srvDesc, m_res_pack_.m_pSysbufferTex2d }.Bind(GetImmediateContext());
+            m_res_pack_.m_sysbufferTex2d = pipeline::Texture2D{ GetDevice(), tex2dDesc };
+
+            pipeline::ShaderResource{ GetDevice(), m_res_pack_.m_sysbufferTex2d, srvDesc }.Bind(GetImmediateContext());
         }
         void InitFrameworkBackbufferSampler_   () requires(Framework)
         {
@@ -368,7 +370,7 @@ export namespace fatpound::win32::d3d11
                 .MaxLOD         = D3D11_FLOAT32_MAX
             };
 
-            FATSPACE_D3D11::pipeline::Sampler{ GetDevice(), sDesc }.Bind(GetImmediateContext());
+            pipeline::Sampler{ GetDevice(), sDesc }.Bind(GetImmediateContext());
         }
         void InitDevice_                       ()
         {
@@ -469,71 +471,46 @@ export namespace fatpound::win32::d3d11
         }
         void InitRenderTarget_                 ()
         {
-            {
-                wrl::ComPtr<ID3D11Texture2D> pBackBufferTexture2D{};
-
-                if (const auto& hr = GetSwapChain()->GetBuffer(0, __uuidof(ID3D11Texture2D), &pBackBufferTexture2D);
-                    FAILED(hr))
-                {
-                    throw std::runtime_error("Could NOT get the buffer from SwapChain!");
-                }
-
-                if (const auto& hr = GetDevice()->CreateRenderTargetView(pBackBufferTexture2D.Get(), nullptr, &m_res_pack_.m_pRTV);
-                    FAILED(hr))
-                {
-                    throw std::runtime_error("Could NOT create RenderTargetView!");
-                }
-            }
+            m_res_pack_.m_render_target = pipeline::RenderTarget{ GetDevice(), pipeline::Texture2D{ GetSwapChain() } };
 
             if constexpr (NotFramework)
             {
-                wrl::ComPtr<ID3D11Texture2D> pTexture2d;
-
+                const D3D11_TEXTURE2D_DESC tex2dDesc
                 {
-                    const D3D11_TEXTURE2D_DESC tex2dDesc
-                    {
-                        .Width          = GetWidth<UINT>(),
-                        .Height         = GetHeight<UINT>(),
-                        .MipLevels      = 1U,
-                        .ArraySize      = 1U,
-                        .Format         = DXGI_FORMAT_D32_FLOAT,
-                        .SampleDesc     =
-                                        {
-                                            .Count   = GetMSAACount(),
-                                            .Quality = GetMSAAQuality() - 1U
-                                        },
-                        .Usage          = D3D11_USAGE_DEFAULT,
-                        .BindFlags      = D3D11_BIND_DEPTH_STENCIL,
-                        .CPUAccessFlags = {},
-                        .MiscFlags      = {}
-                    };
-
-                    if (const auto& hr = GetDevice()->CreateTexture2D(&tex2dDesc, nullptr, pTexture2d.GetAddressOf());
-                        FAILED(hr))
-                    {
-                        throw std::runtime_error("Could NOT create Texture2D!");
-                    }
-                }
+                    .Width          = GetWidth<UINT>(),
+                    .Height         = GetHeight<UINT>(),
+                    .MipLevels      = 1U,
+                    .ArraySize      = 1U,
+                    .Format         = DXGI_FORMAT_D32_FLOAT,
+                    .SampleDesc     =
+                                    {
+                                        .Count   = GetMSAACount(),
+                                        .Quality = GetMSAAQuality() - 1U
+                                    },
+                    .Usage          = D3D11_USAGE_DEFAULT,
+                    .BindFlags      = D3D11_BIND_DEPTH_STENCIL,
+                    .CPUAccessFlags = {},
+                    .MiscFlags      = {}
+                };
 
                 const D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc
                 {
                     .Format        = DXGI_FORMAT_D32_FLOAT,
-                    .ViewDimension = ((m_msaa_count_ == 1U) ? D3D11_DSV_DIMENSION_TEXTURE2D : D3D11_DSV_DIMENSION_TEXTURE2DMS),
+                    .ViewDimension = (m_msaa_count_ == 1U) ? D3D11_DSV_DIMENSION_TEXTURE2D : D3D11_DSV_DIMENSION_TEXTURE2DMS,
                     .Flags         = {},
                     .Texture2D     =
                                    {
-                                       .MipSlice = ((m_msaa_count_ == 1U) ? 0U : 1U)
+                                       .MipSlice = (m_msaa_count_ == 1U) ? 0U : 1U
                                    }
                 };
 
-                if (const auto& hr = GetDevice()->CreateDepthStencilView(pTexture2d.Get(), &dsvDesc, &m_res_pack_.m_pDSV);
-                    FAILED(hr))
-                {
-                    throw std::runtime_error("Could NOT create DepthStencilView!");
-                }
+                m_res_pack_.m_depth_stencil = pipeline::DepthStencil{ GetDevice(), pipeline::Texture2D{ GetDevice(), tex2dDesc }, dsvDesc };
+                m_res_pack_.m_render_target.BindWithDepthStencilView(GetImmediateContext(), GetDepthStencilView());
             }
-
-            GetImmediateContext()->OMSetRenderTargets(1U, m_res_pack_.m_pRTV.GetAddressOf(), GetDepthStencilView());
+            else
+            {
+                m_res_pack_.m_render_target.Bind(GetImmediateContext());
+            }
         }
         void InitViewport_                     ()
         {
@@ -547,35 +524,25 @@ export namespace fatpound::win32::d3d11
                 .MaxDepth = 1.0F
             };
 
-            GetImmediateContext()->RSSetViewports(1U, &vp);
+            pipeline::Viewport{ vp }.Bind(GetImmediateContext());
         }
         void InitRasterizer_                   () requires(NotFramework)
         {
-            wrl::ComPtr<ID3D11RasterizerState> m_pRasterizerState_;
-
+            const D3D11_RASTERIZER_DESC rDesc
             {
-                const D3D11_RASTERIZER_DESC rDesc
-                {
-                    .FillMode              = D3D11_FILL_SOLID,
-                    .CullMode              = D3D11_CULL_BACK,
-                    .FrontCounterClockwise = false,
-                    .DepthBias             = 0,
-                    .DepthBiasClamp        = 0.0F,
-                    .SlopeScaledDepthBias  = 0.0F,
-                    .DepthClipEnable       = true,
-                    .ScissorEnable         = false,
-                    .MultisampleEnable     = true,
-                    .AntialiasedLineEnable = true
-                };
+                .FillMode              = D3D11_FILL_SOLID,
+                .CullMode              = D3D11_CULL_BACK,
+                .FrontCounterClockwise = false,
+                .DepthBias             = 0,
+                .DepthBiasClamp        = 0.0F,
+                .SlopeScaledDepthBias  = 0.0F,
+                .DepthClipEnable       = true,
+                .ScissorEnable         = false,
+                .MultisampleEnable     = true,
+                .AntialiasedLineEnable = true
+            };
 
-                if (const auto& hr = GetDevice()->CreateRasterizerState(&rDesc, &m_pRasterizerState_);
-                    FAILED(hr))
-                {
-                    throw std::runtime_error("Could NOT create RasterizerState!");
-                }
-            }
-
-            GetImmediateContext()->RSSetState(m_pRasterizerState_.Get());
+            pipeline::Rasterizer{ GetDevice(), rDesc }.Bind(GetImmediateContext());
         }
 
         void MapSubresource_                   () requires(Framework)

@@ -32,11 +32,11 @@ export namespace fatpound::win32::d3d11::pipeline
 
         auto operator = (const PixelSBuffer&)     -> PixelSBuffer& = delete;
         auto operator = (PixelSBuffer&&) noexcept -> PixelSBuffer& = delete;
-        virtual ~PixelSBuffer() noexcept override final            = default;
+        virtual ~PixelSBuffer() noexcept override                  = default;
 
 
     public:
-        virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override final
+        virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override
         {
             pImmediateContext->PSSetShaderResources(0U, 1U, this->m_pShaderResourceView_.GetAddressOf());
         }

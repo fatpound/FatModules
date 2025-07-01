@@ -30,7 +30,28 @@ export namespace fatpound::math::geometry
     {
         return dx::XMVectorSubtract(p1, p0);
     }
+    auto operator *       (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept -> dx::XMVECTOR
+    {
+        return dx::XMVectorMultiply(p0, p1);
+    }
+    auto operator /       (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept -> dx::XMVECTOR
+    {
+        return dx::XMVectorDivide(p0, p1);
+    }
 
+    auto operator *       (const float&     scale, const dx::XMVECTOR&  v) noexcept -> dx::XMVECTOR
+    {
+        return dx::XMVectorScale(v, scale);
+    }
+    auto operator *       (const dx::XMVECTOR&  v, const float&     scale) noexcept -> dx::XMVECTOR
+    {
+        return dx::XMVectorScale(v, scale);
+    }
+    auto operator /       (const dx::XMVECTOR&  v, const float&     scale) noexcept -> dx::XMVECTOR
+    {
+        return dx::XMVectorScale(v, 1.0F / scale);
+    }
+    
     auto CompareDistance2 (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept
     {
         return dx::XMVectorGetX(dx::XMVector2LengthSq(p0)) > dx::XMVectorGetX(dx::XMVector2LengthSq(p1));
