@@ -16,7 +16,7 @@ export namespace fatpound::io
 
 
     public:
-        struct alignas(16) Event final
+        struct alignas(16) Event
         {
             enum struct Type : std::uint8_t
             {

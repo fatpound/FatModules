@@ -15,7 +15,7 @@ export namespace fatpound::io
         static constexpr auto scx_bufferSize_ = 16U;
 
     public:
-        struct alignas(2) KeyEvent final
+        struct alignas(2) KeyEvent
         {
             enum struct Type : std::uint8_t
             {

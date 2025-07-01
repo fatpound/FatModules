@@ -8,7 +8,7 @@ export namespace fatpound::utility::gfx
 {
     struct FullScreenQuad final
     {
-        struct alignas(32) Vertex final
+        struct alignas(32) Vertex
         {
             float x;
             float y;
