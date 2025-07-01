@@ -32,7 +32,7 @@ export namespace fatpound::win32::d3d11::pipeline
     class DepthStencil
     {
     public:
-        explicit DepthStencil(ID3D11Device* const pDevice, Texture2D& tex2d, const D3D11_DEPTH_STENCIL_VIEW_DESC& dsvDesc)
+        explicit DepthStencil(ID3D11Device* const pDevice, const Texture2D& tex2d, const D3D11_DEPTH_STENCIL_VIEW_DESC& dsvDesc)
         {
             if (FAILED(pDevice->CreateDepthStencilView(tex2d.GetBuffer(), &dsvDesc, &m_pDSV_)))
             {
