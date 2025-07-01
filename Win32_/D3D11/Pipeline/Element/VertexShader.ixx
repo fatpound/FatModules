@@ -41,24 +41,22 @@ export namespace fatpound::win32::d3d11::pipeline
                 throw std::runtime_error("CANNOT read Vertex Shader to D3D Blob!");
             }
 
-            if (const auto& hr = pDevice->CreateVertexShader(
+            if (FAILED(pDevice->CreateVertexShader(
                 pBlob->GetBufferPointer(),
                 pBlob->GetBufferSize(),
                 nullptr,
-                &m_pVertexShader_);
-                FAILED(hr))
+                &m_pVertexShader_)))
             {
                 throw std::runtime_error("Could NOT create VertexShader!");
             }
         }
         explicit VertexShader(ID3D11Device* const pDevice, const wrl::ComPtr<ID3DBlob>& pBlob)
         {
-            if (const auto& hr = pDevice->CreateVertexShader(
+            if (FAILED(pDevice->CreateVertexShader(
                 pBlob->GetBufferPointer(),
                 pBlob->GetBufferSize(),
                 nullptr,
-                &m_pVertexShader_);
-                FAILED(hr))
+                &m_pVertexShader_)))
             {
                 throw std::runtime_error("Could NOT create VertexShader!");
             }

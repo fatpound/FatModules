@@ -152,8 +152,7 @@ export namespace fatpound::win32::d3d11
                 UnMapSubresourceAndDraw_();
             }
 
-            if (const auto& hr = GetSwapChain()->Present(static_cast<UINT>(VSynced), 0U);
-                FAILED(hr))
+            if (FAILED(GetSwapChain()->Present(static_cast<UINT>(VSynced), 0U)))
             {
                 throw std::runtime_error("SwapChain could NOT Present!");
             }
@@ -460,11 +459,10 @@ export namespace fatpound::win32::d3d11
                 .Flags        = 0U
             };
 
-            if (const auto& hr = FATSPACE_UTILITY_GFX::GetDXGIFactory(GetDevice())->CreateSwapChain(
+            if (FAILED(FATSPACE_UTILITY_GFX::GetDXGIFactory(GetDevice())->CreateSwapChain(
                 GetDevice(),
                 &scDesc,
-                m_res_pack_.m_pSwapChain.GetAddressOf());
-                FAILED(hr))
+                m_res_pack_.m_pSwapChain.GetAddressOf())))
             {
                 throw std::runtime_error("Could NOT create DXGI SwapChain!");
             }
@@ -547,13 +545,12 @@ export namespace fatpound::win32::d3d11
 
         void MapSubresource_                   () requires(Framework)
         {
-            if (const auto& hr = GetImmediateContext()->Map(
+            if (FAILED(GetImmediateContext()->Map(
                 GetSysbufferTexture(),
                 0U,
                 D3D11_MAP_WRITE_DISCARD,
                 0U,
-                &m_res_pack_.m_mappedSysbufferTex2d);
-                FAILED(hr))
+                &m_res_pack_.m_mappedSysbufferTex2d)))
             {
                 throw std::runtime_error("Could NOT Map the ImmediateContext!");
             }

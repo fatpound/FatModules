@@ -41,8 +41,7 @@ export namespace fatpound::win32::d3d11::pipeline
                 .SysMemSlicePitch = {}
             };
 
-            if (const auto& hr = pDevice->CreateBuffer(&bufDesc, &sd, &m_pVertexBuffer_);
-                FAILED(hr))
+            if (FAILED(pDevice->CreateBuffer(&bufDesc, &sd, &m_pVertexBuffer_)))
             {
                 throw std::runtime_error("Could NOT create VertexBuffer!");
             }

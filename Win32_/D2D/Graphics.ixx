@@ -54,17 +54,15 @@ export namespace fatpound::win32::d2d
         {
             wrl::ComPtr<ID2D1Factory> pFactory;
             
-            if (const auto& hr = ::D2D1CreateFactory<ID2D1Factory>(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pFactory);
-                FAILED(hr))
+            if (FAILED(::D2D1CreateFactory<ID2D1Factory>(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pFactory)))
             {
                 throw std::runtime_error("A problem occured when creating the D2D1 factory!");
             }
 
-            if (const auto& hr = pFactory->CreateHwndRenderTarget(
+            if (FAILED(pFactory->CreateHwndRenderTarget(
                 D2D1::RenderTargetProperties(),
                 D2D1::HwndRenderTargetProperties(hWnd, D2D1::SizeU(GetWidth<UINT32>(), GetHeight<UINT32>())),
-                &m_pRenderTarget_);
-                FAILED(hr))
+                &m_pRenderTarget_)))
             {
                 throw std::runtime_error("A problem occured when creating the HwndRenderTarget!");
             }

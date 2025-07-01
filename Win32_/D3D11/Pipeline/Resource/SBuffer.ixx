@@ -44,15 +44,13 @@ export namespace fatpound::win32::d3d11::pipeline
                         .SysMemSlicePitch = {}
                     };
 
-                    if (const auto& hr = pDevice->CreateBuffer(&bufDesc, &initData, &pBuffer);
-                        FAILED(hr))
+                    if (FAILED(pDevice->CreateBuffer(&bufDesc, &initData, &pBuffer)))
                     {
                         throw std::runtime_error("Could NOT create SBuffer!");
                     }
                 }
 
-                if (const auto& hr = pDevice->CreateShaderResourceView(pBuffer.Get(), &srvDesc, &m_pShaderResourceView_);
-                    FAILED(hr))
+                if (FAILED(pDevice->CreateShaderResourceView(pBuffer.Get(), &srvDesc, &m_pShaderResourceView_)))
                 {
                     throw std::runtime_error("Could NOT create ShaderResourceView!");
                 }
