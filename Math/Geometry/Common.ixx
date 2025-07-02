@@ -6,8 +6,6 @@ module;
 
 export module FatPound.Math.Geometry.Common;
 
-import std;
-
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
 namespace dx = DirectX;
