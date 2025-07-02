@@ -1,10 +1,14 @@
 module;
 
+#pragma comment(lib, "gdiplus")
+
 export module FatPound.Win32.GDI_Plus.Manager;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
 import <Win32_/WinAPI.hxx>;
+
+import std;
 
 export namespace fatpound::win32::gdi_plus
 {
@@ -14,13 +18,18 @@ export namespace fatpound::win32::gdi_plus
     class Manager final
     {
     public:
-        explicit Manager() noexcept
+        explicit Manager()
         {
             if (s_ref_count_ == 0)
             {
-                Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+                const Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 
-                Gdiplus::GdiplusStartup(&s_gdiPlus_token_, &gdiplusStartupInput, nullptr);
+                const auto status = Gdiplus::GdiplusStartup(&s_gdiPlus_token_, &gdiplusStartupInput, nullptr);
+
+                if (status not_eq Gdiplus::Ok)
+                {
+                    throw std::runtime_error("GDI+ initialization failed");
+                }
             }
 
             ++s_ref_count_;

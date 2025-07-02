@@ -17,8 +17,6 @@ export module FatPound.Win32.D3D11.Pipeline.Viewport;
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 
-import std;
-
 export namespace fatpound::win32::d3d11::pipeline
 {
     class Viewport : public Bindable
