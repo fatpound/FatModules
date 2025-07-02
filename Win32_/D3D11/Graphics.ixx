@@ -213,7 +213,7 @@ export namespace fatpound::win32::d3d11
         {
             return m_res_pack_.m_depth_stencil.GetView();
         }
-        auto GetSysbufferTexture () const noexcept -> ID3D11Texture2D* requires(Framework)
+        auto GetSysbufferTexture () const noexcept -> ID3D11Texture2D*        requires(Framework)
         {
             return m_res_pack_.m_sysbufferTex2d.GetBuffer();
         }

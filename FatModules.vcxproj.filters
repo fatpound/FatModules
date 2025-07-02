@@ -315,6 +315,9 @@
     <ClCompile Include="Win32_\D3D11\Pipeline\Resource\ShaderResource.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Math\Geometry\Shape\Triangle.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32_\WinAPI.hpp">

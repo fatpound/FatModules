@@ -4,7 +4,7 @@ module;
     #include <DirectXMath.h>
 #endif
 
-export module FatPound.Math.Geometry.Shape.Circle;
+export module FatPound.Math.Geometry.Circle;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 

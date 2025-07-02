@@ -60,6 +60,7 @@
     <ClCompile Include="Math\Geometry\Common.ixx" />
     <ClCompile Include="Math\Geometry\Geometry.ixx" />
     <ClCompile Include="Math\Geometry\Shape\Circle.ixx" />
+    <ClCompile Include="Math\Geometry\Shape\Triangle.ixx" />
     <ClCompile Include="Math\Math.ixx" />
     <ClCompile Include="Math\Multiplicative.ixx" />
     <ClCompile Include="Math\Numbers\Common.ixx" />
