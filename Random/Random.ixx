@@ -197,9 +197,23 @@ export namespace fatpound::random
 
         std::uniform_int_distribution<std::size_t> dist(0U, charset.size() - 1U);
 
-        return std::views::iota(0U, length)
-             | std::views::transform([&charset, &dist, &rng](auto) { return charset[dist(rng)]; })
-             | std::ranges::to<std::string>();
+        auto rand_chars_view = std::views::iota(0U, length)
+                             | std::views::transform([&charset, &dist, &rng](auto) { return charset[dist(rng)]; });
+
+#if __cplusplus >= 202302L
+
+        return rand_chars_view | std::ranges::to<std::string>();
+
+#else
+
+        std::string result;
+        result.reserve(length);
+
+        std::ranges::copy(rand_chars_view, std::back_inserter(result));
+
+        return result;
+
+#endif
     }
 
 
@@ -243,24 +257,52 @@ export namespace fatpound::random
             throw std::invalid_argument("At least one charset must be enabled!");
         }
 
-        std::vector<std::string_view> vec;
-        vec.reserve(4U);
+        std::vector<std::string_view> charset_vec;
+        charset_vec.reserve(4U);
 
-        withLowercase ? vec.push_back(LowerCase) : void();
-        withUppercase ? vec.push_back(UpperCase) : void();
-        withDigits    ? vec.push_back(Digits)    : void();
-        withSymbols   ? vec.push_back(Symbols)   : void();
+        withLowercase ? charset_vec.push_back(LowerCase) : void();
+        withUppercase ? charset_vec.push_back(UpperCase) : void();
+        withDigits    ? charset_vec.push_back(Digits)    : void();
+        withSymbols   ? charset_vec.push_back(Symbols)   : void();
+
+        if (enforceEachType and charset_vec.size() > static_cast<std::size_t>(length))
+        {
+            throw std::invalid_argument("Password length is too short to enforce all selected character types.");
+        }
 
         std::string password;
+        password.reserve(length);
 
         if (enforceEachType)
         {
-            password += std::ranges::to<std::string>(vec | std::views::transform([](const auto& set) { return set[0]; }));
+#if __cplusplus >= 202302L
+            password += std::ranges::to<std::string>(charset_vec | std::views::transform([&rng](const auto& set) { std::uniform_int_distribution<std::size_t> dist(0, set.length() - 1); return set[dist(rng)]; }));
+#else
+            for (const auto& set : charset_vec)
+            {
+                std::uniform_int_distribution<std::size_t> dist(0, set.length() - 1);
+                password += set[dist(rng)];
+            }
+#endif
         }
 
-        password += RandString<>(length - password.length(), std::ranges::to<std::string>(vec | std::views::join), rng);
+#if __cplusplus >= 202302L
+        password += RandString<>(length - password.length(), std::ranges::to<std::string>(charset_vec | std::views::join), rng);
+#else
+        std::string combined_charset;
 
-        std::shuffle<>(password.begin(), password.end(), rng);
+        for (const auto& set : charset_vec)
+        {
+            combined_charset += set;
+        }
+
+        if (password.length() < static_cast<std::size_t>(length))
+        {
+            password += RandString(static_cast<std::size_t>(length) - password.length(), combined_charset, rng);
+        }
+#endif
+
+        std::ranges::shuffle(password, rng);
 
         return password;
     }

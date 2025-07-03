@@ -12,8 +12,10 @@ export namespace fatpound::traits
     template <typename T>
     concept Union = std::is_union_v<T>;
 
+#if __cplusplus >= 202302L
     template <typename T>
     concept ScopedEnum = std::is_scoped_enum_v<T>;
+#endif
 
     template <typename T>
     concept Enum = std::is_enum_v<T>; // or ScopedEnum<T>

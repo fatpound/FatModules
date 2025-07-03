@@ -24,7 +24,7 @@ export namespace fatpound::win32::gdi_plus
             {
                 const Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 
-                const auto status = Gdiplus::GdiplusStartup(&s_gdiPlus_token_, &gdiplusStartupInput, nullptr);
+                const auto& status = Gdiplus::GdiplusStartup(&s_gdiPlus_token_, &gdiplusStartupInput, nullptr);
 
                 if (status not_eq Gdiplus::Ok)
                 {

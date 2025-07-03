@@ -148,7 +148,7 @@ export namespace fatpound::utility
 #ifdef _MSC_VER
 #pragma warning (push)
 #pragma warning (disable : 4686)
-#if __cplusplus > 202400L
+#if __cplusplus > 202500L
         constexpr
 #endif
 #endif

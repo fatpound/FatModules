@@ -344,7 +344,6 @@ export namespace fatpound::file
 
 
 
-#ifndef __GNUC__
     /// @brief Prints the contents of a file as hexadecimal values to the specified output stream (with spaces between those values)
     /// 
     /// @param path: The path to the file whose contents will be printed in hexadecimal format
@@ -360,23 +359,32 @@ export namespace fatpound::file
         }
 
 #ifdef _MSC_VER
-#pragma warning (push)
-#pragma warning (disable : 4686)
+    #pragma warning (push)
+    #pragma warning (disable : 4686)
 #endif
+
         if (auto ch = file.get(); not file.eof())
         {
+#if __cplusplus >= 202302L
             std::print<>(os, "{:02X}", ch);
+#else
+            os << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << ch;
+#endif
         }
 
         for (auto ch = file.get(); not file.eof(); ch = file.get())
         {
-            std::print<>(os, " {:02X}", ch);
+#if __cplusplus >= 202302L
+            std::print<>(os, "{:02X}", ch);
+#else
+            os << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << ch;
+#endif
         }
+
 #ifdef _MSC_VER
-#pragma warning (pop)
+    #pragma warning (pop)
 #endif
     }
-#endif
 }
 
 module : private;

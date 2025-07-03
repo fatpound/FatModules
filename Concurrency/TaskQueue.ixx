@@ -4,8 +4,6 @@ module;
 
 export module FatPound.Concurrency.TaskQueue;
 
-#ifdef FATLIB_BUILDING_WITH_MSVC
-
 import std;
 
 export namespace fatpound::concurrency
@@ -14,7 +12,11 @@ export namespace fatpound::concurrency
     ///
     class TaskQueue final
     {
+#if __cplusplus >= 202302L
         using WrappedTask = std::move_only_function<void()>;
+#else
+        using WrappedTask = std::function<void()>;
+#endif
 
     public:
         explicit TaskQueue()                     = default;
@@ -27,6 +29,40 @@ export namespace fatpound::concurrency
 
 
     public:
+        template <typename F, typename... Args>
+        requires std::invocable<F, Args...>
+        auto Push(F&& func, Args&&... args) -> auto
+        {
+            using T = std::invoke_result_t<F, Args...>;
+
+#if __cplusplus >= 202302L and defined(FATLIB_BUILDING_WITH_MSVC)
+
+            auto pkgTask = std::packaged_task<T(Args...)>{ std::bind<>(std::forward<F>(func), std::forward<Args>(args)...) };
+            auto future  = pkgTask.get_future();
+            
+            Push_([&args..., task = std::move<>(pkgTask)]() mutable -> void { static_cast<void>(task(args...)); });
+
+#else
+
+            auto task_sptr = std::make_shared<std::packaged_task<T(Args...)>>(
+                std::bind<>(std::forward<F>(func), std::forward<Args>(args)...)
+            );
+
+            auto future = task_sptr->get_future();
+
+            Push_(
+                [task = std::move<>(task_sptr)]() -> void
+                {
+                    static_cast<void>((*task)());
+                }
+            );
+#endif
+
+            return future;
+        }
+
+
+    public:
         void ExecuteFirstAndPopOff()
         {
             WrappedTask wtask{};
@@ -34,28 +70,17 @@ export namespace fatpound::concurrency
             {
                 const std::lock_guard<std::mutex> lck{ m_mtx_ };
 
+                if (m_tasks_.empty())
+                {
+                    return;
+                }
+
                 wtask = std::move<>(m_tasks_.front());
 
                 m_tasks_.pop_front();
             }
 
             wtask();
-        }
-
-
-    public:
-        template <typename F, typename... Args>
-        requires std::invocable<F, Args...>
-        auto Push(F&& func, Args&&... args) -> auto
-        {
-            using T = std::invoke_result_t<F, Args...>;
-
-            auto pkgTask = std::packaged_task<T(Args...)>{ std::bind<>(std::forward<F>(func), std::forward<Args>(args)...) };
-            auto future  = pkgTask.get_future();
-
-            Push_([&, task = std::move<>(pkgTask)]() mutable -> void { static_cast<void>(task(args...)); });
-
-            return future;
         }
 
 
@@ -76,7 +101,5 @@ export namespace fatpound::concurrency
         std::mutex                m_mtx_;
     };
 }
-
-#endif
 
 module : private;
