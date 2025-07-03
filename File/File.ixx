@@ -366,7 +366,7 @@ export namespace fatpound::file
         if (auto ch = file.get(); not file.eof())
         {
 #if __cplusplus >= 202302L
-            std::print<>(os, "{:02X}", ch);
+            std::print<>(os, "{:X}", ch);
 #else
             os << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << ch;
 #endif
@@ -375,7 +375,7 @@ export namespace fatpound::file
         for (auto ch = file.get(); not file.eof(); ch = file.get())
         {
 #if __cplusplus >= 202302L
-            std::print<>(os, "{:02X}", ch);
+            std::print<>(os, " {:02X}", ch);
 #else
             os << std::uppercase << std::setw(2) << std::setfill('0') << std::hex << ch;
 #endif
