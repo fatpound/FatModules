@@ -105,7 +105,7 @@ export namespace fatpound::math::numbers
         const auto prev = PrevPrime_GT5<>(num);
         const auto next = NextPrime_GT4<>(num);
 
-        return ((num - prev) < (next - num)) ? prev : next;
+        return ((num - prev) <= (next - num)) ? prev : next;
     }
     template <std::unsigned_integral T> constexpr auto ClosestPrime       (const T& num) noexcept -> T
     {
