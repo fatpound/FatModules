@@ -426,7 +426,7 @@ export namespace fatpound::file
             outbuf.clear();
         }
 
-        if (const auto& bytes_left = static_cast<std::size_t>(file.gcount()); bytes_left > 0)
+        if (const auto& bytes_left = static_cast<std::size_t>(file.gcount()); bytes_left > 0U)
         {
             for (std::size_t i{}; i < bytes_left; ++i)
             {
