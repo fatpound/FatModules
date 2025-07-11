@@ -1,7 +1,5 @@
 module;
 
-// for lock_guards without CTAD, see: https://clang.llvm.org/docs/DiagnosticsReference.html#wctad-maybe-unsupported
-
 export module FatPound.Concurrency.TaskQueue;
 
 import std;
@@ -31,7 +29,7 @@ export namespace fatpound::concurrency
     public:
         template <typename F, typename... Args>
         requires std::invocable<F, Args...>
-        auto Push(F&& func, Args&&... args) -> auto
+        auto Push(F&& func, Args&&... args)
         {
             using T = std::invoke_result_t<F, Args...>;
 

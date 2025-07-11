@@ -75,7 +75,7 @@ export namespace fatpound::file
 
 
 
-    auto ToUriPath(const std::filesystem::path& path) -> std::string
+    auto ToUriPath           (const std::filesystem::path& path) -> std::string
     {
         const auto& path_str = path.u8string();
 
