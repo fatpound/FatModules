@@ -139,7 +139,15 @@ export namespace fatpound::dsa::linkedlist
                 temp = temp->prev;
             }
 
+#ifdef _MSC_VER
+#pragma warning (push)
+#pragma warning (disable : 26822)
+#endif
             std::swap<>(temp->prev, temp->next);
+
+#ifdef _MSC_VER
+#pragma warning (pop)
+#endif
 
             m_start_ = temp;
         }
