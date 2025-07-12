@@ -20,43 +20,35 @@ namespace dx = DirectX;
 
 export namespace fatpound::math::geometry
 {
-    template <std::floating_point T>
     class alignas(32) Circle
     {
         static constexpr auto scx_Default_Z_ = 1.0F;
         static constexpr auto scx_Default_W_ = 1.0F;
 
     public:
-        explicit Circle(const dx::XMVECTOR& center, const std::floating_point auto& radius)
+        explicit Circle(const dx::XMVECTOR& center, const std::convertible_to<float> auto& radius)
             :
             m_center_(center),
-            m_radius_(static_cast<T>(radius))
+            m_radius_(static_cast<float>(radius))
         {
 
         }
 
         explicit Circle(
-            const std::convertible_to<T> auto& x,
-            const std::convertible_to<T> auto& y,
-            const std::convertible_to<T> auto& z,
-            const std::convertible_to<T> auto& radius)
+            const std::convertible_to<float> auto& x,
+            const std::convertible_to<float> auto& y,
+            const std::convertible_to<float> auto& z,
+            const std::convertible_to<float> auto& radius)
             :
-            Circle(
-                dx::XMVectorSet(
-                    static_cast<float>(x),
-                    static_cast<float>(y),
-                    static_cast<float>(z),
-                    scx_Default_W_
-                ),
-                radius)
+            Circle(dx::XMVectorSet(x, y, z, scx_Default_W_), radius)
         {
 
         }
 
         explicit Circle(
-            const std::convertible_to<T> auto& x,
-            const std::convertible_to<T> auto& y,
-            const std::convertible_to<T> auto& radius)
+            const std::convertible_to<float> auto& x,
+            const std::convertible_to<float> auto& y,
+            const std::convertible_to<float> auto& radius)
             :
             Circle(x, y, scx_Default_Z_, radius)
         {
@@ -73,75 +65,75 @@ export namespace fatpound::math::geometry
 
 
     public:
-        template <traits::UIntegralOrFloating T> static constexpr auto Area      (const T& radius) -> T
+        template <traits::UIntegralOrFloating T> static constexpr auto Area      (const T& radius) noexcept -> T
         {
             return Square<>(radius) * numbers::Pi<T>;
         }
-        template <traits::UIntegralOrFloating T> static constexpr auto Diameter  (const T& radius) -> T
+        template <traits::UIntegralOrFloating T> static constexpr auto Diameter  (const T& radius) noexcept -> T
         {
             return radius * static_cast<T>(2.0);
         }
-        template <traits::UIntegralOrFloating T> static constexpr auto Perimeter (const T& radius) -> T
+        template <traits::UIntegralOrFloating T> static constexpr auto Perimeter (const T& radius) noexcept -> T
         {
             return Diameter<>(radius) * numbers::Pi<T>;
         }
 
 
     public:
-        auto GetCenter    () const noexcept
+        auto GetCenter    () const noexcept -> dx::XMVECTOR
         {
             return m_center_;
         }
-        auto GetRadius    () const noexcept -> T
+        auto GetRadius    () const noexcept -> float
         {
             return m_radius_;
         }
-        auto GetArea      () const noexcept
+        auto GetArea      () const noexcept -> float
         {
             return Area<>(GetRadius());
         }
-        auto GetDiameter  () const noexcept
+        auto GetDiameter  () const noexcept -> float
         {
             return Diameter<>(GetRadius());
         }
-        auto GetPerimeter () const noexcept
+        auto GetPerimeter () const noexcept -> float
         {
             return Perimeter<>(GetRadius());
         }
 
-        auto IsInsideOf              (const Circle& other) const noexcept -> bool
+        auto Distance_CenterToCenter (const Circle& other) const noexcept -> float
         {
-            return Distance_CenterToCenter(other) + GetRadius() <= other.GetRadius();
+            return Distance4(GetCenter(), other.GetCenter());
         }
-        auto Contains                (const Circle& other) const noexcept -> bool
-        {
-            return Distance_CenterToCenter(other) + other.GetRadius() <= GetRadius();
-        }
-
-        auto Distance_CenterToCenter (const Circle& other) noexcept
-        {
-            return Distance<>(GetCenter(), other.GetCenter());
-        }
-        auto Distance_CenterToEdge   (const Circle& other) noexcept
+        auto Distance_CenterToEdge   (const Circle& other) const noexcept -> float
         {
             return Distance_CenterToCenter(other) - other.GetRadius();
         }
-        auto Distance_EdgeToEdge     (const Circle& other) noexcept
+        auto Distance_EdgeToEdge     (const Circle& other) const noexcept -> float
         {
             return Distance_CenterToEdge(other) - GetRadius();
         }
-        auto Distance_EdgeToCenter   (const Circle& other) noexcept
+        auto Distance_EdgeToCenter   (const Circle& other) const noexcept -> float
         {
             return Distance_CenterToCenter(other) - GetRadius();
         }
 
-        auto ArcLengthRad (const T& rad) const
+        auto ArcLengthRad (const float& rad) const noexcept -> float
         {
             return GetRadius() * rad;
         }
-        auto ArcLengthDeg (const T& deg) const
+        auto ArcLengthDeg (const float& deg) const noexcept -> float
         {
             return ArcLengthRad(DegToRad<>(deg));
+        }
+
+        auto IsInsideOf   (const Circle& other) const noexcept -> bool
+        {
+            return Distance_CenterToCenter(other) + GetRadius() <= other.GetRadius();
+        }
+        auto Contains     (const Circle& other) const noexcept -> bool
+        {
+            return Distance_CenterToCenter(other) + other.GetRadius() <= GetRadius();
         }
 
         void TranslateBy  (const dx::XMVECTOR& v) noexcept
@@ -155,12 +147,8 @@ export namespace fatpound::math::geometry
 
     private:
         dx::XMVECTOR   m_center_;
-        T              m_radius_;
+        float          m_radius_;
     };
-
-    using CircleLD = Circle<long double>;
-    using CircleD  = Circle<double>;
-    using CircleF  = Circle<float>;
 }
 
 #endif

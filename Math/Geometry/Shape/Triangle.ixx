@@ -28,10 +28,10 @@ export namespace fatpound::math::geometry
         auto operator = (const Triangle&)     -> Triangle& = default;
         auto operator = (Triangle&&) noexcept -> Triangle& = default;
         ~Triangle() noexcept                               = default;
-
+            
 
     public:
-        template <traits::UIntegralOrFloating T> static constexpr auto IsInequal         (const T& a, const T& b, const T& c) noexcept -> bool
+        template <traits::UIntegralOrFloating T> static constexpr auto IsValid           (const T& a, const T& b, const T& c) noexcept -> bool
         {
             return     ((std::abs(b - c) < a) and (a < (b + c)))
                    and ((std::abs(a - c) < b) and (b < (a + c)))
@@ -52,6 +52,7 @@ export namespace fatpound::math::geometry
         {
             return (base * height) / 2.0;
         }
+
 
     protected:
 
