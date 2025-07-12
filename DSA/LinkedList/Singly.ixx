@@ -196,7 +196,7 @@ export namespace fatpound::dsa::linkedlist
         {
             m_os_ = &os;
         }
-        void ClearList()
+        void ClearList() noexcept
         {
             if (IsEmpty())
             {
