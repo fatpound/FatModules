@@ -115,6 +115,8 @@
     <ClCompile Include="Win32_\D3D11\Pipeline\Resource\Texture2D.ixx" />
     <ClCompile Include="Win32_\D3D11\Pipeline\Resource\TransformCBuffer.ixx" />
     <ClCompile Include="Win32_\D3D11\Pipeline\Resource\VertexCBuffer.ixx" />
+    <ClCompile Include="Win32_\DXGI\Common.ixx" />
+    <ClCompile Include="Win32_\DXGI\DXGI.ixx" />
     <ClCompile Include="Win32_\GDI_Plus\GDI_Plus.ixx" />
     <ClCompile Include="Win32_\GDI_Plus\Manager.ixx" />
     <ClCompile Include="Win32_\IWindow.ixx" />

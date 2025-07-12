@@ -318,6 +318,12 @@
     <ClCompile Include="Math\Geometry\Shape\Triangle.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Win32_\DXGI\DXGI.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32_\DXGI\Common.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32_\WinAPI.hpp">

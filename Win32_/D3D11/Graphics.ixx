@@ -20,6 +20,7 @@ import FatPound.Utility.Color;
 import FatPound.Utility.Surface;
 import FatPound.Utility.Gfx;
 import FatPound.Win32.D3D11.Pipeline;
+import FatPound.Win32.DXGI.Common;
 import FatPound.Win32.WRL.Common;
 
 import std;
@@ -459,7 +460,7 @@ export namespace fatpound::win32::d3d11
                 .Flags        = 0U
             };
 
-            if (FAILED(FATSPACE_UTILITY_GFX::GetDXGIFactory(GetDevice())->CreateSwapChain(
+            if (FAILED(dxgi::GetFactoryFromDevice(GetDevice())->CreateSwapChain(
                 GetDevice(),
                 &scDesc,
                 m_res_pack_.m_pSwapChain.GetAddressOf())))
@@ -580,7 +581,7 @@ export namespace fatpound::win32::d3d11
 
         void ToggleAltEnterMode_()
         {
-            FATSPACE_UTILITY_GFX::ToggleDXGI_AltEnterMode(GetDevice(), GetHwnd(), m_dxgi_mode_);
+            dxgi::ToggleAltEnterMode(GetDevice(), GetHwnd(), m_dxgi_mode_);
         }
 
 
