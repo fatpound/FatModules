@@ -42,24 +42,24 @@ export namespace fatpound::math::geometry
         return dx::XMVectorScale(v, 1.0F / scale);
     }
     
-    auto CompareDistance2 (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept
+    auto CompareDistance2 (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept -> float
     {
         return dx::XMVectorGetX(dx::XMVector2LengthSq(p0)) > dx::XMVectorGetX(dx::XMVector2LengthSq(p1));
     }
-    auto CompareDistance  (const dx::XMFLOAT2& p0, const dx::XMFLOAT2& p1) noexcept
+    auto CompareDistance  (const dx::XMFLOAT2& p0, const dx::XMFLOAT2& p1) noexcept -> float
     {
         return CompareDistance2(dx::XMLoadFloat2(&p0), dx::XMLoadFloat2(&p1));
     }
 
-    auto DistanceVector2  (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept
+    auto DistanceVector2  (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept -> dx::XMVECTOR
     {
         return dx::XMVector2Length(p1 - p0);
     }
-    auto DistanceVector3  (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept
+    auto DistanceVector3  (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept -> dx::XMVECTOR
     {
         return dx::XMVector3Length(p1 - p0);
     }
-    auto DistanceVector4  (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept
+    auto DistanceVector4  (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept -> dx::XMVECTOR
     {
         return dx::XMVector4Length(p1 - p0);
     }
