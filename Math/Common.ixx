@@ -47,8 +47,7 @@ export namespace fatpound::math
     }
 
     template <std::unsigned_integral T>
-    FATLIB_CMATH_CONSTEXPR26
-    auto DigitCount_Fast(const T& num) noexcept -> T
+    CX_MATH26 auto DigitCount_Fast(const T& num) noexcept -> T
     {
         return std::log10(num) + static_cast<T>(1);
     }

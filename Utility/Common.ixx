@@ -39,8 +39,7 @@ export namespace fatpound::utility
     /// @return The smallest angle (in degrees) between the hour and minute hands, as a value of type FP
     /// 
     template <std::floating_point FP = double, std::integral T>
-    CX_MATH23
-    auto ClockHandsAngle(T hours, T minutes) noexcept -> FP
+    CX_MATH23 auto ClockHandsAngle(T hours, T minutes) noexcept -> FP
     {
         if constexpr (std::signed_integral<T>)
         {
