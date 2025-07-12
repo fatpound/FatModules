@@ -84,7 +84,6 @@ export namespace fatpound::io
         {
             return m_auto_repeat_enabled_;
         }
-
         [[nodiscard]] auto KeyBufferIsEmpty()  const noexcept -> bool
         {
             const std::lock_guard<std::mutex> guard{ m_mtx_ };
