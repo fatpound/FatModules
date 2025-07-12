@@ -12,14 +12,13 @@ export module FatPound.Utility.Gfx.ResourcePack;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
-import <d3d11.h>;
-
 import FatPound.Utility.Gfx.SizePack;
 import FatPound.Utility.Surface;
 import FatPound.Win32.D3D11.Pipeline.RenderTarget;
 import FatPound.Win32.D3D11.Pipeline.DepthStencil;
 
 #ifndef __INTELLISENSE__
+    import <d3d11.h>;
     import FatPound.Win32.WRL.Common;
 #else
     namespace wrl = Microsoft::WRL;
@@ -47,7 +46,7 @@ export namespace fatpound::utility::gfx
     struct FrameworkResourcePack final : public ResourcePack
     {
         win32::d3d11::pipeline::Texture2D      m_sysbufferTex2d;
-        D3D11_MAPPED_SUBRESOURCE               m_mappedSysbufferTex2d;
+        D3D11_MAPPED_SUBRESOURCE               m_mappedSysbufferTex2d{};
         Surface                                m_surface;
 
         explicit FrameworkResourcePack(const SizePack& dimensions)
