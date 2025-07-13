@@ -15,7 +15,7 @@ export namespace fatpound::win32::com
     class Manager final
     {
     public:
-        explicit Manager(const DWORD initFlags = COINIT_APARTMENTTHREADED bitor COINIT_DISABLE_OLE1DDE)
+        explicit Manager(const DWORD& initFlags = COINIT_APARTMENTTHREADED bitor COINIT_DISABLE_OLE1DDE)
         {
             if (FAILED(::CoInitializeEx(nullptr, initFlags)))
             {
