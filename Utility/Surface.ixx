@@ -7,17 +7,16 @@ module;
 
 export module FatPound.Utility.Surface;
 
-import <Win32_/WinAPI.hxx>;
+#ifdef FATLIB_BUILDING_WITH_MSVC
+    import <Win32_/WinAPI.hxx>;
+    import FatPound.Win32.GDI_Plus.Manager;
+#endif
 
 import FatPound.Memory;
 import FatPound.Traits.Bitwise;
 import FatPound.Utility.Color;
 import FatPound.Utility.Common;
 import FatPound.Utility.Gfx.SizePack;
-
-#ifdef FATLIB_BUILDING_WITH_MSVC
-    import FatPound.Win32.GDI_Plus.Manager;
-#endif
 
 import std;
 
