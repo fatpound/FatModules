@@ -5,9 +5,7 @@ module;
 export module FatPound.Utility.Common;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
-
-import <Win32_/WinAPI.hxx>;
-
+    import <Win32_/WinAPI.hxx>;
 #endif
 
 import FatPound.Traits.Bitwise;

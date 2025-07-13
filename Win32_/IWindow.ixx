@@ -5,7 +5,6 @@ export module FatPound.Win32.IWindow;
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
 import <Win32_/WinAPI.hxx>;
-
 import std;
 
 export namespace fatpound::win32
@@ -41,6 +40,8 @@ export namespace fatpound::win32
     private:
     };
     
+
+
     /// @brief Manages the registration and unregistration of a window class (WNDCLASSEX) in the Windows API, while providing custom WndProc setup functions
     ///
     class IWindow::ClassEx
