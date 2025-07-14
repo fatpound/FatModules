@@ -12,6 +12,8 @@ Checks: '
   -altera-unroll-loops,
   -altera-id-dependent-backward-branch,
 
+  -boost-use-ranges,
+
   -bugprone-easily-swappable-parameters,
 
   -cppcoreguidelines-avoid-do-while,
