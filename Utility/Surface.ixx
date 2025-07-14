@@ -86,7 +86,7 @@ export namespace fatpound::utility
 #endif
         explicit Surface(const gfx::SizePack& dimensions,           const Size_t& alignBytes = scx_DefaultAlignment)
             :
-            m_pBuffer_(memory::MakeAlignedUniquePtr<ColorArr_t>(alignBytes, static_cast<std::size_t>(dimensions.m_width * dimensions.m_height))),
+            m_pBuffer_(memory::MakeAlignedUniquePtr<ColorArr_t>(alignBytes, dimensions.m_width * dimensions.m_height)),
             m_size_pack_(dimensions),
             m_align_byte_(alignBytes),
             m_pixel_pitch_(CalculatePixelPitch(GetWidth<>(), GetAlignment<>()))

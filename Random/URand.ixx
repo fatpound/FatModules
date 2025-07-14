@@ -14,7 +14,7 @@ export namespace fatpound::random
     class URand final
     {
     public:
-        URand(const std::size_t& count)
+        explicit URand(const std::size_t& count)
             :
             m_vec_((assert(count > 0), count)),
             m_rng_(std::random_device{}()),

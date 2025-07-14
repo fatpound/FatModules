@@ -84,11 +84,7 @@ export namespace fatpound::file
 
         for (const auto& ch : path_str)
         {
-            if (std::isalnum(ch) or (ch == '-') or (ch == '_') or (ch == '.') or (ch == '~'))
-            {
-                uri.push_back(static_cast<char>(ch));
-            }
-            else if ((ch == '/') or (ch == ':'))
+            if (static_cast<bool>(std::isalnum(ch)) or (ch == '-') or (ch == '_') or (ch == '.') or (ch == '~') or (ch == '/') or (ch == ':'))
             {
                 uri.push_back(static_cast<char>(ch));
             }
@@ -399,7 +395,7 @@ export namespace fatpound::file
         }
 
         {
-            char first_byte;
+            char first_byte{};
 
             if (file.get(first_byte))
             {
