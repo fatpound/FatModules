@@ -3,7 +3,7 @@
 `General Algorithms & Utilities`
 --------------------------------
 This is my personal library written in C++23 `(ISO/IEC 14882:2024)` with support for modules, to be used with latest versions of Clang and MSVC compilers.
-It support C++20 by default but I used std module everywhere so it must be built with C++23. Also see: microsoft/STL issue #3945.
+It supports C++20 by default but I used std module everywhere so it must be built with C++23. Also see: microsoft/STL issue #3945.
 
 `Using The Library`
 -------------------
