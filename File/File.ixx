@@ -131,12 +131,14 @@ export namespace fatpound::file
 
         const auto& count = static_cast<std::size_t>(std::count_if<>(std::istreambuf_iterator<char>{ file }, {}, [character](const auto& ch) noexcept -> bool { return ch == character; }));
 
-        if (ForNewline)
+        if constexpr (ForNewline)
         {
             return count + static_cast<std::size_t>(std::filesystem::file_size(path) not_eq 0);
         }
-
-        return count;
+        else
+        {
+            return count;
+        }
     }
 
 
