@@ -4,21 +4,22 @@ module;
     #include <DirectXMath.h>
 #endif
 
-export module FatPound.Math.Geometry.Circle;
+export module FatPound.Geometry.Shape.Circle;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
+import FatPound.Geometry.AngularConv;
+import FatPound.Geometry.Common;
+
 import FatPound.Math.Multiplicative;
 import FatPound.Math.Numbers.Common;
-import FatPound.Math.Geometry.Common;
-import FatPound.Math.Geometry.AngularConv;
 import FatPound.Traits.Bitwise;
 
 import std;
 
 namespace dx = DirectX;
 
-export namespace fatpound::math::geometry
+export namespace fatpound::geometry::shape
 {
     class alignas(32) Circle
     {
@@ -67,7 +68,7 @@ export namespace fatpound::math::geometry
     public:
         template <traits::UIntegralOrFloating T> static constexpr auto Area      (const T& radius) noexcept -> T
         {
-            return Square<>(radius) * numbers::Pi<T>;
+            return math::Square<>(radius) * math::numbers::Pi<T>;
         }
         template <traits::UIntegralOrFloating T> static constexpr auto Diameter  (const T& radius) noexcept -> T
         {
@@ -75,7 +76,7 @@ export namespace fatpound::math::geometry
         }
         template <traits::UIntegralOrFloating T> static constexpr auto Perimeter (const T& radius) noexcept -> T
         {
-            return Diameter<>(radius) * numbers::Pi<T>;
+            return Diameter<>(radius) * math::numbers::Pi<T>;
         }
 
 

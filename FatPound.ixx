@@ -33,6 +33,8 @@ export import FatPound.Concurrency;
 export import FatPound.Cryptography;
 export import FatPound.DSA;
 export import FatPound.File;
+export import FatPound.Geometry;
+export import FatPound.Graph;
 export import FatPound.IO;
 export import FatPound.Math;
 export import FatPound.Memory;

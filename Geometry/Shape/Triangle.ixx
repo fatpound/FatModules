@@ -6,7 +6,7 @@ module;
     #include <DirectXMath.h>
 #endif
 
-export module FatPound.Math.Geometry.Triangle;
+export module FatPound.Geometry.Shape.Triangle;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
@@ -16,7 +16,7 @@ import std;
 
 namespace dx = DirectX;
 
-export namespace fatpound::math::geometry
+export namespace fatpound::geometry::shape
 {
     class alignas(32) Triangle
     {

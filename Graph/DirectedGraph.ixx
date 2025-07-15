@@ -1,10 +1,10 @@
 module;
 
-export module FatPound.DSA.DirectedGraph;
+export module FatPound.Graph.DirectedGraph;
 
 import std;
 
-export namespace fatpound::dsa
+export namespace fatpound::graph
 {
     class DirectedGraph
     {

@@ -4,13 +4,13 @@ module;
     #include <DirectXMath.h>
 #endif
 
-export module FatPound.Math.Geometry.Common;
+export module FatPound.Geometry.Common;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
 namespace dx = DirectX;
 
-export namespace fatpound::math::geometry
+export namespace fatpound::geometry
 {
     auto operator +       (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept -> dx::XMVECTOR
     {
@@ -55,14 +55,6 @@ export namespace fatpound::math::geometry
         return dx::XMVector4Length(p1 - p0);
     }
 
-    auto CompareDistance2 (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept -> float
-    {
-        return dx::XMVectorGetX(dx::XMVector2LengthSq(p0)) > dx::XMVectorGetX(dx::XMVector2LengthSq(p1));
-    }
-    auto CompareDistance  (const dx::XMFLOAT2& p0, const dx::XMFLOAT2& p1) noexcept -> float
-    {
-        return CompareDistance2(dx::XMLoadFloat2(&p0), dx::XMLoadFloat2(&p1));
-    }
     auto Distance2        (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept -> float
     {
         return dx::XMVectorGetX(DistanceVector2(p0, p1));
@@ -86,6 +78,15 @@ export namespace fatpound::math::geometry
     auto Distance         (const dx::XMFLOAT4& p0, const dx::XMFLOAT4& p1) noexcept -> float
     {
         return Distance4(dx::XMLoadFloat4(&p0), dx::XMLoadFloat4(&p1));
+    }
+
+    auto CompareDistance2 (const dx::XMVECTOR& p0, const dx::XMVECTOR& p1) noexcept -> bool
+    {
+        return dx::XMVectorGetX(dx::XMVector2LengthSq(p0)) > dx::XMVectorGetX(dx::XMVector2LengthSq(p1));
+    }
+    auto CompareDistance  (const dx::XMFLOAT2& p0, const dx::XMFLOAT2& p1) noexcept -> bool
+    {
+        return CompareDistance2(dx::XMLoadFloat2(&p0), dx::XMLoadFloat2(&p1));
     }
 }
 

@@ -23,9 +23,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Algorithm\Algorithm.ixx" />
-    <ClCompile Include="Algorithm\Graph\BFS.ixx" />
-    <ClCompile Include="Algorithm\Graph\DFS.ixx" />
-    <ClCompile Include="Algorithm\Graph\Graph.ixx" />
+    <ClCompile Include="Geometry\Shape\Shape.ixx" />
+    <ClCompile Include="Graph\BFS.ixx" />
+    <ClCompile Include="Graph\DFS.ixx" />
+    <ClCompile Include="Graph\Graph.ixx" />
     <ClCompile Include="Algorithm\Searching.ixx" />
     <ClCompile Include="Algorithm\Sorting.ixx" />
     <ClCompile Include="Automata\Automata.ixx" />
@@ -37,7 +38,7 @@
     <ClCompile Include="Concurrency\TaskQueue.ixx" />
     <ClCompile Include="Cryptography\Cryptography.ixx" />
     <ClCompile Include="Cryptography\XorCipher.ixx" />
-    <ClCompile Include="DSA\DirectedGraph.ixx" />
+    <ClCompile Include="Graph\DirectedGraph.ixx" />
     <ClCompile Include="DSA\DSA.ixx" />
     <ClCompile Include="DSA\LinkedList\Doubly.ixx" />
     <ClCompile Include="DSA\LinkedList\DoublyCircular.ixx" />
@@ -56,11 +57,11 @@
     <ClCompile Include="IO\Keyboard.ixx" />
     <ClCompile Include="IO\Mouse.ixx" />
     <ClCompile Include="Math\Common.ixx" />
-    <ClCompile Include="Math\Geometry\AngularConv.ixx" />
-    <ClCompile Include="Math\Geometry\Common.ixx" />
-    <ClCompile Include="Math\Geometry\Geometry.ixx" />
-    <ClCompile Include="Math\Geometry\Shape\Circle.ixx" />
-    <ClCompile Include="Math\Geometry\Shape\Triangle.ixx" />
+    <ClCompile Include="Geometry\AngularConv.ixx" />
+    <ClCompile Include="Geometry\Common.ixx" />
+    <ClCompile Include="Geometry\Geometry.ixx" />
+    <ClCompile Include="Geometry\Shape\Circle.ixx" />
+    <ClCompile Include="Geometry\Shape\Triangle.ixx" />
     <ClCompile Include="Math\Math.ixx" />
     <ClCompile Include="Math\Multiplicative.ixx" />
     <ClCompile Include="Math\Numbers\Common.ixx" />

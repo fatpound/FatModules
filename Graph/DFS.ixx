@@ -1,13 +1,13 @@
 module;
 
-export module FatPound.Algorithm.Graph.DFS;
+export module FatPound.Graph.DFS;
 
-import FatPound.DSA.DirectedGraph;
+import FatPound.Graph.DirectedGraph;
 import FatPound.Utility.Color;
 
 import std;
 
-namespace fatpound::algorithm
+namespace fatpound::graph
 {
     /// @brief Performs a depth-first search (DFS) visit on a directed graph starting from a given node index, marking node colors and returning a string representation of the traversal order
     /// 
@@ -17,7 +17,7 @@ namespace fatpound::algorithm
     /// 
     /// @return A string containing the traversal order of visited node indices, each followed by a newline
     /// 
-    auto DFS_Visit_(const dsa::DirectedGraph& graph, std::vector<utility::Color>& colors, const std::size_t& index) -> std::string
+    auto DFS_Visit_(const DirectedGraph& graph, std::vector<utility::Color>& colors, const std::size_t& index) -> std::string
     {
         colors[index] = colors::Gray;
 
@@ -44,7 +44,7 @@ namespace fatpound::algorithm
     }
 }
 
-export namespace fatpound::algorithm
+export namespace fatpound::graph
 {
     /// @brief Performs a depth-first search (DFS) traversal on a directed graph and returns the traversal order as a string
     /// 
@@ -52,7 +52,7 @@ export namespace fatpound::algorithm
     /// 
     /// @return A string representing the order in which the nodes are visited during the DFS traversal
     /// 
-    auto DFS(const dsa::DirectedGraph& graph) -> std::string
+    auto DFS(const DirectedGraph& graph) -> std::string
     {
         std::string output;
 

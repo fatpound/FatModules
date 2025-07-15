@@ -213,10 +213,10 @@
     <ClCompile Include="Utility\Common.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Geometry\AngularConv.ixx">
+    <ClCompile Include="Geometry\AngularConv.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Geometry\Geometry.ixx">
+    <ClCompile Include="Geometry\Geometry.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Math\Numbers\Sets.ixx">
@@ -264,7 +264,7 @@
     <ClCompile Include="Cryptography\XorCipher.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Geometry\Common.ixx">
+    <ClCompile Include="Geometry\Common.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\WRL\WRL.ixx">
@@ -279,22 +279,22 @@
     <ClCompile Include="Algorithm\Sorting.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Algorithm\Graph\Graph.ixx">
+    <ClCompile Include="Graph\Graph.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Algorithm\Graph\DFS.ixx">
+    <ClCompile Include="Graph\DFS.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DSA\DirectedGraph.ixx">
+    <ClCompile Include="Graph\DirectedGraph.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Algorithm\Graph\BFS.ixx">
+    <ClCompile Include="Graph\BFS.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Algorithm\Searching.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Geometry\Shape\Circle.ixx">
+    <ClCompile Include="Geometry\Shape\Circle.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Traits\Modification.ixx">
@@ -315,13 +315,16 @@
     <ClCompile Include="Win32_\D3D11\Pipeline\Resource\ShaderResource.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Geometry\Shape\Triangle.ixx">
+    <ClCompile Include="Geometry\Shape\Triangle.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\DXGI\DXGI.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\DXGI\Common.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry\Shape\Shape.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
