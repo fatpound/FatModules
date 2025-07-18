@@ -48,68 +48,6 @@ namespace fatpound::file
 
 export namespace fatpound::file
 {
-    /// @brief Returns the name and extension of a regular file from a given filesystem path
-    /// 
-    /// @param path: The filesystem path to the file
-    /// 
-    /// @return A pair containing the file name (without extension) and the file extension as strings
-    /// 
-    auto NameAndExtension    (const std::filesystem::path& path) -> std::pair<std::string, std::string>
-    {
-        if (not std::filesystem::exists(path))
-        {
-            throw std::runtime_error("The given path to the file does NOT exist!");
-        }
-
-        if (not std::filesystem::is_regular_file(path))
-        {
-            throw std::runtime_error("The given path is NOT a regular file!");
-        }
-
-        return
-        {
-            path.stem().string(),
-            path.extension().string()
-        };
-    }
-
-
-
-    auto ToUriPath           (const std::filesystem::path& path) -> std::string
-    {
-        const auto& path_str = path.u8string();
-
-        std::string uri;
-        uri.reserve(path_str.length());
-
-        for (const auto& ch : path_str)
-        {
-            if (static_cast<bool>(std::isalnum(ch)) or (ch == '-') or (ch == '_') or (ch == '.') or (ch == '~') or (ch == '/') or (ch == ':'))
-            {
-                uri.push_back(static_cast<char>(ch));
-            }
-            else if (ch == '\\')
-            {
-                uri.push_back('/');
-            }
-            else
-            {
-#ifdef _MSC_VER
-#pragma warning (push)
-#pragma warning (disable : 4686)
-#endif
-                std::format_to<>(std::back_inserter<>(uri), "%{:02X}", static_cast<std::uint8_t>(ch));
-#ifdef _MSC_VER
-#pragma warning (pop)
-#endif
-            }
-        }
-
-        return uri;
-    }
-
-
-    
     /// @brief Counts how many times a specific character appears in a given file. Checks neither whether the path exists nor whether it refers to a regular file
     ///
     /// @tparam ForNewline: Set to true only if this function is specifically used to count newline characters
@@ -285,6 +223,68 @@ export namespace fatpound::file
     auto LineCount_Dir       (const std::filesystem::path& path, const bool& recurse = false, const std::vector<std::string>& extensionFilter = {}) -> std::size_t
     {
         return CharCount_Dir<true>(path, '\n', recurse, extensionFilter);
+    }
+
+
+
+    /// @brief Returns the name and extension of a regular file from a given filesystem path
+    /// 
+    /// @param path: The filesystem path to the file
+    /// 
+    /// @return A pair containing the file name (without extension) and the file extension as strings
+    /// 
+    auto NameAndExtension    (const std::filesystem::path& path) -> std::pair<std::string, std::string>
+    {
+        if (not std::filesystem::exists(path))
+        {
+            throw std::runtime_error("The given path to the file does NOT exist!");
+        }
+
+        if (not std::filesystem::is_regular_file(path))
+        {
+            throw std::runtime_error("The given path is NOT a regular file!");
+        }
+
+        return
+        {
+            path.stem().string(),
+            path.extension().string()
+        };
+    }
+
+
+
+    auto ToUriPath           (const std::filesystem::path& path) -> std::string
+    {
+        const auto& path_str = path.u8string();
+
+        std::string uri;
+        uri.reserve(path_str.length());
+
+        for (const auto& ch : path_str)
+        {
+            if (static_cast<bool>(std::isalnum(ch)) or (ch == '-') or (ch == '_') or (ch == '.') or (ch == '~') or (ch == '/') or (ch == ':'))
+            {
+                uri.push_back(static_cast<char>(ch));
+            }
+            else if (ch == '\\')
+            {
+                uri.push_back('/');
+            }
+            else
+            {
+#ifdef _MSC_VER
+#pragma warning (push)
+#pragma warning (disable : 4686)
+#endif
+                std::format_to<>(std::back_inserter<>(uri), "%{:02X}", static_cast<std::uint8_t>(ch));
+#ifdef _MSC_VER
+#pragma warning (pop)
+#endif
+            }
+        }
+
+        return uri;
     }
 
 
