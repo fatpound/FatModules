@@ -66,17 +66,17 @@ export namespace fatpound::geometry::shape
 
 
     public:
-        template <traits::UIntegralOrFloating T> static constexpr auto Area      (const T& radius) noexcept -> T
+        template <traits::UIntegralOrFloating T> static constexpr auto S_Area      (const T& radius) noexcept -> T
         {
             return math::Square<>(radius) * math::numbers::Pi<T>;
         }
-        template <traits::UIntegralOrFloating T> static constexpr auto Diameter  (const T& radius) noexcept -> T
+        template <traits::UIntegralOrFloating T> static constexpr auto S_Diameter  (const T& radius) noexcept -> T
         {
             return radius * static_cast<T>(2.0);
         }
-        template <traits::UIntegralOrFloating T> static constexpr auto Perimeter (const T& radius) noexcept -> T
+        template <traits::UIntegralOrFloating T> static constexpr auto S_Perimeter (const T& radius) noexcept -> T
         {
-            return Diameter<>(radius) * math::numbers::Pi<T>;
+            return S_Diameter<>(radius) * math::numbers::Pi<T>;
         }
 
 
@@ -91,15 +91,15 @@ export namespace fatpound::geometry::shape
         }
         auto GetArea      () const noexcept -> float
         {
-            return Area<>(GetRadius());
+            return S_Area<>(GetRadius());
         }
         auto GetDiameter  () const noexcept -> float
         {
-            return Diameter<>(GetRadius());
+            return S_Diameter<>(GetRadius());
         }
         auto GetPerimeter () const noexcept -> float
         {
-            return Perimeter<>(GetRadius());
+            return S_Perimeter<>(GetRadius());
         }
 
         auto Distance_CenterToCenter (const Circle& other) const noexcept -> float

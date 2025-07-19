@@ -47,8 +47,8 @@ export namespace fatpound::automata
 
             Alphabet_t alphabet;
 
-            ReadLine1_(inputFile, alphabet);
-            ReadLine2_(inputFile, alphabet, m_grammar_);
+            S_ReadLine1_(inputFile, alphabet);
+            S_ReadLine2_(inputFile, alphabet, m_grammar_);
         }
 
         explicit CFG()               = delete;
@@ -72,7 +72,7 @@ export namespace fatpound::automata
 
 
     private:
-        static auto GenerateLanguageSymbols_(const Symbol_t& symbol, const Alphabet_t& alphabet) -> std::vector<Symbol_t>
+        static auto S_GenerateLanguageSymbols_(const Symbol_t& symbol, const Alphabet_t& alphabet) -> std::vector<Symbol_t>
         {
             std::vector<Symbol_t> symbols;
 
@@ -103,11 +103,11 @@ export namespace fatpound::automata
             return symbols;
         }
 
-        static auto GetLanguageName_  (const std::string& linestr) -> std::string
+        static auto S_GetLanguageName_  (const std::string& linestr) -> std::string
         {
-            return { linestr.cbegin(), linestr.cbegin() + static_cast<std::ptrdiff_t>(GetLanguageCIIdx_(linestr)) };
+            return { linestr.cbegin(), linestr.cbegin() + static_cast<std::ptrdiff_t>(S_GetLanguageCIIdx_(linestr)) };
         }
-        static auto GetLanguageCIIdx_ (const std::string& linestr) -> std::size_t
+        static auto S_GetLanguageCIIdx_ (const std::string& linestr) -> std::size_t
         {
             const auto idx = linestr.find(scx_LanguageContentIndicator_);
 
@@ -119,7 +119,7 @@ export namespace fatpound::automata
             throw std::runtime_error("Cannot find language content indicator in line!");
         }
 
-        static void ReadLine1_(std::ifstream& inputFile,       Alphabet_t& alphabet)
+        static void S_ReadLine1_(std::ifstream& inputFile,       Alphabet_t& alphabet)
         {
             {
                 std::stringstream ss;
@@ -144,7 +144,7 @@ export namespace fatpound::automata
             const auto&   [beg, end] = std::ranges::unique(alphabet);
             alphabet.erase(beg, end);
         }
-        static void ReadLine2_(std::ifstream& inputFile, const Alphabet_t& alphabet, Grammar_t& grammar)
+        static void S_ReadLine2_(std::ifstream& inputFile, const Alphabet_t& alphabet, Grammar_t& grammar)
         {
             std::string str;
 
@@ -156,8 +156,8 @@ export namespace fatpound::automata
                 }
 
                 grammar.emplace_back(
-                    GetLanguageName_(str),
-                    GenerateLanguageSymbols_(str.substr(GetLanguageCIIdx_(str) + std::string_view{ scx_LanguageContentIndicator_ }.size()), alphabet)
+                    S_GetLanguageName_(str),
+                    S_GenerateLanguageSymbols_(str.substr(S_GetLanguageCIIdx_(str) + std::string_view{ scx_LanguageContentIndicator_ }.size()), alphabet)
                 );
             }
         }

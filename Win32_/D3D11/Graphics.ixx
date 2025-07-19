@@ -296,7 +296,7 @@ export namespace fatpound::win32::d3d11
                 binds.push_back(std::make_unique<pipeline::PixelShader>(GetDevice(), PShaderPath));
 
                 {
-                    const auto& vertices = FullScreenQuad::GenerateVertices();
+                    const auto& vertices = FullScreenQuad::S_GenerateVertices();
 
                     const D3D11_BUFFER_DESC bd
                     {

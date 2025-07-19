@@ -65,7 +65,7 @@ export namespace fatpound::win32
         }
         explicit ClassEx(const wchar_t* const clsName = L"#fatpound.Default.IWindow.ClassEx#")
             :
-            ClassEx(CreateDefaultWNDCLASSEX_<>(ModuleHandleOf(nullptr), clsName))
+            ClassEx(S_CreateDefaultWNDCLASSEX_<>(ModuleHandleOf(nullptr), clsName))
         {
 
         }
@@ -94,13 +94,13 @@ export namespace fatpound::win32
 
 
     protected:
-        template <typename Wnd = IWindow> static auto CreateDefaultWNDCLASSEX_(const HINSTANCE& hInst, const wchar_t* const clsName, const UINT& style = CS_OWNDC) noexcept -> WNDCLASSEX
+        template <typename Wnd = IWindow> static auto S_CreateDefaultWNDCLASSEX_(const HINSTANCE& hInst, const wchar_t* const clsName, const UINT& style = CS_OWNDC) noexcept -> WNDCLASSEX
         {
             return
             {
                 .cbSize        = sizeof(WNDCLASSEX),
                 .style         = style,
-                .lpfnWndProc   = &ClassEx::HandleMsgSetup_<Wnd>,
+                .lpfnWndProc   = &ClassEx::S_HandleMsgSetup_<Wnd>,
                 .cbClsExtra    = 0,
                 .cbWndExtra    = 0,
                 .hInstance     = hInst,
@@ -113,7 +113,7 @@ export namespace fatpound::win32
             };
         }
 
-        template <typename Wnd = IWindow> static auto CALLBACK HandleMsgSetup_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT
+        template <typename Wnd = IWindow> static auto CALLBACK S_HandleMsgSetup_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT
         {
             // There is no way to pass a member function pointer for a custom Window class' WndProc to Window Creation.
             // One can only pass a function pointer which is type of => LRESULT(CALLBACK *)(HWND, UINT, WPARAM, LPARAM)
@@ -164,8 +164,8 @@ export namespace fatpound::win32
 #endif
                 // https://learn.microsoft.com/en-us/cpp/error-messages/compiler-warnings/compiler-warnings-c5000-through-c5199?view=msvc-170
                 // 
-                // Then, set the new WndProc function's (HandleMsgThunk_) address
-                ::SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&ClassEx::HandleMsgThunk_<Wnd>));
+                // Then, set the new WndProc function's (S_HandleMsgThunk_) address
+                ::SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&ClassEx::S_HandleMsgThunk_<Wnd>));
 #ifdef _MSC_VER
     #pragma warning (pop)
 #endif
@@ -173,7 +173,7 @@ export namespace fatpound::win32
 
                 // now its time to see the new WndProc in work
                 //
-                return HandleMsgThunk_<Wnd>(hWnd, msg, wParam, lParam);
+                return S_HandleMsgThunk_<Wnd>(hWnd, msg, wParam, lParam);
             }
 
             // If there is a message before WM_NCCREATE OR between it and WM_CREATE (and Microsoft did not document it)
@@ -182,7 +182,7 @@ export namespace fatpound::win32
 
             return ::DefWindowProc(hWnd, msg, wParam, lParam);
         }
-        template <typename Wnd = IWindow> static auto CALLBACK HandleMsgThunk_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT
+        template <typename Wnd = IWindow> static auto CALLBACK S_HandleMsgThunk_(const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT
         {
             // Get 'userdata' which is a pointer to our custom Window class, from the hWnd
             // Then use that pointer and just call the member function
@@ -191,7 +191,7 @@ export namespace fatpound::win32
 
             if constexpr (std::same_as<Wnd, IWindow>)
             {
-                return ForwardMsg_(pWnd, hWnd, msg, wParam, lParam);
+                return S_ForwardMsg_(pWnd, hWnd, msg, wParam, lParam);
             }
             else
             {
@@ -206,7 +206,7 @@ export namespace fatpound::win32
 
 
     private:
-        static auto ForwardMsg_(IWindow* const pWnd, const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT
+        static auto S_ForwardMsg_(IWindow* const pWnd, const HWND hWnd, const UINT msg, const WPARAM wParam, const LPARAM lParam) -> LRESULT
         {
             return pWnd->HandleMsg_(hWnd, msg, wParam, lParam);
         }

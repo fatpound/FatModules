@@ -131,7 +131,7 @@ export namespace fatpound::io
 
             m_event_buffer_.push(Event{ .type = Event::Type::Move, .pos_x = m_pos_x_, .pos_y = m_pos_y_ });
 
-            TrimBuffer_NoGuard_();
+            S_TrimBuffer_NoGuard_();
         }
         void AddMouseEnterEvent()
         {
@@ -141,7 +141,7 @@ export namespace fatpound::io
 
             m_event_buffer_.push(Event{ .type = Event::Type::Enter });
 
-            TrimBuffer_NoGuard_();
+            S_TrimBuffer_NoGuard_();
         }
         void AddMouseLeaveEvent()
         {
@@ -151,7 +151,7 @@ export namespace fatpound::io
 
             m_event_buffer_.push(Event{ .type = Event::Type::Leave });
 
-            TrimBuffer_NoGuard_();
+            S_TrimBuffer_NoGuard_();
         }
 
         void AddLeftPressEvent         ()
@@ -162,7 +162,7 @@ export namespace fatpound::io
 
             m_event_buffer_.push(Event{ .type = Event::Type::LPress, .pos_x = m_pos_x_, .pos_y = m_pos_y_ });
 
-            TrimBuffer_NoGuard_();
+            S_TrimBuffer_NoGuard_();
         }
         void AddLeftReleaseEvent       ()
         {
@@ -172,7 +172,7 @@ export namespace fatpound::io
 
             m_event_buffer_.push(Event{ .type = Event::Type::LRelease });
 
-            TrimBuffer_NoGuard_();
+            S_TrimBuffer_NoGuard_();
         }
         void AddRightPressEvent        ()
         {
@@ -182,7 +182,7 @@ export namespace fatpound::io
 
             m_event_buffer_.push(Event{ .type = Event::Type::RPress });
 
-            TrimBuffer_NoGuard_();
+            S_TrimBuffer_NoGuard_();
         }
         void AddRightReleaseEvent      ()
         {
@@ -192,7 +192,7 @@ export namespace fatpound::io
 
             m_event_buffer_.push(Event{ .type = Event::Type::RRelease });
 
-            TrimBuffer_NoGuard_();
+            S_TrimBuffer_NoGuard_();
         }
         void AddWheelPressEvent        ()
         {
@@ -202,7 +202,7 @@ export namespace fatpound::io
 
             m_event_buffer_.push(Event{ .type = Event::Type::WheelPress });
 
-            TrimBuffer_NoGuard_();
+            S_TrimBuffer_NoGuard_();
         }
         void AddWheelReleaseEvent      ()
         {
@@ -212,19 +212,19 @@ export namespace fatpound::io
 
             m_event_buffer_.push(Event{ .type = Event::Type::WheelRelease });
 
-            TrimBuffer_NoGuard_();
+            S_TrimBuffer_NoGuard_();
         }
         void AddWheelUpEvent_NoGuard   ()
         {
             m_event_buffer_.push(Event{ .type = Event::Type::WheelUp });
 
-            TrimBuffer_NoGuard_();
+            S_TrimBuffer_NoGuard_();
         }
         void AddWheelDownEvent_NoGuard ()
         {
             m_event_buffer_.push(Event{ .type = Event::Type::WheelDown });
 
-            TrimBuffer_NoGuard_();
+            S_TrimBuffer_NoGuard_();
         }
         void AddWheelUpEvent           ()
         {
@@ -269,7 +269,7 @@ export namespace fatpound::io
 
 
     private:
-        void TrimBuffer_NoGuard_() noexcept
+        void S_TrimBuffer_NoGuard_() noexcept
         {
             while (m_event_buffer_.size() > scx_bufferSize_)
             {

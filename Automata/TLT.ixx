@@ -121,7 +121,7 @@ export namespace fatpound::automata
 
 
     private:
-        static auto IsTerminal_(const std::string& word) noexcept -> bool
+        static auto S_IsTerminal_(const std::string& word) noexcept -> bool
         {
             return std::ranges::all_of(word, [](const auto& ch) noexcept -> bool { return std::islower(ch) not_eq 0; });
         }
@@ -134,7 +134,7 @@ export namespace fatpound::automata
 
             for (auto& leaf : node->m_leaves)
             {
-                if (IsTerminal_(leaf->m_item))
+                if (S_IsTerminal_(leaf->m_item))
                 {
                     m_results_.push_back(leaf->m_item);
 
@@ -196,7 +196,7 @@ export namespace fatpound::automata
 
                         node->m_leaves.push_back(newnode);
 
-                        if (recursed or (not IsTerminal_(newstr)))
+                        if (recursed or (not S_IsTerminal_(newstr)))
                         {
                             CreateInnerTree_(newnode);
                         }

@@ -120,7 +120,7 @@ export namespace fatpound::io
 
             m_key_event_queue_.push(KeyEvent{ .type = KeyEvent::Type::Press, .code = keycode });
 
-            TrimBuffer_NoGuard_(m_key_event_queue_);
+            S_TrimBuffer_NoGuard_(m_key_event_queue_);
         }
         void AddKeyReleaseEvent(unsigned char keycode)
         {
@@ -130,7 +130,7 @@ export namespace fatpound::io
 
             m_key_event_queue_.push(KeyEvent{ .type = KeyEvent::Type::Release, .code = keycode });
 
-            TrimBuffer_NoGuard_(m_key_event_queue_);
+            S_TrimBuffer_NoGuard_(m_key_event_queue_);
         }
         void AddChar(unsigned char ch)
         {
@@ -138,7 +138,7 @@ export namespace fatpound::io
 
             m_char_buffer_.push(ch);
 
-            TrimBuffer_NoGuard_(m_char_buffer_);
+            S_TrimBuffer_NoGuard_(m_char_buffer_);
         }
 
 
@@ -147,7 +147,7 @@ export namespace fatpound::io
 
     private:
         template <typename U>
-        static void TrimBuffer_NoGuard_(std::queue<U>& buffer) noexcept
+        static void S_TrimBuffer_NoGuard_(std::queue<U>& buffer) noexcept
         {
             while (buffer.size() > scx_bufferSize_)
             {
