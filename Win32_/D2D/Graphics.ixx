@@ -176,4 +176,4 @@ export namespace fatpound::win32::d2d
 
 #endif
 
-module : private;
+// module : private;

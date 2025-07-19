@@ -16,4 +16,4 @@ export namespace fatpound::traits
     concept Array = std::is_array_v<T>; // or BoundedArray<T> or UnboundedArray<T>
 }
 
-module : private;
+// module : private;

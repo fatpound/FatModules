@@ -61,4 +61,4 @@ export namespace fatpound::win32::gdi_plus
 
 #endif
 
-module : private;
+// module : private;

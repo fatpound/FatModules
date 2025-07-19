@@ -14,4 +14,4 @@ export import FatPound.Win32.Common;
 export import FatPound.Win32.IWindow;
 export import FatPound.Win32.WindowEx;
 
-module : private;
+// module : private;

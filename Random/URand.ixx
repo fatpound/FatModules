@@ -71,4 +71,4 @@ export namespace fatpound::random
     using UniqueRand = URand;
 }
 
-module : private;
+// module : private;

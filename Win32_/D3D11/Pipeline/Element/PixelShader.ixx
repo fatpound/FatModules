@@ -88,4 +88,4 @@ export namespace fatpound::win32::d3d11::pipeline
 
 #endif
 
-module : private;
+// module : private;

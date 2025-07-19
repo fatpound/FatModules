@@ -68,4 +68,4 @@ export namespace fatpound::utility::gfx
 
 #endif
 
-module : private;
+// module : private;

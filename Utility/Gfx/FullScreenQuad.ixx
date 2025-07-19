@@ -33,4 +33,4 @@ export namespace fatpound::utility::gfx
     };
 }
 
-module : private;
+// module : private;

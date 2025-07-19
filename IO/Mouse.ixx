@@ -297,4 +297,4 @@ export namespace fatpound::io
     using MouseEvent = Mouse::Event;
 }
 
-module : private;
+// module : private;

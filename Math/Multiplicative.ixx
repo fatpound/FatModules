@@ -88,4 +88,4 @@ export namespace fatpound::math
     }
 }
 
-module : private;
+// module : private;

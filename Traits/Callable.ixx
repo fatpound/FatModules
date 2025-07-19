@@ -660,7 +660,7 @@ struct FATLIB_EBCO FunctionInfo< MEM_FUNCPTR_TYPE_VARIADIC(PQUAL) __VA_ARGS__ >
     concept Callable = Function<T> or Functor_NonTemplated<T>;
 }
 
-module : private;
+// module : private;
 
 #ifdef IN_DEBUG
 

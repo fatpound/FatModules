@@ -16,4 +16,4 @@ export namespace wrl = fatpound::win32::wrl;
 
 #endif
 
-module : private;
+// module : private;

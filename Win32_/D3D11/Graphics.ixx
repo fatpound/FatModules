@@ -601,4 +601,4 @@ export namespace fatpound::win32::d3d11
 
 #endif
 
-module : private;
+// module : private;

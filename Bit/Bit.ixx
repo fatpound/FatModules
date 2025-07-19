@@ -70,7 +70,7 @@ export namespace fatpound::bit
     }
 }
 
-module : private;
+// module : private;
 
 namespace fatpound::bit
 {

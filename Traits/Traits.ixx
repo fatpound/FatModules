@@ -9,4 +9,4 @@ export import FatPound.Traits.Formation;
 export import FatPound.Traits.Indirection;
 export import FatPound.Traits.Modification;
 
-module : private;
+// module : private;

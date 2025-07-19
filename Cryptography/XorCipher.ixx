@@ -35,4 +35,4 @@ export namespace fatpound::cryptography
     }
 }
 
-module : private;
+// module : private;

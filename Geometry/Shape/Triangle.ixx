@@ -66,4 +66,4 @@ export namespace fatpound::geometry::shape
 
 #endif
 
-module : private;
+// module : private;

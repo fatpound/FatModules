@@ -239,7 +239,7 @@ export namespace fatpound::traits
     constexpr auto MaxItem_v = MaxItem<Holder>::value;
 }
 
-module : private;
+// module : private;
 
 #ifdef IN_DEBUG
 

@@ -33,7 +33,7 @@ export namespace fatpound::traits
     concept Reference = std::is_reference_v<T>; // LValueReference<T> or RValueReference<T>
 }
 
-module : private;
+// module : private;
 
 #ifdef IN_DEBUG
 

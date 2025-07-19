@@ -32,4 +32,4 @@ export namespace fatpound::geometry
     }
 }
 
-module : private;
+// module : private;

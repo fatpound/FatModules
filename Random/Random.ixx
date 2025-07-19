@@ -308,4 +308,4 @@ export namespace fatpound::random
     }
 }
 
-module : private;
+// module : private;

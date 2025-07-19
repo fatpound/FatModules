@@ -26,4 +26,4 @@ export import FatPound.Win32.D3D11.Pipeline.Texture2D;
 export import FatPound.Win32.D3D11.Pipeline.TransformCBuffer;
 export import FatPound.Win32.D3D11.Pipeline.VertexCBuffer;
 
-module : private;
+// module : private;

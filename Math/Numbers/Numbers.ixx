@@ -54,4 +54,4 @@ export namespace fatpound::math::numbers
     }
 }
 
-module : private;
+// module : private;

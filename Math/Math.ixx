@@ -6,4 +6,4 @@ export import FatPound.Math.Common;
 export import FatPound.Math.Multiplicative;
 export import FatPound.Math.Numbers;
 
-module : private;
+// module : private;

@@ -55,4 +55,4 @@ export namespace fatpound::win32::dxgi
 
 #endif
 
-module : private;
+// module : private;

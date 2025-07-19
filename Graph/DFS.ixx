@@ -70,4 +70,4 @@ export namespace fatpound::graph
     }
 }
 
-module : private;
+// module : private;

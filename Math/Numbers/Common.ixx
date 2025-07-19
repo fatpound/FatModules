@@ -14,4 +14,4 @@ export namespace fatpound::math::numbers
     template <std::floating_point T = float> constexpr auto invTwoPi = invPi<T> / static_cast<T>(2.0);
 }
 
-module : private;
+// module : private;

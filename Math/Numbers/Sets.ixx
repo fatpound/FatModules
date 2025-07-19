@@ -13,4 +13,4 @@ export namespace fatpound::math::numbers
     template <typename T> concept Rational = traits::IntegralOrFloating<T>;
 }
 
-module : private;
+// module : private;

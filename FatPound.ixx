@@ -13,7 +13,7 @@
 /*                                                ########:#      ##.tr        */
 /*                                                                             */
 /*  >< Created: --/--/---- ??:??:??                                            */
-/*  >< Updated: 01/05/2025 11:54:10                                            */
+/*  >< Updated: 19/07/2025 23:40:17                                            */
 /*  >< By: fatpound                                                            */
 /*                                                                             */
 /*******************************************************************************/
@@ -46,4 +46,4 @@ export import FatPound.Utility;
     export import FatPound.Win32;
 #endif
 
-module : private;
+// module : private;

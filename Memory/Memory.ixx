@@ -73,4 +73,4 @@ export namespace fatpound::memory
     }
 }
 
-module : private;
+// module : private;

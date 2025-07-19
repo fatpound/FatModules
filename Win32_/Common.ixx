@@ -209,4 +209,4 @@ export namespace fatpound::win32
 
 #endif
 
-module : private;
+// module : private;

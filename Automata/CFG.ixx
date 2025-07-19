@@ -168,4 +168,4 @@ export namespace fatpound::automata
     };
 }
 
-module : private;
+// module : private;

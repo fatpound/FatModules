@@ -1091,4 +1091,4 @@ export namespace fatpound::colors
     }
 }
 
-module : private;
+// module : private;

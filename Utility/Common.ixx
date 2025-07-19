@@ -166,4 +166,4 @@ export namespace fatpound::utility
     }
 }
 
-module : private;
+// module : private;

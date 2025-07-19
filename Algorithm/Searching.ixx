@@ -88,4 +88,4 @@ export namespace fatpound::algorithm
     }
 }
 
-module : private;
+// module : private;
