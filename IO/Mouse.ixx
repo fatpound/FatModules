@@ -1,7 +1,5 @@
 module;
 
-// for lock_guards without CTAD, see: https://clang.llvm.org/docs/DiagnosticsReference.html#wctad-maybe-unsupported
-
 export module FatPound.IO.Mouse;
 
 import std;
