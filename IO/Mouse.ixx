@@ -212,29 +212,17 @@ export namespace fatpound::io
 
             TrimBuffer_NoGuard_();
         }
-        void AddWheelUpEvent_NoGuard   ()
-        {
-            m_event_buffer_.push(Event{ .type = Event::Type::WheelUp });
-
-            TrimBuffer_NoGuard_();
-        }
-        void AddWheelDownEvent_NoGuard ()
-        {
-            m_event_buffer_.push(Event{ .type = Event::Type::WheelDown });
-
-            TrimBuffer_NoGuard_();
-        }
         void AddWheelUpEvent           ()
         {
             const std::lock_guard<std::mutex> guard{ m_mtx_ };
 
-            AddWheelUpEvent_NoGuard();
+            AddWheelUpEvent_NoGuard_();
         }
         void AddWheelDownEvent         ()
         {
             const std::lock_guard<std::mutex> guard{ m_mtx_ };
 
-            AddWheelDownEvent_NoGuard();
+            AddWheelDownEvent_NoGuard_();
         }
 
         void ProcessWheelDelta(const WheelDelta_t& delta)
@@ -249,14 +237,14 @@ export namespace fatpound::io
             {
                 m_wheel_delta_carry_ -= FATLIB_WHEEL_DELTA;
 
-                AddWheelUpEvent_NoGuard();
+                AddWheelUpEvent_NoGuard_();
             }
 
             while (m_wheel_delta_carry_ <= -FATLIB_WHEEL_DELTA)
             {
                 m_wheel_delta_carry_ += FATLIB_WHEEL_DELTA;
 
-                AddWheelDownEvent_NoGuard();
+                AddWheelDownEvent_NoGuard_();
             }
 #undef FATLIB_WHEEL_DELTA
 // NOLINTEND(cppcoreguidelines-macro-usage)
@@ -267,6 +255,19 @@ export namespace fatpound::io
 
 
     private:
+        void AddWheelUpEvent_NoGuard_()
+        {
+            m_event_buffer_.push(Event{ .type = Event::Type::WheelUp });
+
+            TrimBuffer_NoGuard_();
+        }
+        void AddWheelDownEvent_NoGuard_()
+        {
+            m_event_buffer_.push(Event{ .type = Event::Type::WheelDown });
+
+            TrimBuffer_NoGuard_();
+        }
+
         void TrimBuffer_NoGuard_() noexcept
         {
             while (m_event_buffer_.size() > scx_bufferSize_)
