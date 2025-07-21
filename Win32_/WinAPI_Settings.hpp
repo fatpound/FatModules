@@ -8,7 +8,7 @@
         #pragma clang diagnostic ignored "-Wreserved-macro-identifier"
     #endif
     
-    #define _WIN32_WINNT _WIN32_WINNT_WIN10 // target Windows 10 or later
+    #define _WIN32_WINNT _WIN32_WINNT_WIN10
 
     #ifdef __clang__
         #pragma clang diagnostic pop
@@ -25,8 +25,8 @@
     #define STRICT
 #endif
 
-#ifndef FATPOUND_FULL_WIN_TARGETED // except NOMINMAX
-    #define WIN32_LEAN_AND_MEAN    // for 16-bit Windows libraries, rarely used
+#ifndef FATPOUND_FULL_WIN_TARGETED
+    #define WIN32_LEAN_AND_MEAN
     #define NOGDICAPMASKS
     #define NOMENUS
     #define NOICONS
@@ -53,22 +53,6 @@
     #define NOPROXYSTUB
     #define NOIMAGE
     #define NOTAPE
-//  #define NOMETAFILE
-//  #define NOSYSMETRICS
-//  #define NOSYSCOMMANDS
-//  #define NOATOM
-//  #define NOCOLOR
-//  #define NONLS
-//  #define NOVIRTUALKEYCODES
-//  #define NOWINMESSAGES
-//  #define NOWINSTYLES
-//  #define NOKEYSTATES
-//  #define NOSHOWWINDOW
-//  #define NOGDI
-//  #define NOUSER
-//  #define NOMB
-//  #define NOMSG
-//  #define NOWINOFFSETS
 #endif
 
 #endif

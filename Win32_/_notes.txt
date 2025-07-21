@@ -1,0 +1,29 @@
+WinAPI.hpp header is for compatibility with FatLibrary, optional
+and useful in ifdef __INTELLISENSE__ conditional compiling within modules
+prefer WinAPI.hxx header-unit in module code
+
+
+#define _WIN32_WINNT _WIN32_WINNT_WIN10 // target Windows 10 or later
+
+
+WIN32_LEAN_AND_MEAN    // for 16-bit Windows libraries, rarely used
+FATPOUND_FULL_WIN_TARGETED // everything except NOMINMAX and STRICT
+
+
+//  #define NOMETAFILE
+//  #define NOSYSMETRICS
+//  #define NOSYSCOMMANDS
+//  #define NOATOM
+//  #define NOCOLOR
+//  #define NONLS
+//  #define NOVIRTUALKEYCODES
+//  #define NOWINMESSAGES
+//  #define NOWINSTYLES
+//  #define NOKEYSTATES
+//  #define NOSHOWWINDOW
+//  #define NOGDI
+//  #define NOUSER
+//  #define NOMB
+//  #define NOMSG
+//  #define NOWINOFFSETS
+

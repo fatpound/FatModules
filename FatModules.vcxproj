@@ -136,6 +136,7 @@
     <ClInclude Include="Win32_\WinAPI_Settings.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Win32_\_notes.txt" />
     <Text Include="_misc\notes.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

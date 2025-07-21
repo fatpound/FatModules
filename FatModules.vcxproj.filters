@@ -353,5 +353,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="_misc\notes.txt" />
+    <Text Include="Win32_\_notes.txt" />
   </ItemGroup>
 </Project>
