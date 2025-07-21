@@ -330,6 +330,15 @@
     <ClCompile Include="Random\Common.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Bit\Common.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="File\Common.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Memory\Common.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Math\Special.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>

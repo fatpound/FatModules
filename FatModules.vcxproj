@@ -23,6 +23,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Algorithm\Algorithm.ixx" />
+    <ClCompile Include="Bit\Common.ixx" />
+    <ClCompile Include="File\Common.ixx" />
     <ClCompile Include="Geometry\Shape\Shape.ixx" />
     <ClCompile Include="Graph\BFS.ixx" />
     <ClCompile Include="Graph\DFS.ixx" />
@@ -69,6 +71,7 @@
     <ClCompile Include="Math\Numbers\Primes.ixx" />
     <ClCompile Include="Math\Numbers\Sets.ixx" />
     <ClCompile Include="Math\Special.ixx" />
+    <ClCompile Include="Memory\Common.ixx" />
     <ClCompile Include="Memory\Memory.ixx" />
     <ClCompile Include="Random\Common.ixx" />
     <ClCompile Include="Random\Random.ixx" />

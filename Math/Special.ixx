@@ -6,6 +6,8 @@ import FatPound.Math.Numbers.Common;
 import FatPound.Math.Multiplicative;
 import FatPound.Traits.Bitwise;
 
+import std;
+
 export namespace fatpound::math
 {
     template <traits::IntegralOrFloating T>
