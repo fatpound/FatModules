@@ -3,7 +3,7 @@ module;
 #ifdef FATLIB_BUILDING_WITH_MSVC
     #ifdef __INTELLISENSE__
         #include <Win32_/WinAPI.hpp>
-        #include <d3d11.h>
+        #include <d3d11_4.h>
         #include <d3dcompiler.h>
         #include <wrl.h>
     #endif
@@ -14,7 +14,7 @@ export module FatPound.Win32.D3D11.Pipeline.VertexShader;
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
 #ifndef __INTELLISENSE__
-    import <d3d11.h>;
+    import <d3d11_4.h>;
     import <d3dcompiler.h>;
     import FatPound.Win32.WRL.Common;
 #endif

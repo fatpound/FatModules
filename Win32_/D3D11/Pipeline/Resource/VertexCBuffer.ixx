@@ -4,7 +4,7 @@ export module FatPound.Win32.D3D11.Pipeline.VertexCBuffer;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
-import <d3d11.h>;
+import <d3d11_4.h>;
 
 import FatPound.Win32.D3D11.Pipeline.Bindable;
 import FatPound.Win32.D3D11.Pipeline.CBuffer;

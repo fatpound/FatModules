@@ -5,7 +5,7 @@ module;
 
     #ifdef __INTELLISENSE__
         #include <Win32_/WinAPI.hpp>
-        #include <d3d11.h>
+        #include <d3d11_4.h>
         #include <wrl.h>
     #endif
 #endif
@@ -15,7 +15,7 @@ export module FatPound.Win32.D3D11.Pipeline.Texture2D;
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
 #ifndef __INTELLISENSE__
-    import <d3d11.h>;
+    import <d3d11_4.h>;
     import FatPound.Win32.WRL.Common;
 #endif
 

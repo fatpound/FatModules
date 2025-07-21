@@ -12,7 +12,7 @@ export module FatPound.Win32.D3D11.Graphics;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
-import <d3d11.h>;
+import <d3d11_4.h>;
 import <d3dcompiler.h>;
 
 import FatPound.Traits.Bitwise;

@@ -5,7 +5,7 @@ module;
 
     #ifdef __INTELLISENSE__
         #include <Win32_/WinAPI.hpp>
-        #include <d3d11.h>
+        #include <d3d11_4.h>
     #endif
 
     #include <DirectXMath.h>
@@ -16,7 +16,7 @@ export module FatPound.Win32.D3D11.Pipeline.TransformCBuffer;
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
 #ifndef __INTELLISENSE__
-    import <d3d11.h>;
+    import <d3d11_4.h>;
 #endif
 
 import FatPound.Utility.ViewXM;

@@ -5,7 +5,7 @@ module;
     #include <_macros/Namespaces.hxx>
 
     #include <Win32_/WinAPI.hpp>
-    #include <d2d1.h> // for fast compilation since the only module using d2d1 header is this, but I might change this in the future
+    #include <d2d1_3.h>
 
     #ifdef __INTELLISENSE__
         #include <wrl.h>
