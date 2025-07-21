@@ -160,7 +160,7 @@ export namespace fatpound::win32
 
         
     public:
-        virtual auto SetTitle  (const std::wstring& title) -> std::future<void> override final
+        virtual auto SetTitle  (const std::wstring& title) -> std::future<void> override
         {
             auto future = DispatchTaskToQueue_<>(
                 [&title, hWnd = GetHandle()]() noexcept -> void
@@ -172,11 +172,11 @@ export namespace fatpound::win32
 
             return future;
         }
-        virtual auto GetHandle () const noexcept -> HWND override final
+        virtual auto GetHandle () const noexcept -> HWND override
         {
             return m_hWnd_;
         }
-        virtual auto IsClosing () const noexcept -> bool override final
+        virtual auto IsClosing () const noexcept -> bool override
         {
             return m_is_closing_;
         }

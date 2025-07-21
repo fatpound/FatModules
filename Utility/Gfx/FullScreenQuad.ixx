@@ -6,7 +6,7 @@ import std;
 
 export namespace fatpound::utility::gfx
 {
-    struct FullScreenQuad final
+    struct FullScreenQuad
     {
         struct alignas(32) Vertex
         {

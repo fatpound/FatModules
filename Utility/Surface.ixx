@@ -24,7 +24,7 @@ export namespace fatpound::utility
 {
     /// @brief Represents a 2D pixel surface with aligned memory storage, supporting pixel access, modification
     ///
-    class Surface final
+    class Surface
     {
         using Color_t    = Color;
         using ColorArr_t = Color_t[];

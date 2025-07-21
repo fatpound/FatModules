@@ -14,7 +14,7 @@ export namespace fatpound::utility
 {
     /// @brief A non-copyable, non-movable class that manages camera and projection matrices using DirectX's XMMATRIX type
     ///
-    class [[nodiscard]] ViewXM final
+    class [[nodiscard]] ViewXM
     {
     public:
         explicit ViewXM()              = default;
