@@ -2,6 +2,8 @@ module;
 
 export module FatPound.Graph.DirectedGraph;
 
+import FatPound.Utility.Common;
+
 import std;
 
 export namespace fatpound::graph
@@ -9,40 +11,37 @@ export namespace fatpound::graph
     class DirectedGraph
     {
     public:
-        explicit DirectedGraph(const std::string& filePath)
+        explicit DirectedGraph(const std::string& path)
         {
-            std::ifstream my_file(filePath, std::ios_base::binary);
-
-            if (not my_file.is_open())
             {
-                throw std::runtime_error("Input file cannot be opened!");
-            }
+                std::ifstream file(path, std::ios_base::binary);
 
-            while (not my_file.eof())
-            {
-                std::string line;
-                std::getline<>(my_file, line);
-
-                std::stringstream ss;
-                ss << line;
-
-                std::vector<std::ptrdiff_t> vec;
-
-                while (not ss.eof())
+                if (not file.is_open())
                 {
-                    std::ptrdiff_t x{};
-                    ss >> x >> std::ws;
-
-                    vec.push_back(x);
+                    throw std::runtime_error("Input file cannot be opened!");
                 }
 
-                m_adj_.push_back(std::move<>(vec));
-                m_nexts_.emplace_back();
+                std::string line;
+
+                while (std::getline<>(file, line))
+                {
+                    if (line.empty())
+                    {
+                        throw std::runtime_error("Line is EMPTY!");
+                    }
+
+                    m_adj_.push_back(utility::ParseLineToIntegralVector<typename decltype(m_adj_)::value_type::value_type>(line));
+                }
             }
 
-            my_file.close();
+            if (m_adj_.size() == 0)
+            {
+                throw std::runtime_error("Input graph was EMPTY!");
+            }
 
             m_node_count_ = m_adj_.size();
+
+            m_nexts_.resize(m_node_count_);
 
             for (std::size_t i{}; i < m_node_count_; ++i)
             {

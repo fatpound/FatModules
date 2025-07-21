@@ -75,6 +75,57 @@ export namespace fatpound::utility
     
 
 
+    template <std::integral T>
+    void ParseLineToIntegralVector(const std::string& line, std::vector<T>& vec)
+    {
+        vec.reserve(line.length() / 2U + 1);
+
+        std::stringstream ss(line);
+
+        T value{};
+
+        while (ss >> value)
+        {
+            vec.push_back(value);
+        }
+    }
+
+
+
+    template <std::integral T>
+    auto ParseLineToIntegralVector(const std::string& line) -> std::vector<T>
+    {
+        std::vector<T> vec;
+
+        ParseLineToIntegralVector<>(line, vec);
+
+        return vec;
+    }
+
+
+
+    template <std::integral T>
+    auto ParseLineToIntegralVector(const std::ifstream& ifs) -> std::vector<T>
+    {
+        std::string line;
+        std::getline<>(ifs, line);
+
+        return ParseLineToIntegralVector<T>(line);
+    }
+
+
+
+    template <std::integral T>
+    void ParseLineToIntegralVector(const std::ifstream& ifs, std::vector<T>& vec)
+    {
+        std::string line;
+        std::getline<>(ifs, line);
+
+        ParseLineToIntegralVector<>(line, vec);
+    }
+
+
+
     /// @brief Returns a new string with the characters of the input string in reverse order
     /// 
     /// @param str: The input string to be reversed
