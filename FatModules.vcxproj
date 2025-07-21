@@ -69,6 +69,7 @@
     <ClCompile Include="Math\Numbers\Primes.ixx" />
     <ClCompile Include="Math\Numbers\Sets.ixx" />
     <ClCompile Include="Memory\Memory.ixx" />
+    <ClCompile Include="Random\Common.ixx" />
     <ClCompile Include="Random\Random.ixx" />
     <ClCompile Include="Random\URand.ixx" />
     <ClCompile Include="Traits\Bitwise.ixx" />
