@@ -275,7 +275,7 @@ export namespace fatpound::win32::d3d11
                 {
                     wrl::ComPtr<ID3DBlob> pVSBlob;
 
-                    if (FAILED(::D3DReadFileToBlob(VShaderPath.c_str(), &pVSBlob)))
+                    if (FAILED(D3DReadFileToBlob(VShaderPath.c_str(), &pVSBlob)))
                     {
                         throw std::runtime_error("CANNOT read file to D3D Blob!");
                     }
@@ -376,7 +376,7 @@ export namespace fatpound::win32::d3d11
         {
             D3D_FEATURE_LEVEL featureLevel{};
 
-            if (const auto& hr = ::D3D11CreateDevice(
+            if (const auto& hr = D3D11CreateDevice(
                 nullptr,
                 D3D_DRIVER_TYPE_HARDWARE,
                 nullptr,

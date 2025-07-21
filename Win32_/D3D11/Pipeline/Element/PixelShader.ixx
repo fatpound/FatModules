@@ -36,7 +36,7 @@ export namespace fatpound::win32::d3d11::pipeline
         {
             wrl::ComPtr<ID3DBlob> pBlob;
 
-            if (FAILED(::D3DReadFileToBlob(path.c_str(), &pBlob)))
+            if (FAILED(D3DReadFileToBlob(path.c_str(), &pBlob)))
             {
                 throw std::runtime_error("CANNOT read Pixel Shader to D3D Blob!");
             }

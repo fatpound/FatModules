@@ -97,14 +97,14 @@ export namespace fatpound::win32
                         .bottom = rect.top  + GetClientHeight<LONG>()
                     };
 
-                    if (const auto& retval = ::AdjustWindowRectEx(&rect, styles, false, exStyles); retval == 0)
+                    if (const auto& retval = AdjustWindowRectEx(&rect, styles, false, exStyles); retval == 0)
                     {
                         throw std::runtime_error("Error occured when adjusting RECT");
                     }
 
 #endif
                     
-                    m_hWnd_ = ::CreateWindowEx(
+                    m_hWnd_ = CreateWindowEx(
                         exStyles,
                         MAKEINTATOM(m_pWndClassEx_->GetAtom()),
                         theTitle,
@@ -153,7 +153,7 @@ export namespace fatpound::win32
                 [hWnd = GetHandle()]() noexcept -> void
                 {
                     [[maybe_unused]]
-                    const auto&& retval = ::DestroyWindow(hWnd);
+                    const auto&& retval = DestroyWindow(hWnd);
                 }
             );
         }
@@ -166,7 +166,7 @@ export namespace fatpound::win32
                 [&title, hWnd = GetHandle()]() noexcept -> void
                 {
                     [[maybe_unused]]
-                    const auto&& retval = ::SetWindowText(hWnd, title.c_str());
+                    const auto&& retval = SetWindowText(hWnd, title.c_str());
                 }
             );
 
@@ -275,7 +275,7 @@ export namespace fatpound::win32
 
             case WM_DESTROY:
                 m_hWnd_ = nullptr;
-                ::PostQuitMessage(0);
+                PostQuitMessage(0);
                 break;
 
             case scx_customTaskMsgId_:
@@ -291,7 +291,7 @@ export namespace fatpound::win32
                 break;
             }
 
-            return ::DefWindowProc(hWnd, msg, wParam, lParam);
+            return DefWindowProc(hWnd, msg, wParam, lParam);
         }
 
 
@@ -317,7 +317,7 @@ export namespace fatpound::win32
 
                 if (not m_pMouse->IsInWindow())
                 {
-                    ::SetCapture(m_hWnd_);
+                    SetCapture(m_hWnd_);
                     m_pMouse->AddMouseEnterEvent();
                 }
             }
@@ -329,7 +329,7 @@ export namespace fatpound::win32
                 }
                 else
                 {
-                    ::ReleaseCapture();
+                    ReleaseCapture();
                     m_pMouse->AddMouseLeaveEvent();
                 }
             }
@@ -394,7 +394,7 @@ export namespace fatpound::win32
         {
             if ((wParam bitand 0xFFF0U) == SC_CLOSE)
             {
-                ::PostMessage(m_hWnd_, WM_CLOSE, 0, 0);
+                PostMessage(m_hWnd_, WM_CLOSE, 0, 0);
             }
         }
 
@@ -418,7 +418,7 @@ export namespace fatpound::win32
     private:
         void NotifyTaskDispatch_() const
         {
-            if (const auto& retval = ::PostMessage(m_hWnd_, scx_customTaskMsgId_, 0U, 0); retval == 0)
+            if (const auto& retval = PostMessage(m_hWnd_, scx_customTaskMsgId_, 0U, 0); retval == 0)
             {
                 throw std::runtime_error{ "Failed to post task notification message!" };
             }
@@ -430,10 +430,10 @@ export namespace fatpound::win32
 
             MSG msg{};
 
-            while (::GetMessage(&msg, m_hWnd_, 0U, 0U) not_eq 0)
+            while (GetMessage(&msg, m_hWnd_, 0U, 0U) not_eq 0)
             {
-                ::TranslateMessage(&msg);
-                ::DispatchMessage(&msg);
+                TranslateMessage(&msg);
+                DispatchMessage(&msg);
             }
         }
     };

@@ -113,7 +113,7 @@ export namespace fatpound::utility
             return {};
         }
 
-        const auto& required_size = ::MultiByteToWideChar(
+        const auto& required_size = MultiByteToWideChar(
             CP_UTF8,
             MB_ERR_INVALID_CHARS,
             str.c_str(),
@@ -129,7 +129,7 @@ export namespace fatpound::utility
 
         std::wstring wstr(static_cast<std::size_t>(required_size), L'\0');
 
-        const auto& bytes_written = ::MultiByteToWideChar(
+        const auto& bytes_written = MultiByteToWideChar(
             CP_UTF8,
             MB_ERR_INVALID_CHARS,
             str.c_str(),

@@ -198,7 +198,7 @@ export namespace fatpound::win32
 #endif
         cstr = nullptr) -> HINSTANCE
     {
-        if (const auto& hInstance{ ::GetModuleHandle(cstr) }; hInstance not_eq nullptr)
+        if (const auto& hInstance{ GetModuleHandle(cstr) }; hInstance not_eq nullptr)
         {
             return hInstance;
         }
