@@ -28,4 +28,4 @@ FATPOUND_FULL_WIN_TARGETED // everything except NOMINMAX and STRICT
 //  #define NOWINOFFSETS
 
 
-case WM_SYSCOMMAND:// this also controls window movement
+case WM_SYSCOMMAND: // this also controls window movement
