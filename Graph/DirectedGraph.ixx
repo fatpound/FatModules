@@ -30,7 +30,7 @@ export namespace fatpound::graph
                         throw std::runtime_error("Line is EMPTY!");
                     }
 
-                    m_adj_.push_back(utility::ParseLineToIntegralVector<typename decltype(m_adj_)::value_type::value_type>(line));
+                    m_adj_.emplace_back(utility::ParseLineToIntegralVector<typename decltype(m_adj_)::value_type::value_type>(line));
                 }
             }
 
