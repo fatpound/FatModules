@@ -282,7 +282,6 @@ export namespace fatpound::win32
                 m_tasks_.ExecuteFirstAndPopOff();
                 return 0;
 
-            // this also controls window movement
             case WM_SYSCOMMAND:
                 Process_WM_SYSCOMMAND_(wParam);
                 break;
