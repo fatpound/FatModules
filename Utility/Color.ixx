@@ -121,25 +121,25 @@ export namespace fatpound::utility
         }
         FATLIB_FORCEINLINE constexpr auto SetA     (const std::uint8_t& alpha) noexcept -> Color&
         {
-            m_value_ = (m_value_ bitand AlphaMask) bitor (static_cast<std::uint32_t>(alpha) << AlphaShift);
+            m_value_ = (m_value_ bitand AlphaMask) bitor (static_cast<decltype(AlphaShift)>(alpha) << AlphaShift);
 
             return *this;
         }
         FATLIB_FORCEINLINE constexpr auto SetR     (const std::uint8_t&   red) noexcept -> Color&
         {
-            m_value_ = (m_value_ bitand RedMask) bitor (static_cast<std::uint32_t>(red) << RedShift);
+            m_value_ = (m_value_ bitand RedMask) bitor (static_cast<decltype(RedShift)>(red) << RedShift);
 
             return *this;
         }
         FATLIB_FORCEINLINE constexpr auto SetG     (const std::uint8_t& green) noexcept -> Color&
         {
-            m_value_ = (m_value_ bitand GreenMask) bitor (static_cast<std::uint32_t>(green) << GreenShift);
+            m_value_ = (m_value_ bitand GreenMask) bitor (static_cast<decltype(GreenShift)>(green) << GreenShift);
 
             return *this;
         }
         FATLIB_FORCEINLINE constexpr auto SetB     (const std::uint8_t&  blue) noexcept -> Color&
         {
-            m_value_ = (m_value_ bitand BlueMask) bitor (static_cast<std::uint32_t>(blue));
+            m_value_ = (m_value_ bitand BlueMask) bitor (static_cast<decltype(BlueShift)>(blue));
 
             return *this;
         }
