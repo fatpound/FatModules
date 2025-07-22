@@ -34,7 +34,7 @@ export namespace fatpound::graph
                 }
             }
 
-            if (m_adj_.size() == 0)
+            if (m_adj_.empty())
             {
                 throw std::runtime_error("Input graph was EMPTY!");
             }

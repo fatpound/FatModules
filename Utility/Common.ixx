@@ -78,7 +78,7 @@ export namespace fatpound::utility
     template <std::integral T>
     void ParseLineToIntegralVector(const std::string& line, std::vector<T>& vec)
     {
-        vec.reserve(line.length() / 2U + 1);
+        vec.reserve((line.length() / 2U) + 1);
 
         std::stringstream ss(line);
 
