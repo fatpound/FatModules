@@ -105,7 +105,7 @@ export namespace fatpound::utility
 
 
     template <std::integral T>
-    auto ParseLineToIntegralVector(const std::ifstream& ifs) -> std::vector<T>
+    auto ParseLineToIntegralVector(std::ifstream& ifs) -> std::vector<T>
     {
         std::string line;
         std::getline<>(ifs, line);
@@ -116,7 +116,7 @@ export namespace fatpound::utility
 
 
     template <std::integral T>
-    void ParseLineToIntegralVector(const std::ifstream& ifs, std::vector<T>& vec)
+    void ParseLineToIntegralVector(std::ifstream& ifs, std::vector<T>& vec)
     {
         std::string line;
         std::getline<>(ifs, line);
