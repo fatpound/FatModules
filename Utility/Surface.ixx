@@ -225,7 +225,7 @@ export namespace fatpound::utility
             assert(x < GetWidth<T>());
             assert(y < GetHeight<T>());
 
-            m_pBuffer_[(y * m_pixel_pitch_) + x] = color;
+            m_pBuffer_[(static_cast<std::size_t>(y) * m_pixel_pitch_) + static_cast<std::size_t>(x)] = color;
         }
 
         template <std::signed_integral T>   [[nodiscard]] FATLIB_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
