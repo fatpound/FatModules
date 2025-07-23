@@ -31,7 +31,7 @@ export namespace fatpound::utility
         using Ptr_t      = memory::AlignedUniquePtr<ColorArr_t>;
 
     public:
-        using Size_t = std::uint32_t;
+        using Size_t     = std::size_t;
 
 
     public:
