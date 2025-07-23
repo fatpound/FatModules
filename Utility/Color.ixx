@@ -31,15 +31,15 @@ export namespace fatpound::utility
 
 
     public:
-        static constexpr auto  BlueShift = 0ULL;
-        static constexpr auto GreenShift =  sizeof(ChannelB_t) * 8U;
-        static constexpr auto   RedShift = (sizeof(ChannelB_t) * 8U) + (sizeof(ChannelG_t) * 8U);
-        static constexpr auto AlphaShift = (sizeof(ChannelB_t) * 8U) + (sizeof(ChannelG_t) * 8U) + (sizeof(ChannelR_t) * 8U);
+        static constexpr auto AlphaShift = static_cast<Value_t>((sizeof(ChannelB_t) * 8U) + (sizeof(ChannelG_t) * 8U) + (sizeof(ChannelR_t) * 8U));
+        static constexpr auto   RedShift = static_cast<Value_t>((sizeof(ChannelB_t) * 8U) + (sizeof(ChannelG_t) * 8U));
+        static constexpr auto GreenShift = static_cast<Value_t>( sizeof(ChannelB_t) * 8U);
+        static constexpr auto  BlueShift = static_cast<Value_t>(0ULL);
 
-        static constexpr auto AlphaMask = bit::OneMask<>(AlphaShift + (sizeof(ChannelA_t) * 8U - 1U), AlphaShift);
-        static constexpr auto   RedMask = bit::OneMask<>(  RedShift + (sizeof(ChannelR_t) * 8U - 1U),   RedShift);
-        static constexpr auto GreenMask = bit::OneMask<>(GreenShift + (sizeof(ChannelG_t) * 8U - 1U), GreenShift);
-        static constexpr auto  BlueMask = bit::OneMask<>( BlueShift + (sizeof(ChannelB_t) * 8U - 1U),  BlueShift);
+        static constexpr auto  AlphaMask = bit::OneMask<Value_t>(AlphaShift + (sizeof(ChannelA_t) * 8U - 1U), AlphaShift);
+        static constexpr auto    RedMask = bit::OneMask<Value_t>(  RedShift + (sizeof(ChannelR_t) * 8U - 1U),   RedShift);
+        static constexpr auto  GreenMask = bit::OneMask<Value_t>(GreenShift + (sizeof(ChannelG_t) * 8U - 1U), GreenShift);
+        static constexpr auto   BlueMask = bit::OneMask<Value_t>( BlueShift + (sizeof(ChannelB_t) * 8U - 1U),  BlueShift);
 
 
     public:
@@ -121,25 +121,25 @@ export namespace fatpound::utility
         }
         FATLIB_FORCEINLINE constexpr auto SetA     (const std::uint8_t& alpha) noexcept -> Color&
         {
-            m_value_ = (m_value_ bitand AlphaMask) bitor (static_cast<decltype(AlphaShift)>(alpha) << AlphaShift);
+            m_value_ = (m_value_ bitand AlphaMask) bitor (static_cast<Value_t>(alpha) << AlphaShift);
 
             return *this;
         }
         FATLIB_FORCEINLINE constexpr auto SetR     (const std::uint8_t&   red) noexcept -> Color&
         {
-            m_value_ = (m_value_ bitand RedMask) bitor (static_cast<decltype(RedShift)>(red) << RedShift);
+            m_value_ = (m_value_ bitand RedMask) bitor (static_cast<Value_t>(red) << RedShift);
 
             return *this;
         }
         FATLIB_FORCEINLINE constexpr auto SetG     (const std::uint8_t& green) noexcept -> Color&
         {
-            m_value_ = (m_value_ bitand GreenMask) bitor (static_cast<decltype(GreenShift)>(green) << GreenShift);
+            m_value_ = (m_value_ bitand GreenMask) bitor (static_cast<Value_t>(green) << GreenShift);
 
             return *this;
         }
         FATLIB_FORCEINLINE constexpr auto SetB     (const std::uint8_t&  blue) noexcept -> Color&
         {
-            m_value_ = (m_value_ bitand BlueMask) bitor (static_cast<decltype(BlueShift)>(blue));
+            m_value_ = (m_value_ bitand BlueMask) bitor (static_cast<Value_t>(blue));
 
             return *this;
         }
