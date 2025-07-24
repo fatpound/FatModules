@@ -4,9 +4,9 @@ module;
 
 export module FatPound.Random.Common;
 
+import FatPound.Colors.ARGB.Color;
 import FatPound.Math.Numbers.Primes;
 import FatPound.Traits.Bitwise;
-import FatPound.Colors.ARGB.Color;
 
 import std;
 

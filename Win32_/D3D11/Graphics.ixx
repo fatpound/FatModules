@@ -15,7 +15,6 @@ export module FatPound.Win32.D3D11.Graphics;
 import <d3d11_4.h>;
 import <d3dcompiler.h>;
 
-import FatPound.Colors.ARGB;
 import FatPound.Traits.Bitwise;
 import FatPound.Utility.Surface;
 import FatPound.Utility.Gfx;
