@@ -14,8 +14,9 @@ export module FatPound.Utility.Gfx.ResourcePack;
 
 import FatPound.Utility.Gfx.SizePack;
 import FatPound.Utility.Surface;
-import FatPound.Win32.D3D11.Pipeline.RenderTarget;
-import FatPound.Win32.D3D11.Pipeline.DepthStencil;
+import FatPound.Win32.D3D11.Core.DepthStencil;
+import FatPound.Win32.D3D11.Core.RenderTarget;
+import FatPound.Win32.D3D11.Resource.Texture2D;
 
 #ifndef __INTELLISENSE__
     import <d3d11_4.h>;
@@ -36,18 +37,18 @@ export namespace fatpound::utility::gfx
         auto operator = (ResourcePack&&) noexcept -> ResourcePack& = delete;
         ~ResourcePack() noexcept                                   = default;
 
-        wrl::ComPtr<IDXGISwapChain>            m_pSwapChain;
-        wrl::ComPtr<ID3D11Device>              m_pDevice;
-        wrl::ComPtr<ID3D11DeviceContext>       m_pImmediateContext;
-        win32::d3d11::pipeline::RenderTarget   m_render_target;
-        win32::d3d11::pipeline::DepthStencil   m_depth_stencil;
+        wrl::ComPtr<IDXGISwapChain>         m_pSwapChain;
+        wrl::ComPtr<ID3D11Device>           m_pDevice;
+        wrl::ComPtr<ID3D11DeviceContext>    m_pImmediateContext;
+        win32::d3d11::core::RenderTarget    m_render_target;
+        win32::d3d11::core::DepthStencil    m_depth_stencil;
     };
 
     struct FrameworkResourcePack final : public ResourcePack
     {
-        win32::d3d11::pipeline::Texture2D      m_sysbufferTex2d;
-        D3D11_MAPPED_SUBRESOURCE               m_mappedSysbufferTex2d{};
-        Surface                                m_surface;
+        win32::d3d11::resource::Texture2D   m_sysbufferTex2d;
+        D3D11_MAPPED_SUBRESOURCE            m_mappedSysbufferTex2d{};
+        Surface                             m_surface;
 
         explicit FrameworkResourcePack(const SizePack& dimensions)
             :

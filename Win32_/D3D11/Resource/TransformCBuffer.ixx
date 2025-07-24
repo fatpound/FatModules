@@ -11,7 +11,7 @@ module;
     #include <DirectXMath.h>
 #endif
 
-export module FatPound.Win32.D3D11.Pipeline.TransformCBuffer;
+export module FatPound.Win32.D3D11.Resource.TransformCBuffer;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
@@ -20,12 +20,12 @@ export module FatPound.Win32.D3D11.Pipeline.TransformCBuffer;
 #endif
 
 import FatPound.Utility.ViewXM;
-import FatPound.Win32.D3D11.Pipeline.Bindable;
-import FatPound.Win32.D3D11.Pipeline.VertexCBuffer;
+import FatPound.Win32.D3D11.Bindable;
+import FatPound.Win32.D3D11.Resource.VertexCBuffer;
 
 namespace dx = DirectX;
 
-export namespace fatpound::win32::d3d11::pipeline
+export namespace fatpound::win32::d3d11::resource
 {
     template <typename T>
     class TransformCBuffer : public Bindable

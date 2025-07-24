@@ -1,12 +1,12 @@
 module;
 
-export module FatPound.Win32.D3D11.Pipeline.Bindable;
+export module FatPound.Win32.D3D11.Bindable;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
 import <d3d11_4.h>;
 
-export namespace fatpound::win32::d3d11::pipeline
+export namespace fatpound::win32::d3d11
 {
     class Bindable
     {

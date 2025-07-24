@@ -7,7 +7,7 @@ module;
     #endif
 #endif
 
-export module FatPound.Win32.D3D11.Pipeline.PixelCBuffer;
+export module FatPound.Win32.D3D11.Resource.PixelCBuffer;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
@@ -15,10 +15,10 @@ export module FatPound.Win32.D3D11.Pipeline.PixelCBuffer;
     import <d3d11_4.h>;
 #endif
 
-import FatPound.Win32.D3D11.Pipeline.Bindable;
-import FatPound.Win32.D3D11.Pipeline.CBuffer;
+import FatPound.Win32.D3D11.Bindable;
+import FatPound.Win32.D3D11.Resource.CBuffer;
 
-export namespace fatpound::win32::d3d11::pipeline
+export namespace fatpound::win32::d3d11::resource
 {
     template <typename T>
     class PixelCBuffer : public CBuffer<T>

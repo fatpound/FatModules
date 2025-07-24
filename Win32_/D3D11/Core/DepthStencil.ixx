@@ -10,7 +10,7 @@ module;
     #endif
 #endif
 
-export module FatPound.Win32.D3D11.Pipeline.DepthStencil;
+export module FatPound.Win32.D3D11.Core.DepthStencil;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
@@ -19,7 +19,7 @@ export module FatPound.Win32.D3D11.Pipeline.DepthStencil;
     import FatPound.Win32.WRL.Common;
 #endif
 
-import FatPound.Win32.D3D11.Pipeline.Texture2D;
+import FatPound.Win32.D3D11.Resource.Texture2D;
 
 import std;
 
@@ -27,12 +27,12 @@ import std;
     namespace wrl = Microsoft::WRL;
 #endif
 
-export namespace fatpound::win32::d3d11::pipeline
+export namespace fatpound::win32::d3d11::core
 {
     class DepthStencil
     {
     public:
-        explicit DepthStencil(ID3D11Device* const pDevice, const Texture2D& tex2d, const D3D11_DEPTH_STENCIL_VIEW_DESC& dsvDesc)
+        explicit DepthStencil(ID3D11Device* const pDevice, const resource::Texture2D& tex2d, const D3D11_DEPTH_STENCIL_VIEW_DESC& dsvDesc)
         {
             if (FAILED(pDevice->CreateDepthStencilView(tex2d.GetBuffer(), &dsvDesc, &m_pDSV_)))
             {

@@ -10,7 +10,7 @@ module;
     #endif
 #endif
 
-export module FatPound.Win32.D3D11.Pipeline.RenderTarget;
+export module FatPound.Win32.D3D11.Core.RenderTarget;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
@@ -19,8 +19,8 @@ export module FatPound.Win32.D3D11.Pipeline.RenderTarget;
     import FatPound.Win32.WRL.Common;
 #endif
 
-import FatPound.Win32.D3D11.Pipeline.Bindable;
-import FatPound.Win32.D3D11.Pipeline.Texture2D;
+import FatPound.Win32.D3D11.Bindable;
+import FatPound.Win32.D3D11.Resource.Texture2D;
 
 import std;
 
@@ -28,12 +28,12 @@ import std;
     namespace wrl = Microsoft::WRL;
 #endif
 
-export namespace fatpound::win32::d3d11::pipeline
+export namespace fatpound::win32::d3d11::core
 {
     class RenderTarget : public Bindable
     {
     public:
-        explicit RenderTarget(ID3D11Device* const pDevice, const Texture2D& tex2d)
+        explicit RenderTarget(ID3D11Device* const pDevice, const resource::Texture2D& tex2d)
         {
             if (FAILED(pDevice->CreateRenderTargetView(tex2d.GetBuffer(), nullptr, &m_pRTV_)))
             {

@@ -7,7 +7,7 @@ module;
     #endif
 #endif
 
-export module FatPound.Win32.D3D11.Pipeline.Topology;
+export module FatPound.Win32.D3D11.Core.Topology;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
@@ -15,9 +15,9 @@ export module FatPound.Win32.D3D11.Pipeline.Topology;
     import <d3d11_4.h>;
 #endif
 
-import FatPound.Win32.D3D11.Pipeline.Bindable;
+import FatPound.Win32.D3D11.Bindable;
 
-export namespace fatpound::win32::d3d11::pipeline
+export namespace fatpound::win32::d3d11::core
 {
     class Topology : public Bindable
     {

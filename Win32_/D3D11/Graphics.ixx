@@ -18,7 +18,10 @@ import <d3dcompiler.h>;
 import FatPound.Traits.Bitwise;
 import FatPound.Utility.Surface;
 import FatPound.Utility.Gfx;
-import FatPound.Win32.D3D11.Pipeline;
+import FatPound.Win32.D3D11.Bindable;
+import FatPound.Win32.D3D11.Core;
+import FatPound.Win32.D3D11.Resource;
+import FatPound.Win32.D3D11.Shader;
 import FatPound.Win32.DXGI.Common;
 import FatPound.Win32.WRL.Common;
 
@@ -268,7 +271,7 @@ export namespace fatpound::win32::d3d11
             InitFrameworkBackbufferTexture_();
             InitFrameworkBackbufferSampler_();
 
-            std::vector<std::unique_ptr<pipeline::Bindable>> binds;
+            std::vector<std::unique_ptr<Bindable>> binds;
 
             {
                 {
@@ -279,7 +282,7 @@ export namespace fatpound::win32::d3d11
                         throw std::runtime_error("CANNOT read file to D3D Blob!");
                     }
 
-                    binds.push_back(std::make_unique<pipeline::VertexShader>(GetDevice(), pVSBlob));
+                    binds.push_back(std::make_unique<shader::VertexShader>(GetDevice(), pVSBlob));
 
                     const std::vector<D3D11_INPUT_ELEMENT_DESC> iedesc
                     {
@@ -289,10 +292,10 @@ export namespace fatpound::win32::d3d11
                         }
                     };
 
-                    binds.push_back(std::make_unique<pipeline::InputLayout>(GetDevice(), iedesc, pVSBlob));
+                    binds.push_back(std::make_unique<core::InputLayout>(GetDevice(), iedesc, pVSBlob));
                 }
 
-                binds.push_back(std::make_unique<pipeline::PixelShader>(GetDevice(), PShaderPath));
+                binds.push_back(std::make_unique<shader::PixelShader>(GetDevice(), PShaderPath));
 
                 {
                     const auto& vertices = FullScreenQuad_t::S_GenerateVertices();
@@ -307,10 +310,10 @@ export namespace fatpound::win32::d3d11
                         .StructureByteStride = sizeof(FullScreenQuad_t::Vertex)
                     };
 
-                    binds.push_back(std::make_unique<pipeline::VertexBuffer>(GetDevice(), bd, vertices));
+                    binds.push_back(std::make_unique<resource::VertexBuffer>(GetDevice(), bd, vertices));
                 }
 
-                binds.push_back(std::make_unique<pipeline::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
+                binds.push_back(std::make_unique<core::Topology>(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
             }
 
             for (auto& bindable : binds)
@@ -349,9 +352,9 @@ export namespace fatpound::win32::d3d11
                                }
             };
 
-            m_res_pack_.m_sysbufferTex2d = pipeline::Texture2D{ GetDevice(), tex2dDesc };
+            m_res_pack_.m_sysbufferTex2d = resource::Texture2D{ GetDevice(), tex2dDesc };
 
-            pipeline::ShaderResource{ GetDevice(), m_res_pack_.m_sysbufferTex2d, srvDesc }.Bind(GetImmediateContext());
+            resource::ShaderResource{ GetDevice(), m_res_pack_.m_sysbufferTex2d, srvDesc }.Bind(GetImmediateContext());
         }
         void InitFrameworkBackbufferSampler_   () requires(Framework)
         {
@@ -369,7 +372,7 @@ export namespace fatpound::win32::d3d11
                 .MaxLOD         = D3D11_FLOAT32_MAX
             };
 
-            pipeline::Sampler{ GetDevice(), sDesc }.Bind(GetImmediateContext());
+            shader::Sampler{ GetDevice(), sDesc }.Bind(GetImmediateContext());
         }
         void InitDevice_                       ()
         {
@@ -469,7 +472,7 @@ export namespace fatpound::win32::d3d11
         }
         void InitRenderTarget_                 ()
         {
-            m_res_pack_.m_render_target = pipeline::RenderTarget{ GetDevice(), pipeline::Texture2D{ GetSwapChain() } };
+            m_res_pack_.m_render_target = core::RenderTarget{ GetDevice(), resource::Texture2D{ GetSwapChain() } };
 
             if constexpr (NotFramework)
             {
@@ -502,7 +505,7 @@ export namespace fatpound::win32::d3d11
                                    }
                 };
 
-                m_res_pack_.m_depth_stencil = pipeline::DepthStencil{ GetDevice(), pipeline::Texture2D{ GetDevice(), tex2dDesc }, dsvDesc };
+                m_res_pack_.m_depth_stencil = core::DepthStencil{ GetDevice(), resource::Texture2D{ GetDevice(), tex2dDesc }, dsvDesc };
                 m_res_pack_.m_render_target.BindWithDepthStencilView(GetImmediateContext(), GetDepthStencilView());
             }
             else
@@ -522,7 +525,7 @@ export namespace fatpound::win32::d3d11
                 .MaxDepth = 1.0F
             };
 
-            pipeline::Viewport{ vp }.Bind(GetImmediateContext());
+            core::Viewport{ vp }.Bind(GetImmediateContext());
         }
         void InitRasterizer_                   () requires(NotFramework)
         {
@@ -540,7 +543,7 @@ export namespace fatpound::win32::d3d11
                 .AntialiasedLineEnable = true
             };
 
-            pipeline::Rasterizer{ GetDevice(), rDesc }.Bind(GetImmediateContext());
+            core::Rasterizer{ GetDevice(), rDesc }.Bind(GetImmediateContext());
         }
 
         void MapSubresource_                   () requires(Framework)
