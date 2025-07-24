@@ -12,9 +12,9 @@ export module FatPound.Utility.Surface;
     import FatPound.Win32.GDI_Plus.Manager;
 #endif
 
+import FatPound.Colors.ARGB;
 import FatPound.Memory;
 import FatPound.Traits.Bitwise;
-import FatPound.Utility.Color;
 import FatPound.Utility.Common;
 import FatPound.Utility.Gfx.SizePack;
 
@@ -26,11 +26,9 @@ export namespace fatpound::utility
     ///
     class Surface
     {
-        using Color_t    = Color;
-        using ColorArr_t = Color_t[];
-        using Ptr_t      = memory::AlignedUniquePtr<ColorArr_t>;
-
     public:
+        using Color_t    = colors::argb::Color;
+        using ColorArr_t = Color_t[];
         using Size_t     = std::size_t;
 
 
@@ -77,7 +75,7 @@ export namespace fatpound::utility
                     Gdiplus::Color c;
 
                     bitmap.GetPixel(static_cast<INT>(x), static_cast<INT>(y), &c);
-                    surf.PutPixel<>(x, y, Color{ c.GetValue() });
+                    surf.PutPixel<>(x, y, Color_t{ c.GetValue() });
                 }
             }
 
@@ -161,11 +159,11 @@ export namespace fatpound::utility
 
     public:
         // NOLINTBEGIN(google-explicit-constructor, hicpp-explicit-conversions)
-        operator const Color* () const & noexcept
+        operator const Color_t*() const& noexcept
         {
             return m_pBuffer_.get();
         }
-        operator       Color* ()       & noexcept
+        operator       Color_t* ()       & noexcept
         {
             return m_pBuffer_.get();
         }
@@ -181,10 +179,10 @@ export namespace fatpound::utility
         static auto CalculatePixelPitch(const Size_t& width, const Size_t& alignBytes) noexcept -> Size_t
         {
             assert(alignBytes % 4 == 0);
-            assert(alignBytes >= sizeof(Color));
+            assert(alignBytes >= sizeof(Color_t));
             assert(alignBytes <= width);
 
-            const auto& pixelsPerAlign = alignBytes / static_cast<Size_t>(sizeof(Color));
+            const auto& pixelsPerAlign = alignBytes / static_cast<Size_t>(sizeof(Color_t));
             const auto& overrunCount   = width % pixelsPerAlign;
 
             return width + ((pixelsPerAlign - overrunCount) % pixelsPerAlign);
@@ -210,17 +208,17 @@ export namespace fatpound::utility
         }
         template <traits::IntegralOrFloating T = Size_t> [[nodiscard]] FATLIB_FORCEINLINE auto GetPitch      () const noexcept -> T
         {
-            return static_cast<T>(m_pixel_pitch_ * sizeof(Color));
+            return static_cast<T>(m_pixel_pitch_ * sizeof(Color_t));
         }
 
-        template <std::unsigned_integral T> [[nodiscard]] FATLIB_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
+        template <std::unsigned_integral T> [[nodiscard]] FATLIB_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color_t
         {
             assert(x < GetWidth<T>());
             assert(y < GetHeight<T>());
 
             return m_pBuffer_[(y * m_pixel_pitch_) + x];
         }
-        template <std::unsigned_integral T>               FATLIB_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
+        template <std::unsigned_integral T>               FATLIB_FORCEINLINE void PutPixel(const T& x, const T& y, const Color_t& color) noexcept
         {
             assert(x < GetWidth<T>());
             assert(y < GetHeight<T>());
@@ -228,7 +226,7 @@ export namespace fatpound::utility
             m_pBuffer_[(static_cast<std::size_t>(y) * m_pixel_pitch_) + static_cast<std::size_t>(x)] = color;
         }
 
-        template <std::signed_integral T>   [[nodiscard]] FATLIB_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color
+        template <std::signed_integral T>   [[nodiscard]] FATLIB_FORCEINLINE auto GetPixel(const T& x, const T& y) const -> Color_t
         {
             assert(x >= 0);
             assert(y >= 0);
@@ -238,7 +236,7 @@ export namespace fatpound::utility
                 static_cast<std::make_unsigned_t<T>>(y)
             );
         }
-        template <std::signed_integral T>                 FATLIB_FORCEINLINE void PutPixel(const T& x, const T& y, const Color& color) noexcept
+        template <std::signed_integral T>                 FATLIB_FORCEINLINE void PutPixel(const T& x, const T& y, const Color_t& color) noexcept
         {
             assert(x >= 0);
             assert(y >= 0);
@@ -252,7 +250,7 @@ export namespace fatpound::utility
 
 
     public:
-        auto ReleaseAndReset() noexcept -> Color*
+        auto ReleaseAndReset() noexcept -> Color_t*
         {
             auto* const ptr = m_pBuffer_.release();
             
@@ -275,7 +273,7 @@ export namespace fatpound::utility
             return not IsEmpty();
         }
 
-        void Fill(const Color& color) noexcept
+        void Fill(const Color_t& color) noexcept
         {
 #ifdef __clang__
     #pragma clang diagnostic push
@@ -284,7 +282,7 @@ export namespace fatpound::utility
             std::memset(
                 *this,
                 static_cast<int>(color),
-                GetWidth<std::size_t>() * GetHeight<std::size_t>() * sizeof(Color)
+                GetWidth<std::size_t>() * GetHeight<std::size_t>() * sizeof(Color_t)
             );
 #ifdef __clang__
     #pragma clang diagnostic pop
@@ -314,8 +312,8 @@ export namespace fatpound::utility
     #pragma clang diagnostic push
     #pragma clang diagnostic ignored "-Wunsafe-buffer-usage"
 #endif
-                  Color* const pDest = *this;
-            const Color* const pSrc  = src;
+                  Color_t* const pDest = *this;
+            const Color_t* const pSrc  = src;
 
             const auto srcPitch = src.GetPitch<>();
 
@@ -336,12 +334,12 @@ export namespace fatpound::utility
 
 
     private:
-        Ptr_t           m_pBuffer_;
+        memory::AlignedUniquePtr<ColorArr_t>   m_pBuffer_;
 
-        gfx::SizePack   m_size_pack_;
+        gfx::SizePack                          m_size_pack_;
 
-        Size_t          m_align_byte_{};
-        Size_t          m_pixel_pitch_{};
+        Size_t                                 m_align_byte_{};
+        Size_t                                 m_pixel_pitch_{};
     };
 }
 

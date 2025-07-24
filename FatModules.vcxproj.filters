@@ -48,7 +48,7 @@
     <ClCompile Include="Math\Math.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utility\Color.ixx">
+    <ClCompile Include="Colors\ARGB\Color.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Utility\Gfx\SizePack.ixx">
@@ -340,6 +340,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Math\Special.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Colors\Colors.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Colors\ARGB\Common.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Colors\ARGB\ARGB.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

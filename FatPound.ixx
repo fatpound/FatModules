@@ -29,6 +29,7 @@ export module FatPound;
 export import FatPound.Algorithm;
 export import FatPound.Automata;
 export import FatPound.Bit;
+export import FatPound.Colors;
 export import FatPound.Concurrency;
 export import FatPound.Cryptography;
 export import FatPound.DSA;

@@ -3,7 +3,7 @@ module;
 export module FatPound.Graph.DFS;
 
 import FatPound.Graph.DirectedGraph;
-import FatPound.Utility.Color;
+import FatPound.Colors.ARGB;
 
 import std;
 
@@ -17,9 +17,9 @@ namespace fatpound::graph
     /// 
     /// @return A string containing the traversal order of visited node indices, each followed by a newline
     /// 
-    auto DFS_Visit_(const DirectedGraph& graph, std::vector<utility::Color>& colors, const std::size_t& index) -> std::string
+    auto DFS_Visit_(const DirectedGraph& graph, std::vector<colors::argb::Color>& colors, const std::size_t& index) -> std::string
     {
-        colors[index] = colors::Gray;
+        colors[index] = colors::argb::Gray;
 
 #ifdef _MSC_VER
 #pragma warning (push)
@@ -32,13 +32,13 @@ namespace fatpound::graph
 
         for (std::size_t i{}; i < graph.GetNextCount(index); ++i)
         {
-            if (const auto& nextIndex = graph.GetNextAt(index, i); colors[nextIndex] == colors::White)
+            if (const auto& nextIndex = graph.GetNextAt(index, i); colors[nextIndex] == colors::argb::White)
             {
                 output += DFS_Visit_(graph, colors, nextIndex);
             }
         }
 
-        colors[index] = colors::Black;
+        colors[index] = colors::argb::Black;
 
         return output;
     }
@@ -56,11 +56,11 @@ export namespace fatpound::graph
     {
         std::string output;
 
-        std::vector<utility::Color> colors(graph.GetNodeCount());
+        std::vector<colors::argb::Color> colors(graph.GetNodeCount());
 
         for (std::size_t i{}; i < graph.GetNodeCount(); ++i)
         {
-            if (colors[i] == colors::White)
+            if (colors[i] == colors::argb::White)
             {
                 output += DFS_Visit_(graph, colors, i);
             }

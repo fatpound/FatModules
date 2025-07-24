@@ -24,6 +24,9 @@
   <ItemGroup>
     <ClCompile Include="Algorithm\Algorithm.ixx" />
     <ClCompile Include="Bit\Common.ixx" />
+    <ClCompile Include="Colors\ARGB\ARGB.ixx" />
+    <ClCompile Include="Colors\ARGB\Common.ixx" />
+    <ClCompile Include="Colors\Colors.ixx" />
     <ClCompile Include="File\Common.ixx" />
     <ClCompile Include="Geometry\Shape\Shape.ixx" />
     <ClCompile Include="Graph\BFS.ixx" />
@@ -83,7 +86,7 @@
     <ClCompile Include="Traits\Indirection.ixx" />
     <ClCompile Include="Traits\Modification.ixx" />
     <ClCompile Include="Traits\Traits.ixx" />
-    <ClCompile Include="Utility\Color.ixx" />
+    <ClCompile Include="Colors\ARGB\Color.ixx" />
     <ClCompile Include="Utility\Common.ixx" />
     <ClCompile Include="Utility\Gfx\FullScreenQuad.ixx" />
     <ClCompile Include="Utility\Gfx\Gfx.ixx" />

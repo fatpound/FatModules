@@ -7,6 +7,7 @@
 #define FATSPACE_ALGORITHM            NAMESPACE_FATPOUND::algorithm
 #define FATSPACE_AUTOMATA             NAMESPACE_FATPOUND::automata
 #define FATSPACE_BIT                  NAMESPACE_FATPOUND::bit
+#define FATSPACE_COLORS               NAMESPACE_FATPOUND::colors
 #define FATSPACE_CONCURRENCY          NAMESPACE_FATPOUND::concurrency
 #define FATSPACE_CRYPTOGRAPHY         NAMESPACE_FATPOUND::cryptography
 #define FATSPACE_DSA                  NAMESPACE_FATPOUND::dsa
@@ -21,7 +22,6 @@
 #define FATSPACE_UTILITY              NAMESPACE_FATPOUND::utility
 #define FATSPACE_WIN32                NAMESPACE_FATPOUND::win32
 
-#define FATSPACE_COLORS               NAMESPACE_FATPOUND::colors
 #define FATSPACE_NUMBERS              FATSPACE_MATH::numbers
 #define FATSPACE_UTILITY_GFX          FATSPACE_UTILITY::gfx
 #define FATSPACE_D2D                  FATSPACE_WIN32::d2d

@@ -6,7 +6,7 @@ export module FatPound.Random.Common;
 
 import FatPound.Math.Numbers.Primes;
 import FatPound.Traits.Bitwise;
-import FatPound.Utility.Color;
+import FatPound.Colors.ARGB.Color;
 
 import std;
 
@@ -119,21 +119,21 @@ export namespace fatpound::random
     ///
     /// @note Only unsigned integral types for T are supported. Using floating-point types will cause a static assertion failure.
     ///
-    /// @see utility::Color
+    /// @see colors::argb::Color
     /// 
-    template <bool FixedAlpha = true, utility::Color::ChannelA_t Alpha = 255U, traits::UIntegralOrFloating T = std::size_t, template <typename> typename Dist>
+    template <bool FixedAlpha = true, colors::argb::Color::ChannelA_t Alpha = 255U, traits::UIntegralOrFloating T = std::size_t, template <typename> typename Dist>
     requires StdUniformOrNormalDist<Dist, T>
-    auto RandColor(std::uniform_random_bit_generator auto& rng, Dist<T>& dist) -> utility::Color
+    auto RandColor(std::uniform_random_bit_generator auto& rng, Dist<T>& dist) -> colors::argb::Color
     {
         if constexpr (std::unsigned_integral<T>)
         {
             if constexpr (FixedAlpha)
             {
-                return utility::Color{ dist(rng), Alpha };
+                return colors::argb::Color{ dist(rng), Alpha };
             }
             else
             {
-                return utility::Color{ dist(rng), bool{} };
+                return colors::argb::Color{ dist(rng), bool{} };
             }
         }
         else
@@ -162,7 +162,7 @@ export namespace fatpound::random
     ///
     /// @see utility::Color
     /// 
-    template <bool FixedAlpha = true, utility::Color::ChannelA_t Alpha = 255U, traits::UIntegralOrFloating T = std::size_t, template <typename> typename Dist>
+    template <bool FixedAlpha = true, colors::argb::Color::ChannelA_t Alpha = 255U, traits::UIntegralOrFloating T = std::size_t, template <typename> typename Dist>
     requires StdUniformOrNormalDist<Dist, T>
     auto RandColorString(const std::string& prefix, const bool& withAlpha, std::uniform_random_bit_generator auto& rng, Dist<T>& dist) -> std::string
     {
