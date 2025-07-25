@@ -149,7 +149,7 @@ export namespace fatpound::dsa::linkedlist
                 {
                     m_start_ = temp1;
 
-                    return;
+                    break;
                 }
 
                 if (temp->next == nullptr)
@@ -157,7 +157,7 @@ export namespace fatpound::dsa::linkedlist
                     temp->next = temp1;
                     m_start_   = temp;
 
-                    return;
+                    break;
                 }
             }
 
