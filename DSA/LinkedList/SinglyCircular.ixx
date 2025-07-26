@@ -125,14 +125,14 @@ export namespace fatpound::dsa::linkedlist
                 return;
             }
 
-            Node_* start_backup = this->GetStartNode_();
+            Node_* const start_backup = this->GetStartNode_();
 
-            Node_* temp1{};
-            Node_* temp2{};
-            Node_* temp3{};
+            Node_*       temp1{};
+            Node_*       temp2{};
+            Node_*       temp3{};
 
-            Node_* temp  = this->GetStartNode_();
-            Node_* start = temp;
+            Node_*       temp  = this->GetStartNode_();
+            Node_* const start = temp;
 
             while (true)
             {
@@ -204,7 +204,7 @@ export namespace fatpound::dsa::linkedlist
             }
 
             const Node_* const start = this->GetStartNode_();
-                  Node_*        exes = start;
+                  Node_*        exes = this->GetStartNode_(); // -V656
                   Node_*        temp{};
 
             do
