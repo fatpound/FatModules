@@ -103,8 +103,8 @@ export namespace fatpound::dsa::linkedlist
                 return;
             }
 
-            Node_* temp  = this->GetStartNode_();
-            Node_* start = temp;
+            Node_* const start = this->GetStartNode_();
+            Node_*       temp  = this->GetStartNode_(); // -V656
 
             while (temp->next not_eq start)
             {
@@ -156,8 +156,8 @@ export namespace fatpound::dsa::linkedlist
                 return;
             }
 
-            const Node_* const start = this->GetStartNode_();
-            const Node_*        temp = start;
+            Node_* const start = this->GetStartNode_();
+            Node_*       temp  = this->GetStartNode_(); // -V656
 
             do
             {
