@@ -181,7 +181,7 @@ namespace fatpound::automata
 
         void Clear_()
         {
-            std::deque<Node_*> nodes;
+            std::deque<Node_*> nodes; // -V826
 
             for (auto& tree : m_trees_)
             {
