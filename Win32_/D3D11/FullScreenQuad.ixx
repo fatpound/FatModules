@@ -1,10 +1,10 @@
 module;
 
-export module FatPound.Utility.Gfx.FullScreenQuad;
+export module FatPound.Win32.D3D11.FullScreenQuad;
 
 import std;
 
-export namespace fatpound::utility::gfx
+export namespace fatpound::win32::d3d11
 {
     struct FullScreenQuad
     {

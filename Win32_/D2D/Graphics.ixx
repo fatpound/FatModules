@@ -2,7 +2,6 @@ module;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
     #include <_macros/Compiler.hxx>
-    #include <_macros/Namespaces.hxx>
 
     #include <Win32_/WinAPI.hpp>
     #include <d2d1_3.h>
@@ -26,7 +25,7 @@ export module FatPound.Win32.D2D.Graphics;
 #endif
 
 import FatPound.Traits.Bitwise;
-import FatPound.Utility.Gfx.SizePack;
+import FatPound.Utility.SizePack;
 
 import std;
 
@@ -48,7 +47,7 @@ export namespace fatpound::win32::d2d
         
 
     public:
-        explicit Graphics(const HWND& hWnd, const FATSPACE_UTILITY_GFX::SizePack& dimensions)
+        explicit Graphics(const HWND& hWnd, const utility::SizePack& dimensions)
             :
             mc_dimensions_(dimensions)
         {
@@ -170,7 +169,7 @@ export namespace fatpound::win32::d2d
         wrl::ComPtr<ID2D1HwndRenderTarget>     m_pRenderTarget_;
         wrl::ComPtr<ID2D1SolidColorBrush>      m_pBrush_;
 
-        const FATSPACE_UTILITY_GFX::SizePack   mc_dimensions_;
+        const utility::SizePack                mc_dimensions_;
     };
 }
 

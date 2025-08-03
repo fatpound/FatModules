@@ -51,7 +51,7 @@
     <ClCompile Include="Colors\ARGB\Color.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utility\Gfx\SizePack.ixx">
+    <ClCompile Include="Utility\SizePack.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Utility\Utility.ixx">
@@ -159,10 +159,7 @@
     <ClCompile Include="Win32_\WindowEx.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utility\Gfx\FullScreenQuad.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Utility\Gfx\Gfx.ixx">
+    <ClCompile Include="Win32_\D3D11\FullScreenQuad.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Memory\Memory.ixx">
@@ -183,7 +180,7 @@
     <ClCompile Include="Win32_\COM\Manager.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utility\Gfx\ResourcePack.ixx">
+    <ClCompile Include="Win32_\D3D11\ResourcePack.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\D3D11\Shader\Sampler.ixx">

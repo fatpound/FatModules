@@ -8,11 +8,11 @@ module;
     #endif
 #endif
 
-export module FatPound.Utility.Gfx.ResourcePack;
+export module FatPound.Win32.D3D11.ResourcePack;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
-import FatPound.Utility.Gfx.SizePack;
+import FatPound.Utility.SizePack;
 import FatPound.Utility.Surface;
 import FatPound.Win32.D3D11.Core.DepthStencil;
 import FatPound.Win32.D3D11.Core.RenderTarget;
@@ -25,9 +25,28 @@ import FatPound.Win32.D3D11.Resource.Texture2D;
     namespace wrl = Microsoft::WRL;
 #endif
 
-export namespace fatpound::utility::gfx
+namespace fatpound::win32::d3d11
 {
-    struct ResourcePack
+    struct ResourcePackBase
+    {
+        explicit ResourcePackBase() noexcept                   = default;
+        explicit ResourcePackBase(const ResourcePackBase&)     = delete;
+        explicit ResourcePackBase(ResourcePackBase&&) noexcept = delete;
+
+        auto operator = (const ResourcePackBase&)     -> ResourcePackBase& = delete;
+        auto operator = (ResourcePackBase&&) noexcept -> ResourcePackBase& = delete;
+        ~ResourcePackBase() noexcept                                       = default;
+
+        wrl::ComPtr<IDXGISwapChain>         m_pSwapChain;
+        wrl::ComPtr<ID3D11Device>           m_pDevice;
+        wrl::ComPtr<ID3D11DeviceContext>    m_pImmediateContext;
+        win32::d3d11::core::RenderTarget    m_render_target;
+    };
+}
+
+export namespace fatpound::win32::d3d11
+{
+    struct ResourcePack : ResourcePackBase
     {
         explicit ResourcePack() noexcept               = default;
         explicit ResourcePack(const ResourcePack&)     = delete;
@@ -37,20 +56,12 @@ export namespace fatpound::utility::gfx
         auto operator = (ResourcePack&&) noexcept -> ResourcePack& = delete;
         ~ResourcePack() noexcept                                   = default;
 
-        wrl::ComPtr<IDXGISwapChain>         m_pSwapChain;
-        wrl::ComPtr<ID3D11Device>           m_pDevice;
-        wrl::ComPtr<ID3D11DeviceContext>    m_pImmediateContext;
-        win32::d3d11::core::RenderTarget    m_render_target;
-        win32::d3d11::core::DepthStencil    m_depth_stencil;
+        win32::d3d11::core::DepthStencil  m_depth_stencil;
     };
 
-    struct FrameworkResourcePack final : public ResourcePack
+    struct FrameworkResourcePack : ResourcePackBase
     {
-        win32::d3d11::resource::Texture2D   m_sysbufferTex2d;
-        D3D11_MAPPED_SUBRESOURCE            m_mappedSysbufferTex2d{};
-        Surface                             m_surface;
-
-        explicit FrameworkResourcePack(const SizePack& dimensions)
+        explicit FrameworkResourcePack(const utility::SizePack& dimensions)
             :
             m_surface(dimensions)
         {
@@ -64,6 +75,10 @@ export namespace fatpound::utility::gfx
         auto operator = (const FrameworkResourcePack&)     -> FrameworkResourcePack& = delete;
         auto operator = (FrameworkResourcePack&&) noexcept -> FrameworkResourcePack& = delete;
         ~FrameworkResourcePack() noexcept                                            = default;
+
+        win32::d3d11::resource::Texture2D   m_sysbufferTex2d;
+        D3D11_MAPPED_SUBRESOURCE            m_mappedSysbufferTex2d{};
+        utility::Surface                    m_surface;
     };
 }
 

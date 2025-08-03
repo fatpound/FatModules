@@ -16,7 +16,7 @@ import FatPound.Colors.ARGB;
 import FatPound.Memory;
 import FatPound.Traits.Bitwise;
 import FatPound.Utility.Common;
-import FatPound.Utility.Gfx.SizePack;
+import FatPound.Utility.SizePack;
 
 import std;
 
@@ -82,7 +82,7 @@ export namespace fatpound::utility
             *this = std::move(surf);
         }
 #endif
-        explicit Surface(const gfx::SizePack& dimensions,           const Size_t& alignBytes = scx_DefaultAlignment)
+        explicit Surface(const SizePack& dimensions,                const Size_t& alignBytes = scx_DefaultAlignment)
             :
             m_pBuffer_(memory::MakeAlignedUniquePtr<ColorArr_t>(alignBytes, dimensions.m_width * dimensions.m_height)),
             m_size_pack_(dimensions),
@@ -93,7 +93,7 @@ export namespace fatpound::utility
         }
         explicit Surface(const Size_t& width, const Size_t& height, const Size_t& alignBytes = scx_DefaultAlignment)
             :
-            Surface(gfx::SizePack{ .m_width = width, .m_height = height }, alignBytes)
+            Surface(SizePack{ .m_width = width, .m_height = height }, alignBytes)
         {
 
         }
@@ -259,7 +259,7 @@ export namespace fatpound::utility
             return ptr;
         }
 
-        [[nodiscard]] auto GetSizePack() const noexcept -> gfx::SizePack
+        [[nodiscard]] auto GetSizePack() const noexcept -> SizePack
         {
             return m_size_pack_;
         }
@@ -336,7 +336,7 @@ export namespace fatpound::utility
     private:
         memory::AlignedUniquePtr<ColorArr_t>   m_pBuffer_;
 
-        gfx::SizePack                          m_size_pack_;
+        SizePack                          m_size_pack_;
 
         Size_t                                 m_align_byte_{};
         Size_t                                 m_pixel_pitch_{};

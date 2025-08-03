@@ -17,8 +17,10 @@ import <d3dcompiler.h>;
 
 import FatPound.Traits.Bitwise;
 import FatPound.Utility.Surface;
-import FatPound.Utility.Gfx;
+import FatPound.Utility.SizePack;
 import FatPound.Win32.D3D11.Bindable;
+import FatPound.Win32.D3D11.ResourcePack;
+import FatPound.Win32.D3D11.FullScreenQuad;
 import FatPound.Win32.D3D11.Core;
 import FatPound.Win32.D3D11.Resource;
 import FatPound.Win32.D3D11.Shader;
@@ -26,8 +28,6 @@ import FatPound.Win32.DXGI.Common;
 import FatPound.Win32.WRL.Common;
 
 import std;
-
-using FATSPACE_UTILITY_GFX::SizePack;
 
 export namespace fatpound::win32::d3d11
 {
@@ -41,17 +41,17 @@ export namespace fatpound::win32::d3d11
         static constexpr auto NotFramework         = not Framework;
         static constexpr auto RasterizationEnabled = NotFramework;
 
-        using ResourcePack_t   = std::conditional_t<Framework, FATSPACE_UTILITY_GFX::FrameworkResourcePack, FATSPACE_UTILITY_GFX::ResourcePack>;
-        using FullScreenQuad_t = utility::gfx::FullScreenQuad; // for Framework
-        using Surface_t        = utility::Surface;             // for Framework
-        using Color_t          = Surface_t::Color_t;           // for Framework
+        using ResourcePack_t   = std::conditional_t<Framework, FrameworkResourcePack, ResourcePack>;
+        using FullScreenQuad_t = FullScreenQuad;     // for Framework
+        using Surface_t        = utility::Surface;   // for Framework
+        using Color_t          = Surface_t::Color_t; // for Framework
 
     public:
         using Float_t = float;
 
 
     public:
-        explicit Graphics(const HWND& hWnd, const SizePack& dimensions)
+        explicit Graphics(const HWND& hWnd, const utility::SizePack& dimensions)
             :
             mc_hWnd_(hWnd),
             mc_dimensions_{ dimensions }
@@ -63,7 +63,7 @@ export namespace fatpound::win32::d3d11
                 InitRasterizer_();
             }
         }
-        explicit Graphics(const HWND& hWnd, const SizePack& dimensions) requires(Framework)
+        explicit Graphics(const HWND& hWnd, const utility::SizePack& dimensions) requires(Framework)
             :
             m_res_pack_(dimensions),
             mc_hWnd_(hWnd),
@@ -76,7 +76,7 @@ export namespace fatpound::win32::d3d11
                 InitRasterizer_();
             }
         }
-        explicit Graphics(const HWND& hWnd, const SizePack& dimensions,          const std::wstring& VShaderPath, const std::wstring& PShaderPath) requires(Framework)
+        explicit Graphics(const HWND& hWnd, const utility::SizePack& dimensions,          const std::wstring& VShaderPath, const std::wstring& PShaderPath) requires(Framework)
             :
             Graphics(hWnd, dimensions)
         {
@@ -602,7 +602,7 @@ export namespace fatpound::win32::d3d11
         ResourcePack_t               m_res_pack_{};
 
         const HWND                   mc_hWnd_;
-        const SizePack               mc_dimensions_;
+        const utility::SizePack      mc_dimensions_;
 
         UINT                         m_msaa_count_{};
         UINT                         m_msaa_quality_{};

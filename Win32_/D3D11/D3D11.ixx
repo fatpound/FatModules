@@ -8,5 +8,7 @@ export import FatPound.Win32.D3D11.Shader;
 
 export import FatPound.Win32.D3D11.Graphics;
 export import FatPound.Win32.D3D11.Bindable;
+export import FatPound.Win32.D3D11.FullScreenQuad;
+export import FatPound.Win32.D3D11.ResourcePack;
 
 // module : private;

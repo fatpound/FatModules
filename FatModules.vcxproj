@@ -88,10 +88,9 @@
     <ClCompile Include="Traits\Traits.ixx" />
     <ClCompile Include="Colors\ARGB\Color.ixx" />
     <ClCompile Include="Utility\Common.ixx" />
-    <ClCompile Include="Utility\Gfx\FullScreenQuad.ixx" />
-    <ClCompile Include="Utility\Gfx\Gfx.ixx" />
-    <ClCompile Include="Utility\Gfx\ResourcePack.ixx" />
-    <ClCompile Include="Utility\Gfx\SizePack.ixx" />
+    <ClCompile Include="Win32_\D3D11\FullScreenQuad.ixx" />
+    <ClCompile Include="Win32_\D3D11\ResourcePack.ixx" />
+    <ClCompile Include="Utility\SizePack.ixx" />
     <ClCompile Include="Utility\Surface.ixx" />
     <ClCompile Include="Utility\Timer.ixx" />
     <ClCompile Include="Utility\Utility.ixx" />

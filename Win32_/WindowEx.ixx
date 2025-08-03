@@ -23,7 +23,7 @@ export module FatPound.Win32.WindowEx;
 import FatPound.Concurrency;
 import FatPound.IO;
 import FatPound.Traits.Bitwise;
-import FatPound.Utility.Gfx.SizePack;
+import FatPound.Utility.SizePack;
 import FatPound.Win32.IWindow;
 
 #ifdef __INTELLISENSE__
@@ -33,8 +33,6 @@ import FatPound.Win32.IWindow;
 import std;
 
 namespace dx = DirectX;
-
-using FATSPACE_UTILITY_GFX::SizePack;
 
 export namespace fatpound::win32
 {
@@ -54,7 +52,7 @@ export namespace fatpound::win32
         explicit WindowEx(
             std::shared_ptr<WndClassEx>        pWndClassEx,
             const std::wstring&                title,
-            const SizePack&                    clientDimensions,
+            const utility::SizePack&           clientDimensions,
             std::shared_ptr<io::Keyboard>      pKeyboard         = std::make_shared<io::Keyboard>(),
             std::shared_ptr<io::Mouse>         pMouse            = std::make_shared<io::Mouse>(),
             const std::optional<dx::XMINT2>&   position          = std::nullopt,
@@ -405,7 +403,7 @@ export namespace fatpound::win32
     protected:
         FATSPACE_CONCURRENCY::TaskQueue   m_tasks_;
         std::shared_ptr<WndClassEx>       m_pWndClassEx_;
-        const SizePack                    mc_client_size_;
+        const utility::SizePack           mc_client_size_;
 
         HWND                              m_hWnd_{};
 
