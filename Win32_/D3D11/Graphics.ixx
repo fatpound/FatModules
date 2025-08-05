@@ -483,8 +483,6 @@ export namespace fatpound::win32::d3d11
         }
         void InitRenderTarget_                 ()
         {
-            m_res_pack_.m_render_target = core::RenderTarget{ GetDevice(), resource::Texture2D{ GetSwapChain() } };
-
             if constexpr (NotFramework)
             {
                 const D3D11_TEXTURE2D_DESC tex2dDesc
@@ -517,12 +515,14 @@ export namespace fatpound::win32::d3d11
                 };
 
                 m_res_pack_.m_depth_stencil = core::DepthStencil{ GetDevice(), resource::Texture2D{ GetDevice(), tex2dDesc }, dsvDesc };
-                m_res_pack_.m_render_target.BindWithDepthStencilView(GetImmediateContext(), GetDepthStencilView());
+                m_res_pack_.m_render_target = core::RenderTarget{ GetDevice(), resource::Texture2D{ GetSwapChain() }, m_res_pack_.m_depth_stencil };
             }
             else
             {
-                m_res_pack_.m_render_target.Bind(GetImmediateContext());
+                m_res_pack_.m_render_target = core::RenderTarget{ GetDevice(), resource::Texture2D{ GetSwapChain() } };
             }
+
+            m_res_pack_.m_render_target.Bind(GetImmediateContext());
         }
         void InitViewport_                     ()
         {

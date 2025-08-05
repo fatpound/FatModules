@@ -20,6 +20,7 @@ export module FatPound.Win32.D3D11.Core.RenderTarget;
 #endif
 
 import FatPound.Win32.D3D11.Bindable;
+import FatPound.Win32.D3D11.Core.DepthStencil;
 import FatPound.Win32.D3D11.Resource.Texture2D;
 
 import std;
@@ -40,6 +41,12 @@ export namespace fatpound::win32::d3d11::core
                 throw std::runtime_error("Could NOT create RenderTargetView!");
             }
         }
+        explicit RenderTarget(ID3D11Device* const pDevice, const resource::Texture2D& tex2d, const DepthStencil& ds)
+            :
+            RenderTarget(pDevice, tex2d)
+        {
+            m_pDepthStencil_ = &ds;
+        }
 
         explicit RenderTarget()                        = default;
         explicit RenderTarget(const RenderTarget&)     = delete;
@@ -53,24 +60,33 @@ export namespace fatpound::win32::d3d11::core
     public:
         virtual void Bind(ID3D11DeviceContext* pImmediateContext) override
         {
-            pImmediateContext->OMSetRenderTargets(1U, m_pRTV_.GetAddressOf(), nullptr);
+            pImmediateContext->OMSetRenderTargets(
+                1U,
+                m_pRTV_.GetAddressOf(),
+                GetDSView()
+            );
         }
 
 
     public:
-        auto GetView() const noexcept -> ID3D11RenderTargetView*
+        auto GetView   () const noexcept -> ID3D11RenderTargetView*
         {
             return m_pRTV_.Get();
         }
-
-        void BindWithDepthStencilView(ID3D11DeviceContext* pImmediateContext, ID3D11DepthStencilView* const pDSV)
+        auto GetDSView () const noexcept -> ID3D11DepthStencilView*
         {
-            pImmediateContext->OMSetRenderTargets(1U, m_pRTV_.GetAddressOf(), pDSV);
+            return m_pDepthStencil_ not_eq nullptr ? m_pDepthStencil_->GetView() : nullptr;
+        }
+
+        auto HasDepthStencil () const noexcept -> bool
+        {
+            return m_pDepthStencil_ not_eq nullptr;
         }
 
 
     protected:
-        wrl::ComPtr<ID3D11RenderTargetView>  m_pRTV_;
+        wrl::ComPtr<ID3D11RenderTargetView>   m_pRTV_;
+        const DepthStencil*                   m_pDepthStencil_{};
 
 
     private:
