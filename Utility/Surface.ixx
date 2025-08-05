@@ -336,7 +336,7 @@ export namespace fatpound::utility
     private:
         memory::AlignedUniquePtr<ColorArr_t>   m_pBuffer_;
 
-        SizePack                          m_size_pack_;
+        SizePack                               m_size_pack_;
 
         Size_t                                 m_align_byte_{};
         Size_t                                 m_pixel_pitch_{};
