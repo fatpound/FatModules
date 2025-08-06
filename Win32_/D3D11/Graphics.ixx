@@ -224,7 +224,7 @@ export namespace fatpound::win32::d3d11
         }
         auto GetDepthStencilView () const noexcept -> ID3D11DepthStencilView* requires(NotFramework)
         {
-            return m_res_pack_.m_depth_stencil.GetView();
+            return m_res_pack_.m_render_target.GetDSView();
         }
         auto GetSysbufferTexture () const noexcept -> ID3D11Texture2D*        requires(Framework)
         {
@@ -514,8 +514,7 @@ export namespace fatpound::win32::d3d11
                                    }
                 };
 
-                m_res_pack_.m_depth_stencil = core::DepthStencil{ GetDevice(), resource::Texture2D{ GetDevice(), tex2dDesc }, dsvDesc };
-                m_res_pack_.m_render_target = core::RenderTarget{ GetDevice(), resource::Texture2D{ GetSwapChain() }, m_res_pack_.m_depth_stencil };
+                m_res_pack_.m_render_target = core::RenderTarget{ GetDevice(), resource::Texture2D{ GetSwapChain() }, resource::Texture2D{ GetDevice(), tex2dDesc }, dsvDesc };
             }
             else
             {

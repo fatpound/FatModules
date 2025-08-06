@@ -42,7 +42,7 @@ export namespace fatpound::win32::d3d11::core
 
         explicit DepthStencil()                        = default;
         explicit DepthStencil(const DepthStencil&)     = delete;
-        explicit DepthStencil(DepthStencil&&) noexcept = delete;
+        explicit DepthStencil(DepthStencil&&) noexcept = default;
 
         auto operator = (const DepthStencil&)     -> DepthStencil& = delete;
         auto operator = (DepthStencil&&) noexcept -> DepthStencil& = default;

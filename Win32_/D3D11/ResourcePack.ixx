@@ -37,10 +37,10 @@ namespace fatpound::win32::d3d11
         auto operator = (ResourcePackBase&&) noexcept -> ResourcePackBase& = delete;
         ~ResourcePackBase() noexcept                                       = default;
 
-        wrl::ComPtr<IDXGISwapChain>         m_pSwapChain;
-        wrl::ComPtr<ID3D11Device>           m_pDevice;
-        wrl::ComPtr<ID3D11DeviceContext>    m_pImmediateContext;
-        win32::d3d11::core::RenderTarget    m_render_target;
+        wrl::ComPtr<IDXGISwapChain>        m_pSwapChain;
+        wrl::ComPtr<ID3D11Device>          m_pDevice;
+        wrl::ComPtr<ID3D11DeviceContext>   m_pImmediateContext;
+        win32::d3d11::core::RenderTarget   m_render_target;
     };
 }
 
@@ -55,8 +55,6 @@ export namespace fatpound::win32::d3d11
         auto operator = (const ResourcePack&)     -> ResourcePack& = delete;
         auto operator = (ResourcePack&&) noexcept -> ResourcePack& = delete;
         ~ResourcePack() noexcept                                   = default;
-
-        win32::d3d11::core::DepthStencil  m_depth_stencil;
     };
 
     struct FrameworkResourcePack : ResourcePackBase
