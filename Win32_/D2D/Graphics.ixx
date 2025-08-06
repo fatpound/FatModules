@@ -166,10 +166,10 @@ export namespace fatpound::win32::d2d
         
         
     private:
-        wrl::ComPtr<ID2D1HwndRenderTarget>     m_pRenderTarget_;
-        wrl::ComPtr<ID2D1SolidColorBrush>      m_pBrush_;
+        wrl::ComPtr<ID2D1HwndRenderTarget>   m_pRenderTarget_;
+        wrl::ComPtr<ID2D1SolidColorBrush>    m_pBrush_;
 
-        const utility::SizePack                mc_dimensions_;
+        const utility::SizePack              mc_dimensions_;
     };
 }
 

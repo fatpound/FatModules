@@ -30,7 +30,9 @@ export namespace fatpound::win32::d3d11::shader
     class Sampler : public Bindable
     {
     public:
-        explicit Sampler(ID3D11Device* const pDevice, const D3D11_SAMPLER_DESC& sDesc)
+        explicit Sampler(ID3D11Device* const pDevice, const D3D11_SAMPLER_DESC& sDesc, const UINT& startSlot = 0U)
+            :
+            m_start_slot_(startSlot)
         {
             if (FAILED(pDevice->CreateSamplerState(&sDesc, &m_pSamplerState_)))
             {
@@ -50,12 +52,13 @@ export namespace fatpound::win32::d3d11::shader
     public:
         virtual void Bind(ID3D11DeviceContext* const pImmediateContext) override
         {
-            pImmediateContext->PSSetSamplers(0U, 1U, m_pSamplerState_.GetAddressOf());
+            pImmediateContext->PSSetSamplers(m_start_slot_, 1U, m_pSamplerState_.GetAddressOf());
         }
 
 
     protected:
-        wrl::ComPtr<ID3D11SamplerState>  m_pSamplerState_;
+        wrl::ComPtr<ID3D11SamplerState>   m_pSamplerState_;
+        UINT                              m_start_slot_{};
 
 
     private:

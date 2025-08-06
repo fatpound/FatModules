@@ -1,1 +1,3 @@
 for lock_guards without CTAD, see: https://clang.llvm.org/docs/DiagnosticsReference.html#wctad-maybe-unsupported
+
+I recommend using Visual Studio 2022 and pressing default key combination Ctrl + M + O for better readability.

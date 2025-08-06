@@ -33,7 +33,9 @@ export namespace fatpound::win32::d3d11::resource
     class ShaderResource : public Bindable
     {
     public:
-        explicit ShaderResource(ID3D11Device* const pDevice, const Texture2D& tex2d, const D3D11_SHADER_RESOURCE_VIEW_DESC& srvDesc)
+        explicit ShaderResource(ID3D11Device* const pDevice, const Texture2D& tex2d, const D3D11_SHADER_RESOURCE_VIEW_DESC& srvDesc, const UINT& startSlot = 0U)
+            :
+            m_start_slot_(startSlot)
         {
             if (FAILED(pDevice->CreateShaderResourceView(tex2d.GetBuffer(), &srvDesc, &m_pSRV_)))
             {
@@ -53,7 +55,7 @@ export namespace fatpound::win32::d3d11::resource
     public:
         virtual void Bind(ID3D11DeviceContext* pImmediateContext) override
         {
-            pImmediateContext->PSSetShaderResources(0U, 1U, m_pSRV_.GetAddressOf());
+            pImmediateContext->PSSetShaderResources(m_start_slot_, 1U, m_pSRV_.GetAddressOf());
         }
 
 
@@ -66,6 +68,7 @@ export namespace fatpound::win32::d3d11::resource
 
     protected:
         wrl::ComPtr<ID3D11ShaderResourceView>  m_pSRV_;
+        UINT                                   m_start_slot_{};
 
 
     private:
