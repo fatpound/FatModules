@@ -65,6 +65,11 @@ export namespace fatpound::win32::d2d
             {
                 throw std::runtime_error("A problem occured when creating the HwndRenderTarget!");
             }
+
+            if (FAILED(m_pRenderTarget_->CreateSolidColorBrush(Color_t{}, &m_pSolidBrush_)))
+            {
+                throw std::runtime_error("Could NOT create SolidColorBrush!");
+            }
         }
 
         explicit Graphics()                    = delete;
@@ -97,32 +102,36 @@ export namespace fatpound::win32::d2d
             }
         }
 
-        template <float r = 0.0F, float g = 0.0F, float b = 0.0F>
+        template <float r = 0.0F, float g = 0.0F, float b = 0.0F, float a = 1.0F>
         void ClearScreen() noexcept
         {
-            m_pRenderTarget_->Clear(D2D1::ColorF(r, g, b));
+            m_pRenderTarget_->Clear(Color_t{ r, g, b, a });
         }
 
 
     public:
-        void ClearScreen(const float& r, const float& g, const float& b) noexcept
+        auto GetSolidBrushColor() noexcept -> Color_t
         {
-            m_pRenderTarget_->Clear(D2D1::ColorF(r, g, b));
+            return m_pSolidBrush_->GetColor();
+        }
+        void SetSolidBrushColor(const Color_t& color) noexcept
+        {
+            m_pSolidBrush_->SetColor(color);
         }
 
         void DrawLine(const Point_t& p0, const Point_t& p1) noexcept
         {
-            m_pRenderTarget_->DrawLine(p0, p1, m_pBrush_.Get());
+            m_pRenderTarget_->DrawLine(p0, p1, m_pSolidBrush_.Get());
         }
         void DrawLine(const Point_t& p0, const Point_t& p1, const Color_t& color) noexcept
         {
-            m_pRenderTarget_->CreateSolidColorBrush(color, &m_pBrush_);
+            SetSolidBrushColor(color);
 
             DrawLine(p0, p1);
         }
         void DrawClosedPolyLine(const std::vector<dx::XMFLOAT2>& vertices, const D2D1_COLOR_F& color) noexcept
         {
-            m_pRenderTarget_->CreateSolidColorBrush(color, &m_pBrush_);
+            SetSolidBrushColor(color);
 
             for (std::size_t i{}; i < vertices.size(); ++i)
             {
@@ -137,7 +146,7 @@ export namespace fatpound::win32::d2d
         }
         void DrawClosedPolyLine(const std::vector<dx::XMFLOAT2>& vertices, const D2D1_COLOR_F& color, const dx::XMMATRIX& transform) noexcept
         {
-            m_pRenderTarget_->CreateSolidColorBrush(color, &m_pBrush_);
+            SetSolidBrushColor(color);
 
             for (std::size_t i = 1U; i < vertices.size() + 1U; ++i)
             {
@@ -156,6 +165,10 @@ export namespace fatpound::win32::d2d
             }
         }
 
+        void ClearScreen(const float& r, const float& g, const float& b, const float& a = 1.0F) noexcept
+        {
+            m_pRenderTarget_->Clear(Color_t{ r, g, b, a });
+        }
         void EndFrame() noexcept
         {
             m_pRenderTarget_->EndDraw();
@@ -167,7 +180,7 @@ export namespace fatpound::win32::d2d
         
     private:
         wrl::ComPtr<ID2D1HwndRenderTarget>   m_pRenderTarget_;
-        wrl::ComPtr<ID2D1SolidColorBrush>    m_pBrush_;
+        wrl::ComPtr<ID2D1SolidColorBrush>    m_pSolidBrush_;
 
         const utility::SizePack              mc_dimensions_;
     };
