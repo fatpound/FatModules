@@ -197,11 +197,10 @@ export namespace fatpound::win32::d3d11
 
 
     public:
-        auto GetSurface() noexcept -> Surface_t*
+        auto GetSurface          () const noexcept -> Surface_t*
         {
             return m_pSurface_.get();
         }
-
         auto GetHwnd             () const noexcept -> HWND
         {
             return mc_hWnd_;
@@ -231,11 +230,11 @@ export namespace fatpound::win32::d3d11
             return m_res_pack_.m_sysbufferTex2d.GetBuffer();
         }
 
-        auto GetMSAACount        () const noexcept
+        auto GetMSAACount        () const noexcept -> UINT
         {
             return m_msaa_count_;
         }
-        auto GetMSAAQuality      () const noexcept
+        auto GetMSAAQuality      () const noexcept -> UINT
         {
             return m_msaa_quality_;
         }
@@ -556,6 +555,10 @@ export namespace fatpound::win32::d3d11
             core::Rasterizer{ GetDevice(), rDesc }.Bind(GetImmediateContext());
         }
 
+        void ToggleAltEnterMode_               ()
+        {
+            dxgi::ToggleAltEnterMode(GetDevice(), GetHwnd(), m_dxgi_mode_);
+        }
         void MapSubresource_                   () requires(Framework)
         {
             if (FAILED(GetImmediateContext()->Map(
@@ -589,11 +592,6 @@ export namespace fatpound::win32::d3d11
         {
             GetImmediateContext()->Unmap(GetSysbufferTexture(), 0U);
             GetImmediateContext()->Draw(3U, 0U);
-        }
-
-        void ToggleAltEnterMode_()
-        {
-            dxgi::ToggleAltEnterMode(GetDevice(), GetHwnd(), m_dxgi_mode_);
         }
 
 
