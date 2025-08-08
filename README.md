@@ -21,3 +21,5 @@ No warnings on `MSVC v19.43.34808 & v19.44.35213` with [these](https://github.co
 No warnings with `Microsoft C++ Native Recommended Rules` and some more [rules](https://github.com/fatpound/FatCodex/blob/main/FatRules.ruleset)\
 No warnings in `clang-tidy 19` with [these](https://github.com/fatpound/FatCodex/blob/main/.clang-tidy) checks\
 No warnings in `PVS-Studio v7.35`
+
+Copyright (c) fatpound
