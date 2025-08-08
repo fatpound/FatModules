@@ -66,7 +66,7 @@ export namespace fatpound::win32::d2d
                 throw std::runtime_error("A problem occured when creating the HwndRenderTarget!");
             }
 
-            if (FAILED(m_pRenderTarget_->CreateSolidColorBrush(Color_t{}, &m_pSolidBrush_)))
+            if (FAILED(m_pRenderTarget_->CreateSolidColorBrush(Color_t{ D2D1::ColorF::White }, &m_pSolidBrush_)))
             {
                 throw std::runtime_error("Could NOT create SolidColorBrush!");
             }
@@ -110,7 +110,7 @@ export namespace fatpound::win32::d2d
 
 
     public:
-        auto GetSolidBrushColor() noexcept -> Color_t
+        auto GetSolidBrushColor() const noexcept -> Color_t
         {
             return m_pSolidBrush_->GetColor();
         }
@@ -129,14 +129,14 @@ export namespace fatpound::win32::d2d
 
             DrawLine(p0, p1);
         }
-        void DrawClosedPolyLine(const std::vector<dx::XMFLOAT2>& vertices, const D2D1_COLOR_F& color) noexcept
+        void DrawClosedPolyLine(const std::vector<dx::XMFLOAT2>& vertices, const Color_t& color) noexcept
         {
             SetSolidBrushColor(color);
 
             for (std::size_t i{}; i < vertices.size(); ++i)
             {
                 const auto& current = vertices[i];
-                const auto& next = vertices[(i + 1U) % vertices.size()];
+                const auto& next    = vertices[(i + 1U) % vertices.size()];
 
                 DrawLine(
                     D2D1::Point2F(current.x, current.y),
@@ -144,25 +144,25 @@ export namespace fatpound::win32::d2d
                 );
             }
         }
-        void DrawClosedPolyLine(const std::vector<dx::XMFLOAT2>& vertices, const D2D1_COLOR_F& color, const dx::XMMATRIX& transform) noexcept
+        void DrawClosedPolyLine(const std::vector<dx::XMFLOAT2>& vertices, const Color_t& color, const dx::XMMATRIX& transform) noexcept
         {
             SetSolidBrushColor(color);
 
-            for (std::size_t i = 1U; i < vertices.size() + 1U; ++i)
+            std::vector<dx::XMFLOAT2> transformed_vertices;
+            transformed_vertices.reserve(vertices.size());
+
+            for (const auto& vertex : vertices)
             {
-                const auto& vec0 = dx::XMVector2TransformCoord(dx::XMLoadFloat2(&vertices[i - 1U]), transform);
-                const auto& vec1 = dx::XMVector2TransformCoord(dx::XMLoadFloat2(&vertices[i % vertices.size()]), transform);
+                auto vec = dx::XMLoadFloat2(&vertex);
+                vec = dx::XMVector2TransformCoord(vec, transform);
 
-                dx::XMFLOAT2 transformed0;
-                dx::XMFLOAT2 transformed1;
-                dx::XMStoreFloat2(&transformed0, vec0);
-                dx::XMStoreFloat2(&transformed1, vec1);
+                dx::XMFLOAT2 transformed;
+                dx::XMStoreFloat2(&transformed, vec);
 
-                DrawLine(
-                    D2D1::Point2F(transformed0.x, transformed0.y),
-                    D2D1::Point2F(transformed1.x, transformed1.y)
-                );
+                transformed_vertices.push_back(transformed);
             }
+
+            DrawClosedPolyLine(transformed_vertices, color);
         }
 
         void ClearScreen(const float& r, const float& g, const float& b, const float& a = 1.0F) noexcept
