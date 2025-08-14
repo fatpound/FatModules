@@ -16,17 +16,13 @@ export module FatPound.Win32.D3D11.Resource.ShaderResource;
 
 #ifndef __INTELLISENSE__
     import <d3d11_4.h>;
-    import FatPound.Win32.WRL.Common;
+    import <wrl.h>;
 #endif
 
 import FatPound.Win32.D3D11.Bindable;
 import FatPound.Win32.D3D11.Resource.Texture2D;
 
 import std;
-
-#ifdef __INTELLISENSE__
-    namespace wrl = Microsoft::WRL;
-#endif
 
 export namespace fatpound::win32::d3d11::resource
 {
@@ -67,8 +63,8 @@ export namespace fatpound::win32::d3d11::resource
 
 
     protected:
-        wrl::ComPtr<ID3D11ShaderResourceView>  m_pSRV_;
-        UINT                                   m_start_slot_{};
+        Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>   m_pSRV_;
+        UINT                                               m_start_slot_{};
 
 
     private:

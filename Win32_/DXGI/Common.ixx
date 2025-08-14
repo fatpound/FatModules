@@ -14,23 +14,21 @@ export module FatPound.Win32.DXGI.Common;
 
 #ifndef __INTELLISENSE__
     import <d3d11_4.h>;
-    import FatPound.Win32.WRL.Common;
-#else
-    namespace wrl = Microsoft::WRL;
+    import <wrl.h>;
 #endif
 
 export namespace fatpound::win32::dxgi
 {
-    auto GetFactoryFromDevice(ID3D11Device* const pDevice) -> wrl::ComPtr<IDXGIFactory>
+    auto GetFactoryFromDevice(ID3D11Device* const pDevice) -> Microsoft::WRL::ComPtr<IDXGIFactory>
     {
-        auto pDXGIDevice = wrl::ComPtr<IDXGIDevice>{};
+        auto pDXGIDevice = Microsoft::WRL::ComPtr<IDXGIDevice>{};
 
         pDevice->QueryInterface(__uuidof(IDXGIDevice), &pDXGIDevice);
 
-        auto pDXGIAdapter = wrl::ComPtr<IDXGIAdapter>{};
+        auto pDXGIAdapter = Microsoft::WRL::ComPtr<IDXGIAdapter>{};
         pDXGIDevice->GetParent(__uuidof(IDXGIAdapter), &pDXGIAdapter);
 
-        auto pDXGIFactory = wrl::ComPtr<IDXGIFactory>{};
+        auto pDXGIFactory = Microsoft::WRL::ComPtr<IDXGIFactory>{};
         pDXGIAdapter->GetParent(__uuidof(IDXGIFactory), &pDXGIFactory);
 
         return pDXGIFactory;

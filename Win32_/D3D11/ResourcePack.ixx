@@ -20,9 +20,7 @@ import FatPound.Win32.D3D11.Resource.Texture2D;
 
 #ifndef __INTELLISENSE__
     import <d3d11_4.h>;
-    import FatPound.Win32.WRL.Common;
-#else
-    namespace wrl = Microsoft::WRL;
+    import <wrl.h>;
 #endif
 
 namespace fatpound::win32::d3d11
@@ -37,10 +35,10 @@ namespace fatpound::win32::d3d11
         auto operator = (ResourcePackBase&&) noexcept -> ResourcePackBase& = delete;
         ~ResourcePackBase() noexcept                                       = default;
 
-        wrl::ComPtr<IDXGISwapChain>        m_pSwapChain;
-        wrl::ComPtr<ID3D11Device>          m_pDevice;
-        wrl::ComPtr<ID3D11DeviceContext>   m_pImmediateContext;
-        win32::d3d11::core::RenderTarget   m_render_target;
+        Microsoft::WRL::ComPtr<IDXGISwapChain>        m_pSwapChain;
+        Microsoft::WRL::ComPtr<ID3D11Device>          m_pDevice;
+        Microsoft::WRL::ComPtr<ID3D11DeviceContext>   m_pImmediateContext;
+        win32::d3d11::core::RenderTarget              m_render_target;
     };
 }
 

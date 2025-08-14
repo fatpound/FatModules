@@ -21,7 +21,7 @@ export module FatPound.Win32.D2D.Graphics;
 
 #ifndef __INTELLISENSE__
     // import <Win32_/WinAPI.hxx>;
-    import FatPound.Win32.WRL.Common;
+    import <wrl.h>;
 #endif
 
 import FatPound.Traits.Bitwise;
@@ -30,10 +30,6 @@ import FatPound.Utility.SizePack;
 import std;
 
 namespace dx = DirectX;
-
-#ifdef __INTELLISENSE__
-    namespace wrl = Microsoft::WRL;
-#endif
 
 export namespace fatpound::win32::d2d
 {
@@ -51,7 +47,7 @@ export namespace fatpound::win32::d2d
             :
             mc_dimensions_(dimensions)
         {
-            wrl::ComPtr<ID2D1Factory> pFactory;
+            Microsoft::WRL::ComPtr<ID2D1Factory> pFactory;
             
             if (FAILED(D2D1CreateFactory<ID2D1Factory>(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pFactory)))
             {
@@ -179,10 +175,10 @@ export namespace fatpound::win32::d2d
         
         
     private:
-        wrl::ComPtr<ID2D1HwndRenderTarget>   m_pRenderTarget_;
-        wrl::ComPtr<ID2D1SolidColorBrush>    m_pSolidBrush_;
+        Microsoft::WRL::ComPtr<ID2D1HwndRenderTarget>   m_pRenderTarget_;
+        Microsoft::WRL::ComPtr<ID2D1SolidColorBrush>    m_pSolidBrush_;
 
-        const utility::SizePack              mc_dimensions_;
+        const utility::SizePack                         mc_dimensions_;
     };
 }
 

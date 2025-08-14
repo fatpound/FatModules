@@ -14,6 +14,7 @@ export module FatPound.Win32.D3D11.Graphics;
 
 import <d3d11_4.h>;
 import <d3dcompiler.h>;
+import <wrl.h>;
 
 import FatPound.Traits.Bitwise;
 import FatPound.Utility.Surface;
@@ -25,7 +26,6 @@ import FatPound.Win32.D3D11.Core;
 import FatPound.Win32.D3D11.Resource;
 import FatPound.Win32.D3D11.Shader;
 import FatPound.Win32.DXGI.Common;
-import FatPound.Win32.WRL.Common;
 
 import std;
 
@@ -285,7 +285,7 @@ export namespace fatpound::win32::d3d11
 
             {
                 {
-                    wrl::ComPtr<ID3DBlob> pVSBlob;
+                    Microsoft::WRL::ComPtr<ID3DBlob> pVSBlob;
 
                     if (FAILED(D3DReadFileToBlob(VShaderPath.c_str(), &pVSBlob)))
                     {

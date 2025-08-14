@@ -14,16 +14,12 @@ export module FatPound.Win32.D3D11.Core.Rasterizer;
 
 #ifndef __INTELLISENSE__
     import <d3d11_4.h>;
-    import FatPound.Win32.WRL.Common;
+    import <wrl.h>;
 #endif
 
 import FatPound.Win32.D3D11.Bindable;
 
 import std;
-
-#ifdef __INTELLISENSE__
-    namespace wrl = Microsoft::WRL;
-#endif
 
 export namespace fatpound::win32::d3d11::core
 {
@@ -55,7 +51,7 @@ export namespace fatpound::win32::d3d11::core
 
 
     protected:
-        wrl::ComPtr<ID3D11RasterizerState>  m_pRasterizerState_;
+        Microsoft::WRL::ComPtr<ID3D11RasterizerState>  m_pRasterizerState_;
 
 
     private:

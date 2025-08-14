@@ -14,16 +14,12 @@ export module FatPound.Win32.D3D11.Resource.SBuffer;
 
 #ifndef __INTELLISENSE__
     import <d3d11_4.h>;
-    import FatPound.Win32.WRL.Common;
+    import <wrl.h>;
 #endif
 
 import FatPound.Win32.D3D11.Bindable;
 
 import std;
-
-#ifdef __INTELLISENSE__
-    namespace wrl = Microsoft::WRL;
-#endif
 
 export namespace fatpound::win32::d3d11::resource
 {
@@ -34,7 +30,7 @@ export namespace fatpound::win32::d3d11::resource
         explicit SBuffer(ID3D11Device* const pDevice, ID3D11DeviceContext* const pImmediateContext, const D3D11_BUFFER_DESC& bufDesc, const D3D11_SHADER_RESOURCE_VIEW_DESC& srvDesc, const std::vector<T>& structures)
         {
             {
-                wrl::ComPtr<ID3D11Buffer> pBuffer;
+                Microsoft::WRL::ComPtr<ID3D11Buffer> pBuffer;
                  
                 {
                     const D3D11_SUBRESOURCE_DATA initData
@@ -69,7 +65,7 @@ export namespace fatpound::win32::d3d11::resource
 
 
     protected:
-        wrl::ComPtr<ID3D11ShaderResourceView>  m_pShaderResourceView_;
+        Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>  m_pShaderResourceView_;
 
 
     private:

@@ -261,12 +261,6 @@
     <ClCompile Include="Geometry\Common.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Win32_\WRL\WRL.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Win32_\WRL\Common.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Algorithm\Algorithm.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>

@@ -16,16 +16,12 @@ export module FatPound.Win32.D3D11.Shader.PixelShader;
 #ifndef __INTELLISENSE__
     import <d3d11_4.h>;
     import <d3dcompiler.h>;
-    import FatPound.Win32.WRL.Common;
+    import <wrl.h>;
 #endif
 
 import FatPound.Win32.D3D11.Bindable;
 
 import std;
-
-#ifdef __INTELLISENSE__
-    namespace wrl = Microsoft::WRL;
-#endif
 
 export namespace fatpound::win32::d3d11::shader
 {
@@ -34,7 +30,7 @@ export namespace fatpound::win32::d3d11::shader
     public:
         explicit PixelShader(ID3D11Device* const pDevice, const std::wstring& path)
         {
-            wrl::ComPtr<ID3DBlob> pBlob;
+            Microsoft::WRL::ComPtr<ID3DBlob> pBlob;
 
             if (FAILED(D3DReadFileToBlob(path.c_str(), &pBlob)))
             {
@@ -50,7 +46,7 @@ export namespace fatpound::win32::d3d11::shader
                 throw std::runtime_error("Could NOT create PixelShader!");
             }
         }
-        explicit PixelShader(ID3D11Device* const pDevice, const wrl::ComPtr<ID3DBlob>& pBlob)
+        explicit PixelShader(ID3D11Device* const pDevice, const Microsoft::WRL::ComPtr<ID3DBlob>& pBlob)
         {
             if (FAILED(pDevice->CreatePixelShader(
                 pBlob->GetBufferPointer(),
@@ -79,7 +75,7 @@ export namespace fatpound::win32::d3d11::shader
 
 
     protected:
-        wrl::ComPtr<ID3D11PixelShader>  m_pPixelShader_;
+        Microsoft::WRL::ComPtr<ID3D11PixelShader>  m_pPixelShader_;
 
 
     private:

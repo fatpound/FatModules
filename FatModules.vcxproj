@@ -132,8 +132,6 @@
     <ClCompile Include="Win32_\IWindow.ixx" />
     <ClCompile Include="Win32_\Win32.ixx" />
     <ClCompile Include="Win32_\WindowEx.ixx" />
-    <ClCompile Include="Win32_\WRL\Common.ixx" />
-    <ClCompile Include="Win32_\WRL\WRL.ixx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_macros\Compiler.hxx" />
