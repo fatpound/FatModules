@@ -8,8 +8,6 @@ export module FatPound.Utility.ViewXM;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
-namespace dx = DirectX;
-
 export namespace fatpound::utility
 {
     /// @brief A non-copyable, non-movable class that manages camera and projection matrices using DirectX's XMMATRIX type
@@ -27,20 +25,20 @@ export namespace fatpound::utility
 
 
     public:
-        [[nodiscard]] auto GetCameraXM     () const noexcept -> dx::XMMATRIX
+        [[nodiscard]] auto GetCameraXM     () const noexcept -> DirectX::XMMATRIX
         {
             return m_camera_;
         }
-        [[nodiscard]] auto GetProjectionXM () const noexcept -> dx::XMMATRIX
+        [[nodiscard]] auto GetProjectionXM () const noexcept -> DirectX::XMMATRIX
         {
             return m_projection_;
         }
 
-        void SetCameraXM     (const dx::XMMATRIX& camera)     noexcept
+        void SetCameraXM     (const DirectX::XMMATRIX& camera)     noexcept
         {
             m_camera_ = camera;
         }
-        void SetProjectionXM (const dx::XMMATRIX& projection) noexcept
+        void SetProjectionXM (const DirectX::XMMATRIX& projection) noexcept
         {
             m_projection_ = projection;
         }
@@ -50,8 +48,8 @@ export namespace fatpound::utility
 
 
     private:
-        dx::XMMATRIX   m_camera_{};
-        dx::XMMATRIX   m_projection_{};
+        DirectX::XMMATRIX   m_camera_{};
+        DirectX::XMMATRIX   m_projection_{};
     };
 }
 

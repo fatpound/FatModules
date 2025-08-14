@@ -17,8 +17,6 @@ import FatPound.Traits.Bitwise;
 
 import std;
 
-namespace dx = DirectX;
-
 export namespace fatpound::geometry::shape
 {
     class alignas(32) Circle
@@ -27,7 +25,7 @@ export namespace fatpound::geometry::shape
         static constexpr auto scx_Default_W_ = 1.0F;
 
     public:
-        explicit Circle(const dx::XMVECTOR& center, const std::convertible_to<float> auto& radius)
+        explicit Circle(const DirectX::XMVECTOR& center, const std::convertible_to<float> auto& radius)
             :
             m_center_(center),
             m_radius_(static_cast<float>(radius))
@@ -41,7 +39,7 @@ export namespace fatpound::geometry::shape
             const std::convertible_to<float> auto& z,
             const std::convertible_to<float> auto& radius)
             :
-            Circle(dx::XMVectorSet(x, y, z, scx_Default_W_), radius)
+            Circle(DirectX::XMVectorSet(x, y, z, scx_Default_W_), radius)
         {
 
         }
@@ -81,7 +79,7 @@ export namespace fatpound::geometry::shape
 
 
     public:
-        auto GetCenter    () const noexcept -> dx::XMVECTOR
+        auto GetCenter    () const noexcept -> DirectX::XMVECTOR
         {
             return m_center_;
         }
@@ -137,7 +135,7 @@ export namespace fatpound::geometry::shape
             return Distance_CenterToCenter(other) + other.GetRadius() <= GetRadius();
         }
 
-        void TranslateBy  (const dx::XMVECTOR& v) noexcept
+        void TranslateBy  (const DirectX::XMVECTOR& v) noexcept
         {
             m_center_ = (m_center_ + v);
         }
@@ -147,8 +145,8 @@ export namespace fatpound::geometry::shape
 
 
     private:
-        dx::XMVECTOR   m_center_;
-        float          m_radius_;
+        DirectX::XMVECTOR   m_center_;
+        float               m_radius_;
     };
 }
 

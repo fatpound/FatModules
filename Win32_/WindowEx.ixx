@@ -32,8 +32,6 @@ import FatPound.Win32.IWindow;
 
 import std;
 
-namespace dx = DirectX;
-
 export namespace fatpound::win32
 {
     /// @brief A multithreaded Win32 extended Window, with Keyboard and Mouse input support
@@ -50,14 +48,14 @@ export namespace fatpound::win32
 
     public:
         explicit WindowEx(
-            std::shared_ptr<WndClassEx>        pWndClassEx,
-            const std::wstring&                title,
-            const utility::SizePack&           clientDimensions,
-            std::shared_ptr<io::Keyboard>      pKeyboard         = std::make_shared<io::Keyboard>(),
-            std::shared_ptr<io::Mouse>         pMouse            = std::make_shared<io::Mouse>(),
-            const std::optional<dx::XMINT2>&   position          = std::nullopt,
-            const DWORD&                       styles            = scx_DefaultWndStyleEx,
-            const DWORD&                       exStyles          = {})
+            std::shared_ptr<WndClassEx>           pWndClassEx,
+            const std::wstring&                   title,
+            const utility::SizePack&              clientDimensions,
+            std::shared_ptr<io::Keyboard>         pKeyboard         = std::make_shared<io::Keyboard>(),
+            std::shared_ptr<io::Mouse>            pMouse            = std::make_shared<io::Mouse>(),
+            const std::optional<DirectX::XMINT2>& position          = std::nullopt,
+            const DWORD&                          styles            = scx_DefaultWndStyleEx,
+            const DWORD&                          exStyles          = {})
             :
             m_pKeyboard{ std::move<>(pKeyboard) },
             m_pMouse{ std::move<>(pMouse) },

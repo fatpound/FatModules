@@ -23,8 +23,6 @@ import FatPound.Utility.ViewXM;
 import FatPound.Win32.D3D11.Bindable;
 import FatPound.Win32.D3D11.Resource.VertexCBuffer;
 
-namespace dx = DirectX;
-
 export namespace fatpound::win32::d3d11::resource
 {
     template <typename T>
@@ -54,7 +52,7 @@ export namespace fatpound::win32::d3d11::resource
         {
             m_vcbuf_.Update(
                 pImmediateContext,
-                dx::XMMatrixTranspose(
+                DirectX::XMMatrixTranspose(
                     m_parent_.GetTransformXM() *
                     m_viewXM_.GetCameraXM() *
                     m_viewXM_.GetProjectionXM()
@@ -69,11 +67,11 @@ export namespace fatpound::win32::d3d11::resource
 
 
     private:
-        VertexCBuffer<dx::XMMATRIX>   m_vcbuf_;
+        VertexCBuffer<DirectX::XMMATRIX>   m_vcbuf_;
 
-        const T&                      m_parent_;
+        const T&                           m_parent_;
 
-        utility::ViewXM&              m_viewXM_;
+        utility::ViewXM&                   m_viewXM_;
     };
 }
 

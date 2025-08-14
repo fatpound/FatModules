@@ -29,8 +29,6 @@ import FatPound.Utility.SizePack;
 
 import std;
 
-namespace dx = DirectX;
-
 export namespace fatpound::win32::d2d
 {
     /// @brief The Graphics class provides a wrapper for Direct2D rendering operations on a window, including drawing lines and polylines, clearing the screen, and managing the drawing frame lifecycle
@@ -125,7 +123,7 @@ export namespace fatpound::win32::d2d
 
             DrawLine(p0, p1);
         }
-        void DrawClosedPolyLine(const std::vector<dx::XMFLOAT2>& vertices, const Color_t& color) noexcept
+        void DrawClosedPolyLine(const std::vector<DirectX::XMFLOAT2>& vertices, const Color_t& color) noexcept
         {
             SetSolidBrushColor(color);
 
@@ -140,20 +138,20 @@ export namespace fatpound::win32::d2d
                 );
             }
         }
-        void DrawClosedPolyLine(const std::vector<dx::XMFLOAT2>& vertices, const Color_t& color, const dx::XMMATRIX& transform) noexcept
+        void DrawClosedPolyLine(const std::vector<DirectX::XMFLOAT2>& vertices, const Color_t& color, const DirectX::XMMATRIX& transform) noexcept
         {
             SetSolidBrushColor(color);
 
-            std::vector<dx::XMFLOAT2> transformed_vertices;
+            std::vector<DirectX::XMFLOAT2> transformed_vertices;
             transformed_vertices.reserve(vertices.size());
 
             for (const auto& vertex : vertices)
             {
-                auto vec = dx::XMLoadFloat2(&vertex);
-                vec = dx::XMVector2TransformCoord(vec, transform);
+                auto vec = DirectX::XMLoadFloat2(&vertex);
+                vec = DirectX::XMVector2TransformCoord(vec, transform);
 
-                dx::XMFLOAT2 transformed;
-                dx::XMStoreFloat2(&transformed, vec);
+                DirectX::XMFLOAT2 transformed;
+                DirectX::XMStoreFloat2(&transformed, vec);
 
                 transformed_vertices.push_back(transformed);
             }

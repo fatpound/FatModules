@@ -14,8 +14,6 @@ import FatPound.Traits.Bitwise;
 
 import std;
 
-namespace dx = DirectX;
-
 export namespace fatpound::geometry::shape
 {
     class alignas(32) Triangle
@@ -58,9 +56,9 @@ export namespace fatpound::geometry::shape
 
 
     private:
-        dx::XMVECTOR   m_va_;
-        dx::XMVECTOR   m_vb_;
-        dx::XMVECTOR   m_vc_;
+        DirectX::XMVECTOR   m_va_;
+        DirectX::XMVECTOR   m_vb_;
+        DirectX::XMVECTOR   m_vc_;
     };
 }
 
