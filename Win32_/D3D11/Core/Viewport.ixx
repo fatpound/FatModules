@@ -31,10 +31,10 @@ export namespace fatpound::win32::d3d11::core
 
         explicit Viewport()                    = delete;
         explicit Viewport(const Viewport&)     = delete;
-        explicit Viewport(Viewport&&) noexcept = delete;
+        explicit Viewport(Viewport&&) noexcept = default;
 
         auto operator = (const Viewport&)     -> Viewport& = delete;
-        auto operator = (Viewport&&) noexcept -> Viewport& = delete;
+        auto operator = (Viewport&&) noexcept -> Viewport& = default;
         virtual ~Viewport() noexcept override              = default;
 
 

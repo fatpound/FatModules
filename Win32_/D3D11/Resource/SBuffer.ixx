@@ -57,10 +57,10 @@ export namespace fatpound::win32::d3d11::resource
 
         explicit SBuffer()                   = delete;
         explicit SBuffer(const SBuffer&)     = delete;
-        explicit SBuffer(SBuffer&&) noexcept = delete;
+        explicit SBuffer(SBuffer&&) noexcept = default;
 
         auto operator = (const SBuffer&)     -> SBuffer& = delete;
-        auto operator = (SBuffer&&) noexcept -> SBuffer& = delete;
+        auto operator = (SBuffer&&) noexcept -> SBuffer& = default;
         virtual ~SBuffer() noexcept override             = default;
 
 

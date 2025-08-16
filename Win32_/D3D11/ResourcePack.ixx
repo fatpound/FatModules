@@ -29,10 +29,10 @@ namespace fatpound::win32::d3d11
     {
         explicit ResourcePackBase() noexcept                   = default;
         explicit ResourcePackBase(const ResourcePackBase&)     = delete;
-        explicit ResourcePackBase(ResourcePackBase&&) noexcept = delete;
+        explicit ResourcePackBase(ResourcePackBase&&) noexcept = default;
 
         auto operator = (const ResourcePackBase&)     -> ResourcePackBase& = delete;
-        auto operator = (ResourcePackBase&&) noexcept -> ResourcePackBase& = delete;
+        auto operator = (ResourcePackBase&&) noexcept -> ResourcePackBase& = default;
         ~ResourcePackBase() noexcept                                       = default;
 
         Microsoft::WRL::ComPtr<IDXGISwapChain>        m_pSwapChain;
@@ -48,10 +48,10 @@ export namespace fatpound::win32::d3d11
     {
         explicit ResourcePack() noexcept               = default;
         explicit ResourcePack(const ResourcePack&)     = delete;
-        explicit ResourcePack(ResourcePack&&) noexcept = delete;
+        explicit ResourcePack(ResourcePack&&) noexcept = default;
 
         auto operator = (const ResourcePack&)     -> ResourcePack& = delete;
-        auto operator = (ResourcePack&&) noexcept -> ResourcePack& = delete;
+        auto operator = (ResourcePack&&) noexcept -> ResourcePack& = default;
         ~ResourcePack() noexcept                                   = default;
     };
 
@@ -66,10 +66,10 @@ export namespace fatpound::win32::d3d11
 
         explicit FrameworkResourcePack() noexcept                        = default;
         explicit FrameworkResourcePack(const FrameworkResourcePack&)     = delete;
-        explicit FrameworkResourcePack(FrameworkResourcePack&&) noexcept = delete;
+        explicit FrameworkResourcePack(FrameworkResourcePack&&) noexcept = default;
 
         auto operator = (const FrameworkResourcePack&)     -> FrameworkResourcePack& = delete;
-        auto operator = (FrameworkResourcePack&&) noexcept -> FrameworkResourcePack& = delete;
+        auto operator = (FrameworkResourcePack&&) noexcept -> FrameworkResourcePack& = default;
         ~FrameworkResourcePack() noexcept                                            = default;
 
         win32::d3d11::resource::Texture2D   m_sysbufferTex2d;

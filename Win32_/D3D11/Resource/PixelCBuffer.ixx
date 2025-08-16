@@ -28,10 +28,10 @@ export namespace fatpound::win32::d3d11::resource
     public:
         explicit PixelCBuffer()                        = delete;
         explicit PixelCBuffer(const PixelCBuffer&)     = delete;
-        explicit PixelCBuffer(PixelCBuffer&&) noexcept = delete;
+        explicit PixelCBuffer(PixelCBuffer&&) noexcept = default;
 
         auto operator = (const PixelCBuffer&)     -> PixelCBuffer& = delete;
-        auto operator = (PixelCBuffer&&) noexcept -> PixelCBuffer& = delete;
+        auto operator = (PixelCBuffer&&) noexcept -> PixelCBuffer& = default;
         virtual ~PixelCBuffer() noexcept override                  = default;
 
 

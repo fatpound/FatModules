@@ -40,10 +40,10 @@ export namespace fatpound::win32::d3d11::resource
 
         explicit TransformCBuffer()                            = delete;
         explicit TransformCBuffer(const TransformCBuffer&)     = delete;
-        explicit TransformCBuffer(TransformCBuffer&&) noexcept = delete;
+        explicit TransformCBuffer(TransformCBuffer&&) noexcept = default;
 
         auto operator = (const TransformCBuffer&)     -> TransformCBuffer& = delete;
-        auto operator = (TransformCBuffer&&) noexcept -> TransformCBuffer& = delete;
+        auto operator = (TransformCBuffer&&) noexcept -> TransformCBuffer& = default;
         virtual ~TransformCBuffer() noexcept override                      = default;
 
 

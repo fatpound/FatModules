@@ -67,7 +67,7 @@ export namespace fatpound::win32::d3d11::resource
 
         explicit Texture2D()                     = default;
         explicit Texture2D(const Texture2D&)     = delete;
-        explicit Texture2D(Texture2D&&) noexcept = delete;
+        explicit Texture2D(Texture2D&&) noexcept = default;
 
         auto operator = (const Texture2D&)     -> Texture2D& = delete;
         auto operator = (Texture2D&&) noexcept -> Texture2D& = default;

@@ -38,10 +38,10 @@ export namespace fatpound::win32::d3d11::shader
 
         explicit Sampler()                   = delete;
         explicit Sampler(const Sampler&)     = delete;
-        explicit Sampler(Sampler&&) noexcept = delete;
+        explicit Sampler(Sampler&&) noexcept = default;
 
         auto operator = (const Sampler&)     -> Sampler& = delete;
-        auto operator = (Sampler&&) noexcept -> Sampler& = delete;
+        auto operator = (Sampler&&) noexcept -> Sampler& = default;
         virtual ~Sampler() noexcept override             = default;
 
 

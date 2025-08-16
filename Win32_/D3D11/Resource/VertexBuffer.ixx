@@ -61,10 +61,10 @@ export namespace fatpound::win32::d3d11::resource
 
         explicit VertexBuffer()                        = delete;
         explicit VertexBuffer(const VertexBuffer&)     = delete;
-        explicit VertexBuffer(VertexBuffer&&) noexcept = delete;
+        explicit VertexBuffer(VertexBuffer&&) noexcept = default;
 
         auto operator = (const VertexBuffer&)     -> VertexBuffer& = delete;
-        auto operator = (VertexBuffer&&) noexcept -> VertexBuffer& = delete;
+        auto operator = (VertexBuffer&&) noexcept -> VertexBuffer& = default;
         virtual ~VertexBuffer() noexcept override                  = default;
 
 

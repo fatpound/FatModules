@@ -19,10 +19,10 @@ export namespace fatpound::win32::d3d11::resource
     public:
         explicit VertexCBuffer()                         = delete;
         explicit VertexCBuffer(const VertexCBuffer&)     = delete;
-        explicit VertexCBuffer(VertexCBuffer&&) noexcept = delete;
+        explicit VertexCBuffer(VertexCBuffer&&) noexcept = default;
 
         auto operator = (const VertexCBuffer&)     -> VertexCBuffer& = delete;
-        auto operator = (VertexCBuffer&&) noexcept -> VertexCBuffer& = delete;
+        auto operator = (VertexCBuffer&&) noexcept -> VertexCBuffer& = default;
         virtual ~VertexCBuffer() noexcept override                   = default;
 
 

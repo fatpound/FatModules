@@ -31,10 +31,10 @@ export namespace fatpound::win32::d3d11::core
 
         explicit Topology()                    = delete;
         explicit Topology(const Topology&)     = delete;
-        explicit Topology(Topology&&) noexcept = delete;
+        explicit Topology(Topology&&) noexcept = default;
 
         auto operator = (const Topology&)     -> Topology& = delete;
-        auto operator = (Topology&&) noexcept -> Topology& = delete;
+        auto operator = (Topology&&) noexcept -> Topology& = default;
         virtual ~Topology() noexcept override              = default;
 
 

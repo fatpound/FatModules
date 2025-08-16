@@ -41,10 +41,10 @@ export namespace fatpound::win32::d3d11::core
 
         explicit InputLayout()                       = delete;
         explicit InputLayout(const InputLayout&)     = delete;
-        explicit InputLayout(InputLayout&&) noexcept = delete;
+        explicit InputLayout(InputLayout&&) noexcept = default;
 
         auto operator = (const InputLayout&)     -> InputLayout& = delete;
-        auto operator = (InputLayout&&) noexcept -> InputLayout& = delete;
+        auto operator = (InputLayout&&) noexcept -> InputLayout& = default;
         virtual ~InputLayout() noexcept override                 = default;
 
 
