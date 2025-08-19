@@ -348,12 +348,15 @@
     <ClCompile Include="Win32_\D3D11\Shader\Shader.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Win32_\Core.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Win32_\WinAPI.hpp">
+    <ClInclude Include="Win32_\Win32.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Win32_\WinAPI_Settings.hpp">
+    <ClInclude Include="Win32_\Win32_Settings.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="_macros\Namespaces.hxx">

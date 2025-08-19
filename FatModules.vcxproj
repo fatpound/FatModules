@@ -88,6 +88,7 @@
     <ClCompile Include="Traits\Traits.ixx" />
     <ClCompile Include="Colors\ARGB\Color.ixx" />
     <ClCompile Include="Utility\Common.ixx" />
+    <ClCompile Include="Win32_\Core.ixx" />
     <ClCompile Include="Win32_\D3D11\FullScreenQuad.ixx" />
     <ClCompile Include="Win32_\D3D11\ResourcePack.ixx" />
     <ClCompile Include="Utility\SizePack.ixx" />
@@ -138,9 +139,9 @@
     <ClInclude Include="_macros\Experimental.hxx" />
     <ClInclude Include="_macros\Namespaces.hxx" />
     <ClInclude Include="_macros\STL.hxx" />
-    <ClInclude Include="Win32_\WinAPI.hpp" />
+    <ClInclude Include="Win32_\Win32.hpp" />
     <ClInclude Include="Win32_\WinAPI.hxx" />
-    <ClInclude Include="Win32_\WinAPI_Settings.hpp" />
+    <ClInclude Include="Win32_\Win32_Settings.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Win32_\_notes.txt" />
