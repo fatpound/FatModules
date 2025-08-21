@@ -2,7 +2,7 @@ module;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
     #define FATPOUND_FULL_WIN_TARGETED
-    #include <Win32_/Win32.hpp>
+    #include <Win32_/FatWin.hpp>
     #undef  FATPOUND_FULL_WIN_TARGETED
     #include <winDNS.h>
     #include <subauth.h>

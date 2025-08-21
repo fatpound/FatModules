@@ -4,7 +4,7 @@ module;
     #include <_macros/Namespaces.hxx>
 
     #ifdef __INTELLISENSE__
-        #include <Win32_/Win32.hpp>
+        #include <Win32_/FatWin.hpp>
         #include <d3d11_4.h>
     #endif
 

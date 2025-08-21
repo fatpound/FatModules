@@ -6,7 +6,7 @@ module;
     #include <_macros/Namespaces.hxx>
 
     #ifdef __INTELLISENSE__
-        #include <Win32_/Win32.hpp>
+        #include <Win32_/FatWin.hpp>
     #endif
 
     #include <DirectXMath.h>

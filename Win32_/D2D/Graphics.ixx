@@ -3,7 +3,7 @@ module;
 #ifdef FATLIB_BUILDING_WITH_MSVC
     #include <_macros/Compiler.hxx>
 
-    #include <Win32_/Win32.hpp>
+    #include <Win32_/FatWin.hpp>
     #include <d2d1_3.h>
 
     #ifdef __INTELLISENSE__

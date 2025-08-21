@@ -139,9 +139,9 @@
     <ClInclude Include="_macros\Experimental.hxx" />
     <ClInclude Include="_macros\Namespaces.hxx" />
     <ClInclude Include="_macros\STL.hxx" />
-    <ClInclude Include="Win32_\Win32.hpp" />
+    <ClInclude Include="Win32_\FatWin.hpp" />
     <ClInclude Include="Win32_\WinAPI.hxx" />
-    <ClInclude Include="Win32_\Win32_Settings.hpp" />
+    <ClInclude Include="Win32_\FatWin_Settings.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Win32_\_notes.txt" />

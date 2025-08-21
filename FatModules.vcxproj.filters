@@ -353,10 +353,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Win32_\Win32.hpp">
+    <ClInclude Include="Win32_\FatWin.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Win32_\Win32_Settings.hpp">
+    <ClInclude Include="Win32_\FatWin_Settings.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="_macros\Namespaces.hxx">

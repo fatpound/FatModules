@@ -2,7 +2,7 @@ module;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
     #ifdef __INTELLISENSE__
-        #include <Win32_/Win32.hpp>
+        #include <Win32_/FatWin.hpp>
         #include <d3d11_4.h>
         #include <d3dcompiler.h>
         #include <wrl.h>
