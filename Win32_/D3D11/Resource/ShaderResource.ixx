@@ -19,21 +19,18 @@ export module FatPound.Win32.D3D11.Resource.ShaderResource;
     import <wrl.h>;
 #endif
 
-import FatPound.Win32.D3D11.Bindable;
-import FatPound.Win32.D3D11.Resource.Texture2D;
-
 import std;
 
 export namespace fatpound::win32::d3d11::resource
 {
-    class ShaderResource : public Bindable
+    class ShaderResource
     {
     public:
-        explicit ShaderResource(ID3D11Device* const pDevice, const Texture2D& tex2d, const D3D11_SHADER_RESOURCE_VIEW_DESC& srvDesc, const UINT& startSlot = 0U)
+        explicit ShaderResource(ID3D11Device* const pDevice, ID3D11Resource* const d3dres, const D3D11_SHADER_RESOURCE_VIEW_DESC& srvDesc, const UINT& startSlot = 0U)
             :
             m_start_slot_(startSlot)
         {
-            if (FAILED(pDevice->CreateShaderResourceView(tex2d.GetBuffer(), &srvDesc, &m_pSRV_)))
+            if (FAILED(pDevice->CreateShaderResourceView(d3dres, &srvDesc, &m_pSRV_)))
             {
                 throw std::runtime_error("Could NOT create ShaderResourceView!");
             }
@@ -45,20 +42,22 @@ export namespace fatpound::win32::d3d11::resource
 
         auto operator = (const ShaderResource&)     -> ShaderResource& = delete;
         auto operator = (ShaderResource&&) noexcept -> ShaderResource& = default;
-        virtual ~ShaderResource() noexcept override                    = default;
-
-
-    public:
-        virtual void Bind(ID3D11DeviceContext* pImmediateContext) override
-        {
-            pImmediateContext->PSSetShaderResources(m_start_slot_, 1U, m_pSRV_.GetAddressOf());
-        }
+        ~ShaderResource() noexcept                                     = default;
 
 
     public:
         auto GetView() const noexcept -> ID3D11ShaderResourceView*
         {
             return m_pSRV_.Get();
+        }
+        auto GetAddressOfView() const noexcept -> ID3D11ShaderResourceView* const *
+        {
+            return m_pSRV_.GetAddressOf();
+        }
+
+        auto GetStartSlot() const noexcept -> UINT
+        {
+            return m_start_slot_;
         }
 
 

@@ -109,6 +109,8 @@
     <ClCompile Include="Win32_\D3D11\Core\Viewport.ixx" />
     <ClCompile Include="Win32_\D3D11\Resource\IndexBuffer.ixx" />
     <ClCompile Include="Win32_\D3D11\Core\InputLayout.ixx" />
+    <ClCompile Include="Win32_\D3D11\Resource\ShaderResource.ixx" />
+    <ClCompile Include="Win32_\D3D11\Resource\VertexShaderResource.ixx" />
     <ClCompile Include="Win32_\D3D11\Resource\Resource.ixx" />
     <ClCompile Include="Win32_\D3D11\Shader\PixelShader.ixx" />
     <ClCompile Include="Win32_\D3D11\Core\Topology.ixx" />
@@ -122,7 +124,7 @@
     <ClCompile Include="Win32_\D3D11\Core\RenderTarget.ixx" />
     <ClCompile Include="Win32_\D3D11\Shader\Sampler.ixx" />
     <ClCompile Include="Win32_\D3D11\Resource\SBuffer.ixx" />
-    <ClCompile Include="Win32_\D3D11\Resource\ShaderResource.ixx" />
+    <ClCompile Include="Win32_\D3D11\Resource\PixelShaderResource.ixx" />
     <ClCompile Include="Win32_\D3D11\Resource\Texture2D.ixx" />
     <ClCompile Include="Win32_\D3D11\Resource\TransformCBuffer.ixx" />
     <ClCompile Include="Win32_\D3D11\Resource\VertexCBuffer.ixx" />

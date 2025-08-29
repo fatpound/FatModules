@@ -364,7 +364,7 @@ export namespace fatpound::win32::d3d11
 
             m_res_pack_.m_sysbufferTex2d = resource::Texture2D{ GetDevice(), tex2dDesc };
 
-            resource::ShaderResource{ GetDevice(), m_res_pack_.m_sysbufferTex2d, srvDesc }.Bind(GetImmediateContext());
+            resource::PixelShaderResource{ GetDevice(), m_res_pack_.m_sysbufferTex2d, srvDesc }.Bind(GetImmediateContext());
         }
         void InitFrameworkBackbufferSampler_   () requires(Framework)
         {

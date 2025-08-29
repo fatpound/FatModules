@@ -8,6 +8,8 @@ export import FatPound.Win32.D3D11.Resource.PixelCBuffer;
 export import FatPound.Win32.D3D11.Resource.PixelSBuffer;
 export import FatPound.Win32.D3D11.Resource.SBuffer;
 export import FatPound.Win32.D3D11.Resource.ShaderResource;
+export import FatPound.Win32.D3D11.Resource.PixelShaderResource;
+export import FatPound.Win32.D3D11.Resource.VertexShaderResource;
 export import FatPound.Win32.D3D11.Resource.Texture2D;
 export import FatPound.Win32.D3D11.Resource.TransformCBuffer;
 export import FatPound.Win32.D3D11.Resource.VertexBuffer;
