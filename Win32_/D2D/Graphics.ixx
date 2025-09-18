@@ -123,10 +123,8 @@ export namespace fatpound::win32::d2d
 
             DrawLine(p0, p1);
         }
-        void DrawClosedPolyLine(const std::vector<DirectX::XMFLOAT2>& vertices, const Color_t& color) noexcept
+        void DrawClosedPolyLine(const std::vector<DirectX::XMFLOAT2>& vertices) noexcept
         {
-            SetSolidBrushColor(color);
-
             for (std::size_t i{}; i < vertices.size(); ++i)
             {
                 const auto& current = vertices[i];
@@ -137,6 +135,12 @@ export namespace fatpound::win32::d2d
                     D2D1::Point2F(next.x, next.y)
                 );
             }
+        }
+        void DrawClosedPolyLine(const std::vector<DirectX::XMFLOAT2>& vertices, const Color_t& color) noexcept
+        {
+            SetSolidBrushColor(color);
+
+            DrawClosedPolyLine(vertices);
         }
         void DrawClosedPolyLine(const std::vector<DirectX::XMFLOAT2>& vertices, const Color_t& color, const DirectX::XMMATRIX& transform) noexcept
         {
