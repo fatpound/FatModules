@@ -1,5 +1,7 @@
 module;
 
+#include <_macros/STL.hxx>
+
 export module FatPound.Math.Special;
 
 import FatPound.Math.Numbers.Common;
@@ -11,7 +13,7 @@ import std;
 export namespace fatpound::math
 {
     template <traits::IntegralOrFloating T>
-    constexpr auto Gaussian(const T& x, const T& rho)
+    CX_MATH26 auto Gaussian(const T& x, const T& rho)
     {
         const auto rhoSq2 = Square<>(rho) * 2.0;
 
