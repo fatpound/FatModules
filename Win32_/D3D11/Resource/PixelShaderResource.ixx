@@ -23,8 +23,6 @@ import FatPound.Win32.D3D11.Bindable;
 import FatPound.Win32.D3D11.Resource.Texture2D;
 import FatPound.Win32.D3D11.Resource.ShaderResource;
 
-import std;
-
 export namespace fatpound::win32::d3d11::resource
 {
     class PixelShaderResource : public Bindable, public ShaderResource

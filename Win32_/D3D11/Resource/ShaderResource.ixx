@@ -50,7 +50,7 @@ export namespace fatpound::win32::d3d11::resource
         {
             return m_pSRV_.Get();
         }
-        auto GetAddressOfView() const noexcept -> ID3D11ShaderResourceView* const *
+        auto GetAddressOfView() const noexcept -> ID3D11ShaderResourceView* const*
         {
             return m_pSRV_.GetAddressOf();
         }
