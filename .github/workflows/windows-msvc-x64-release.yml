@@ -30,7 +30,6 @@ jobs:
       uses: microsoft/setup-msbuild@v2
       with:
         msbuild-architecture: x64
-        vs-prerelease: true
 
     - name: Build .vcxproj
       run: msbuild FatModules.vcxproj /p:Configuration=Release /p:Platform=x64 /v:minimal
