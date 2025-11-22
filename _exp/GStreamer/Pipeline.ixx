@@ -73,7 +73,14 @@ export namespace fatx::gstreamer
 
         explicit Pipeline()
             :
+#ifdef _MSC_VER
+#pragma warning (push)
+#pragma warning (disable : 4355)
+#endif
             m_worker_(&Pipeline::WorkerLoop_, this)
+#ifdef _MSC_VER
+#pragma warning (pop)
+#endif
         {
             g_print("Initializing GStreamer Pipeline...\n");
 
@@ -205,7 +212,15 @@ export namespace fatx::gstreamer
                 if (pipeline.m_new_media_loaded_ and pipeline.m_media_change_callback_ not_eq nullptr)
                 {
                     pipeline.m_new_media_loaded_ = false;
-                    pipeline.m_media_change_callback_();
+                    
+                    try
+                    {
+                        pipeline.m_media_change_callback_();
+                    }
+                    catch (...)
+                    {
+                        g_printerr("Pipeline::m_media_change_callback_ has failed!");
+                    }
                 }
                 break;
 
@@ -288,8 +303,14 @@ export namespace fatx::gstreamer
             }
 
             {
-                [[maybe_unused]] const auto result = GST_PAD_LINK_FAILED(gst_pad_link(newPad, audioconvert_1_sink_pad));
-                g_print("%s\n", result ? "[FAILED]" : "[DONE]");
+                if (GST_PAD_LINK_FAILED(gst_pad_link(newPad, audioconvert_1_sink_pad)))
+                {
+                    g_printerr("[FAILED]");
+                }
+                else
+                {
+                    g_print("[DONE]");
+                }
             }
 
 
@@ -314,7 +335,18 @@ export namespace fatx::gstreamer
             g_object_set(m_data_.uridecodebin, "uri", uriPath.c_str(), nullptr);
             g_print("[DONE]\n");
 
-            m_loaded_uri_ = uriPath;
+            try
+            {
+                m_loaded_uri_ = uriPath;
+            }
+            catch (const std::exception& ex)
+            {
+                g_printerr("Cannot assign uriPath to m_loaded_uri_!\n", ex.what());
+            }
+            catch (...)
+            {
+                g_printerr("Unknown exception caught while assigning uriPath to m_loaded_uri_!\n");
+            }
         }
         void SetState_            (const GstState new_state) noexcept
         {
@@ -793,7 +825,7 @@ export namespace fatx::gstreamer
                 m_pPipeline_,
                 GST_FORMAT_TIME,
                 static_cast<GstSeekFlags>(GST_SEEK_FLAG_FLUSH bitor GST_SEEK_FLAG_KEY_UNIT),
-                pos * GST_MSECOND)
+                static_cast<GstClockTimeDiff>(pos) * GST_MSECOND)
                 == FALSE)
             {
                 g_printerr("[FAILED]\n");
@@ -808,7 +840,7 @@ export namespace fatx::gstreamer
             }
             catch (...)
             {
-
+                g_printerr("Pipeline::RunFunc_ has failed!\n");
             }
         }
         void Quit_                () noexcept
@@ -857,11 +889,18 @@ export namespace fatx::gstreamer
             g_source_attach(src, m_pContext_);
             g_source_unref(src);
         }
-        void OnGstStateChanged_   (bool isPlaying)
+        void OnGstStateChanged_   (const bool isPlaying)
         {
             if (m_state_change_callback_)
             {
-                m_state_change_callback_(isPlaying);
+                try
+                {
+                    m_state_change_callback_(isPlaying);
+                }
+                catch (...)
+                {
+                    g_printerr("Pipeline::m_state_change_callback_ has failed!\n");
+                }
             }
         }
         void Cleanup_             () noexcept
