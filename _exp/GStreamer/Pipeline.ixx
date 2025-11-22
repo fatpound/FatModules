@@ -305,11 +305,11 @@ export namespace fatx::gstreamer
             {
                 if (GST_PAD_LINK_FAILED(gst_pad_link(newPad, audioconvert_1_sink_pad)))
                 {
-                    g_printerr("[FAILED]");
+                    g_printerr("[FAILED]\n");
                 }
                 else
                 {
-                    g_print("[DONE]");
+                    g_print("[DONE]\n");
                 }
             }
 
