@@ -47,4 +47,6 @@ export import FatPound.Utility;
     export import FatPound.Win32;
 #endif
 
+export import FatX;
+
 // module : private;

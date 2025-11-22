@@ -135,8 +135,17 @@
     <ClCompile Include="Win32_\IWindow.ixx" />
     <ClCompile Include="Win32_\Win32.ixx" />
     <ClCompile Include="Win32_\WindowEx.ixx" />
+    <ClCompile Include="_exp\FatX.ixx" />
+    <ClCompile Include="_exp\GStreamer\Common.ixx" />
+    <ClCompile Include="_exp\GStreamer\GStreamer.ixx" />
+    <ClCompile Include="_exp\GStreamer\IAudioEffectBin.ixx" />
+    <ClCompile Include="_exp\GStreamer\Manager.ixx" />
+    <ClCompile Include="_exp\GStreamer\MediaPlayer.ixx" />
+    <ClCompile Include="_exp\GStreamer\Pipeline.ixx" />
+    <ClCompile Include="_exp\GStreamer\PitchEffectBin.ixx" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="_exp\GStreamer\FatGst.hpp" />
     <ClInclude Include="_macros\Compiler.hxx" />
     <ClInclude Include="_macros\Experimental.hxx" />
     <ClInclude Include="_macros\Namespaces.hxx" />

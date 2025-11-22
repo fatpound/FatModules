@@ -357,6 +357,30 @@
     <ClCompile Include="Win32_\D3D11\Resource\ShaderResource.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="_exp\GStreamer\Common.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="_exp\GStreamer\GStreamer.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="_exp\GStreamer\IAudioEffectBin.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="_exp\GStreamer\Manager.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="_exp\GStreamer\MediaPlayer.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="_exp\GStreamer\Pipeline.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="_exp\GStreamer\PitchEffectBin.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="_exp\FatX.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32_\FatWin.hpp">
@@ -378,6 +402,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="_macros\Experimental.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="_exp\GStreamer\FatGst.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
