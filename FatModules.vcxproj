@@ -27,6 +27,7 @@
     <ClCompile Include="Colors\ARGB\ARGB.ixx" />
     <ClCompile Include="Colors\ARGB\Common.ixx" />
     <ClCompile Include="Colors\Colors.ixx" />
+    <ClCompile Include="Concurrency\ThreadPool.ixx" />
     <ClCompile Include="File\Common.ixx" />
     <ClCompile Include="Geometry\Shape\Shape.ixx" />
     <ClCompile Include="Graph\BFS.ixx" />
@@ -133,6 +134,7 @@
     <ClCompile Include="Win32_\GDI_Plus\GDI_Plus.ixx" />
     <ClCompile Include="Win32_\GDI_Plus\Manager.ixx" />
     <ClCompile Include="Win32_\IWindow.ixx" />
+    <ClCompile Include="Win32_\MessageMap.ixx" />
     <ClCompile Include="Win32_\Win32.ixx" />
     <ClCompile Include="Win32_\WindowEx.ixx" />
     <ClCompile Include="_exp\FatX.ixx" />
@@ -143,9 +145,16 @@
     <ClCompile Include="_exp\GStreamer\MediaPlayer.ixx" />
     <ClCompile Include="_exp\GStreamer\Pipeline.ixx" />
     <ClCompile Include="_exp\GStreamer\PitchEffectBin.ixx" />
+    <ClCompile Include="_exp\OpenCV\Contour.ixx" />
+    <ClCompile Include="_exp\OpenCV\OpenCV.ixx" />
+    <ClCompile Include="_exp\ZeroMQ\Publisher.ixx" />
+    <ClCompile Include="_exp\ZeroMQ\Subscriber.ixx" />
+    <ClCompile Include="_exp\ZeroMQ\ZeroMQ.ixx" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="_exp\GStreamer\FatGst.hpp" />
+    <ClInclude Include="_exp\GStreamer\FatGst.hxx" />
+    <ClInclude Include="_exp\OpenCV\FatOcv.hxx" />
+    <ClInclude Include="_exp\ZeroMQ\FatZmq.hxx" />
     <ClInclude Include="_macros\Compiler.hxx" />
     <ClInclude Include="_macros\Experimental.hxx" />
     <ClInclude Include="_macros\Namespaces.hxx" />

@@ -1,8 +1,6 @@
 module;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
-    #include <_macros/Namespaces.hxx>
-
     #ifdef __INTELLISENSE__
         #include <Win32_/FatWin.hpp>
         #include <d3d11_4.h>
@@ -20,7 +18,6 @@ export module FatPound.Win32.D3D11.Core.DepthStencil;
 #endif
 
 import FatPound.Win32.D3D11.Resource.Texture2D;
-
 import std;
 
 export namespace fatpound::win32::d3d11::core

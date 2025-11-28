@@ -11,7 +11,6 @@ export module FatPound.Geometry.Shape.Triangle;
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
 import FatPound.Traits.Bitwise;
-
 import std;
 
 export namespace fatpound::geometry::shape

@@ -7,7 +7,6 @@ module;
 export module FatPound.Automata.TLT;
 
 import FatPound.Automata.CFG;
-
 import std;
 
 export namespace fatpound::automata

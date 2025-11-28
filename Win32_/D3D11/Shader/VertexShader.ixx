@@ -20,7 +20,6 @@ export module FatPound.Win32.D3D11.Shader.VertexShader;
 #endif
 
 import FatPound.Win32.D3D11.Bindable;
-
 import std;
 
 export namespace fatpound::win32::d3d11::shader

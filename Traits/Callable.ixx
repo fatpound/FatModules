@@ -5,7 +5,6 @@ module;
 export module FatPound.Traits.Callable;
 
 import FatPound.Traits.Formation;
-
 import std;
 
 // NOLINTBEGIN(altera-struct-pack-align, fuchsia-virtual-inheritance)

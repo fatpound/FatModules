@@ -1,7 +1,7 @@
 module;
 
 #ifdef FATX_WITH_GSTREAMER
-#include "FatGst.hpp"
+#include "FatGst.hxx"
 #endif
 
 export module FatX.GStreamer.Pipeline;

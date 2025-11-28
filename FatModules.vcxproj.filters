@@ -381,6 +381,27 @@
     <ClCompile Include="_exp\FatX.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Concurrency\ThreadPool.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Win32_\MessageMap.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="_exp\OpenCV\Contour.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="_exp\OpenCV\OpenCV.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="_exp\ZeroMQ\ZeroMQ.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="_exp\ZeroMQ\Publisher.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="_exp\ZeroMQ\Subscriber.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32_\FatWin.hpp">
@@ -404,7 +425,13 @@
     <ClInclude Include="_macros\Experimental.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="_exp\GStreamer\FatGst.hpp">
+    <ClInclude Include="_exp\GStreamer\FatGst.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="_exp\ZeroMQ\FatZmq.hxx">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="_exp\OpenCV\FatOcv.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

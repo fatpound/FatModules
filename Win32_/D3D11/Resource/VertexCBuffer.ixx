@@ -1,10 +1,19 @@
 module;
 
+#ifdef FATLIB_BUILDING_WITH_MSVC
+    #ifdef __INTELLISENSE__
+        #include <Win32_/FatWin.hpp>
+        #include <d3d11_4.h>
+    #endif
+#endif
+
 export module FatPound.Win32.D3D11.Resource.VertexCBuffer;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
-import <d3d11_4.h>;
+#ifndef __INTELLISENSE__
+    import <d3d11_4.h>;
+#endif
 
 import FatPound.Win32.D3D11.Bindable;
 import FatPound.Win32.D3D11.Resource.CBuffer;

@@ -2,7 +2,6 @@ module;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
     #include <_macros/Compiler.hxx>
-    #include <_macros/Namespaces.hxx>
 
     #pragma comment(lib, "d3d11")
     #pragma comment(lib, "D3DCompiler")

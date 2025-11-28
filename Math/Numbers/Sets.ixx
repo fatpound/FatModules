@@ -3,7 +3,6 @@ module;
 export module FatPound.Math.Numbers.Sets;
 
 import FatPound.Traits.Bitwise;
-
 import std;
 
 export namespace fatpound::math::numbers

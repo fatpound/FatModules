@@ -1,7 +1,6 @@
 module;
 
 #include <_macros/Compiler.hxx>
-#include <_macros/Namespaces.hxx>
 
 #include <cassert>
 
@@ -54,7 +53,7 @@ export namespace fatpound::utility
             :
             m_pBuffer_(nullptr, nullptr)
         {
-            FATSPACE_WIN32::gdi_plus::Manager gdiplusmgr;
+            win32::gdi_plus::Manager gdiplusmgr;
 
             Gdiplus::Bitmap bitmap(filename.c_str());
 

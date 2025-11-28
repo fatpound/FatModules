@@ -1,8 +1,6 @@
 module;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
-    #include <_macros/Namespaces.hxx>
-
     #ifdef __INTELLISENSE__
         #include <Win32_/FatWin.hpp>
         #include <d3d11_4.h>

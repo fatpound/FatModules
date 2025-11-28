@@ -1,8 +1,6 @@
 module;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
-    #include <_macros/Namespaces.hxx>
-
     #ifdef __INTELLISENSE__
         #include <Win32_/FatWin.hpp>
         #include <d3d11_4.h>
@@ -34,7 +32,7 @@ export namespace fatpound::win32::d3d11::resource
                 throw std::runtime_error("Could NOT get the buffer from SwapChain!");
             }
         }
-        explicit Texture2D(ID3D11Device* const pDevice, const D3D11_TEXTURE2D_DESC& tex2dDesc, std::shared_ptr<FATSPACE_UTILITY::Surface> pSurface)
+        explicit Texture2D(ID3D11Device* const pDevice, const D3D11_TEXTURE2D_DESC& tex2dDesc, std::shared_ptr<utility::Surface> pSurface)
         {
             if (pSurface not_eq nullptr)
             {

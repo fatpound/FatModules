@@ -9,7 +9,6 @@ export module FatPound.Utility.Common;
 #endif
 
 import FatPound.Traits.Bitwise;
-
 import std;
 
 export namespace fatpound::utility

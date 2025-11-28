@@ -3,7 +3,6 @@ module;
 export module FatPound.Graph.DirectedGraph;
 
 import FatPound.Utility.Common;
-
 import std;
 
 export namespace fatpound::graph

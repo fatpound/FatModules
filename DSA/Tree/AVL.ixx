@@ -3,7 +3,6 @@ module;
 export module FatPound.DSA.Tree.AVL;
 
 import FatPound.DSA.Tree.BST;
-
 import std;
 
 export namespace fatpound::dsa::tree

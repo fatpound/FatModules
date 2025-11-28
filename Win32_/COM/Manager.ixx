@@ -5,7 +5,6 @@ export module FatPound.Win32.COM.Manager;
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
 import <Win32_/WinAPI.hxx>;
-
 import std;
 
 export namespace fatpound::win32::com

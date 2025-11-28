@@ -5,7 +5,6 @@ module;
 export module FatPound.Colors.ARGB.Color;
 
 import FatPound.Bit.Common;
-
 import std;
 
 export namespace fatpound::colors::argb

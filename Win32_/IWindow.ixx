@@ -1,10 +1,19 @@
 module;
 
+#ifdef FATLIB_BUILDING_WITH_MSVC
+    #ifdef __INTELLISENSE__
+        #include <Win32_/WinAPI.hxx>
+    #endif
+#endif
+
 export module FatPound.Win32.IWindow;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
-import <Win32_/WinAPI.hxx>;
+#ifndef __INTELLISENSE__
+    import <Win32_/WinAPI.hxx>;
+#endif
+
 import std;
 
 export namespace fatpound::win32

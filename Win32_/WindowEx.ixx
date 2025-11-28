@@ -3,7 +3,6 @@ module;
 #ifdef FATLIB_BUILDING_WITH_MSVC
     #include <_macros/Compiler.hxx>
     #include <_macros/Experimental.hxx>
-    #include <_macros/Namespaces.hxx>
 
     #ifdef __INTELLISENSE__
         #include <Win32_/FatWin.hpp>
@@ -18,6 +17,8 @@ export module FatPound.Win32.WindowEx;
 
 #ifndef __INTELLISENSE__
     import <Win32_/WinAPI.hxx>;
+#else
+    import FatPound.Win32.Common;
 #endif
 
 import FatPound.Concurrency;
@@ -25,10 +26,6 @@ import FatPound.IO;
 import FatPound.Traits.Bitwise;
 import FatPound.Utility.SizePack;
 import FatPound.Win32.IWindow;
-
-#ifdef __INTELLISENSE__
-    import FatPound.Win32.Common;
-#endif
 
 import std;
 
@@ -275,7 +272,7 @@ export namespace fatpound::win32
                 break;
 
             case scx_customTaskMsgId_:
-                m_tasks_.ExecuteFirstAndPopOff();
+                m_tasks_.PopAndExecute();
                 return 0;
 
             case WM_SYSCOMMAND:
@@ -399,15 +396,15 @@ export namespace fatpound::win32
 
 
     protected:
-        FATSPACE_CONCURRENCY::TaskQueue   m_tasks_;
-        std::shared_ptr<WndClassEx>       m_pWndClassEx_;
-        const utility::SizePack           mc_client_size_;
+        concurrency::TaskQueue        m_tasks_;
+        std::shared_ptr<WndClassEx>   m_pWndClassEx_;
+        const utility::SizePack       mc_client_size_;
 
-        HWND                              m_hWnd_{};
+        HWND                          m_hWnd_{};
 
-        std::atomic_bool                  m_is_closing_{};
-        std::binary_semaphore             m_start_signal_{ 0 };
-        std::jthread                      m_msg_jthread_;
+        std::atomic_bool              m_is_closing_{};
+        std::binary_semaphore         m_start_signal_{ 0 };
+        std::jthread                  m_msg_jthread_;
 
 
     private:
@@ -421,7 +418,7 @@ export namespace fatpound::win32
         void MessageKernel_()
         {
             m_start_signal_.acquire();
-            m_tasks_.ExecuteFirstAndPopOff();
+            m_tasks_.PopAndExecute();
 
             MSG msg{};
 
