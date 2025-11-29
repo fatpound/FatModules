@@ -34,7 +34,7 @@ export namespace fatpound::concurrency
         ~ThreadPool() noexcept
         {
             {
-                const std::scoped_lock sl{ m_mtx_ };
+                const std::lock_guard<std::mutex> sl{ m_mtx_ };
 
                 m_stop_ = true;
             }
@@ -51,7 +51,7 @@ export namespace fatpound::concurrency
             auto future = m_tasks_.Push(std::forward<F>(func), std::forward<Args>(args)...);
 
             {
-                const std::scoped_lock sl{ m_mtx_ };
+                const std::lock_guard<std::mutex> sl{ m_mtx_ };
             }
 
             m_cv_.notify_one();
@@ -69,7 +69,7 @@ export namespace fatpound::concurrency
             while (true)
             {
                 {
-                    std::unique_lock ulock{ m_mtx_ };
+                    std::unique_lock<std::mutex> ulock{ m_mtx_ };
 
                     m_cv_.wait(
                         ulock,
@@ -91,7 +91,11 @@ export namespace fatpound::concurrency
                 }
                 catch (...)
                 {
+#if __cplusplus >= 202302L
                     std::println<>("Thread {} failed while running task!", std::this_thread::get_id());
+#else
+                    std::cout << "Thread " << std::this_thread::get_id() << " failed while running task!";
+#endif
                 }
             }
         }
