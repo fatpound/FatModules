@@ -47,6 +47,47 @@ namespace fatpound::file
 
 export namespace fatpound::file
 {
+    /// @brief Reads the entire contents of a file into a string
+    ///
+    /// @param path: The path to the file to be read
+    ///
+    /// @return A string containing the contents of the file
+    /// 
+    [[nodiscard]]
+    auto ReadToString        (const std::filesystem::path& path) -> std::string
+    {
+        std::ifstream file(path, std::ios::binary);
+
+        if (not file.is_open())
+        {
+            throw std::runtime_error("Cannot open file!");
+        }
+
+        file.seekg(0, std::ios::end);
+        const auto size = file.tellg();
+        file.seekg(0, std::ios::beg);
+
+        if (size < 0U)
+        {
+            throw std::runtime_error("Cannot GET file size!");
+        }
+        else if (size == 0U)
+        {
+            throw std::runtime_error("File size is 0!");
+        }
+
+        std::string buffer(static_cast<std::size_t>(size), '\0');
+
+        if (not file.read(buffer.data(), size))
+        {
+            throw std::runtime_error("Cannot read file!");
+        }
+
+        return buffer;
+    }
+
+
+
     /// @brief Counts how many times a specific character appears in a given file. Checks neither whether the path exists nor whether it refers to a regular file
     ///
     /// @tparam ForNewline: Set to true only if this function is specifically used to count newline characters
@@ -253,6 +294,12 @@ export namespace fatpound::file
 
 
 
+    /// @brief Converts a filesystem path to a URI-compatible string
+    /// 
+    /// @param path: The filesystem path to be converted
+    ///
+    /// @return A string representing the URI-compatible version of the path
+    /// 
     auto ToUriPath           (const std::filesystem::path& path) -> std::string
     {
         const auto& path_str = path.u8string();
@@ -272,14 +319,7 @@ export namespace fatpound::file
             }
             else
             {
-#ifdef _MSC_VER
-#pragma warning (push)
-#pragma warning (disable : 4686)
-#endif
                 std::format_to<>(std::back_inserter<>(uri), "%{:02X}", static_cast<std::uint8_t>(ch));
-#ifdef _MSC_VER
-#pragma warning (pop)
-#endif
             }
         }
 

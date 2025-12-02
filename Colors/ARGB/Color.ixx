@@ -143,11 +143,6 @@ export namespace fatpound::colors::argb
             return *this;
         }
 
-#ifdef _MSC_VER
-#pragma warning (push)
-#pragma warning (disable : 4686)
-#endif
-
         [[nodiscard]]
 #if __cplusplus > 202500L
         constexpr
@@ -163,10 +158,6 @@ export namespace fatpound::colors::argb
                 GetB()
             );
         }
-
-#ifdef _MSC_VER
-#pragma warning (pop)
-#endif
 
 
     protected:

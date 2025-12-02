@@ -235,17 +235,12 @@ export namespace fatpound::win32
     public:
         auto operator () (const DWORD msg, const WPARAM wp, const LPARAM lp) const -> String_t
         {
-#pragma warning (push)
-#pragma warning (disable : 4686)
-
             const auto message = m_map_.contains(msg)
                 ? m_map_.at(msg)
                 : std::format<>(TEXT("Unknown msg: 0x{:X}"), msg)
                 ;
 
             return std::format<>(TEXT("{:<{}}\tWP: 0x{:08X}\tLP: 0x{:08X}\n"), message, 26, wp, lp);
-
-#pragma warning (pop)
         }
         
 
