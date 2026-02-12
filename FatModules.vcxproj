@@ -70,10 +70,10 @@
     <ClCompile Include="Geometry\Shape\Triangle.ixx" />
     <ClCompile Include="Math\Math.ixx" />
     <ClCompile Include="Math\Multiplicative.ixx" />
-    <ClCompile Include="Math\Numbers\Common.ixx" />
-    <ClCompile Include="Math\Numbers\Numbers.ixx" />
-    <ClCompile Include="Math\Numbers\Primes.ixx" />
-    <ClCompile Include="Math\Numbers\Sets.ixx" />
+    <ClCompile Include="Numbers\Common.ixx" />
+    <ClCompile Include="Numbers\Numbers.ixx" />
+    <ClCompile Include="Numbers\Primes.ixx" />
+    <ClCompile Include="Numbers\Sets.ixx" />
     <ClCompile Include="Math\Special.ixx" />
     <ClCompile Include="Memory\Common.ixx" />
     <ClCompile Include="Memory\Memory.ixx" />

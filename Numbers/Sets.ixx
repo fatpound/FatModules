@@ -1,11 +1,11 @@
 module;
 
-export module FatPound.Math.Numbers.Sets;
+export module FatPound.Numbers.Sets;
 
 import FatPound.Traits.Bitwise;
 import std;
 
-export namespace fatpound::math::numbers
+export namespace fatpound::numbers
 {
     template <typename T> concept Natural  = std::unsigned_integral<T>; // with 0
     template <typename T> concept Integer  = std::integral<T>;

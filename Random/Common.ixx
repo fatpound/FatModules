@@ -3,7 +3,7 @@ module;
 export module FatPound.Random.Common;
 
 import FatPound.Colors.ARGB.Color;
-import FatPound.Math.Numbers.Primes;
+import FatPound.Numbers.Primes;
 import FatPound.Traits.Bitwise;
 
 import std;
@@ -83,17 +83,17 @@ export namespace fatpound::random
     {
         const auto& num = static_cast<T>(dist(rng));
 
-        if (math::numbers::IsPrime<>(num))
+        if (numbers::IsPrime<>(num))
         {
             return num;
         }
 
-        if (const auto& next = math::numbers::NextPrime<>(num); next <= dist.max())
+        if (const auto& next = numbers::NextPrime<>(num); next <= dist.max())
         {
             return next;
         }
 
-        if (const auto& prev = math::numbers::PrevPrime<>(num); dist.min() <= prev)
+        if (const auto& prev = numbers::PrevPrime<>(num); dist.min() <= prev)
         {
             return prev;
         }

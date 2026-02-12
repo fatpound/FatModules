@@ -4,8 +4,8 @@ module;
 
 export module FatPound.Math.Special;
 
-import FatPound.Math.Numbers.Common;
 import FatPound.Math.Multiplicative;
+import FatPound.Numbers.Common;
 import FatPound.Traits.Bitwise;
 
 import std;

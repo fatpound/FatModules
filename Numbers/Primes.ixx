@@ -1,10 +1,10 @@
 module;
 
-export module FatPound.Math.Numbers.Primes;
+export module FatPound.Numbers.Primes;
 
 import std;
 
-export namespace fatpound::math::numbers
+export namespace fatpound::numbers
 {
     // _GT* postfix => The function will assume that the function argument value is greater than N
 

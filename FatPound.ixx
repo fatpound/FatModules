@@ -13,7 +13,7 @@
 /*                                                ########:#      ##.tr        */
 /*                                                                             */
 /*  >< Created: --/--/---- ??:??:??                                            */
-/*  >< Updated: 19/07/2025 23:40:17                                            */
+/*  >< Updated: 23/02/2026 16:11:26                                            */
 /*  >< By: fatpound                                                            */
 /*                                                                             */
 /*******************************************************************************/
@@ -39,6 +39,7 @@ export import FatPound.Graph;
 export import FatPound.IO;
 export import FatPound.Math;
 export import FatPound.Memory;
+export import FatPound.Numbers;
 export import FatPound.Random;
 export import FatPound.Traits;
 export import FatPound.Utility;

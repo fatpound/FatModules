@@ -189,13 +189,13 @@
     <ClCompile Include="Win32_\D3D11\Resource\Texture2D.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Numbers\Primes.ixx">
+    <ClCompile Include="Numbers\Primes.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="File\File.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Numbers\Numbers.ixx">
+    <ClCompile Include="Numbers\Numbers.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Random\Random.ixx">
@@ -213,7 +213,7 @@
     <ClCompile Include="Geometry\Geometry.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Numbers\Sets.ixx">
+    <ClCompile Include="Numbers\Sets.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\D3D11\Resource\SBuffer.ixx">
@@ -222,7 +222,7 @@
     <ClCompile Include="Automata\TLT_v2.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math\Numbers\Common.ixx">
+    <ClCompile Include="Numbers\Common.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\Common.ixx">

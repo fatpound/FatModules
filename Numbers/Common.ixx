@@ -2,14 +2,14 @@ module;
 
 #include <_macros/STL.hxx>
 
-export module FatPound.Math.Numbers.Common;
+export module FatPound.Numbers.Common;
 
 import FatPound.Math.Common;
 import FatPound.Math.Multiplicative;
 
 import std;
 
-export namespace fatpound::math::numbers
+export namespace fatpound::numbers
 {
     template <std::floating_point T = float> constexpr auto       Pi = std::numbers::pi_v<T>;
     template <std::floating_point T = float> constexpr auto    twoPi = Pi<T> * static_cast<T>(2.0);
