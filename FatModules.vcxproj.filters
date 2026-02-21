@@ -402,6 +402,15 @@
     <ClCompile Include="_exp\ZeroMQ\Subscriber.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Geometry\Projection.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry\FieldOfView.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Geometry\EulerAngles.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Win32_\FatWin.hpp">

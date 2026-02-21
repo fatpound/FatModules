@@ -29,6 +29,9 @@
     <ClCompile Include="Colors\Colors.ixx" />
     <ClCompile Include="Concurrency\ThreadPool.ixx" />
     <ClCompile Include="File\Common.ixx" />
+    <ClCompile Include="Geometry\EulerAngles.ixx" />
+    <ClCompile Include="Geometry\FieldOfView.ixx" />
+    <ClCompile Include="Geometry\Projection.ixx" />
     <ClCompile Include="Geometry\Shape\Shape.ixx" />
     <ClCompile Include="Graph\BFS.ixx" />
     <ClCompile Include="Graph\DFS.ixx" />
