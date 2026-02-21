@@ -22,11 +22,11 @@ export namespace fatpound::numbers
 
     template <std::unsigned_integral T> CX_MATH26 auto IsSquare        (const T& num) noexcept -> bool
     {
-        return Square<T>(std::sqrt(num)) == num;
+        return math::Square<>(static_cast<T>(std::sqrt(num))) == num;
     }
     template <std::unsigned_integral T> CX_MATH26 auto IsCube          (const T& num) noexcept -> bool
     {
-        return Cube<T>(std::cbrt(num)) == num;
+        return math::Cube<>(static_cast<T>(std::cbrt(num))) == num;
     }
     template <std::unsigned_integral T> CX_MATH26 auto IsPerfectSquare (const T& num) noexcept -> bool
     {
