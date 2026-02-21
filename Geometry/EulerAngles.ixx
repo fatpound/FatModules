@@ -9,29 +9,29 @@ import std;
 
 export namespace fatpound::geometry
 {
-    template <std::floating_point T = float> CX_MATH26 auto CalculateYaw_Rad   (const T& fwd, const T& hrz) noexcept -> T
+    template <std::floating_point T = float, std::convertible_to<T> U> CX_MATH26 auto CalculateYaw_Rad   (const U& fwd, const U& hrz) noexcept -> T
     {
-        return std::atan2(hrz, fwd);
+        return static_cast<T>(std::atan2(hrz, fwd));
     }
-    template <std::floating_point T = float> CX_MATH26 auto CalculatePitch_Rad (const T& fwd, const T& vrt) noexcept -> T
+    template <std::floating_point T = float, std::convertible_to<T> U> CX_MATH26 auto CalculatePitch_Rad (const U& fwd, const U& vrt) noexcept -> T
     {
-        return std::atan2(vrt, fwd);
+        return static_cast<T>(std::atan2(vrt, fwd));
     }
-    template <std::floating_point T = float> CX_MATH26 auto CalculateRoll_Rad  (const T& hrz, const T& vrt) noexcept -> T
+    template <std::floating_point T = float, std::convertible_to<T> U> CX_MATH26 auto CalculateRoll_Rad  (const U& hrz, const U& vrt) noexcept -> T
     {
-        return std::atan2(vrt, hrz);
+        return static_cast<T>(std::atan2(vrt, hrz));
     }
-    template <std::floating_point T = float> CX_MATH26 auto CalculateYaw_Deg   (const T& fwd, const T& hrz) noexcept -> T
+    template <std::floating_point T = float, std::convertible_to<T> U> CX_MATH26 auto CalculateYaw_Deg   (const U& fwd, const U& hrz) noexcept -> T
     {
-        return RadToDeg<>(CalculateYaw_Rad<>(fwd, hrz));
+        return RadToDeg<T>(CalculateYaw_Rad<T>(fwd, hrz));
     }
-    template <std::floating_point T = float> CX_MATH26 auto CalculatePitch_Deg (const T& fwd, const T& vrt) noexcept -> T
+    template <std::floating_point T = float, std::convertible_to<T> U> CX_MATH26 auto CalculatePitch_Deg (const U& fwd, const U& vrt) noexcept -> T
     {
-        return RadToDeg<>(CalculatePitch_Rad<>(fwd, vrt));
+        return RadToDeg<T>(CalculatePitch_Rad<T>(fwd, vrt));
     }
-    template <std::floating_point T = float> CX_MATH26 auto CalculateRoll_Deg  (const T& hrz, const T& vrt) noexcept -> T
+    template <std::floating_point T = float, std::convertible_to<T> U> CX_MATH26 auto CalculateRoll_Deg  (const U& hrz, const U& vrt) noexcept -> T
     {
-        return RadToDeg<>(CalculateRoll_Rad<>(hrz, vrt));
+        return RadToDeg<T>(CalculateRoll_Rad<T>(hrz, vrt));
     }
 }
 

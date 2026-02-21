@@ -8,19 +8,19 @@ import std;
 
 export namespace fatpound::geometry
 {
-    template <std::floating_point T = float> CX_MATH26 auto HFOV_To_VFOV(const T& hFovRad, const T& aspectRatio) noexcept -> T
+    template <std::floating_point T = float, std::convertible_to<T> U> CX_MATH26 auto HFOV_To_VFOV(const U& hFovRad, const U& aspectRatio) noexcept -> T
     {
-        return 2.0 * std::atan(std::tan(hFovRad / 2.0) / aspectRatio);
+        return static_cast<T>(2.0 * std::atan(std::tan(hFovRad / 2.0) / aspectRatio));
     }
-    template <std::floating_point T = float> CX_MATH26 auto VFOV_To_HFOV(const T& vFovRad, const T& aspectRatio) noexcept -> T
+    template <std::floating_point T = float, std::convertible_to<T> U> CX_MATH26 auto VFOV_To_HFOV(const U& vFovRad, const U& aspectRatio) noexcept -> T
     {
-        return 2.0 * std::atan(std::tan(vFovRad / 2.0) * aspectRatio);
+        return static_cast<T>(2.0 * std::atan(std::tan(vFovRad / 2.0) * aspectRatio));
     }
 
-    template <std::floating_point T = float>
-    CX_MATH26 auto CalculateFocalLength(const T& fovRad, const T& sensorSize) noexcept -> T
+    template <std::floating_point T = float, std::convertible_to<T> U>
+    CX_MATH26 auto CalculateFocalLength(const U& fovRad, const U& sensorSize) noexcept -> T
     {
-        return (sensorSize / 2.0) / std::tan(fovRad / 2.0);
+        return static_cast<T>((sensorSize / 2.0) / std::tan(fovRad / 2.0));
     }
 }
 
