@@ -1,15 +1,20 @@
 module;
 
+#include <_macros/STL.hxx>
+
 #ifdef FATLIB_BUILDING_WITH_MSVC
     #include <DirectXMath.h>
 #endif
 
 export module FatPound.Geometry.Common;
 
-#ifdef FATLIB_BUILDING_WITH_MSVC
+import FatPound.Math.Multiplicative;
+import std;
 
 export namespace fatpound::geometry
 {
+#ifdef FATLIB_BUILDING_WITH_MSVC
+
     auto operator +       (const DirectX::XMVECTOR& p0, const DirectX::XMVECTOR& p1) noexcept -> DirectX::XMVECTOR
     {
         return DirectX::XMVectorAdd(p0, p1);
@@ -86,8 +91,14 @@ export namespace fatpound::geometry
     {
         return CompareDistance2(DirectX::XMLoadFloat2(&p0), DirectX::XMLoadFloat2(&p1));
     }
-}
 
 #endif
+
+    template <std::floating_point T = float, std::convertible_to<T> U>
+    CX_MATH26 auto Hypotenuse(const U& x, const U& y) noexcept -> T
+    {
+        return std::sqrt(math::Square<>(x) + math::Square<>(y));
+    }
+}
 
 // module : private;
