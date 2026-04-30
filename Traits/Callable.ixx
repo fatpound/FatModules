@@ -1007,8 +1007,6 @@ namespace fatpound::traits
         FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR_BASE3(   ret_t,     bar91##extra_funcname,    const volatile,                    && noexcept,    not,    not,    not,       ,    not,       ,      ,      arity,   __VA_ARGS__   __VA_OPT__(,)    ...    )
 
         ///
-        /// fat::pound
-        ///
 
         FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(void, _a, 0, )
         FATLIB_FUNC_INFO_STATIC_ASSERT_TESTS_GENERATOR(void, _b, 1, int)
