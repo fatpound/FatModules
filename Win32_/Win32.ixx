@@ -7,6 +7,8 @@ export import FatPound.Win32.D2D;
 export import FatPound.Win32.D3D11;
 export import FatPound.Win32.DXGI;
 export import FatPound.Win32.GDI_Plus;
+export import FatPound.Win32.MF;
+export import FatPound.Win32.XAudio2;
 
 export import FatPound.Win32.Core;
 export import FatPound.Win32.Common;
