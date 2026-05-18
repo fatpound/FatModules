@@ -43,7 +43,7 @@ export namespace fatpound::win32
         }
 
 
-    protected:
+    public:
         [[nodiscard]]
         auto GetErrorCode() const noexcept -> HRESULT
         {
