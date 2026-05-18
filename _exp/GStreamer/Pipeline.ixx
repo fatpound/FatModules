@@ -26,6 +26,11 @@ export namespace fatx::gstreamer
 
     class Pipeline
     {
+#ifdef FATLIB_BUILDING_WITH_MSVC
+#pragma warning (push)
+#pragma warning (disable : 4625 4626)
+#endif
+
         struct alignas(64) Data
         {
             GstElement*   uridecodebin{};
@@ -44,15 +49,15 @@ export namespace fatx::gstreamer
         {
             enum class Type : std::uint8_t
             {
-                None              ,
-                BuildPipeline     ,
-                AttachEffectChain ,
-                DetachEffectChain ,
-                LoadAudio         ,
-                Play              ,
-                Pause             ,
-                Seek              ,
-                RunFunc           ,
+                None             ,
+                BuildPipeline    ,
+                AttachEffectChain,
+                DetachEffectChain,
+                LoadAudio        ,
+                Play             ,
+                Pause            ,
+                Seek             ,
+                RunFunc          ,
                 Quit
             };
 
@@ -63,6 +68,10 @@ export namespace fatx::gstreamer
             std::unique_ptr<IEffectChain>   effect{};
             Pipeline*                       pipeline{};
         };
+
+#ifdef FATLIB_BUILDING_WITH_MSVC
+#pragma warning (pop)
+#endif
 
 
     public:
@@ -576,7 +585,7 @@ export namespace fatx::gstreamer
             g_print("[DONE]\n");
         }
 
-        void AttachEffectChain_(std::unique_ptr<IEffectChain> pChain) noexcept
+        void AttachEffectChain_   (std::unique_ptr<IEffectChain> pChain) noexcept
         {
             if (m_pPipeline_ == nullptr)
             {
@@ -604,6 +613,10 @@ export namespace fatx::gstreamer
 
             auto* const pChainBin = pChain->GetBin();
 
+#ifdef FATLIB_BUILDING_WITH_MSVC
+#pragma warning (push)
+#pragma warning (disable : 4625 4626)
+#endif
             struct RollbackGuard final
             {
                 GstElement*   pipeline{};
@@ -639,6 +652,9 @@ export namespace fatx::gstreamer
                     }
                 }
             };
+#ifdef FATLIB_BUILDING_WITH_MSVC
+#pragma warning (pop)
+#endif
 
             RollbackGuard rg{ .pipeline = m_pPipeline_ };
 
@@ -725,7 +741,7 @@ export namespace fatx::gstreamer
 
             g_print("Effect chain attached and active.\n");
         }
-        void DetachEffectChain_() noexcept
+        void DetachEffectChain_   () noexcept
         {
             if (m_pPipeline_ == nullptr)
             {
