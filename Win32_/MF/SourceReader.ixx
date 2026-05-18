@@ -111,12 +111,19 @@ export namespace fatpound::win32::mf
                     BYTE*                 m_pAudioData{};
                     DWORD                 m_cbBuffer{};
 
-                    MediaBufferLockGuard(IMFMediaBuffer* const buffer)
+                    explicit MediaBufferLockGuard(IMFMediaBuffer* const buffer)
                         :
                         m_pBuffer(buffer)
                     {
                         FAT_THROW_HRX_IF_FAILED(m_pBuffer->Lock(&m_pAudioData, nullptr, &m_cbBuffer), "Failed to lock media buffer!");
                     }
+
+                    explicit MediaBufferLockGuard()                                = delete;
+                    explicit MediaBufferLockGuard(const MediaBufferLockGuard&)     = delete;
+                    explicit MediaBufferLockGuard(MediaBufferLockGuard&&) noexcept = delete;
+
+                    auto operator = (const MediaBufferLockGuard&)     -> MediaBufferLockGuard& = delete;
+                    auto operator = (MediaBufferLockGuard&&) noexcept -> MediaBufferLockGuard& = delete;
                     ~MediaBufferLockGuard() noexcept
                     {
                         m_pBuffer->Unlock();
