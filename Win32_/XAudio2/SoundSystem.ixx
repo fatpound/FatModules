@@ -51,10 +51,10 @@ export namespace fatpound::win32::xaudio2
 
             auto operator = (const Sound&)     -> Sound& = delete;
             auto operator = (Sound&&) noexcept -> Sound& = delete;
-            ~Sound() noexcept
+            ~Sound()
             {
                 {
-                    std::lock_guard lg{ m_mtx_ };
+                    const std::lock_guard lg{ m_mtx_ };
     
                     for (auto& pChan : m_active_channel_ptrs_)
                     {
@@ -66,7 +66,7 @@ export namespace fatpound::win32::xaudio2
 
                 do
                 {
-                    std::lock_guard lg{ m_mtx_ };
+                    const std::lock_guard lg{ m_mtx_ };
 
                     allChannelsAreDeactivated = (m_active_channel_ptrs_.size() == 0);
                 }
@@ -96,13 +96,13 @@ export namespace fatpound::win32::xaudio2
         private:
             void AddChannel_    (Channel_& channel)
             {
-                std::lock_guard lg{ m_mtx_ };
+                const std::lock_guard lg{ m_mtx_ };
 
                 m_active_channel_ptrs_.push_back(&channel);
             }
             void RemoveChannel_ (Channel_& channel)
             {
-                std::lock_guard lg{ m_mtx_ };
+                const std::lock_guard lg{ m_mtx_ };
 
                 m_active_channel_ptrs_.erase(std::ranges::find(m_active_channel_ptrs_, &channel));
             }
@@ -156,14 +156,14 @@ export namespace fatpound::win32::xaudio2
 
 
     public:
-        auto GetMasterFormat() const -> WAVEFORMATEX
+        auto GetMasterFormat() const noexcept -> WAVEFORMATEX
         {
             return m_master_voice_format_;
         }
         
         void PlaySound(Sound& sound, const float volume, const float freqMod)
         {
-            std::lock_guard lg{ m_mtx_ };
+            const std::lock_guard lg{ m_mtx_ };
 
             if (m_idle_channel_ptrs_.size() > 0)
             {
@@ -172,7 +172,7 @@ export namespace fatpound::win32::xaudio2
                 m_active_channel_ptrs_.back()->Play(sound, volume, freqMod);
             }
         }
-        void SetMasterVolume(const float volume)
+        void SetMasterVolume(const float volume) noexcept
         {
             if (m_pMasterVoice_ not_eq nullptr)
             {
@@ -188,7 +188,7 @@ export namespace fatpound::win32::xaudio2
         class VoiceCallback_ final : public IXAudio2VoiceCallback
         {
         public:
-            explicit VoiceCallback_(SoundSystem& sys)
+            explicit VoiceCallback_(SoundSystem& sys) noexcept
                 :
                 m_sys_(sys)
             {
@@ -204,23 +204,23 @@ export namespace fatpound::win32::xaudio2
             virtual ~VoiceCallback_() noexcept                             = default;
 
         public:
-            virtual void STDMETHODCALLTYPE OnVoiceProcessingPassStart ([[maybe_unused]] UINT32 BytesRequired)                                       override final
+            virtual void STDMETHODCALLTYPE OnVoiceProcessingPassStart ([[maybe_unused]] UINT32 BytesRequired)                                       noexcept override final
             {
 
             }
-            virtual void STDMETHODCALLTYPE OnVoiceProcessingPassEnd   ()                                                                            override final
+            virtual void STDMETHODCALLTYPE OnVoiceProcessingPassEnd   ()                                                                            noexcept override final
             {
 
             }
-            virtual void STDMETHODCALLTYPE OnStreamEnd                ()                                                                            override final
+            virtual void STDMETHODCALLTYPE OnStreamEnd                ()                                                                            noexcept override final
             {
 
             }
-            virtual void STDMETHODCALLTYPE OnBufferStart              ([[maybe_unused]] void*       pBufferContext)                                 override final
+            virtual void STDMETHODCALLTYPE OnBufferStart              ([[maybe_unused]] void*       pBufferContext)                                 noexcept override final
             {
 
             }
-            virtual void STDMETHODCALLTYPE OnBufferEnd                (                 void* const pBufferContext)                                 override final
+            virtual void STDMETHODCALLTYPE OnBufferEnd                (                 void* const pBufferContext)                                          override final
             {
                 auto& channel = *reinterpret_cast<Channel_*>(pBufferContext);
 
@@ -229,11 +229,11 @@ export namespace fatpound::win32::xaudio2
 
                 m_sys_.DeactivateChannel_(channel);
             }
-            virtual void STDMETHODCALLTYPE OnLoopEnd                  ([[maybe_unused]] void*       pBufferContext)                                 override final
+            virtual void STDMETHODCALLTYPE OnLoopEnd                  ([[maybe_unused]] void*       pBufferContext)                                 noexcept override final
             {
 
             }
-            virtual void STDMETHODCALLTYPE OnVoiceError               ([[maybe_unused]] void*       pBufferContext, [[maybe_unused]] HRESULT Error) override final
+            virtual void STDMETHODCALLTYPE OnVoiceError               ([[maybe_unused]] void*       pBufferContext, [[maybe_unused]] HRESULT Error) noexcept override final
             {
 
             }
@@ -295,7 +295,7 @@ export namespace fatpound::win32::xaudio2
                 m_pSourceVoice_->SetVolume(volume);
                 m_pSourceVoice_->Start();
             }
-            void Stop()
+            void Stop() noexcept
             {
                 assert((m_pSourceVoice_ not_eq nullptr)); // and (m_pSound_ not_eq nullptr)
 
@@ -320,7 +320,7 @@ export namespace fatpound::win32::xaudio2
 
 
     private:
-        static auto S_DefaultFormat_() noexcept -> WAVEFORMATEX
+        static constexpr auto S_DefaultFormat_() noexcept -> WAVEFORMATEX
         {
             return
             {
@@ -338,7 +338,7 @@ export namespace fatpound::win32::xaudio2
     private:
         void DeactivateChannel_(Channel_& channel)
         {
-            std::lock_guard lg{ m_mtx_ };
+            const std::lock_guard lg{ m_mtx_ };
 
             auto iter = std::ranges::find_if(
                 m_active_channel_ptrs_,

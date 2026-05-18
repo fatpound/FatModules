@@ -119,13 +119,13 @@ export namespace fatpound::win32::mf
 
                     auto operator = (const MediaBufferLockGuard&)     -> MediaBufferLockGuard& = delete;
                     auto operator = (MediaBufferLockGuard&&) noexcept -> MediaBufferLockGuard& = delete;
-                    ~MediaBufferLockGuard() noexcept
+                    ~MediaBufferLockGuard()
                     {
                         m_pBuffer->Unlock();
                     }
                 };
 
-                MediaBufferLockGuard lgbuf{ pBuffer.Get() };
+                const MediaBufferLockGuard lgbuf{ pBuffer.Get() };
 
                 auto* const pByteData = reinterpret_cast<std::byte*>(lgbuf.m_pAudioData);
                 outPcmData.insert(outPcmData.end(), pByteData, pByteData + lgbuf.m_cbBuffer);
