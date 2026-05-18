@@ -136,10 +136,16 @@
     <ClCompile Include="Win32_\DXGI\DXGI.ixx" />
     <ClCompile Include="Win32_\GDI_Plus\GDI_Plus.ixx" />
     <ClCompile Include="Win32_\GDI_Plus\Manager.ixx" />
+    <ClCompile Include="Win32_\HrException.ixx" />
     <ClCompile Include="Win32_\IWindow.ixx" />
     <ClCompile Include="Win32_\MessageMap.ixx" />
+    <ClCompile Include="Win32_\MF\SourceReader.ixx" />
     <ClCompile Include="Win32_\Win32.ixx" />
     <ClCompile Include="Win32_\WindowEx.ixx" />
+    <ClCompile Include="Win32_\MF\Manager.ixx" />
+    <ClCompile Include="Win32_\MF\MF.ixx" />
+    <ClCompile Include="Win32_\XAudio2\SoundSystem.ixx" />
+    <ClCompile Include="Win32_\XAudio2\XAudio2.ixx" />
     <ClCompile Include="_exp\FatX.ixx" />
     <ClCompile Include="_exp\GStreamer\Common.ixx" />
     <ClCompile Include="_exp\GStreamer\GStreamer.ixx" />
@@ -165,6 +171,7 @@
     <ClInclude Include="Win32_\FatWin.hpp" />
     <ClInclude Include="Win32_\WinAPI.hxx" />
     <ClInclude Include="Win32_\FatWin_Settings.hpp" />
+    <ClInclude Include="_macros\Win.hxx" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Win32_\_notes.txt" />

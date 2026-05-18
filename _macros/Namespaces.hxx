@@ -21,8 +21,14 @@
 #define FATSPACE_RANDOM               NAMESPACE_FATPOUND::random
 #define FATSPACE_TRAITS               NAMESPACE_FATPOUND::traits
 #define FATSPACE_UTILITY              NAMESPACE_FATPOUND::utility
+
+
+#ifdef FATLIB_BUILDING_WITH_MSVC
+
 #define FATSPACE_WIN32                NAMESPACE_FATPOUND::win32
 
-#define FATSPACE_UTILITY_GFX          FATSPACE_UTILITY::gfx
 #define FATSPACE_D2D                  FATSPACE_WIN32::d2d
 #define FATSPACE_D3D11                FATSPACE_WIN32::d3d11
+#define FATSPACE_XAUDIO2              FATSPACE_WIN32::xaudio2
+
+#endif

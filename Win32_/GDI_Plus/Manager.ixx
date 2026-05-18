@@ -1,7 +1,5 @@
 module;
 
-#pragma comment(lib, "gdiplus")
-
 export module FatPound.Win32.GDI_Plus.Manager;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
