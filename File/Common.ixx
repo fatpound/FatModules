@@ -195,11 +195,12 @@ export namespace fatpound::file
         const auto size = file.tellg();
         file.seekg(0, std::ios::beg);
 
-        if (size < 0U)
+        if (size < 0)
         {
             throw std::runtime_error("Cannot GET file size!");
         }
-        else if (size == 0U)
+        
+        if (size == 0U)
         {
             throw std::runtime_error("File size is 0!");
         }
