@@ -23,6 +23,5 @@
 #define FATSPACE_UTILITY              NAMESPACE_FATPOUND::utility
 #define FATSPACE_WIN32                NAMESPACE_FATPOUND::win32
 
-#define FATSPACE_UTILITY_GFX          FATSPACE_UTILITY::gfx
 #define FATSPACE_D2D                  FATSPACE_WIN32::d2d
 #define FATSPACE_D3D11                FATSPACE_WIN32::d3d11
