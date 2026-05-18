@@ -38,12 +38,7 @@ export namespace fatpound::win32::mf
     public:
         explicit SourceReader(const std::wstring& filePath)
         {
-            const auto& hr = MFCreateSourceReaderFromURL(filePath.c_str(), nullptr, &m_pReader_); // Synchronous
-
-            if (FAILED(hr))
-            {
-                throw HrException(hr, "Failed to create MF Source Reader for file!");
-            }
+            FAT_THROW_HRX_IF_FAILED(MFCreateSourceReaderFromURL(filePath.c_str(), nullptr, &m_pReader_), "Failed to create MF Source Reader for file!"); // Synchronous
         }
 
         explicit SourceReader()                        = delete;

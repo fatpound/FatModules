@@ -2,6 +2,8 @@ module;
 
 export module FatPound.Win32.D3D11.Resource;
 
+#ifdef FATLIB_BUILDING_WITH_MSVC
+
 export import FatPound.Win32.D3D11.Resource.CBuffer;
 export import FatPound.Win32.D3D11.Resource.IndexBuffer;
 export import FatPound.Win32.D3D11.Resource.PixelCBuffer;
@@ -14,5 +16,7 @@ export import FatPound.Win32.D3D11.Resource.Texture2D;
 export import FatPound.Win32.D3D11.Resource.TransformCBuffer;
 export import FatPound.Win32.D3D11.Resource.VertexBuffer;
 export import FatPound.Win32.D3D11.Resource.VertexCBuffer;
+
+#endif
 
 // module : private;
