@@ -4,20 +4,20 @@ module;
 #include "FatGst.hxx"
 #endif
 
-export module FatX.GStreamer.PitchEffectBin;
+export module FatX.GStreamer.AudioPitchEffect;
 
 #ifdef FATX_WITH_GSTREAMER
 
 import FatX.GStreamer.Common;
-import FatX.GStreamer.IAudioEffectBin;
+import FatX.GStreamer.IAudioEffect;
 import FatX.GStreamer.Pipeline;
 
 export namespace fatx::gstreamer
 {
-    class PitchEffectBin : public IAudioEffectBin
+    class AudioPitchEffect : public IAudioEffect
     {
     public:
-        PitchEffectBin() noexcept
+        AudioPitchEffect() noexcept
             :
             m_pBin_(CreateBin("pitch_bin")),
             m_pValve_(CreatePlugin("valve", "valve_pitch")),
@@ -33,12 +33,12 @@ export namespace fatx::gstreamer
             gst_element_add_pad(m_pBin_, gst_ghost_pad_new("sink", sinkpad.get()));
             gst_element_add_pad(m_pBin_, gst_ghost_pad_new("src", srcpad.get()));
         }
-        PitchEffectBin(const PitchEffectBin&)     = default;
-        PitchEffectBin(PitchEffectBin&&) noexcept = default;
+        AudioPitchEffect(const AudioPitchEffect&)     = default;
+        AudioPitchEffect(AudioPitchEffect&&) noexcept = default;
 
-        auto operator = (const PitchEffectBin&)     -> PitchEffectBin& = default;
-        auto operator = (PitchEffectBin&&) noexcept -> PitchEffectBin& = default;
-        virtual ~PitchEffectBin() noexcept                             = default;
+        auto operator = (const AudioPitchEffect&)     -> AudioPitchEffect& = default;
+        auto operator = (AudioPitchEffect&&) noexcept -> AudioPitchEffect& = default;
+        virtual ~AudioPitchEffect() noexcept                               = default;
 
 
     public:

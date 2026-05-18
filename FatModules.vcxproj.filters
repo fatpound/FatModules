@@ -363,7 +363,7 @@
     <ClCompile Include="_exp\GStreamer\GStreamer.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="_exp\GStreamer\IAudioEffectBin.ixx">
+    <ClCompile Include="_exp\GStreamer\IAudioEffect.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="_exp\GStreamer\Manager.ixx">
@@ -375,7 +375,7 @@
     <ClCompile Include="_exp\GStreamer\Pipeline.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="_exp\GStreamer\PitchEffectBin.ixx">
+    <ClCompile Include="_exp\GStreamer\AudioPitchEffect.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="_exp\FatX.ixx">
@@ -427,6 +427,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Win32_\MF\SourceReader.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="_exp\GStreamer\AudioEffectChain.ixx">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="_exp\GStreamer\IEffectChain.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

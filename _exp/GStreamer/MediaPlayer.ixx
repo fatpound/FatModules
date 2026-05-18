@@ -8,8 +8,9 @@ export module FatX.GStreamer.MediaPlayer;
 
 #ifdef FATX_WITH_GSTREAMER
 
+import FatX.GStreamer.AudioPitchEffect;
+import FatX.GStreamer.AudioEffectChain;
 import FatX.GStreamer.Pipeline;
-import FatX.GStreamer.PitchEffectBin;
 
 import std;
 
@@ -20,8 +21,8 @@ export namespace fatx::gstreamer
     public:
         explicit MediaPlayer()
             :
-            m_pPitchEffect_(std::make_shared<PitchEffectBin>()),
-            m_pipeline_(m_pPitchEffect_)
+            m_pPitchEffect_(std::make_shared<AudioPitchEffect>()),
+            m_pipeline_(MakeEffectChain_())
         {
             g_print("Starting MediaPlayer...\n");
         }
@@ -30,7 +31,7 @@ export namespace fatx::gstreamer
 
         auto operator = (const MediaPlayer&)     -> MediaPlayer& = delete;
         auto operator = (MediaPlayer&&) noexcept -> MediaPlayer& = delete;
-        ~MediaPlayer()
+        ~MediaPlayer() noexcept
         {
             g_print("Shutting down MediaPlayer...\n");
         }
@@ -88,8 +89,18 @@ export namespace fatx::gstreamer
 
 
     private:
-        std::shared_ptr<PitchEffectBin>   m_pPitchEffect_;
-        Pipeline                          m_pipeline_;
+        auto MakeEffectChain_() const noexcept -> std::unique_ptr<IEffectChain>
+        {
+            auto chain = std::make_unique<AudioEffectChain>();
+            chain->Add(m_pPitchEffect_);
+
+            return chain;
+        }
+
+
+    private:
+        std::shared_ptr<AudioPitchEffect>   m_pPitchEffect_;
+        Pipeline                            m_pipeline_;
     };
 }
 

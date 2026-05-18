@@ -147,13 +147,15 @@
     <ClCompile Include="Win32_\XAudio2\SoundSystem.ixx" />
     <ClCompile Include="Win32_\XAudio2\XAudio2.ixx" />
     <ClCompile Include="_exp\FatX.ixx" />
+    <ClCompile Include="_exp\GStreamer\AudioEffectChain.ixx" />
     <ClCompile Include="_exp\GStreamer\Common.ixx" />
     <ClCompile Include="_exp\GStreamer\GStreamer.ixx" />
-    <ClCompile Include="_exp\GStreamer\IAudioEffectBin.ixx" />
+    <ClCompile Include="_exp\GStreamer\IAudioEffect.ixx" />
+    <ClCompile Include="_exp\GStreamer\IEffectChain.ixx" />
     <ClCompile Include="_exp\GStreamer\Manager.ixx" />
     <ClCompile Include="_exp\GStreamer\MediaPlayer.ixx" />
     <ClCompile Include="_exp\GStreamer\Pipeline.ixx" />
-    <ClCompile Include="_exp\GStreamer\PitchEffectBin.ixx" />
+    <ClCompile Include="_exp\GStreamer\AudioPitchEffect.ixx" />
     <ClCompile Include="_exp\OpenCV\Contour.ixx" />
     <ClCompile Include="_exp\OpenCV\OpenCV.ixx" />
     <ClCompile Include="_exp\ZeroMQ\Publisher.ixx" />
@@ -234,6 +236,7 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
     <Import Project="_misc\FatProps\FatCppM_Debug.props" />
     <Import Project="_misc\FatProps\FatModules.props" />
+    <Import Project="_misc\FatProps\FatGStreamer_x64.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
