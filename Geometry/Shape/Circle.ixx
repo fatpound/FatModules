@@ -25,7 +25,7 @@ export namespace fatpound::geometry::shape
         static constexpr auto scx_Default_W_ = 1.0F;
 
     public:
-        explicit Circle(const DirectX::XMVECTOR& center, const std::convertible_to<float> auto& radius)
+        explicit Circle(const DirectX::XMVECTOR& center, const std::convertible_to<float> auto& radius) noexcept(noexcept(static_cast<float>(radius)))
             :
             m_center_(center),
             m_radius_(static_cast<float>(radius))
@@ -38,6 +38,11 @@ export namespace fatpound::geometry::shape
             const std::convertible_to<float> auto& y,
             const std::convertible_to<float> auto& z,
             const std::convertible_to<float> auto& radius)
+            noexcept(
+                noexcept(static_cast<float>(x)) and
+                noexcept(static_cast<float>(y)) and
+                noexcept(static_cast<float>(z)) and
+                noexcept(static_cast<float>(radius)))
             :
             Circle(DirectX::XMVectorSet(x, y, z, scx_Default_W_), radius)
         {
@@ -48,6 +53,10 @@ export namespace fatpound::geometry::shape
             const std::convertible_to<float> auto& x,
             const std::convertible_to<float> auto& y,
             const std::convertible_to<float> auto& radius)
+            noexcept(
+                noexcept(static_cast<float>(x)) and
+                noexcept(static_cast<float>(y)) and
+                noexcept(static_cast<float>(radius)))
             :
             Circle(x, y, scx_Default_Z_, radius)
         {

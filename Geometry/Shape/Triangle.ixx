@@ -81,7 +81,6 @@ export namespace fatpound::geometry::shape
         {
             return m_vc_;
         }
-        
         auto GetCentroid           () const noexcept -> DirectX::XMVECTOR
         {
             return (m_va_ + m_vb_ + m_vc_) / 3.0F;
