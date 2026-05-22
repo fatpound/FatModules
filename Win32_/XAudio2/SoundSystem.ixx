@@ -8,9 +8,8 @@ module;
     #endif
 
     #include <_macros/Win.hxx>
+    #include <cassert>
 #endif
-
-#include <cassert>
 
 export module FatPound.Win32.XAudio2.SoundSystem;
 
