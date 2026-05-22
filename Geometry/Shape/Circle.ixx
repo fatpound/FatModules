@@ -100,23 +100,6 @@ export namespace fatpound::geometry::shape
             return S_Perimeter<>(GetRadius());
         }
 
-        auto Distance_CenterToCenter (const Circle& other) const noexcept -> float
-        {
-            return Distance4(GetCenter(), other.GetCenter());
-        }
-        auto Distance_CenterToEdge   (const Circle& other) const noexcept -> float
-        {
-            return Distance_CenterToCenter(other) - other.GetRadius();
-        }
-        auto Distance_EdgeToEdge     (const Circle& other) const noexcept -> float
-        {
-            return Distance_CenterToEdge(other) - GetRadius();
-        }
-        auto Distance_EdgeToCenter   (const Circle& other) const noexcept -> float
-        {
-            return Distance_CenterToCenter(other) - GetRadius();
-        }
-
         auto ArcLengthRad (const float& rad) const noexcept -> float
         {
             return GetRadius() * rad;
@@ -137,7 +120,24 @@ export namespace fatpound::geometry::shape
 
         void TranslateBy  (const DirectX::XMVECTOR& v) noexcept
         {
-            m_center_ = (m_center_ + v);
+            m_center_ += v;
+        }
+
+        auto Distance_CenterToCenter (const Circle& other) const noexcept -> float
+        {
+            return Distance4(GetCenter(), other.GetCenter());
+        }
+        auto Distance_CenterToEdge   (const Circle& other) const noexcept -> float
+        {
+            return Distance_CenterToCenter(other) - other.GetRadius();
+        }
+        auto Distance_EdgeToEdge     (const Circle& other) const noexcept -> float
+        {
+            return Distance_CenterToEdge(other) - GetRadius();
+        }
+        auto Distance_EdgeToCenter   (const Circle& other) const noexcept -> float
+        {
+            return Distance_CenterToCenter(other) - GetRadius();
         }
 
 

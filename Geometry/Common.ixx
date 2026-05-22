@@ -15,34 +15,72 @@ export namespace fatpound::geometry
 {
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
-    auto operator +       (const DirectX::XMVECTOR& p0, const DirectX::XMVECTOR& p1) noexcept -> DirectX::XMVECTOR
+    auto operator +       (const DirectX::XMVECTOR& lhs, const DirectX::XMVECTOR& rhs) noexcept -> DirectX::XMVECTOR
     {
-        return DirectX::XMVectorAdd(p0, p1);
+        return DirectX::XMVectorAdd(lhs, rhs);
     }
-    auto operator -       (const DirectX::XMVECTOR& p1, const DirectX::XMVECTOR& p0) noexcept -> DirectX::XMVECTOR
+    auto operator -       (const DirectX::XMVECTOR& lhs, const DirectX::XMVECTOR& rhs) noexcept -> DirectX::XMVECTOR
     {
-        return DirectX::XMVectorSubtract(p1, p0);
+        return DirectX::XMVectorSubtract(lhs, rhs);
     }
-    auto operator *       (const DirectX::XMVECTOR& p0, const DirectX::XMVECTOR& p1) noexcept -> DirectX::XMVECTOR
+    auto operator *       (const DirectX::XMVECTOR& lhs, const DirectX::XMVECTOR& rhs) noexcept -> DirectX::XMVECTOR
     {
-        return DirectX::XMVectorMultiply(p0, p1);
+        return DirectX::XMVectorMultiply(lhs, rhs);
     }
-    auto operator /       (const DirectX::XMVECTOR& p0, const DirectX::XMVECTOR& p1) noexcept -> DirectX::XMVECTOR
+    auto operator /       (const DirectX::XMVECTOR& lhs, const DirectX::XMVECTOR& rhs) noexcept -> DirectX::XMVECTOR
     {
-        return DirectX::XMVectorDivide(p0, p1);
+        return DirectX::XMVectorDivide(lhs, rhs);
     }
 
-    auto operator *       (const float&          scale, const DirectX::XMVECTOR&  v) noexcept -> DirectX::XMVECTOR
-    {
-        return DirectX::XMVectorScale(v, scale);
-    }
     auto operator *       (const DirectX::XMVECTOR&  v, const float&          scale) noexcept -> DirectX::XMVECTOR
     {
         return DirectX::XMVectorScale(v, scale);
     }
+    auto operator *       (const float&          scale, const DirectX::XMVECTOR&  v) noexcept -> DirectX::XMVECTOR
+    {
+        return v * scale;
+    }
     auto operator /       (const DirectX::XMVECTOR&  v, const float&          scale) noexcept -> DirectX::XMVECTOR
     {
-        return DirectX::XMVectorScale(v, 1.0F / scale);
+        return v * (1.0F / scale);
+    }
+
+    auto operator +=      (DirectX::XMVECTOR& lhs, const DirectX::XMVECTOR& rhs) noexcept -> DirectX::XMVECTOR&
+    {
+        lhs = (lhs + rhs);
+
+        return lhs;
+    }
+    auto operator -=      (DirectX::XMVECTOR& lhs, const DirectX::XMVECTOR& rhs) noexcept -> DirectX::XMVECTOR&
+    {
+        lhs = (lhs - rhs);
+
+        return lhs;
+    }
+    auto operator *=      (DirectX::XMVECTOR& lhs, const DirectX::XMVECTOR& rhs) noexcept -> DirectX::XMVECTOR&
+    {
+        lhs = (lhs * rhs);
+
+        return lhs;
+    }
+    auto operator /=      (DirectX::XMVECTOR& lhs, const DirectX::XMVECTOR& rhs) noexcept -> DirectX::XMVECTOR&
+    {
+        lhs = (lhs / rhs);
+
+        return lhs;
+    }
+
+    auto operator *=      (DirectX::XMVECTOR& lhs, const float& scale) noexcept -> DirectX::XMVECTOR&
+    {
+        lhs = (lhs * scale);
+
+        return lhs;
+    }
+    auto operator /=      (DirectX::XMVECTOR& lhs, const float& scale) noexcept -> DirectX::XMVECTOR&
+    {
+        lhs = (lhs / scale);
+
+        return lhs;
     }
 
     auto DistanceVector2  (const DirectX::XMVECTOR& p0, const DirectX::XMVECTOR& p1) noexcept -> DirectX::XMVECTOR
