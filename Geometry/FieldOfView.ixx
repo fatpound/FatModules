@@ -27,7 +27,7 @@ export namespace fatpound::geometry
     {
         return DFOV<T>(Hypotenuse<>(sensorWidth, sensorHeight), focalLength);
     }
-    template <std::floating_point T = float, std::convertible_to<T> U> CX_MATH26 auto DFOV_(const U& hFovRad, const U& vFovRad) noexcept -> T
+    template <std::floating_point T = float, std::convertible_to<T> U> CX_MATH26 auto DFOV_FromHV(const U& hFovRad, const U& vFovRad) noexcept -> T
     {
         return static_cast<T>(2.0 * std::atan(Hypotenuse<>(std::tan(hFovRad * 0.5), std::tan(vFovRad * 0.5))));
     }
