@@ -1,5 +1,7 @@
 module;
 
+#include <cassert>
+
 export module FatPound.Random.Common;
 
 import FatPound.Colors.ARGB.Color;
@@ -301,6 +303,56 @@ export namespace fatpound::random
         std::ranges::shuffle(password, rng);
 
         return password;
+    }
+
+
+
+    ///
+    ///
+    ///
+
+
+
+    auto RandDateBetween(
+        const std::chrono::year_month_day& start,
+        const std::chrono::year_month_day& end,
+        std::uniform_random_bit_generator auto& rng,
+        std::uniform_int_distribution<int>& dist) -> std::chrono::year_month_day
+    {
+        using namespace std::chrono;
+
+        const auto start_days = sys_days{ start };
+        const auto end_days   = sys_days{ end };
+
+        assert(start_days <= end_days);
+
+        dist.param(std::uniform_int_distribution<int>::param_type{ 0, (end_days - start_days).count() });
+
+        return { start_days + days{dist(rng)} };
+    }
+
+    auto RandDateBetween(
+        const std::chrono::year_month_day& start,
+        const std::chrono::year_month_day& end,
+        std::uniform_random_bit_generator auto& rng) -> std::chrono::year_month_day
+    {
+        std::uniform_int_distribution<int> dist;
+
+        return RandDateBetween<>(start, end, rng, dist);
+    }
+
+    auto RandDateInYear(const int& y, std::uniform_random_bit_generator auto& rng) -> std::chrono::year_month_day
+    {
+        using namespace std::chrono;
+
+        return RandDateBetween<>(year{y}/January/1, year{y}/December/31, rng);
+    }
+
+    auto RandDate(std::uniform_random_bit_generator auto& rng) -> std::chrono::year_month_day
+    {
+        using namespace std::chrono;
+
+        return RandDateBetween<>(1970y/1/1, 2036y/12/31, rng);
     }
 }
 
