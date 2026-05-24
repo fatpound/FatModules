@@ -51,9 +51,6 @@
     <ClCompile Include="Colors\ARGB\Color.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Utility\SizePack.ixx">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Utility\Utility.ixx">
       <Filter>Source Files</Filter>
     </ClCompile>

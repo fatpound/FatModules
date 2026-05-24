@@ -12,7 +12,7 @@ export module FatPound.Win32.D3D11.ResourcePack;
 
 #ifdef FATLIB_BUILDING_WITH_MSVC
 
-import FatPound.Utility.SizePack;
+import FatPound.Utility.Common;
 import FatPound.Utility.Surface;
 import FatPound.Win32.D3D11.Core.DepthStencil;
 import FatPound.Win32.D3D11.Core.RenderTarget;

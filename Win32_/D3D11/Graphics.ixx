@@ -17,7 +17,6 @@ import <wrl.h>;
 
 import FatPound.Traits.Bitwise;
 import FatPound.Utility.Surface;
-import FatPound.Utility.SizePack;
 import FatPound.Win32.D3D11.Bindable;
 import FatPound.Win32.D3D11.ResourcePack;
 import FatPound.Win32.D3D11.FullScreenQuad;

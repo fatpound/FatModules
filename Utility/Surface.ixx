@@ -15,7 +15,6 @@ import FatPound.Colors.ARGB;
 import FatPound.Memory;
 import FatPound.Traits.Bitwise;
 import FatPound.Utility.Common;
-import FatPound.Utility.SizePack;
 
 import std;
 

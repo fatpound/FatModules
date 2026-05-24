@@ -25,7 +25,7 @@ export module FatPound.Win32.D2D.Graphics;
 #endif
 
 import FatPound.Traits.Bitwise;
-import FatPound.Utility.SizePack;
+import FatPound.Utility.Common;
 
 import std;
 

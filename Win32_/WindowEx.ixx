@@ -24,7 +24,7 @@ export module FatPound.Win32.WindowEx;
 import FatPound.Concurrency;
 import FatPound.IO;
 import FatPound.Traits.Bitwise;
-import FatPound.Utility.SizePack;
+import FatPound.Utility.Common;
 import FatPound.Win32.IWindow;
 
 import std;
